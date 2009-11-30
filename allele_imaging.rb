@@ -1,7 +1,10 @@
 #!/usr/bin/env ruby
 require 'bio'
+require 'rmagick'
 
 class AlleleImaging
+  include Magick
+
   attr_reader :features, :input_file, :rcmb_primers, :bio_seq
 
   def initialize(input_file)
