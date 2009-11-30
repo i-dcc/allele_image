@@ -19,13 +19,15 @@
 
    + G5
    + U5
-   + U3/D3 -- D3 for deletions
+   + U3
+   + D3
+   + D5
    + G3
 
    These primers allow us to split our features into horizontal
    sections as follows:
 
-   | 5' flank | G5 | 5' homology | U5 | cassette | U3/D3 | 3' homology |  G3 | 3' flank |
+   | 5' flank | G5 | 5' homology | U5 | cassette | U3 | target region | D5 | loxP site | D3 | 3' homology |  G3 | 3' flank |
 
    In a conditional clone there is a loxP region between the target
    region and the 3' homology arm and in a deletion there is no target
