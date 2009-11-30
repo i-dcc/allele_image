@@ -1,0 +1,117 @@
+
+* TODO Expected features in the Genbank file
+  SCHEDULED: <2009-11-27 Fri>
+  Any Genbank (or other) file that would be rendered by the allele
+  imaging logic should have a number of required features that allow
+  us to classify all the features into specific segments of our image
+  canvas. Each feature needs to specify the following:
+
+  + type (e.g. rcmb_primer, exon)
+    determines which row of our canvas the feature will get stached in
+  + label (e.g. G5)
+    determines what gets displayed in the labels row for the feature
+  + location
+    
+  These aspects of the features are required for determining the
+  column and row boundries. The recombineering primers (rcmb_primer)
+  are required and should have one of the following labels to indicate
+  which one they are:
+
+   + G5
+   + U5
+   + U3/D3 -- D3 for deletions
+   + G3
+
+   These primers allow us to split our features into horizontal
+   sections as follows:
+
+   | 5' flank | G5 | 5' homology | U5 | cassette | U3/D3 | 3' homology |  G3 | 3' flank |
+
+   In a conditional clone there is a loxP region between the target
+   region and the 3' homology arm.
+
+* TODO Canvas Matrix
+  The image on the canvas will be broken into a matrix that would look
+  something like the following table:
+
+  {
+    "row_1" : {
+      "column_A" : "",
+      "column_B" : "",
+      "column_C" : "primer",
+      "column_D" : "g5_homology_arm",
+      "column_E" : "primer",
+      "column_F" : "primers",
+      "column_G" : "",
+      "column_H" : "primer",
+      "column_I" : "loxp_g3_homology_arm",
+      "column_J" : "loxp_g3_homology_arm",
+      "column_K" : "loxp_g3_homology_arm",
+      "column_L" : "primer",
+      "column_M" : "",
+    },
+    "row_2" : {
+      "column_A" : "horiz_line+start_exons|curve",
+      "column_B" : "horiz_line|+some_annotation_i_think_primer-AsiSt",
+      "column_C" : "",
+      "column_D" : "",
+      "column_E" : "",
+      "column_F" : "",
+      "column_G" : "",
+      "column_H" : "",
+      "column_I" : "",
+      "column_J" : "",
+      "column_K" : "",
+      "column_L" : "",
+      "column_M" : "",
+    },
+    "row_3" : {
+      "column_A" : "",
+      "column_B" : "",
+      "column_C" : "",
+      "column_D" : "",
+      "column_E" : "",
+      "column_F" : "",
+      "column_G" : "",
+      "column_H" : "",
+      "column_I" : "",
+      "column_J" : "",
+      "column_K" : "",
+      "column_L" : "",
+      "column_M" : "",
+    },
+    "row_4" : {
+      "column_A" : "",
+      "column_B" : "",
+      "column_C" : "",
+      "column_D" : "",
+      "column_E" : "",
+      "column_F" : "",
+      "column_G" : "",
+      "column_H" : "",
+      "column_I" : "",
+      "column_J" : "",
+      "column_K" : "",
+      "column_L" : "",
+      "column_M" : "",
+    },
+    "row_5" : {
+      "column_A" : "",
+      "column_B" : "",
+      "column_C" : "",
+      "column_D" : "",
+      "column_E" : "",
+      "column_F" : "",
+      "column_G" : "",
+      "column_H" : "",
+      "column_I" : "",
+      "column_J" : "",
+      "column_K" : "",
+      "column_L" : "",
+      "column_M" : "",
+    },
+  }
+
+  The idea being that given a feature from a known type of allele
+  (circular/linear), we can specify which segment/section of the
+  canvas that our renderable feature would get rendered.
