@@ -135,19 +135,30 @@ class AlleleImaging
     # image size
     @canvas.new_image(200, 100) { self.scene = 0 }
 
+    # add the backbone
+    self.add_backbone(0,50,200,50).draw(@canvas[0])
+
+    # add the features (exons in this case)
+    # puts five_flank_features.map { |x| x.locations.first.from }
+    ori = 10
+    five_flank_features.each { |x|
+      self.add_exon( ori, 25, ori + 25, 75 ).draw(@canvas[0])
+      ori += 35
+    }
+  end
+
+  def add_backbone(x1, y1, x2, y2)
     seq = Draw.new
     seq.stroke('black')
     seq.stroke_width(5)
-    seq.line(0,50,200,50)
+    seq.line(x1, y1, x2, y2)
+  end
 
-    seq.draw(@canvas[0])
-    
-    # # empty section unless we have some features
-    # unless features.count > 0
-    #   return
-    # end
-
-    # @canvas.new_image()
+  def add_exon(x1, y1, x2, y2)
+    rect = Draw.new
+    rect.fill('yellow')
+    rect.stroke('black')
+    rect.rectangle(x1, y1, x2, y2)
   end
 
   def draw_image(file)
