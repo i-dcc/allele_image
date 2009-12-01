@@ -5,7 +5,7 @@ require 'rmagick'
 class AlleleImaging
   include Magick
 
-  attr_reader :features, :input_file, :rcmb_primers, :bio_seq
+  attr_reader :features, :input_file, :rcmb_primers, :bio_seq, :canvas
 
   def initialize(input_file)
     # retrieve the bio seq object -- there should be only one
@@ -22,6 +22,10 @@ class AlleleImaging
 
     # retrieve the primers
     @rcmb_primers = @features.select { |x| x.feature.downcase == 'rcmb_primer' }
+
+    # create a new image
+    @canvas = ImageList.new
+    # @canvas.new_image(800, 400, HatchFill.new('white', 'gray90'))
   end
 
   def main_row_features
@@ -121,7 +125,59 @@ class AlleleImaging
   def three_flank_features
     main_row_features.select { |x| x.locations.first.from > primer('G3').locations.first.from }
   end
+
+  #
+  # lets prototype the sections on the canvas
+  # each section corresponds to an image in our image list
+  #
+  def five_flank_section
+    # width and height will eventually be fractions of the overall
+    # image size
+    @canvas.new_image(200, 100) { self.scene = 0 }
+
+    seq = Draw.new
+    seq.stroke('black')
+    seq.stroke_width(5)
+    seq.line(0,50,200,50)
+
+    seq.draw(@canvas[0])
+    
+    # # empty section unless we have some features
+    # unless features.count > 0
+    #   return
+    # end
+
+    # @canvas.new_image()
+  end
+
+  def draw_image(file)
+    self.five_flank_section
+
+    @canvas.write(file)
+  end
+
 end
+
+
+# class Section
+#   attr_reader :x1, :y1, :x2, :y2, :features
+
+#   def initialize( x1, y1, x2, y2, features )
+#     @x1 = x1
+#     @x2 = x2
+#     @y1 = y1
+#     @y2 = y2
+#     @features = features
+#   end
+
+#   def add_to_canvas(canvas)
+#     section = Draw.new
+#     section.stroke('black')
+#     section.fill('white')
+#     section.rectangle(@x1, @y1, @x2, @y2)
+#     section.draw(canvas)
+#   end
+# end
 
 #
 # Should change these into proper tests and test conditional,
@@ -164,3 +220,6 @@ puts 'three_homology_annotations:'
 puts ai.three_homology_annotations.map { |x| "[ label : #{ x.assoc['label'] }, feature : #{ x.feature } ]" }
 puts 'three_flank_annotations:'
 puts ai.three_flank_annotations.map { |x| "[ label : #{ x.assoc['label'] }, feature : #{ x.feature } ]" }
+
+puts 'testing drawing:'
+ai.draw_image('ai.png')
