@@ -147,6 +147,16 @@ class AlleleImaging
     }
   end
 
+  def five_homology_section
+    @canvas.new_image(200, 100) { self.scene = 1 }
+    self.add_backbone(0,50,200,50).draw(@canvas[1])
+    ori = 10
+    five_homology_features.each { |x|
+      self.add_exon( ori, 25, ori + 25, 75 ).draw(@canvas[1])
+      ori += 35
+    }
+  end
+
   def add_backbone(x1, y1, x2, y2)
     seq = Draw.new
     seq.stroke('black')
@@ -163,8 +173,10 @@ class AlleleImaging
 
   def draw_image(file)
     self.five_flank_section
+    self.five_homology_section
 
-    @canvas.write(file)
+    canvas = @canvas.append(false)
+    canvas.write(file)
   end
 
 end
