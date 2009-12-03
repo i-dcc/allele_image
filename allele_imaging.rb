@@ -130,31 +130,15 @@ class AlleleImaging
   # lets prototype the sections on the canvas
   # each section corresponds to an image in our image list
   #
-  def five_flank_section
-    # width and height will eventually be fractions of the overall
-    # image size
-    @canvas.new_image(200, 100) { self.scene = 0 }
-
-    # add the backbone
-    self.add_backbone(0,50,200,50).draw(@canvas[0])
-
-    # add the features (exons in this case)
-    # puts five_flank_features.map { |x| x.locations.first.from }
+  def draw_section(features)
+    image = Image.new(200, 100)
+    self.add_backbone(0,50,200,50).draw(image)
     ori = 10
-    five_flank_features.each { |x|
-      self.add_exon( ori, 25, ori + 25, 75 ).draw(@canvas[0])
+    features.each { |x|
+      self.add_exon( ori, 25, ori + 25, 75 ).draw(image)
       ori += 35
     }
-  end
-
-  def five_homology_section
-    @canvas.new_image(200, 100) { self.scene = 1 }
-    self.add_backbone(0,50,200,50).draw(@canvas[1])
-    ori = 10
-    five_homology_features.each { |x|
-      self.add_exon( ori, 25, ori + 25, 75 ).draw(@canvas[1])
-      ori += 35
-    }
+    return image
   end
 
   def add_backbone(x1, y1, x2, y2)
@@ -172,8 +156,14 @@ class AlleleImaging
   end
 
   def draw_image(file)
-    self.five_flank_section
-    self.five_homology_section
+    # Draw the individual sections with the given features
+    @canvas.push( self.draw_section(five_flank_features) )
+    @canvas.push( self.draw_section(five_homology_features) )
+    @canvas.push( self.draw_section(cassette_features) )
+    @canvas.push( self.draw_section(target_region_features) )
+    @canvas.push( self.draw_section(loxP_region_features) )
+    @canvas.push( self.draw_section(three_homology_features) )
+    @canvas.push( self.draw_section(three_flank_features) )
 
     canvas = @canvas.append(false)
     canvas.write(file)
