@@ -29,7 +29,7 @@ class AlleleImaging
   end
 
   def main_row_features
-    @features.select { |x| x.feature.downcase != 'rcmb_primer' && x.feature.downcase != 'lrpcr_primer' && x.feature.downcase != 'genomic' }
+    @features.select { |x| x.feature.downcase != 'rcmb_primer' && x.feature.downcase != 'lrpcr_primer' && x.feature.downcase != 'genomic' && x.feature.downcase != "primer_bind" }
   end
 
   def primer_row_features
@@ -132,23 +132,21 @@ class AlleleImaging
   # each section should be a class with an to_image method
   #
   def draw_section(features)
+    puts "this section contains #{ features.count } features"
     section_width = self.calc_width(features.count)
-    image = Image.new( section_width, 100 ) {
-      self.border_color = "red"
-    }
+    image = Image.new( section_width, 100 )
     self.add_backbone(0,50,section_width,50).draw(image)
     ori = 10
     features.each { |x|
       case x.feature
         when "misc_feature" then
           self.add_bgal( ori, 25, ori + 25, 75 ).draw(image)
-          ori += 35
         when "exon" then
           self.add_exon( ori, 25, ori + 25, 75 ).draw(image)
-          ori += 35
         else
-          # puts "{ GOT : #{ x.feature } }"
+          self.add_stub_feature( ori, 25, ori + 25, 75 ).draw(image)
       end
+      ori += 35
     }
     return image
   end
@@ -158,9 +156,10 @@ class AlleleImaging
   def calc_width(features)
     gaps = 0
     if features > 1
-      gaps = ( features - 1 ) * 20
+      gaps = ( features - 1 ) * 10
     end
-    20 + ( features * 10 ) + gaps + 20
+    # < Left pad - Features - Spaces - Right pad >
+    20 + ( features * 25 ) + gaps + 20
   end
 
   def add_backbone(x1, y1, x2, y2)
@@ -185,6 +184,14 @@ class AlleleImaging
     bgal.stroke('black')
     bgal.rectangle(x1, y1, x2, y2)
     bgal
+  end
+
+  def add_stub_feature(x1, y1, x2, y2)
+    f = Draw.new
+    f.fill("red")
+    f.stroke("black")
+    f.rectangle(x1, y1, x2, y2)
+    f
   end
 
   def draw_image(file)
