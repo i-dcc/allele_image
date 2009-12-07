@@ -129,16 +129,38 @@ class AlleleImaging
   #
   # lets prototype the sections on the canvas
   # each section corresponds to an image in our image list
+  # each section should be a class with an to_image method
   #
   def draw_section(features)
-    image = Image.new(200, 100)
-    self.add_backbone(0,50,200,50).draw(image)
+    section_width = self.calc_width(features.count)
+    image = Image.new( section_width, 100 ) {
+      self.border_color = "red"
+    }
+    self.add_backbone(0,50,section_width,50).draw(image)
     ori = 10
     features.each { |x|
-      self.add_exon( ori, 25, ori + 25, 75 ).draw(image)
-      ori += 35
+      case x.feature
+        when "misc_feature" then
+          self.add_bgal( ori, 25, ori + 25, 75 ).draw(image)
+          ori += 35
+        when "exon" then
+          self.add_exon( ori, 25, ori + 25, 75 ).draw(image)
+          ori += 35
+        else
+          # puts "{ GOT : #{ x.feature } }"
+      end
     }
     return image
+  end
+
+  # calculate the width of the section
+  # currently done with the count of all features but it needs to be smarter
+  def calc_width(features)
+    gaps = 0
+    if features > 1
+      gaps = ( features - 1 ) * 20
+    end
+    20 + ( features * 10 ) + gaps + 20
   end
 
   def add_backbone(x1, y1, x2, y2)
@@ -146,6 +168,7 @@ class AlleleImaging
     seq.stroke('black')
     seq.stroke_width(5)
     seq.line(x1, y1, x2, y2)
+    seq
   end
 
   def add_exon(x1, y1, x2, y2)
@@ -153,6 +176,15 @@ class AlleleImaging
     rect.fill('yellow')
     rect.stroke('black')
     rect.rectangle(x1, y1, x2, y2)
+    rect
+  end
+  
+  def add_bgal(x1, y1, x2, y2)
+    bgal = Draw.new
+    bgal.fill('blue')
+    bgal.stroke('black')
+    bgal.rectangle(x1, y1, x2, y2)
+    bgal
   end
 
   def draw_image(file)
@@ -165,32 +197,10 @@ class AlleleImaging
     @canvas.push( self.draw_section(three_homology_features) )
     @canvas.push( self.draw_section(three_flank_features) )
 
-    canvas = @canvas.append(false)
-    canvas.write(file)
+    @canvas.append(false).write(file)
   end
 
 end
-
-
-# class Section
-#   attr_reader :x1, :y1, :x2, :y2, :features
-
-#   def initialize( x1, y1, x2, y2, features )
-#     @x1 = x1
-#     @x2 = x2
-#     @y1 = y1
-#     @y2 = y2
-#     @features = features
-#   end
-
-#   def add_to_canvas(canvas)
-#     section = Draw.new
-#     section.stroke('black')
-#     section.fill('white')
-#     section.rectangle(@x1, @y1, @x2, @y2)
-#     section.draw(canvas)
-#   end
-# end
 
 #
 # Should change these into proper tests and test conditional,
@@ -199,40 +209,40 @@ end
 
 ai = AlleleImaging.new('/Users/io1/Documents/allele-imaging/2009_11_27_conditional_linear.gbk')
 
-puts "number of rcmb_primers: #{ ai.rcmb_primers.count }"
-puts ai.rcmb_primers.map { |x| "[ label : #{ x.assoc['label'] }, feature : #{ x.feature } ]" }
-puts "number of features: #{ ai.features.count }"
-puts 'five_flank_features:'
-puts ai.five_flank_features.map { |x| "[ label : #{ x.assoc['label'] }, feature : #{ x.feature } ]" }
-puts 'five_homology_features:'
-puts ai.five_homology_features.map { |x| "[ label : #{ x.assoc['label'] }, feature : #{ x.feature } ]" }
-puts 'cassette_features:'
-puts ai.cassette_features.map { |x| "[ label : #{ x.assoc['label'] }, feature : #{ x.feature } ]" }
-puts 'target_region_features:'
-puts ai.target_region_features.map { |x| "[ label : #{ x.assoc['label'] }, feature : #{ x.feature } ]" }
-puts 'loxP_region_features:'
-puts ai.loxP_region_features.map { |x| "[ label : #{ x.assoc['label'] }, feature : #{ x.feature } ]" }
-puts 'three_homology_features:'
-puts ai.three_homology_features.map { |x| "[ label : #{ x.assoc['label'] }, feature : #{ x.feature } ]" }
-puts 'three_flank_features:'
-puts ai.three_flank_features.map { |x| "[ label : #{ x.assoc['label'] }, feature : #{ x.feature } ]" }
-
-puts 'primer_row_features:'
-puts ai.primer_row_features.map { |x| "[ label : #{ x.assoc['label'] }, feature : #{ x.feature } ]" }
-puts 'five_flank_annotations:'
-puts ai.five_flank_annotations.map { |x| "[ label : #{ x.assoc['label'] }, feature : #{ x.feature } ]" }
-puts 'five_homology_annotations:'
-puts ai.five_homology_annotations.map { |x| "[ label : #{ x.assoc['label'] }, feature : #{ x.feature } ]" }
-puts 'cassette_annotations:'
-puts ai.cassette_annotations.map { |x| "[ label : #{ x.assoc['label'] }, feature : #{ x.feature } ]" }
-puts 'target_region_annotations:'
-puts ai.target_region_annotations.map { |x| "[ label : #{ x.assoc['label'] }, feature : #{ x.feature } ]" }
-puts 'loxP_region_annotations:'
-puts ai.loxP_region_annotations.map { |x| "[ label : #{ x.assoc['label'] }, feature : #{ x.feature } ]" }
-puts 'three_homology_annotations:'
-puts ai.three_homology_annotations.map { |x| "[ label : #{ x.assoc['label'] }, feature : #{ x.feature } ]" }
-puts 'three_flank_annotations:'
-puts ai.three_flank_annotations.map { |x| "[ label : #{ x.assoc['label'] }, feature : #{ x.feature } ]" }
+# puts "number of rcmb_primers: #{ ai.rcmb_primers.count }"
+# puts ai.rcmb_primers.map { |x| "[ label : #{ x.assoc['label'] }, feature : #{ x.feature } ]" }
+# puts "number of features: #{ ai.features.count }"
+# puts 'five_flank_features:'
+# puts ai.five_flank_features.map { |x| "[ label : #{ x.assoc['label'] }, feature : #{ x.feature } ]" }
+# puts 'five_homology_features:'
+# puts ai.five_homology_features.map { |x| "[ label : #{ x.assoc['label'] }, feature : #{ x.feature } ]" }
+# puts 'cassette_features:'
+# puts ai.cassette_features.map { |x| "[ label : #{ x.assoc['label'] }, feature : #{ x.feature } ]" }
+# puts 'target_region_features:'
+# puts ai.target_region_features.map { |x| "[ label : #{ x.assoc['label'] }, feature : #{ x.feature } ]" }
+# puts 'loxP_region_features:'
+# puts ai.loxP_region_features.map { |x| "[ label : #{ x.assoc['label'] }, feature : #{ x.feature } ]" }
+# puts 'three_homology_features:'
+# puts ai.three_homology_features.map { |x| "[ label : #{ x.assoc['label'] }, feature : #{ x.feature } ]" }
+# puts 'three_flank_features:'
+# puts ai.three_flank_features.map { |x| "[ label : #{ x.assoc['label'] }, feature : #{ x.feature } ]" }
+# 
+# puts 'primer_row_features:'
+# puts ai.primer_row_features.map { |x| "[ label : #{ x.assoc['label'] }, feature : #{ x.feature } ]" }
+# puts 'five_flank_annotations:'
+# puts ai.five_flank_annotations.map { |x| "[ label : #{ x.assoc['label'] }, feature : #{ x.feature } ]" }
+# puts 'five_homology_annotations:'
+# puts ai.five_homology_annotations.map { |x| "[ label : #{ x.assoc['label'] }, feature : #{ x.feature } ]" }
+# puts 'cassette_annotations:'
+# puts ai.cassette_annotations.map { |x| "[ label : #{ x.assoc['label'] }, feature : #{ x.feature } ]" }
+# puts 'target_region_annotations:'
+# puts ai.target_region_annotations.map { |x| "[ label : #{ x.assoc['label'] }, feature : #{ x.feature } ]" }
+# puts 'loxP_region_annotations:'
+# puts ai.loxP_region_annotations.map { |x| "[ label : #{ x.assoc['label'] }, feature : #{ x.feature } ]" }
+# puts 'three_homology_annotations:'
+# puts ai.three_homology_annotations.map { |x| "[ label : #{ x.assoc['label'] }, feature : #{ x.feature } ]" }
+# puts 'three_flank_annotations:'
+# puts ai.three_flank_annotations.map { |x| "[ label : #{ x.assoc['label'] }, feature : #{ x.feature } ]" }
 
 puts 'testing drawing:'
 ai.draw_image('ai.png')
