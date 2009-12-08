@@ -17,15 +17,14 @@ class AlleleImaging
       raise "error: #{ gb.count } sequences, should only be one"
     end
 
-    # retrieve the features
-    @features = @bio_seq.features
+    # retrieve and sort the features
+    @features = @bio_seq.features.sort { |a,b| a.locations.first.from <=> b.locations.first.from }
 
     # retrieve the primers
     @rcmb_primers = @features.select { |x| x.feature.downcase == 'rcmb_primer' }
 
     # create a new image
     @canvas = ImageList.new
-    # @canvas.new_image(800, 400, HatchFill.new('white', 'gray90'))
   end
 
   def main_row_features
@@ -146,8 +145,10 @@ class AlleleImaging
         when "exon" then
           self.add_exon( ori, 25, ori + 25, 75 ).draw(image)
         when "SSR_site" then
-          self.add_loxp( ori, 25 ).draw(image)
+          self.add_loxp( ori, 25 ).draw(image) if x.assoc["label"].downcase == "loxp"
+          self.add_frt( ori, 25 ).draw(image)  if x.assoc["label"].downcase == "frt"
         else
+          # perhaps this should be controlled by an option to new?
           self.add_stub_feature( ori, 25, ori + 25, 75 ).draw(image)
       end
       ori += 35
@@ -168,8 +169,12 @@ class AlleleImaging
 
   #
   # TODO:
-  # Refactor these out into a method/class that takes arguments
-  # Also the locations could be objects as well (this is Ruby after all)
+  # Refactor these out into a method/class that takes arguments:
+  #
+  #   Feature.new( name, origin ).draw( image )
+  #
+  # where origin is an object representing the locus from which we can extrapolate
+  # all the points we need to draw any given shape.
   #
 
   def add_backbone(x1, y1, x2, y2)
@@ -208,6 +213,18 @@ class AlleleImaging
     loxp
   end
 
+  def add_frt(x1, y1)
+    loxp = Draw.new
+    loxp.fill("green")
+    loxp.stroke("black")
+    x2 = x1 + 25
+    y2 = y1 + 25
+    x3 = x2 - 25 # same as x1
+    y3 = y2 + 25
+    loxp.polygon(x1, y1, x2, y2, x3, y3)
+    loxp
+  end
+
   def add_stub_feature(x1, y1, x2, y2)
     f = Draw.new
     f.fill("green")
@@ -237,7 +254,7 @@ end
 # non-conditional and deletion clones.
 #
 
-ai = AlleleImaging.new('/Users/io1/Documents/allele-imaging/2009_11_27_conditional_linear.gbk')
+ai = AlleleImaging.new('/Users/io1/Documents/allele-imaging/2009_11_27_non_conditional_linear.gbk')
 
 # puts "number of rcmb_primers: #{ ai.rcmb_primers.count }"
 # puts ai.rcmb_primers.map { |x| "[ label : #{ x.assoc['label'] }, feature : #{ x.feature } ]" }
