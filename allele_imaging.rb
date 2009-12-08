@@ -5,7 +5,7 @@ require 'rmagick'
 class AlleleImaging
   include Magick
 
-  attr_reader :features, :input_file, :rcmb_primers, :bio_seq, :canvas
+  attr_reader :features, :input_file, :rcmb_primers, :bio_seq, :canvas, :show_all
 
   def initialize(input_file)
     # retrieve the bio seq object -- there should be only one
@@ -138,24 +138,51 @@ class AlleleImaging
     puts "there are #{features.count} in section( #{section_width}, 100 )"
     features.each { |x|
       puts "{ #{x.feature} : #{x.assoc['label']} }"
+
       # Handle the case of each feature we will support
       case x.feature
         when "misc_feature" then
-          self.add_bgal( ori, 25, ori + 25, 75 ).draw(image)
+          if x.assoc["label"] == "b-galactosidase"
+            self.add_bgal( ori, 25, ori + 25, 75 ).draw(image)
+            ori += 35
+          elsif x.assoc["label"] == "En2 intron"
+            self.add_En2( ori, 25, ori + 25, 75 ).draw(image)
+            ori += 35
+          elsif x.assoc["label"] == "neo"
+            self.add_neo( ori, 25, ori + 25, 75 ).draw(image)
+            ori += 35
+          else
+            # do nothing ...
+          end
+        when "polyA_site" then
+          self.add_polyA_site( ori, 25, ori + 25, 75 ).draw(image)
+          ori += 35
         when "exon" then
           self.add_exon( ori, 25, ori + 25, 75 ).draw(image)
+          ori += 35
         when "SSR_site" then
-          self.add_loxp( ori, 25 ).draw(image) if x.assoc["label"].downcase == "loxp"
-          self.add_frt( ori, 25 ).draw(image)  if x.assoc["label"].downcase == "frt"
+          if x.assoc["label"].downcase == "loxp"
+            self.add_loxp( ori, 25 ).draw(image) 
+            ori += 35
+          elsif x.assoc["label"].downcase == "frt"
+            self.add_frt( ori, 25 ).draw(image)
+            ori += 35
+          end
         else
           # perhaps this should be controlled by an option to new?
-          self.add_stub_feature( ori, 25, ori + 25, 75 ).draw(image)
+          if @show_all
+            self.add_stub_feature( ori, 25, ori + 25, 75 ).draw(image)
+            ori += 35
+          else
+            # do nothing ...
+          end
       end
-      ori += 35
     }
+
     return image
   end
 
+  #
   # calculate the width of the section
   # currently done with the count of all features but it needs to be smarter
   def calc_width(features)
@@ -176,6 +203,30 @@ class AlleleImaging
   # where origin is an object representing the locus from which we can extrapolate
   # all the points we need to draw any given shape.
   #
+
+  def add_En2(x1, y1, x2, y2)
+    f = Draw.new
+    f.fill("white")
+    f.stroke("black")
+    f.rectangle(x1, y1, x2, y2)
+    f
+  end
+
+  def add_neo(x1, y1, x2, y2)
+    f = Draw.new
+    f.fill("aqua")
+    f.stroke("black")
+    f.rectangle(x1, y1, x2, y2)
+    f
+  end
+
+  def add_polyA_site(x1, y1, x2, y2)
+    f = Draw.new
+    f.fill("violet")
+    f.stroke("black")
+    f.rectangle(x1, y1, x2, y2)
+    f
+  end
 
   def add_backbone(x1, y1, x2, y2)
     seq = Draw.new
@@ -254,7 +305,7 @@ end
 # non-conditional and deletion clones.
 #
 
-ai = AlleleImaging.new('/Users/io1/Documents/allele-imaging/2009_11_27_non_conditional_linear.gbk')
+ai = AlleleImaging.new('/Users/io1/Documents/allele-imaging/2009_11_27_conditional_linear.gbk')
 
 # puts "number of rcmb_primers: #{ ai.rcmb_primers.count }"
 # puts ai.rcmb_primers.map { |x| "[ label : #{ x.assoc['label'] }, feature : #{ x.feature } ]" }
