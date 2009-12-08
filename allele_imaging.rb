@@ -20,6 +20,11 @@ class AlleleImaging
     # retrieve and sort the features
     @features = @bio_seq.features.sort { |a,b| a.locations.first.from <=> b.locations.first.from }
 
+    #
+    # TODO:
+    # Subset the features only keeping those we are capable of/interested in rendering
+    #
+
     # retrieve the primers
     @rcmb_primers = @features.select { |x| x.feature.downcase == 'rcmb_primer' }
 
@@ -130,14 +135,19 @@ class AlleleImaging
   # each section corresponds to an image in our image list
   # each section should be a class with an to_image method
   #
+  #   Section.new( features [, width = features.count * factor, height = 100 ] ).to_image -> Magick::Image
+  #
   def draw_section(features)
     section_width = self.calc_width(features.count)
-    image = Image.new( section_width, 100 )
+    image         = Image.new( section_width, 100 )
+    ori           = 10
+
     self.add_backbone(0,50,section_width,50).draw(image)
-    ori = 10
-    puts "there are #{features.count} in section( #{section_width}, 100 )"
+
+    # puts "there are #{features.count} in section( #{section_width}, 100 )"
+
     features.each { |x|
-      puts "{ #{x.feature} : #{x.assoc['label']} }"
+      # puts "{ #{x.feature} : #{x.assoc['label']} }"
 
       # Handle the case of each feature we will support
       case x.feature
