@@ -36,6 +36,9 @@
    The Genbank file also needs to specify whether or not the sequence
    is circular or linear.
 
+   Each feature also has to have the label defined i.e not an empty
+   string.
+
 ** TODO Other features we will support
    SCHEDULED: <2009-11-30 Mon>
    Discuss with Vivek and Darren.
