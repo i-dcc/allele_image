@@ -14,7 +14,7 @@ class AlleleImaging
 
     # throw an exception if there's any left
     if gb.count > 0
-      puts "error: #{ gb.count } sequences, should only be one"
+      raise "error: #{ gb.count } sequences, should only be one"
     end
 
     # retrieve the features
@@ -132,17 +132,21 @@ class AlleleImaging
   # each section should be a class with an to_image method
   #
   def draw_section(features)
-    puts "this section contains #{ features.count } features"
     section_width = self.calc_width(features.count)
     image = Image.new( section_width, 100 )
     self.add_backbone(0,50,section_width,50).draw(image)
     ori = 10
+    puts "there are #{features.count} in section( #{section_width}, 100 )"
     features.each { |x|
+      puts "{ #{x.feature} : #{x.assoc['label']} }"
+      # Handle the case of each feature we will support
       case x.feature
         when "misc_feature" then
           self.add_bgal( ori, 25, ori + 25, 75 ).draw(image)
         when "exon" then
           self.add_exon( ori, 25, ori + 25, 75 ).draw(image)
+        when "SSR_site" then
+          self.add_loxp( ori, 25 ).draw(image)
         else
           self.add_stub_feature( ori, 25, ori + 25, 75 ).draw(image)
       end
@@ -161,6 +165,12 @@ class AlleleImaging
     # < Left pad - Features - Spaces - Right pad >
     20 + ( features * 25 ) + gaps + 20
   end
+
+  #
+  # TODO:
+  # Refactor these out into a method/class that takes arguments
+  # Also the locations could be objects as well (this is Ruby after all)
+  #
 
   def add_backbone(x1, y1, x2, y2)
     seq = Draw.new
@@ -186,9 +196,21 @@ class AlleleImaging
     bgal
   end
 
+  def add_loxp(x1, y1)
+    loxp = Draw.new
+    loxp.fill("red")
+    loxp.stroke("black")
+    x2 = x1 + 25
+    y2 = y1 + 25
+    x3 = x2 - 25 # same as x1
+    y3 = y2 + 25
+    loxp.polygon(x1, y1, x2, y2, x3, y3)
+    loxp
+  end
+
   def add_stub_feature(x1, y1, x2, y2)
     f = Draw.new
-    f.fill("red")
+    f.fill("green")
     f.stroke("black")
     f.rectangle(x1, y1, x2, y2)
     f
@@ -210,6 +232,7 @@ class AlleleImaging
 end
 
 #
+# TODO:
 # Should change these into proper tests and test conditional,
 # non-conditional and deletion clones.
 #
