@@ -4,6 +4,9 @@
 #
 #   Section.new( features [, width = features.count * factor, height = 100 ] ).to_image -> Magick::Image
 #
+# Should this be a subclass of Magick::Image?
+#
+
 class Section
   require "rmagick"
   include Magick
