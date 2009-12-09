@@ -274,6 +274,53 @@ class AlleleImaging
     loxp
   end
 
+=begin
+
+The following code draws the FRT semi-circle correctly:
+
+  image = ImageList.new
+  image.new_image(200,100)
+
+  arc = Draw.new
+  arc.fill('green')
+  arc.stroke('black')
+  arc.arc(50,25,100,75,270,90)
+
+  line = Draw.new
+  line.stroke('black')
+  line.line(75,25,75,75)
+
+  arc.draw(image)
+  line.draw(image)
+
+  image.display
+
+The above code suggests that the image/Section should either be a Feature
+instance variable or get passed to the/a draw_on() method of the feature.
+Calling the Section.draw() method calls the Feature.draw_on() method for
+all its features:
+
+  class Section
+    attr_reader :features
+    def to_image
+      Image.new( ARGS )
+    end
+    def draw
+      @features.map { |f| f.draw_on( self.to_image ) }
+    end
+  end
+
+  class Feature
+    attr_reader :locus, :name
+    def draw_on(image)
+      feature = Draw.new
+      # ...
+      feature.draw(image)
+    end
+  end
+
+=end
+
   def add_frt(x1, y1)
     frt = Draw.new
     frt.fill("green")
