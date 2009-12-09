@@ -176,7 +176,7 @@ class AlleleImaging
             ori += 35
           elsif x.assoc["label"].downcase == "frt"
             self.add_frt( ori, 25 ).draw(image)
-            ori += 35
+            ori += 35 + 25
           end
         else
           # perhaps this should be controlled by an option to new?
@@ -275,15 +275,13 @@ class AlleleImaging
   end
 
   def add_frt(x1, y1)
-    loxp = Draw.new
-    loxp.fill("green")
-    loxp.stroke("black")
-    x2 = x1 + 25
-    y2 = y1 + 25
-    x3 = x2 - 25 # same as x1
-    y3 = y2 + 25
-    loxp.polygon(x1, y1, x2, y2, x3, y3)
-    loxp
+    frt = Draw.new
+    frt.fill("green")
+    frt.stroke("black")
+    x2 = x1 + 50
+    y2 = y1 + 50
+    frt.arc(x1, y1, x2, y2, 270, 90)
+    frt
   end
 
   def add_stub_feature(x1, y1, x2, y2)
