@@ -45,7 +45,7 @@ class AlleleImaging
   def primer(label)
     primer = @rcmb_primers.select { |x| x.assoc['label']  == label }
     if primer.count > 1
-      puts 'more than one primer'
+      raise "More than one primer found: #{ primer.count }"
     end
     primer[0]
   end
