@@ -29,7 +29,7 @@ class TestGrid < Test::Unit::TestCase
     end
 
     should "have some rcmb primers" do
-      assert_equal(1, @grid.primers.size)
+      assert_equal(1, @grid.rcmb_primers.size)
     end
   end
 end
