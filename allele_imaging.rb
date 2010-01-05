@@ -365,48 +365,6 @@ all its features:
 
 end
 
-#
-# TODO:
-# Should change these into proper tests and test conditional,
-# non-conditional and deletion clones.
-#
-
-ai = AlleleImaging.new('/Users/io1/Documents/allele-imaging/2009_11_27_conditional_linear.gbk')
-
-# puts "number of rcmb_primers: #{ ai.rcmb_primers.count }"
-# puts ai.rcmb_primers.map { |x| "[ label : #{ x.assoc['label'] }, feature : #{ x.feature } ]" }
-# puts "number of features: #{ ai.features.count }"
-# puts 'five_flank_features:'
-# puts ai.five_flank_features.map { |x| "[ label : #{ x.assoc['label'] }, feature : #{ x.feature } ]" }
-# puts 'five_homology_features:'
-# puts ai.five_homology_features.map { |x| "[ label : #{ x.assoc['label'] }, feature : #{ x.feature } ]" }
-# puts 'cassette_features:'
-# puts ai.cassette_features.map { |x| "[ label : #{ x.assoc['label'] }, feature : #{ x.feature } ]" }
-# puts 'target_region_features:'
-# puts ai.target_region_features.map { |x| "[ label : #{ x.assoc['label'] }, feature : #{ x.feature } ]" }
-# puts 'loxP_region_features:'
-# puts ai.loxP_region_features.map { |x| "[ label : #{ x.assoc['label'] }, feature : #{ x.feature } ]" }
-# puts 'three_homology_features:'
-# puts ai.three_homology_features.map { |x| "[ label : #{ x.assoc['label'] }, feature : #{ x.feature } ]" }
-# puts 'three_flank_features:'
-# puts ai.three_flank_features.map { |x| "[ label : #{ x.assoc['label'] }, feature : #{ x.feature } ]" }
-# 
-# puts 'primer_row_features:'
-# puts ai.primer_row_features.map { |x| "[ label : #{ x.assoc['label'] }, feature : #{ x.feature } ]" }
-# puts 'five_flank_annotations:'
-# puts ai.five_flank_annotations.map { |x| "[ label : #{ x.assoc['label'] }, feature : #{ x.feature } ]" }
-# puts 'five_homology_annotations:'
-# puts ai.five_homology_annotations.map { |x| "[ label : #{ x.assoc['label'] }, feature : #{ x.feature } ]" }
-# puts 'cassette_annotations:'
-# puts ai.cassette_annotations.map { |x| "[ label : #{ x.assoc['label'] }, feature : #{ x.feature } ]" }
-# puts 'target_region_annotations:'
-# puts ai.target_region_annotations.map { |x| "[ label : #{ x.assoc['label'] }, feature : #{ x.feature } ]" }
-# puts 'loxP_region_annotations:'
-# puts ai.loxP_region_annotations.map { |x| "[ label : #{ x.assoc['label'] }, feature : #{ x.feature } ]" }
-# puts 'three_homology_annotations:'
-# puts ai.three_homology_annotations.map { |x| "[ label : #{ x.assoc['label'] }, feature : #{ x.feature } ]" }
-# puts 'three_flank_annotations:'
-# puts ai.three_flank_annotations.map { |x| "[ label : #{ x.assoc['label'] }, feature : #{ x.feature } ]" }
-
 puts 'testing drawing:'
-ai.draw_image('ai.png')
+
+AlleleImaging.new('/Users/io1/Documents/allele-imaging/2009_11_27_conditional_linear.gbk').draw_image('ai.png')
