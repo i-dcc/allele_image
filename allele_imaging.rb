@@ -1,9 +1,11 @@
-#!/usr/bin/env ruby
+#!/usr/bin/env ruby -wKU
+
 require 'bio'
 require 'rmagick'
 
+include Magick
+
 class AlleleImaging
-  include Magick
 
   attr_reader :features, :input_file, :rcmb_primers, :bio_seq, :canvas, :show_all
 
@@ -130,13 +132,17 @@ class AlleleImaging
     main_row_features.select { |x| x.locations.first.from > primer('G3').locations.first.from }
   end
 
-  #
-  # lets prototype the sections on the canvas
-  # each section corresponds to an image in our image list
-  # each section should be a class with an to_image method
-  #
-  #   Section.new( features [, width = features.count * factor, height = 100 ] ).to_image -> Magick::Image
-  #
+=begin
+  
+lets prototype the sections on the canvas:
+
+  * each section corresponds to an image in our image list
+  * each section should be a class with an to_image method
+
+  Section.new( features [, width = features.count * factor, height = 100 ] ).to_image -> Magick::Image
+
+=end
+
   def draw_section(features)
     section_width = self.calc_width(features.count)
     image         = Image.new( section_width, 100 )
@@ -177,6 +183,8 @@ class AlleleImaging
           elsif x.assoc["label"].downcase == "frt"
             self.add_frt( ori, 25 ).draw(image)
             ori += 35 + 25
+          else
+            # do nothing ...
           end
         else
           # perhaps this should be controlled by an option to new?
@@ -204,15 +212,18 @@ class AlleleImaging
     20 + ( features * 25 ) + gaps + 20
   end
 
-  #
-  # TODO:
-  # Refactor these out into a method/class that takes arguments:
-  #
-  #   Feature.new( name, origin ).draw( image )
-  #
-  # where origin is an object representing the locus from which we can extrapolate
-  # all the points we need to draw any given shape.
-  #
+=begin TODO:
+
+Refactor these out into a method/class that takes arguments:
+  
+  Feature.new( name, origin ).draw_on( image ) => or add_to()
+  
+where:
+  name   => name of a supported feature
+  origin => object representing the locus from which we can extrapolate
+            all the points we need to draw any given shape
+  
+=end
 
   def add_En2(x1, y1, x2, y2)
     f = Draw.new
