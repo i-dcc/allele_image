@@ -4,7 +4,6 @@ class Feature
   attr_reader :name, :position
   
   def initialize(name, position)
-    @name     = name
-    @position = position
+    @name, @position = name, position
   end
 end

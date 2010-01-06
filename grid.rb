@@ -9,7 +9,7 @@ class Grid
       a.position <=> b.position
     end
 
-    @rcmb_primers  = @features.select do |x|
+    @rcmb_primers = @features.select do |x|
       x.name == "rcmb_primer"
     end
 
