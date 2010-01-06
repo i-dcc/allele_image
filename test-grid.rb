@@ -40,9 +40,9 @@ class TestGrid < Test::Unit::TestCase
       assert_equal(2, @grid.main_features.size)
     end
 
-    should "have some rcmb primers" do
-      assert_equal(1, @grid.rcmb_primers.size)
-    end
+    # should "have some rcmb primers" do
+    #   assert_equal(1, @grid.rcmb_primers.size)
+    # end
     
     should "have 3 rows when not circular" do
       assert_equal(3, @grid.rows.size)
