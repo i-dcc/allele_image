@@ -5,11 +5,11 @@ class Grid
 
   def initialize(features, is_circular)
     @features = features.sort do |a,b|
-      a["position"] <=> b["position"]
+      a.position <=> b.position
     end
 
     @rcmb_primers  = @features.select do |x|
-      x["name"] == "rcmb_primer"
+      x.name == "rcmb_primer"
     end
 
     @is_circular = is_circular
