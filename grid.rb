@@ -32,7 +32,16 @@ class Grid
       and x.name.downcase != 'primer_bind'
     end
 
-    @rows = @is_circular == 0 ? 3 : 5
+    # Generate the correct number of rows
+    @rows    = Array.new()
+    @rows[0] = Row.new(0, @annotation_features)
+    @rows[1] = Row.new(1, @main_features)
+    @rows[2] = Row.new(2, @main_features)
+    
+    if @is_circular == 1
+      @rows[3] = Row.new(3, [])
+      @rows[4] = Row.new(4, [])
+    end
   end
   
 end

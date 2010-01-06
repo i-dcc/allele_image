@@ -45,7 +45,7 @@ class TestGrid < Test::Unit::TestCase
     end
     
     should "have 3 rows when not circular" do
-      assert_equal(3, @grid.rows)
+      assert_equal(3, @grid.rows.size)
     end
   end
 end
