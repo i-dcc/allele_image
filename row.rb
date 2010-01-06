@@ -1,12 +1,14 @@
 #!/usr/bin/env ruby -wKU
+require "section"
 
 class Row
-  attr_reader :index, :sections, :rcmb_primers
+  attr_reader :index, :features, :sections
 
-  # should these be features not sections?
-  # should the rows have names not indexes?
-  def initialize(index, sections)
-    @index, @sections = index, sections
+  def initialize(index, features)
+    @index, @features = index, features
+    
+    # Allocate the features into their sections
+    @sections = []
   end
   
   # Returns a Section

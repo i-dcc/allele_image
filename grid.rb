@@ -1,7 +1,9 @@
 #!/usr/bin/env ruby -wKU
+require "row"
 
 class Grid
-  attr_reader :features, :rcmb_primers, :rows, :is_circular
+  attr_reader :features, :is_circular, :rows
+  attr_reader :rcmb_primers # not sure if this needs to be explicit
   attr_reader :annotation_features, :main_features
 
   # Not 100% sure if a Grid should have/allow access to @features and @rcmb_primers
@@ -30,8 +32,7 @@ class Grid
       and x.name.downcase != 'primer_bind'
     end
 
-    @rows = 3
-    @rows = 5 if @is_circular == 1
+    @rows = @is_circular == 0 ? 3 : 5
   end
   
 end
