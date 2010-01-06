@@ -5,6 +5,7 @@ require "shoulda"
 require "grid"
 require "feature"
 require "row"
+require "section"
 
 class TestGrid < Test::Unit::TestCase
   # Test the Grid class
@@ -47,7 +48,10 @@ class TestGrid < Test::Unit::TestCase
     setup do
       @row = Row.new(0, []) # index, sections
     end
-    
+
+    # should "know which Grid it belongs to (I think)" do
+    # end
+
     should "allow access to its Sections" do
       assert_equal(0, @row.sections.size)
     end
@@ -57,7 +61,23 @@ class TestGrid < Test::Unit::TestCase
     end
     
     should "be able to merge 2 Sections" do
-      
+      # write a test
+    end
+  end
+
+  # Test the Section class
+  context "a new Section" do
+    setup do
+      @section = Section.new()
+    end
+
+    should "have an index" do
+    end
+
+    should "have a bunch of features" do
+    end
+
+    should "have bounding primers (at least one)" do
     end
   end
 
