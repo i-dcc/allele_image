@@ -16,20 +16,20 @@ class Grid
     end
 
     # @rcmb_primers = @features.select do |x|
-    #   x.name == "rcmb_primer"
+    #   x.type == "rcmb_primer"
     # end
 
     @annotation_features = @features.select do |x|
-         x.name.downcase == 'rcmb_primer'  \
-      or x.name.downcase == 'lrpcr_primer' \
-      or x.name.downcase == 'genomic'
+         x.type.downcase == "rcmb_primer"  \
+      or x.type.downcase == "lrpcr_primer" \
+      or x.type.downcase == "genomic"
     end
 
     @main_features = @features.select do |x|
-          x.name.downcase != 'rcmb_primer'  \
-      and x.name.downcase != 'lrpcr_primer' \
-      and x.name.downcase != 'genomic'      \
-      and x.name.downcase != 'primer_bind'
+          x.type.downcase != "rcmb_primer"  \
+      and x.type.downcase != "lrpcr_primer" \
+      and x.type.downcase != "genomic"      \
+      and x.type.downcase != "primer_bind"
     end
 
     # Generate the correct number of rows

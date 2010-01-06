@@ -1,9 +1,9 @@
 #!/usr/bin/env ruby -wKU
 
 class Feature
-  attr_reader :name, :position
+  attr_reader :type, :position, :label
   
-  def initialize(name, position)
-    @name, @position = name, position
+  def initialize(type, position, label)
+    @type, @position, @label = type, position, label
   end
 end

@@ -11,11 +11,11 @@ class TestGrid < Test::Unit::TestCase
     setup do
       # Generating the feature list will be factored out as well
       @features = [
-        Feature.new("rcmb_primer", 80),
-        Feature.new("lrpcr_primer", 10),
-        Feature.new("genomic", 60),
-        Feature.new("c", 100),
-        Feature.new("d", 110)
+        Feature.new("rcmb_primer", 80, "G5"),
+        Feature.new("lrpcr_primer", 10, ""),
+        Feature.new("genomic", 60, ""),
+        Feature.new("c", 100, ""),
+        Feature.new("d", 110, "")
       ]
       
       @is_circular = 0
