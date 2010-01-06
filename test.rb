@@ -4,6 +4,7 @@ require "test/unit"
 require "shoulda"
 require "grid"
 require "feature"
+require "row"
 
 class TestGrid < Test::Unit::TestCase
   # Test the Grid class
@@ -40,7 +41,18 @@ class TestGrid < Test::Unit::TestCase
       assert_equal(3, @grid.rows)
     end
   end
-  
+
+  # Test the Row class
+  context "a new Row" do
+    setup do
+      @row = Row.new(0, []) # index, sections
+    end
+    
+    should "allow access to its Sections" do
+      assert_equal(0, @row.sections.size)
+    end
+  end
+
   # Test the Feature class
   context "a new Feature" do
     setup do

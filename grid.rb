@@ -3,6 +3,7 @@
 class Grid
   attr_reader :features, :rcmb_primers, :rows, :is_circular
 
+  # Not 100% sure if a Grid should have/allow access to @features and @rcmb_primers
   def initialize(features, is_circular)
     @features = features.sort do |a,b|
       a.position <=> b.position
