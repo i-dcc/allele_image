@@ -16,7 +16,9 @@ class TestGrid < Test::Unit::TestCase
         { "position" => 110 }
       ]
       
-      @grid = Grid.new(@features)
+      @is_circular = 0
+      
+      @grid = Grid.new(@features, @is_circular)
     end
     
     should "have some features" do
@@ -30,6 +32,10 @@ class TestGrid < Test::Unit::TestCase
 
     should "have some rcmb primers" do
       assert_equal(1, @grid.rcmb_primers.size)
+    end
+    
+    should "have 3 rows when not circular" do
+      assert_equal(3, @grid.rows)
     end
   end
 end
