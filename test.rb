@@ -51,6 +51,14 @@ class TestGrid < Test::Unit::TestCase
     should "allow access to its Sections" do
       assert_equal(0, @row.sections.size)
     end
+    
+    should "allow access to its index" do
+      assert_equal(0, @row.index)
+    end
+    
+    should "be able to merge 2 Sections" do
+      
+    end
   end
 
   # Test the Feature class
