@@ -5,11 +5,10 @@ require "shoulda"
 require "section"
 
 class TestSection < Test::Unit::TestCase
-  # Test the Section class
   context "a new Section" do
     setup do
       # Need to test with non-empty data
-      @section = Section.new(0, [])
+      @section = Section.new(0, [], "G5", "U5")
     end
 
     should "have an index" do
@@ -21,8 +20,8 @@ class TestSection < Test::Unit::TestCase
     end
 
     should "have bounding primers (at least one)" do
-      assert_equal(nil, @section.primer_5)
-      assert_equal(nil, @section.primer_3)
+      assert_equal("G5", @section.lower_primer)
+      assert_equal("U5", @section.upper_primer)
     end
   end
 end
