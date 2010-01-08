@@ -19,10 +19,5 @@ class Row
     for i in (0 .. @rcmb_primers.length - 1)
       @sections.push( Section.new(i, @features, @rcmb_primers[i], @rcmb_primers[ i + 1 ] ) )
     end
-
   end
-  
-  # # Returns a Section
-  # def merge_sections(a, b)
-  # end
 end

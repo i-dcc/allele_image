@@ -43,8 +43,5 @@ class TestRow < Test::Unit::TestCase
     should "have 4 to 6 recombineering primers" do
       assert_equal(4, @row.rcmb_primers.size)
     end
-
-    # should "be able to merge 2 Sections" do
-    # end
   end
 end
