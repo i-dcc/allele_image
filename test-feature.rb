@@ -5,7 +5,6 @@ require "shoulda"
 require "feature"
 
 class TestFeature < Test::Unit::TestCase
-  # Test the Feature class
   context "a new Feature" do
     setup do
       @feature = Feature.new("rcmb_primer", 80, "G5")

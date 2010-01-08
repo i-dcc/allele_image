@@ -6,7 +6,6 @@ require "grid"
 require "feature"
 
 class TestGrid < Test::Unit::TestCase
-  # Test the Grid class
   context "a new Grid" do
     setup do
       @features = [
