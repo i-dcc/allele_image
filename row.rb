@@ -13,28 +13,14 @@ class Row
     
     # Allocate the features into their sections
     @sections = Array.new()
-    
-    # 5' flank region
-    @sections[0] = @features.select do |x|
-      x.position < @rcmb_primer.select{ |y| y.label == "G5" }.position
-    end
-    
-    # 5' homology region
-    @sections[1] = @features.select do |x|
-          x.position > @rcmb_primer.select{ |y| y.label == "G5" }.position \
-      and x.position < @rcmb_primer.select{ |y| y.label == "U5" }.position
-    end
-    
-    # cassette region
-    @sections[2] = @features.select do |x|
-          x.position > @rcmb_primer.select{ |y| y.label == "U5" }.position \
-      and x.position < @rcmb_primer.select{ |y| y.label == "U3" }.position
-    end
-    
-    # target region
-    # loxP region
-    # 3' homology
-    # 3' flank region
+
+    @sections.push( Section.new(0, @features, nil , "G5" ) ) # 5' flank region
+    @sections.push( Section.new(0, @features, "G5", "U5" ) ) # 5' homology region
+    @sections.push( Section.new(0, @features, "U5", "U3" ) ) # cassette region
+    @sections.push( Section.new(0, @features, "U3", "D5" ) ) # target region
+    @sections.push( Section.new(0, @features, "D5", "D3" ) ) # loxP region
+    @sections.push( Section.new(0, @features, "D3", "G3" ) ) # 3' homology
+    @sections.push( Section.new(0, @features, "G3", nil  ) ) # 3' flank region
   end
   
   # # Returns a Section

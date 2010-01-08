@@ -11,7 +11,7 @@ class TestRow < Test::Unit::TestCase
     end
 
     should "allow access to its Sections" do
-      assert_equal(0, @row.sections[0].size)
+      assert_equal(7, @row.sections.size)
     end
 
     should "allow access to its index" do
