@@ -5,6 +5,15 @@ require "shoulda"
 require "grid"
 require "feature"
 
+=begin
+
+Need to do a bit more extensive tests with real features, which can be retrieved with the following code:
+
+  require "bio"
+  features = Bio::GenBank.open("./2009_11_27_conditional_linear.gbk").next_entry.features.map{ |f| Feature.new( f.feature, f.locations.first.from, f.assoc["label"] ) }
+
+=end
+
 class TestGrid < Test::Unit::TestCase
   context "a new Grid" do
     setup do
@@ -15,7 +24,7 @@ class TestGrid < Test::Unit::TestCase
         Feature.new("c", 100, nil),
         Feature.new("d", 110, nil)
       ]
-      
+
       @is_circular = 0
       
       @grid = Grid.new(@features, @is_circular)
@@ -45,5 +54,9 @@ class TestGrid < Test::Unit::TestCase
     should "have 3 rows when not circular" do
       assert_equal(3, @grid.rows.size)
     end
+    
+    # should "return the features allocated into sections in a sensible format" do
+    #   # puts @grid.to_yaml
+    # end
   end
 end
