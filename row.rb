@@ -4,17 +4,15 @@ require "section"
 class Row
   attr_reader :index, :features, :sections, :rcmb_primers
 
-  def initialize(index, features)
-    @index, @features = index, features
-
-    @rcmb_primers = @features.select do |x|
-      x.name == "rcmb_primer"
-    end
+  def initialize(index, features, rcmb_primers)
+    @index, @features, @rcmb_primers = index, features, rcmb_primers
     
     # Allocate the features into their sections
     @sections = Array.new()
 
     # Don't like the indexing going on. Should be implicit (I think)
+    # Also there should be checks to ensure that the rcmb_primers are actually available
+
     @sections.push( Section.new(0, @features, nil , "G5" ) ) # 5' flank region
     @sections.push( Section.new(1, @features, "G5", "U5" ) ) # 5' homology region
     @sections.push( Section.new(2, @features, "U5", "U3" ) ) # cassette region

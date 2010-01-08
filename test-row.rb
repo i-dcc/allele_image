@@ -7,7 +7,7 @@ require "row"
 class TestRow < Test::Unit::TestCase
   context "a new Row" do
     setup do
-      @row = Row.new(0, []) # index, sections
+      @row = Row.new(0, [], []) # index, sections
     end
 
     should "allow access to its Sections" do
