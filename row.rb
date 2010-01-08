@@ -5,21 +5,21 @@ class Row
   attr_reader :index, :features, :sections, :rcmb_primers
 
   def initialize(index, features, rcmb_primers)
-    @index, @features, @rcmb_primers = index, features, rcmb_primers
-    
+    @index, @features = index, features
+    @rcmb_primers     = rcmb_primers.sort { |a,b| a.position <=> b.position }
+
     # Allocate the features into their sections
-    @sections = Array.new()
+    @sections   = Array.new()
+    start_index = 0
 
-    # Don't like the indexing going on. Should be implicit (I think)
-    # Also there should be checks to ensure that the rcmb_primers are actually available
+    # Let's do the first Section ourselves ...
+    @sections.push( Section.new(start_index, @features, nil , @rcmb_primers.first ) )
 
-    @sections.push( Section.new(0, @features, nil , "G5" ) ) # 5' flank region
-    @sections.push( Section.new(1, @features, "G5", "U5" ) ) # 5' homology region
-    @sections.push( Section.new(2, @features, "U5", "U3" ) ) # cassette region
-    @sections.push( Section.new(3, @features, "U3", "D5" ) ) # target region
-    @sections.push( Section.new(4, @features, "D5", "D3" ) ) # loxP region
-    @sections.push( Section.new(5, @features, "D3", "G3" ) ) # 3' homology
-    @sections.push( Section.new(6, @features, "G3", nil  ) ) # 3' flank region
+    # Then loop through the remaining ones
+    for i in (0 .. @rcmb_primers.length - 1)
+      @sections.push( Section.new(i, @features, @rcmb_primers[i], @rcmb_primers[ i + 1 ] ) )
+    end
+
   end
   
   # # Returns a Section
