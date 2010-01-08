@@ -21,15 +21,23 @@ class TestRow < Test::Unit::TestCase
         Feature.new("exon", 400, "EXON004"),
         Feature.new("exon", 900, "EXON009")
       ]
-      @row = Row.new(0, @features, @primers)
+      @row = Row.new(1, @features, @primers)
     end
 
     should "allow access to its Sections" do
       assert_equal(5, @row.sections.size)
     end
 
+    should "have correct number of feature per Section" do
+      assert_equal(1, @row.sections[0].size)
+      assert_equal(2, @row.sections[1].size)
+      assert_equal(1, @row.sections[2].size)
+      assert_equal(0, @row.sections[3].size)
+      assert_equal(1, @row.sections[4].size)
+    end
+
     should "allow access to its index" do
-      assert_equal(0, @row.index)
+      assert_equal(1, @row.index)
     end
 
     should "have 4 to 6 recombineering primers" do

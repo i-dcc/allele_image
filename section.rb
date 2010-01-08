@@ -22,4 +22,8 @@ class Section
       raise "At least one bounding primer required"
     end
   end
+  
+  def size
+    @features.size
+  end
 end
