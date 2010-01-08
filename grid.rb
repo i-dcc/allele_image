@@ -6,21 +6,18 @@ class Grid
   attr_reader :rcmb_primers
   attr_reader :annotation_features, :main_features
 
-  # Not 100% sure if a Grid should have/allow access to @features and @rcmb_primers
   def initialize(features, is_circular)
     @is_circular = is_circular
 
-    # Manage the features
-    @features = features.sort do |a,b|
-      a.position <=> b.position
-    end
+    @rcmb_primers = features.select { |x| x.type.downcase == "rcmb_primer" }
 
-    @rcmb_primers = @features.select do |x|
-      x.type == "rcmb_primer"
-    end
+    # Manage the features
+    @features = features.sort { |a,b| a.position <=> b.position }
 
     @annotation_features = @features.select do |x|
-      x.type.downcase == "lrpcr_primer" or x.type.downcase == "genomic"
+         x.type.downcase == "rcmb_primer"  \
+      or x.type.downcase == "lrpcr_primer" \
+      or x.type.downcase == "genomic"
     end
 
     @main_features = @features.select do |x|

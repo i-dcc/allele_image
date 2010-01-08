@@ -9,7 +9,6 @@ class TestGrid < Test::Unit::TestCase
   # Test the Grid class
   context "a new Grid" do
     setup do
-      # Generating the feature list will be factored out as well
       @features = [
         Feature.new("rcmb_primer", 80, "G5"),
         Feature.new("lrpcr_primer", 10, nil),
@@ -33,7 +32,7 @@ class TestGrid < Test::Unit::TestCase
     end
     
     should "have some annotation features" do
-      assert_equal(2, @grid.annotation_features.size)
+      assert_equal(3, @grid.annotation_features.size)
     end
     
     should "have some main features" do
