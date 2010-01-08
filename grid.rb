@@ -3,6 +3,7 @@ require "row"
 
 class Grid
   attr_reader :features, :is_circular, :rows
+  attr_reader :rcmb_primers
   attr_reader :annotation_features, :main_features
 
   # Not 100% sure if a Grid should have/allow access to @features and @rcmb_primers
@@ -14,10 +15,12 @@ class Grid
       a.position <=> b.position
     end
 
+    @rcmb_primers = @features.select do |x|
+      x.type == "rcmb_primer"
+    end
+
     @annotation_features = @features.select do |x|
-         x.type.downcase == "rcmb_primer"  \
-      or x.type.downcase == "lrpcr_primer" \
-      or x.type.downcase == "genomic"
+      x.type.downcase == "lrpcr_primer" or x.type.downcase == "genomic"
     end
 
     @main_features = @features.select do |x|
