@@ -36,6 +36,12 @@ class TestRow < Test::Unit::TestCase
       assert_equal(1, @row.sections[4].size)
     end
 
+    should "have the correct index on each Section" do
+      for i in (0 .. @row.sections.size - 1)
+        assert_equal(i, @row.sections[i].index)
+      end
+    end
+
     should "allow access to its index" do
       assert_equal(1, @row.index)
     end

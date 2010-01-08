@@ -17,7 +17,7 @@ class Row
 
     # Then loop through the remaining ones
     for i in (0 .. @rcmb_primers.length - 1)
-      @sections.push( Section.new(i, @features, @rcmb_primers[i], @rcmb_primers[ i + 1 ] ) )
+      @sections.push( Section.new(i + 1, @features, @rcmb_primers[i], @rcmb_primers[ i + 1 ] ) )
     end
   end
 end
