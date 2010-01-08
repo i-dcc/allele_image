@@ -17,11 +17,11 @@ class Section
       end
     elsif @lower_primer and not @upper_primer
       @features = features.select do |x|
-        x.position < @rcmb_primer.select{ |y| y.label == @lower_primer }.position
+        x.position > @rcmb_primer.select{ |y| y.label == @lower_primer }.position
       end
     elsif @upper_primer and not @lower_primer
       @features = features.select do |x|
-        x.position > @rcmb_primer.select{ |y| y.label == @upper_primer }.position
+        x.position < @rcmb_primer.select{ |y| y.label == @upper_primer }.position
       end
     end
   end
