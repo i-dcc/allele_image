@@ -21,5 +21,8 @@ class TestFeature < Test::Unit::TestCase
     should "have label 'G5'" do
       assert_equal("G5", @feature.label)
     end
+    
+    should "be renderable" do
+    end
   end
 end

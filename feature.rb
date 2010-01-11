@@ -6,4 +6,8 @@ class Feature
   def initialize(type, position, label)
     @type, @position, @label = type, position, label
   end
+  
+  def render(format, params={})
+    format.new(self).render(params)
+  end
 end
