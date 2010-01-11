@@ -19,9 +19,10 @@ class RenderAsText
   end
 
   def render_feature(params)
-    feat  = "([ #{ @thing.type }, #{ @thing.position }, #{ @thing.label } } ], Feature)" 
-    feat += " : #{ params[:section].index }" if params[:section]
-    feat
+    # feat  = "([ #{ @thing.type }, #{ @thing.position }, #{ @thing.label } ], Feature)" 
+    # feat += " : #{ params[:section].index }" if params[:section]
+    # feat
+    "([ #{ @thing.type }, #{ @thing.position }, #{ @thing.label } ], Feature)"
   end
 
   def render_section(params)
