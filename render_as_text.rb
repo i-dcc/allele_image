@@ -1,8 +1,4 @@
 #!/usr/bin/env ruby -wKU
-require "grid"
-require "feature"
-require "row"
-require "section"
 
 class RenderAsText
   def initialize(thing)
@@ -19,18 +15,18 @@ class RenderAsText
   end
 
   def render_feature(params)
-    # feat  = "([ #{ @thing.type }, #{ @thing.position }, #{ @thing.label } ], Feature)" 
-    # feat += " : #{ params[:section].index }" if params[:section]
-    # feat
     "([ #{ @thing.type }, #{ @thing.position }, #{ @thing.label } ], Feature)"
   end
 
   def render_section(params)
+    "([#{ @thing.features.map{ |x| x.render(RenderAsText) }.join(", ") }], Section)"
   end
 
   def render_row(params)
+    "([#{ @thing.sections.map{ |x| x.render(RenderAsText) }.join(", ") }], Row)"
   end
 
   def render_grid(params)
+    "([#{ @thing.rows.map{ |x| x.render(RenderAsText) }.join(", ") }], Grid)"
   end
 end

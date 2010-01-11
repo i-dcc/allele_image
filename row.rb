@@ -20,4 +20,8 @@ class Row
       @sections.push( Section.new(i + 1, @features, @rcmb_primers[i], @rcmb_primers[ i + 1 ] ) )
     end
   end
+
+  def render(format, params={})
+    format.new(self).render(params)
+  end
 end

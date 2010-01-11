@@ -26,4 +26,8 @@ class Section
   def size
     @features.size
   end
+
+  def render(format, params={})
+    format.new(self).render(params)
+  end
 end
