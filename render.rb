@@ -30,11 +30,22 @@ class RenderAsPNG
     d.rectangle(params[:x1], params[:y1], params[:x2], params[:y2])
     d.draw(params[:section])
   end
+  def render_feature
+  end
+  def render_section
+  end
+  def render_row
+  end
+  def render_grid
+  end
 end
 
-# i = Image.new(200, 100)
-# f = Feature.new("exon", 10, "EXON001").render(RenderAsPNG, :section => i, :x1 => 50, :y1 => 25, :x2 => 150, :y2 => 75)
-# i.display
+require "rmagick"
+include Magick
+
+i = Image.new(200, 100)
+f = Feature.new("exon", 10, "EXON001").render(RenderAsPNG, :section => i, :x1 => 50, :y1 => 25, :x2 => 150, :y2 => 75)
+i.display
 
 =begin
 
