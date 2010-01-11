@@ -11,7 +11,7 @@ require "render_as_text"
 
 # Use textual rendering to test the framework
 
-class TestRender < Test::Unit::TestCase
+class TestRenderer < Test::Unit::TestCase
   context "a new Feature" do
     setup do
       @feature = Feature.new("exon", 10, "EXON001")
