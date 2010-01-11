@@ -1,11 +1,8 @@
 #!/usr/bin/env ruby -wKU
 
-=begin
-
 require "feature"
 require "section"
 
-# Use textual rendering to test the framework
 class RenderAsText
   def initialize(feature)
     @feature = feature
@@ -17,8 +14,8 @@ class RenderAsText
   end
 end
 
-f1 = Feature.new("exon", 10, "EXON001").render(RenderAsText)
-f2 = Feature.new("exon", 10, "EXON001").render(RenderAsText, :section => Section.new(0, [], Feature.new("rcmb_primer", 10, "G5"), nil))
+# f1 = Feature.new("exon", 10, "EXON001").render(RenderAsText)
+# f2 = Feature.new("exon", 10, "EXON001").render(RenderAsText, :section => Section.new(0, [], Feature.new("rcmb_primer", 10, "G5"), nil))
 
 class RenderAsPNG
   require "rmagick"
@@ -35,9 +32,11 @@ class RenderAsPNG
   end
 end
 
-i = Image.new(200, 100)
-f = Feature.new("exon", 10, "EXON001").render(RenderAsPNG, :section => i, :x1 => 50, :y1 => 25, :x2 => 150, :y2 => 75)
-i.display
+# i = Image.new(200, 100)
+# f = Feature.new("exon", 10, "EXON001").render(RenderAsPNG, :section => i, :x1 => 50, :y1 => 25, :x2 => 150, :y2 => 75)
+# i.display
+
+=begin
 
 ## shift + alt to select vertical columns in TextMate
 # irb(main):061:0> Text = 'RMagick'

@@ -4,17 +4,22 @@ require "test/unit"
 require "shoulda"
 require "render"
 require "feature"
+require "section"
+require "row"
+require "grid"
+require "render_as_text"
+
+# Use textual rendering to test the framework
 
 class TestRender < Test::Unit::TestCase
-  context "" do
+  context "a new Feature" do
     setup do
-      @thing  = Feature.new("exon", 10, "EXON001")
-      @format = "text"
-      @render = Render.new(@thing, @format)
+      @feature = Feature.new("exon", 10, "EXON001")
+      @format  = RenderAsText
     end
     
-    should "" do
-      
+    should "be able to render itself" do
+      assert_equal("([ exon, 10, EXON001 } ], Feature)", @feature.render(@format))
     end
   end
 end
