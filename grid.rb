@@ -38,5 +38,8 @@ class Grid
       @rows[4] = Row.new(4, [], @rcmb_primers)
     end
   end
-  
+
+  def render(format, params={})
+    format.new(self).render(params)
+  end
 end

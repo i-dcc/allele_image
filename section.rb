@@ -6,6 +6,7 @@ class Section
   def initialize(index, features, lower_primer, upper_primer)
     @index, @lower_primer, @upper_primer = index, lower_primer, upper_primer
 
+    # what do we do with features that are on the margins?
     if @lower_primer and @upper_primer
       @features = features.select do |feature|
         feature.position > lower_primer.position and feature.position < upper_primer.position
