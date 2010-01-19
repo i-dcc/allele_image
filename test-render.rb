@@ -2,7 +2,6 @@
 require "rubygems"
 require "test/unit"
 require "shoulda"
-require "render"
 require "feature"
 require "section"
 require "row"
