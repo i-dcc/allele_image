@@ -2,19 +2,25 @@
 require "rubygems"
 require "test/unit"
 require "shoulda"
+require "rmagick"
+# require "ftools"
 require "feature"
 require "section"
 require "row"
 require "grid"
 require "render_as_png"
 
-class TestRenderAsText < Test::Unit::TestCase
+class TestRenderAsPNG < Test::Unit::TestCase
   context "a new Feature" do
     setup do
       @feature = Feature.new("exon", 100, "EXON001")
+      @section = Image.new(200, 100)
     end
 
-    should "" do
+    should "render itself as a Magick::Draw object" do
+      rendered_feature = @feature.render(RenderAsPNG, :x1 => 50, :x2 => 150, :y1 => 25, :y2 => 75, :section => @section)
+      # @section.write("feature.png")
+      assert_equal(rendered_feature.class, Magick::Draw)
     end
   end
 end
