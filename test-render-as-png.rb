@@ -15,12 +15,12 @@ class TestRenderAsPNG < Test::Unit::TestCase
     setup do
       @feature = Feature.new("exon", 100, "EXON001")
       @format  = RenderAsPNG
-      @section = Image.new(200, 100)
+      @section = Image.new(90, 100)
     end
 
     # needs more thourough tests
     should "render itself as a Magick::Draw object" do
-      rendered_feature = @feature.render(@format, :x1 => 50, :x2 => 150, :y1 => 25, :y2 => 75, :section => @section)
+      rendered_feature = @feature.render(@format, :x1 => 10, :x2 => 20, :y1 => 40, :y2 => 60, :section => @section)
       # @section.write("feature.png")
       assert_equal(rendered_feature.class, Magick::Draw)
     end
@@ -44,7 +44,7 @@ class TestRenderAsPNG < Test::Unit::TestCase
     end
 
     should "render itself as a Magick::Image object" do
-      assert_equal(@section.render(@format), Magick::Image)
+      assert_equal(@section.render(@format, :width => 90, :height => 100).class, Magick::Image)
     end
   end
 end
