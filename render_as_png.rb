@@ -21,8 +21,9 @@ class RenderAsPNG
   # - where on this section it needs to be rendered
   # - what shape it needs to be rendered as
   # These should all be passed in the params
-  # (although the shape could be pre-determined from the feature)
+  # (although the shape could be pre-determined from the feature type)
   def render_feature(params)
+    # why am I not using @thing in here? (2010/02/04)
     d = Draw.new
     d.stroke("black")
     d.fill("yellow")
@@ -44,8 +45,22 @@ class RenderAsPNG
     end
     image
   end
+
+  # @section.render(@format, :width => 45, :height => 100)
   def render_row(params)
+    row = ImageList.new()
+    puts ""
+    @thing.sections.each do |section|
+      features_total_width = section.size * 10
+      boundries_width      = 20
+      gaps_total_width     = 5 * ( section.size - 1 )
+      width = section.size > 0 ? features_total_width + boundries_width + gaps_total_width : 0
+      puts "section #{section.index}: [ feature_count : #{section.size}, section_width : #{width} ]"
+      # section.render( RenderAsPNG, params )
+    end
+    row
   end
+
   def render_grid(params)
   end
 end
