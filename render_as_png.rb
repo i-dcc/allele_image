@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby -wKU
 require "rubygems"
 require "rmagick"
+require "pp"
 include Magick
 
 class RenderAsPNG
@@ -69,6 +70,8 @@ class RenderAsPNG
     @thing.rows.each do |row|
       grid.push( row.render(RenderAsPNG) )
     end
+    # puts "NUMBER OF ROWS: #{grid.size}"
+    # pp grid
     grid.append(true)
   end
 end

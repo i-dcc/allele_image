@@ -3,7 +3,7 @@ require "rubygems"
 require "test/unit"
 require "shoulda"
 require "rmagick"
-# require "ftools"
+require "pp"
 require "feature"
 require "section"
 require "row"
@@ -96,7 +96,12 @@ class TestRenderAsPNG < Test::Unit::TestCase
     should "render itself as a Magick::Image object" do
       rendered_grid = @grid.render(@format)
       assert_equal(rendered_grid.class, Magick::Image)
-      rendered_grid.write("grid.png")
+      # pp rendered_grid
+      # puts "width: #{rendered_grid.columns}"
+
+      # The following line introduces the error:
+      # Magick::ImageMagickError: no pixels defined in cache `' @ cache.c/OpenPixelCache/3941
+      # rendered_grid.write("grid.png")
       # rendered_grid.display
     end
   end
