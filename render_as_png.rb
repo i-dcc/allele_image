@@ -61,6 +61,13 @@ class RenderAsPNG
     row.append(false)
   end
 
+  # @row.render(@format)
   def render_grid(params)
+    grid = ImageList.new()
+    # puts ""
+    @thing.rows.each do |row|
+      grid.push( row.render(RenderAsPNG) )
+    end
+    grid.append(true)
   end
 end

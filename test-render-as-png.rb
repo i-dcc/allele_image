@@ -69,10 +69,35 @@ class TestRenderAsPNG < Test::Unit::TestCase
       @format  = RenderAsPNG
     end
 
-    should "render itself as a Magick::ImageList" do
+    should "render itself as a Magick::Image object" do
       rendered_row = @row.render(@format)
       assert_equal(rendered_row.class, Magick::Image)
       # rendered_row.write("row.png")
+    end
+  end
+
+  context "a new Grid" do
+    setup do
+      @features = [
+        Feature.new("rcmb_primer", 150, "G5"),
+        Feature.new("rcmb_primer", 350, "U5"),
+        Feature.new("rcmb_primer", 450, "D3"),
+        Feature.new("rcmb_primer", 700, "G3"),
+        Feature.new("exon", 100, "EXON001"),
+        Feature.new("exon", 200, "EXON002"),
+        Feature.new("exon", 300, "EXON003"),
+        Feature.new("exon", 400, "EXON004"),
+        Feature.new("exon", 900, "EXON009")
+      ]
+      @grid    = Grid.new(@features, 0)
+      @format  = RenderAsPNG
+    end
+
+    should "render itself as a Magick::Image object" do
+      rendered_grid = @grid.render(@format)
+      assert_equal(rendered_grid.class, Magick::Image)
+      rendered_grid.write("grid.png")
+      # rendered_grid.display
     end
   end
 end
