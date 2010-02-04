@@ -2,7 +2,7 @@
 require "rubygems"
 require "test/unit"
 require "shoulda"
-require "rmagick"
+require "RMagick"
 require "pp"
 require "feature"
 require "section"

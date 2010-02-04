@@ -18,7 +18,7 @@ end
 # f2 = Feature.new("exon", 10, "EXON001").render(RenderAsText, :section => Section.new(0, [], Feature.new("rcmb_primer", 10, "G5"), nil))
 
 class RenderAsPNG
-  require "rmagick"
+  require "RMagick"
   include Magick
   def initialize(feature)
     @feature = feature
@@ -40,7 +40,7 @@ class RenderAsPNG
   end
 end
 
-require "rmagick"
+require "RMagick"
 include Magick
 
 i = Image.new(200, 100)

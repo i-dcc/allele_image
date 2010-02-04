@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby -wKU
 require "rubygems"
-require "rmagick"
+require "RMagick"
 require "pp"
 include Magick
 
