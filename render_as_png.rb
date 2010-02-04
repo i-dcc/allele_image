@@ -49,16 +49,16 @@ class RenderAsPNG
   # @section.render(@format, :width => 45, :height => 100)
   def render_row(params)
     row = ImageList.new()
-    puts ""
+    # puts ""
     @thing.sections.each do |section|
       features_total_width = section.size * 10
       boundries_width      = 20
       gaps_total_width     = 5 * ( section.size - 1 )
       width = section.size > 0 ? features_total_width + boundries_width + gaps_total_width : 0
-      puts "section #{section.index}: [ feature_count : #{section.size}, section_width : #{width} ]"
-      # section.render( RenderAsPNG, params )
+      # puts "section #{section.index}: [ feature_count : #{section.size}, section_width : #{width} ]"
+      row.push( section.render( RenderAsPNG, :height => 100, :width => width ) )
     end
-    row
+    row.append(false)
   end
 
   def render_grid(params)

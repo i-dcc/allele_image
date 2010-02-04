@@ -71,7 +71,7 @@ class TestRenderAsPNG < Test::Unit::TestCase
 
     should "render itself as a Magick::ImageList" do
       rendered_row = @row.render(@format)
-      assert_equal(rendered_row.class, Magick::ImageList)
+      assert_equal(rendered_row.class, Magick::Image)
       # rendered_row.write("row.png")
     end
   end
