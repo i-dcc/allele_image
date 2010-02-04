@@ -44,7 +44,9 @@ class TestRenderAsPNG < Test::Unit::TestCase
     end
 
     should "render itself as a Magick::Image object" do
-      assert_equal(@section.render(@format, :width => 90, :height => 100).class, Magick::Image)
+      rendered_section = @section.render(@format, :width => 45, :height => 100)
+      assert_equal(rendered_section.class, Magick::Image)
+      rendered_section.write("section.png")
     end
   end
 end

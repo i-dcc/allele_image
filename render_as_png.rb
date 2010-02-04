@@ -15,21 +15,34 @@ class RenderAsPNG
       when "Grid"    then self.render_grid(params)
     end
   end
-  
+
+  # A feature needs to know:
+  # - which section it needs to add itself to
+  # - where on this section it needs to be rendered
+  # - what shape it needs to be rendered as
+  # These should all be passed in the params
+  # (although the shape could be pre-determined from the feature)
   def render_feature(params)
     d = Draw.new
     d.stroke("black")
-    d.fill("blue")
+    d.fill("yellow")
     # this should be some sort of (simple) coordinate
     d.rectangle(params[:x1], params[:y1], params[:x2], params[:y2])
     d.draw(params[:section])
   end
+
+  # @feature.render(@format, :x1 => 50, :x2 => 150, :y1 => 25, :y2 => 75, :section => @section)
   def render_section(params)
-    i = Image.new(params[:width], params[:height])
+    image = Image.new(params[:width], params[:height])
+    coord = 10
+    gap   = 5
+    feature_width = 10
     @thing.features.each do |feature|
-      feature.render(RenderAsPNG, params)
+      feature.render( RenderAsPNG, :x1 => coord, :x2 => coord + feature_width, :y1 => 25, :y2 => 75, :section => image )
+      # puts "#{feature} [(#{coord}, y1), (x2, y2)]"
+      coord += gap + feature_width
     end
-    i.write("test.png")
+    image
   end
   def render_row(params)
   end
