@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby -wKU
 require "rubygems"
 require "test/unit"
+require "bio"
 require "shoulda"
 require "RMagick"
 require "pp"
@@ -107,6 +108,12 @@ class TestRenderAsPNG < Test::Unit::TestCase
       rescue ImageMagickError
         puts "There was an error writing to 'grid.png'. Investigate and eliminate."
       end
+    end
+  end
+
+  context "a Grid with real Features" do
+    @features = Bio::GenBank.open("./2009_11_27_conditional_linear.gbk").next_entry.features.map do |f|
+      Feature.new( f.feature, f.locations.first.from, f.assoc["label"] )
     end
   end
 end

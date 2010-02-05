@@ -33,20 +33,34 @@ class RenderAsPNG
     # why am I not using @thing in here? (2010/02/04)
     # I will use @thing to determine the feature type, which
     # in turn will determine the shape that gets rendered.
-    puts "this feature is a #{@thing.type} with label #{@thing.label} on row #{params[:row_number]}"
+    # puts "this feature is a #{@thing.type} with label #{@thing.label} on row #{params[:row_number]}"
 
     # There should be a utility method that will just render the feature's
     # label as an annotated drawing, which would get called and return here
     # if we are on row 2. Otherwise we go ahead and render the feature as
     # defined.
-    puts "will only render the label [ #{@thing.label} ]" if params[:row_number] == 2
+    if params[:row_number] == 2
+      # puts "will only render the label [ #{@thing.label} ]"
+    end
 
     # Here we should be checking the type of the feature and delegating to
     # specific methods for rendering those features.
-    d.stroke("black")
-    d.fill("yellow")
-    # this should be some sort of (simple) coordinate
-    d.rectangle(params[:x1], params[:y1], params[:x2], params[:y2])
+    case @thing.type
+    when "exon" then
+      d.stroke("black")
+      d.fill("yellow")
+      # this should be some sort of (simple) coordinate
+      d.rectangle(params[:x1], params[:y1], params[:x2], params[:y2])
+    when "misc_feature" then
+      # 
+    when "SSR_site" then
+      # 
+    when "polyA_site" then
+    else
+      puts "cannot handle this feature:"
+      pp @thing
+    end
+
     d.draw(params[:section])
   end
 
