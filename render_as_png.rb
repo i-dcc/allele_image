@@ -63,6 +63,7 @@ class RenderAsPNG
     else
       puts "cannot handle this feature:"
       pp @thing
+      puts "row number: #{params[:row_number]}"
       # raise "Unkown Feature"
     end
 
