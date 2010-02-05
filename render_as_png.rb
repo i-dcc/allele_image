@@ -28,10 +28,9 @@ class RenderAsPNG
   # These should all be passed in the params
   # (although the shape could be pre-determined from the feature type)
   def render_feature(params)
-    # Let's stick this here so we can have atleast an empty rectangle to draw
+    # Let's stick this here so we can have at least an empty rectangle to draw
     d = Draw.new
     d.stroke("black")
-    d.rectangle(params[:x1], params[:y1], params[:x2], params[:y2])
 
     # why am I not using @thing in here? (2010/02/04)
     # I will use @thing to determine the feature type, which
@@ -44,29 +43,39 @@ class RenderAsPNG
     # defined.
     if params[:row_number] == 2
       # puts "will only render the label [ #{@thing.label} ]"
+      # d.annotate()
+      # return d.draw(params[:section])
     end
 
     # Here we should be checking the type of the feature and delegating to
     # specific methods for rendering those features.
     case @thing.type
-    when "exon" then
-      d.fill("yellow")
-      # this should be some sort of (simple) coordinate
-    when "misc_feature" then
-      # 
-    when "SSR_site" then
-      # 
-    when "polyA_site" then
-      # 
-    when "LRPCR_primer" then
-      # 
-    else
-      puts "cannot handle this feature:"
-      pp @thing
-      puts "row number: #{params[:row_number]}"
-      # raise "Unkown Feature"
+      when "exon" then
+        d.fill("yellow")
+        # puts "EXON: #{@thing.label}"
+      when "misc_feature" then
+        d.fill("red")
+        # puts "misc_feature: #{@thing.label}"
+      when "SSR_site" then
+        d.fill("blue")
+        # puts "SSR_site: #{@thing.label}"
+      when "polyA_site" then
+        d.fill("green")
+        # puts "polyA_site: #{@thing.label}"
+      when "LRPCR_primer" then
+        d.fill("violet")
+        # puts "LRPCR_primer: #{@thing.label}"
+      when "gateway" then
+        d.fill("black")
+        # puts "gateway: #{@thing.label}"
+      else
+        puts "cannot handle this feature:"
+        pp @thing
+        puts "row number: #{params[:row_number]}"
+        # raise "Unkown Feature"
     end
 
+    d.rectangle(params[:x1], params[:y1], params[:x2], params[:y2])
     d.draw(params[:section])
   end
 
