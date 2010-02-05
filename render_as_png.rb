@@ -59,6 +59,7 @@ class RenderAsPNG
     else
       puts "cannot handle this feature:"
       pp @thing
+      # raise "Unkown Feature"
     end
 
     d.draw(params[:section])
