@@ -28,7 +28,10 @@ class RenderAsPNG
   # These should all be passed in the params
   # (although the shape could be pre-determined from the feature type)
   def render_feature(params)
+    # Let's stick this here so we can have atleast an empty rectangle to draw
     d = Draw.new
+    d.stroke("black")
+    d.rectangle(params[:x1], params[:y1], params[:x2], params[:y2])
 
     # why am I not using @thing in here? (2010/02/04)
     # I will use @thing to determine the feature type, which
@@ -47,15 +50,16 @@ class RenderAsPNG
     # specific methods for rendering those features.
     case @thing.type
     when "exon" then
-      d.stroke("black")
       d.fill("yellow")
       # this should be some sort of (simple) coordinate
-      d.rectangle(params[:x1], params[:y1], params[:x2], params[:y2])
     when "misc_feature" then
       # 
     when "SSR_site" then
       # 
     when "polyA_site" then
+      # 
+    when "LRPCR_primer" then
+      # 
     else
       puts "cannot handle this feature:"
       pp @thing
