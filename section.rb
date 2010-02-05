@@ -20,6 +20,7 @@ class Section
         feature.position < upper_primer.position
       end
     else
+      # Need to improve on this error message as it is not very helpful
       raise "At least one bounding primer required"
     end
   end
