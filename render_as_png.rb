@@ -26,6 +26,8 @@ class RenderAsPNG
   # (although the shape could be pre-determined from the feature type)
   def render_feature(params)
     # why am I not using @thing in here? (2010/02/04)
+    # I will use @thing to determine the feature type, which
+    # in turn will determine the shape that gets rendered.
     d = Draw.new
     d.stroke("black")
     d.fill("yellow")
@@ -64,10 +66,16 @@ class RenderAsPNG
   end
 
   # @row.render(@format)
+  # This needs to be a bit more clever than this as what gets
+  # rendered will depend on the row we are in i.e. the annotations
+  # row (row 3) will only have the feature labels displayed.
   def render_grid(params)
     grid = ImageList.new()
     # puts ""
     @thing.rows.each do |row|
+      # file = "row_#{row.index}.png"
+      # puts "row number: #{row.index}, file name: #{file}"
+      # row.render(RenderAsPNG).write("row_#{row.index}.png")
       grid.push( row.render(RenderAsPNG) )
     end
     # puts "NUMBER OF ROWS: #{grid.size}"
