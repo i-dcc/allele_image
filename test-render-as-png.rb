@@ -44,7 +44,7 @@ class TestRenderAsPNG < Test::Unit::TestCase
     end
 
     should "render itself as a Magick::Image object" do
-      rendered_section = @section.render(@format, :width => 45, :height => 100)
+      rendered_section = @section.render(@format, :width => 45, :height => 100, :row_number => 1)
       assert_equal(rendered_section.class, Magick::Image)
       # rendered_section.write("section.png")
     end
@@ -106,7 +106,6 @@ class TestRenderAsPNG < Test::Unit::TestCase
       rescue ImageMagickError
         puts "There was an error writing to 'grid.png'. Investigate and eliminate."
       end
-      # rendered_grid.display
     end
   end
 end
