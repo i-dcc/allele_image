@@ -20,7 +20,8 @@ class TestRenderAsPNG < Test::Unit::TestCase
 
     # needs more thourough tests
     should "render itself as a Magick::Draw object" do
-      rendered_feature = @feature.render(@format, :x1 => 10, :x2 => 20, :y1 => 40, :y2 => 60, :section => @section)
+      params = { :x1 => 10, :x2 => 20, :y1 => 40, :y2 => 60, :section => @section, :row_number => 1 }
+      rendered_feature = @feature.render(@format, params)
       # @section.write("feature.png")
       assert_equal(rendered_feature.class, Magick::Draw)
     end

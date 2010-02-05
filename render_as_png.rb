@@ -25,11 +25,21 @@ class RenderAsPNG
   # These should all be passed in the params
   # (although the shape could be pre-determined from the feature type)
   def render_feature(params)
+    d = Draw.new
+
     # why am I not using @thing in here? (2010/02/04)
     # I will use @thing to determine the feature type, which
     # in turn will determine the shape that gets rendered.
-    puts "this feature is a #{@thing.type} with label #{@thing.label}"
-    d = Draw.new
+    puts "this feature is a #{@thing.type} with label #{@thing.label} on row #{params[:row_number]}"
+
+    # There should be a utility method that will just render the feature's
+    # label as an annotated drawing, which would get called and return here
+    # if we are on row 2. Otherwise we go ahead and render the feature as
+    # defined.
+    puts "will only render the label [ #{@thing.label} ]" if params[:row_number] == 2
+
+    # Here we should be checking the type of the feature and delegating to
+    # specific methods for rendering those features.
     d.stroke("black")
     d.fill("yellow")
     # this should be some sort of (simple) coordinate
@@ -39,7 +49,7 @@ class RenderAsPNG
 
   # @feature.render(@format, :x1 => 50, :x2 => 150, :y1 => 25, :y2 => 75, :section => @section)
   def render_section(params)
-    puts "this is row number #{params[:row_number]}"
+    # puts "this is row number #{params[:row_number]}"
     image = Image.new(params[:width], params[:height])
     coord = 10
     gap   = 5
