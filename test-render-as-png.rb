@@ -101,7 +101,11 @@ class TestRenderAsPNG < Test::Unit::TestCase
 
       # The following line introduces the error:
       # Magick::ImageMagickError: no pixels defined in cache `' @ cache.c/OpenPixelCache/3941
-      # rendered_grid.write("grid.png")
+      begin
+        rendered_grid.write("grid.png")
+      rescue ImageMagickError
+        puts "There was an error writing to 'grid.png'. Investigate and eliminate."
+      end
       # rendered_grid.display
     end
   end
