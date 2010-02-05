@@ -2,6 +2,7 @@
 require "rubygems"
 require "test/unit"
 require "shoulda"
+require "bio"
 require "feature"
 require "section"
 require "row"
@@ -94,6 +95,24 @@ class TestRenderAsText < Test::Unit::TestCase
       assert_equal(
         "([([([], Section), ([], Section), ([], Section), ([], Section), ([], Section)], Row), ([([([ exon, 100, EXON001 ], Feature)], Section), ([([ exon, 200, EXON002 ], Feature), ([ exon, 300, EXON003 ], Feature)], Section), ([([ exon, 400, EXON004 ], Feature)], Section), ([], Section), ([([ exon, 900, EXON009 ], Feature)], Section)], Row), ([([([ exon, 100, EXON001 ], Feature)], Section), ([([ exon, 200, EXON002 ], Feature), ([ exon, 300, EXON003 ], Feature)], Section), ([([ exon, 400, EXON004 ], Feature)], Section), ([], Section), ([([ exon, 900, EXON009 ], Feature)], Section)], Row)], Grid)",
         @grid.render(RenderAsText))
+    end
+  end
+
+  context "a Grid with real Features" do
+    setup do
+      @features = Bio::GenBank.open("./2009_11_27_conditional_linear.gbk").next_entry.features.map do |f|
+        Feature.new( f.feature, f.locations.first.from, f.assoc["label"] )
+      end
+      @grid   = Grid.new(@features, 0)
+      @format = RenderAsText
+    end
+
+    should "have the correct number of features" do
+      assert_equal(@grid.features.size, @features.size)
+    end
+
+    should "render itself as a Magick::Image object" do
+      puts @grid.render(@format)
     end
   end
 end
