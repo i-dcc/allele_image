@@ -5,6 +5,9 @@ require "pp"
 include Magick
 
 class RenderAsPNG
+  # This bit seems (initialize and render) like something that should be
+  # shared between different rendering engines (RenderAsText has the exact
+  # same construct)
   def initialize(thing)
     @thing = thing
   end
