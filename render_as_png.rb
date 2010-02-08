@@ -45,22 +45,35 @@ class RenderAsPNG
     case @thing.type
       when "exon" then
         d.fill("yellow")
-        # puts "EXON: #{@thing.label}"
+        d.rectangle(params[:x1], params[:y1], params[:x2], params[:y2])
       when "misc_feature" then
         d.fill("red")
-        # puts "misc_feature: #{@thing.label}"
+        d.rectangle(params[:x1], params[:y1], params[:x2], params[:y2])
       when "SSR_site" then
-        d.fill("blue")
-        # puts "SSR_site: #{@thing.label}"
+        if @thing.label.downcase == "loxp"
+          d.fill("red")
+          d.stroke("black")
+          x2 = params[:x1] + 25
+          y2 = params[:y1] + 25
+          x3 = x2 - 25 # same as x1
+          y3 = y2 + 25
+          d.polygon(params[:x1], params[:y1], x2, y2, x3, y3)
+        elsif @thing.label.downcase == "frt"
+          d.fill("green")
+          d.stroke("black")
+          x2 = params[:x1] + 50
+          y2 = params[:y1] + 50
+          d.arc(params[:x1], params[:y1], x2, y2, 270, 90)
+        end
       when "polyA_site" then
         d.fill("green")
-        # puts "polyA_site: #{@thing.label}"
+        d.rectangle(params[:x1], params[:y1], params[:x2], params[:y2])
       when "LRPCR_primer" then
         d.fill("violet")
-        # puts "LRPCR_primer: #{@thing.label}"
+        d.rectangle(params[:x1], params[:y1], params[:x2], params[:y2])
       when "gateway" then
         d.fill("black")
-        # puts "gateway: #{@thing.label}"
+        d.rectangle(params[:x1], params[:y1], params[:x2], params[:y2])
       else
         puts "cannot handle this feature:"
         pp @thing
@@ -68,7 +81,6 @@ class RenderAsPNG
         # raise "Unkown Feature"
     end
 
-    d.rectangle(params[:x1], params[:y1], params[:x2], params[:y2])
     d.draw(params[:section])
   end
 
@@ -84,6 +96,9 @@ class RenderAsPNG
     end
 
     image = Image.new(params[:width], params[:height])
+
+    # The width of the features are variable (e.g. a LoxP is wider than an exon)
+    # Definately need a smarter coordinates system than we currently have.
     coord = 10
     gap   = 5
     feature_width = 10
