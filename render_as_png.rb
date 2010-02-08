@@ -37,7 +37,7 @@ class RenderAsPNG
         puts "The following feature has no label:"
         pp @thing
       end
-      return d.annotate(params[:section], params[:width], params[:height], params[:x1], params[:y1], @thing.label || "")
+      # return d.annotate(params[:section], params[:width], params[:height], params[:x1], params[:y1], @thing.label || "")
     end
 
     # Here we should be checking the type of the feature and delegating to
@@ -87,6 +87,10 @@ class RenderAsPNG
     coord = 10
     gap   = 5
     feature_width = 10
+
+    # We need to do things differently if we are on row 2
+    # puts "Coords : [ #{params[:x1]}, #{params[:y1]} ] => [ #{ next_coord( [ params[:x1], params[:y1] ], params[:row_number] ) } ]"
+
     params[:y1], params[:y2], params[:section] = 25, 75, image
     @thing.features.each do |feature|
       params[:x1], params[:x2] = coord, coord + feature_width
@@ -130,4 +134,13 @@ class RenderAsPNG
     # pp grid
     grid.append(true)
   end
+
+  # # when row == 2 we do things a bit differently
+  # def next_coord(coord, row, increment=20)
+  #   if row == 2
+  #     return [ coord[0], ( coord[1] + increment + 0 ) ]
+  #   else
+  #     return [ ( coord[0] + increment + 5 ), coord[1] ]
+  #   end
+  # end
 end
