@@ -32,22 +32,12 @@ class RenderAsPNG
     d = Draw.new
     d.stroke("black")
 
-    # why am I not using @thing in here? (2010/02/04)
-    # I will use @thing to determine the feature type, which
-    # in turn will determine the shape that gets rendered.
-    # puts "this feature is a #{@thing.type} with label #{@thing.label} on row #{params[:row_number]}"
-
-    # There should be a utility method that will just render the feature's
-    # label as an annotated drawing, which would get called and return here
-    # if we are on row 2. Otherwise we go ahead and render the feature as
-    # defined.
-    # d.annotate(i,100,50,50,25,"En2 SA") { self.gravity = CenterGravity }
     if params[:row_number] == 2
       unless @thing.label
         puts "The following feature has no label:"
         pp @thing
       end
-      return d.annotate(params[:section], params[:width], params[:height], params[:x1], params[:y1], @thing.label || "UNKNOWN")
+      return d.annotate(params[:section], params[:width], params[:height], params[:x1], params[:y1], @thing.label || "")
     end
 
     # Here we should be checking the type of the feature and delegating to
