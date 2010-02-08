@@ -37,7 +37,7 @@ class RenderAsPNG
         puts "The following feature has no label:"
         pp @thing
       end
-      # return d.annotate(params[:section], params[:width], params[:height], params[:x1], params[:y1], @thing.label || "")
+      return d.annotate(params[:section], params[:width], params[:height], params[:x1], params[:y1], @thing.label || "UNKNOWN")
     end
 
     # Here we should be checking the type of the feature and delegating to
