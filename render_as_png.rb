@@ -82,9 +82,17 @@ class RenderAsPNG
     d.draw(params[:section])
   end
 
-  # @feature.render(@format, :x1 => 50, :x2 => 150, :y1 => 25, :y2 => 75, :section => @section)
   def render_section(params)
-    # puts "this is row number #{params[:row_number]}"
+    # Calculate the required height (and width eventually) for row 2 defaulting to 100
+    if params[:row_number] == 2
+      exons = @thing.features.select do |f|
+        f.type == 'exon'
+      end
+      label_height, upper_margin, lower_margin = 20, 5, 5
+      params[:height] = ( exons.size * label_height ) + upper_margin + lower_margin
+      params[:height] = 100 unless params[:height] >= 100
+    end
+
     image = Image.new(params[:width], params[:height])
     coord = 10
     gap   = 5
@@ -93,7 +101,6 @@ class RenderAsPNG
     @thing.features.each do |feature|
       params[:x1], params[:x2] = coord, coord + feature_width
       feature.render( RenderAsPNG, params )
-      # puts "#{feature} [(#{coord}, y1), (x2, y2)]"
       coord += gap + feature_width
     end
     image
@@ -104,6 +111,7 @@ class RenderAsPNG
     row = ImageList.new()
     # puts ""
     params[:height], params[:row_number] = 100, @thing.index
+
     @thing.sections.each do |section|
       features_total_width = section.size * 10
       boundries_width      = 20
