@@ -41,10 +41,13 @@ class RenderAsPNG
     # label as an annotated drawing, which would get called and return here
     # if we are on row 2. Otherwise we go ahead and render the feature as
     # defined.
+    # d.annotate(i,100,50,50,25,"En2 SA") { self.gravity = CenterGravity }
     if params[:row_number] == 2
-      # puts "will only render the label [ #{@thing.label} ]"
-      # d.annotate()
-      # return d.draw(params[:section])
+      unless @thing.label
+        puts "The following feature has no label:"
+        pp @thing
+      end
+      return d.annotate(params[:section], params[:width], params[:height], params[:x1], params[:y1], @thing.label || "UNKNOWN")
     end
 
     # Here we should be checking the type of the feature and delegating to
