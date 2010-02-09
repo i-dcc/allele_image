@@ -87,6 +87,12 @@ class RenderAsPNG
   def render_section(params)
     params[:x1], params[:y1] = 10, 10
 
+    # calculate the section width based on the longest feature label
+    feature_lengths = @thing.features.map do |feature|
+      ( feature.label || "" ).length
+    end
+    params[:width] = 10 * ( feature_lengths.max || 0 ) + 10
+
     if params[:row_number] == 2
       params[:feature_width]  = 80
       params[:feature_height] = 20
