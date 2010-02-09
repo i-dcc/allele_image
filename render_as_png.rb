@@ -88,6 +88,7 @@ class RenderAsPNG
     params[:x1], params[:y1] = 10, 10
 
     # calculate the section width based on the longest feature label
+    # should there be a default (100) perhaps?
     feature_lengths = @thing.features.map do |feature|
       ( feature.label || "" ).length
     end
@@ -104,7 +105,7 @@ class RenderAsPNG
         f.type == 'exon'
       end
 
-      # Calculate the required height (and width eventually) for row 2 defaulting to 100
+      # Calculate the required height for row 2 defaulting to 100
       params[:upper_margin], params[:lower_margin] = 5, 5
       params[:height] = ( exons.size * params[:feature_height] ) + params[:upper_margin] + params[:lower_margin]
       params[:height] = 100 unless params[:height] >= 100
@@ -135,7 +136,6 @@ class RenderAsPNG
     params[:section]
   end
 
-  # @section.render(@format, :width => 45, :height => 100)
   def render_row(params)
     row = ImageList.new()
     # puts ""
@@ -152,7 +152,6 @@ class RenderAsPNG
     row.append(false)
   end
 
-  # @row.render(@format)
   # This needs to be a bit more clever than this as what gets
   # rendered will depend on the row we are in i.e. the annotations
   # row (row 3) will only have the feature labels displayed.
