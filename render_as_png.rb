@@ -85,34 +85,48 @@ class RenderAsPNG
   end
 
   def render_section(params)
-    # Calculate the required height (and width eventually) for row 2 defaulting to 100
+    params[:x1], params[:y1] = 10, 10
+
     if params[:row_number] == 2
+      params[:feature_width]  = 80
+      params[:feature_height] = 20
+      params[:gap]            = 0
+      params[:x2]             = params[:x1] + params[:feature_width]
+      params[:y2]             = params[:y1] + params[:feature_height]
+
       exons = @thing.features.select do |f|
         f.type == 'exon'
       end
-      label_height, upper_margin, lower_margin = 20, 5, 5
-      params[:height] = ( exons.size * label_height ) + upper_margin + lower_margin
+
+      # Calculate the required height (and width eventually) for row 2 defaulting to 100
+      params[:upper_margin], params[:lower_margin] = 5, 5
+      params[:height] = ( exons.size * params[:feature_height] ) + params[:upper_margin] + params[:lower_margin]
       params[:height] = 100 unless params[:height] >= 100
+    else
+      params[:feature_width]  = 20
+      params[:feature_height] = 20
+      params[:gap]            = 5
+      params[:x2]             = params[:x1] + params[:feature_width]
+      params[:y2]             = params[:y1] + params[:feature_height]
     end
 
-    image = Image.new(params[:width], params[:height])
+    params[:section] = Image.new( params[:width], params[:height] )
 
-    # The width of the features are variable (e.g. a LoxP is wider than an exon)
-    # Definately need a smarter coordinates system than we currently have.
-    coord = 10
-    gap   = 5
-    feature_width = 10
-
-    # We need to do things differently if we are on row 2
-    # puts "Coords : [ #{params[:x1]}, #{params[:y1]} ] => [ #{ next_coord( [ params[:x1], params[:y1] ], params[:row_number] ) } ]"
-
-    params[:y1], params[:y2], params[:section] = 25, 75, image
+    # loop through our features ...
     @thing.features.each do |feature|
-      params[:x1], params[:x2] = coord, coord + feature_width
       feature.render( RenderAsPNG, params )
-      coord += gap + feature_width
+
+      # update the coordinates
+      if params[:row_number] == 2
+        params[:y1] = params[:y2] + params[:gap]
+        params[:y2] = params[:y1] + params[:feature_height]
+      else
+        params[:x1] = params[:x2] + params[:gap]
+        params[:x2] = params[:x1] + params[:feature_width]
+      end
     end
-    image
+
+    params[:section]
   end
 
   # @section.render(@format, :width => 45, :height => 100)
