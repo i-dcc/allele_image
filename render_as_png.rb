@@ -36,8 +36,9 @@ class RenderAsPNG
       unless @thing.label
         puts "The following feature has no label:"
         pp @thing
+        # raise "Unlabelled feature"
       end
-      return d.annotate(params[:section], params[:width], params[:height], params[:x1], params[:y1], @thing.label || "UNKNOWN")
+      return d.annotate( params[:section], params[:width], params[:height], params[:x1], params[:y1], @thing.label || " " )
     end
 
     # Here we should be checking the type of the feature and delegating to
@@ -87,12 +88,15 @@ class RenderAsPNG
   def render_section(params)
     params[:x1], params[:y1] = 10, 10
 
-    # calculate the section width based on the longest feature label
-    # should there be a default (100) perhaps?
+    # Calculate the section width based on the longest feature label
+    # This should actually be the max of longest feature label and
+    # sum of feature widths. Thus far we have no way of knowing the
+    # latter. Furthermore x1 and y1 would depend on the section width
+    # and the sum of feature widths.
     feature_lengths = @thing.features.map do |feature|
       ( feature.label || "" ).length
     end
-    params[:width] = 10 * ( feature_lengths.max || 0 ) + 10
+    params[:width] = [ params[:width], 10 * ( feature_lengths.max || 0 ) + 10 ].max
 
     if params[:row_number] == 2
       params[:feature_width]  = 80
@@ -107,8 +111,7 @@ class RenderAsPNG
 
       # Calculate the required height for row 2 defaulting to 100
       params[:upper_margin], params[:lower_margin] = 5, 5
-      params[:height] = ( exons.size * params[:feature_height] ) + params[:upper_margin] + params[:lower_margin]
-      params[:height] = 100 unless params[:height] >= 100
+      params[:height] = [ params[:height], ( exons.size * params[:feature_height] ) + params[:upper_margin] + params[:lower_margin] ].max
     else
       params[:feature_width]  = 20
       params[:feature_height] = 20
