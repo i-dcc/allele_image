@@ -86,17 +86,18 @@ class RenderAsPNG
   end
 
   def render_section(params)
-    params[:x1], params[:y1] = 10, 10
-
     # Calculate the section width based on the longest feature label
     # This should actually be the max of longest feature label and
     # sum of feature widths. Thus far we have no way of knowing the
-    # latter. Furthermore x1 and y1 would depend on the section width
-    # and the sum of feature widths.
+    # latter.
     feature_lengths = @thing.features.map do |feature|
       ( feature.label || "" ).length
     end
     params[:width] = [ params[:width], 10 * ( feature_lengths.max || 0 ) + 10 ].max
+
+    # Furthermore x1 and y1 would depend on the section width and the
+    # sum of feature widths.
+    params[:x1], params[:y1] = 10, 10
 
     if params[:row_number] == 2
       params[:feature_width]  = 80
@@ -141,15 +142,15 @@ class RenderAsPNG
 
   def render_row(params)
     row = ImageList.new()
-    # puts ""
     params[:height], params[:row_number] = 100, @thing.index
 
     @thing.sections.each do |section|
-      features_total_width = section.size * 10
+      # this calculation needs to be re-thought. Need to have a
+      # default params[:width]
+      features_total_width = section.size * 20
       boundries_width      = 20
       gaps_total_width     = 5 * ( section.size - 1 )
-      params[:width]       = section.size > 0 ? features_total_width + boundries_width + gaps_total_width : 0
-      # puts "section #{section.index}: [ feature_count : #{section.size}, section_width : #{width} ]"
+      params[:width]       = [ 100, features_total_width + boundries_width + gaps_total_width ].max
       row.push( section.render( RenderAsPNG, params ) )
     end
     row.append(false)
@@ -160,24 +161,13 @@ class RenderAsPNG
   # row (row 3) will only have the feature labels displayed.
   def render_grid(params)
     grid = ImageList.new()
-    # puts ""
+
+    # Perhaps here we should set the default dimensions of each section
+    # which will subsequently get updated if need be? We can set different
+    # values depending on which row we are on.
     @thing.rows.each do |row|
-      # file = "row_#{row.index}.png"
-      # puts "row number: #{row.index}, file name: #{file}"
-      # row.render(RenderAsPNG).write("row_#{row.index}.png")
       grid.push( row.render(RenderAsPNG, params) )
     end
-    # puts "NUMBER OF ROWS: #{grid.size}"
-    # pp grid
     grid.append(true)
   end
-
-  # # when row == 2 we do things a bit differently
-  # def next_coord(coord, row, increment=20)
-  #   if row == 2
-  #     return [ coord[0], ( coord[1] + increment + 0 ) ]
-  #   else
-  #     return [ ( coord[0] + increment + 5 ), coord[1] ]
-  #   end
-  # end
 end
