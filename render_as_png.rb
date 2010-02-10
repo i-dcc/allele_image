@@ -43,23 +43,20 @@ class RenderAsPNG
 
     # Here we should be checking the type of the feature and delegating to
     # specific methods for rendering those features.
+    # All these methods should be refactored out and should be of the form:
+    # Magick::Draw = render_feature(params)
+    # Thus each case should look like so:
+    # when "feature" then return render_feature(params)
     case @thing.type
-      when "exon" then
-        d.fill("yellow")
-        d.rectangle(params[:x1], params[:y1], params[:x2], params[:y2])
+      when "exon" then draw_exon(d, params)
       when "misc_feature" then
         d.fill("red")
         d.rectangle(params[:x1], params[:y1], params[:x2], params[:y2])
       when "SSR_site" then
         if @thing.label.downcase == "loxp"
-          d.fill("red")
-          d.stroke("black")
-          d.polygon( params[:x1], params[:y1], params[:x1] + params[:feature_width], params[:y1] + params[:feature_width] / 2, params[:x1], params[:y1] + params[:feature_width] )
+          draw_loxp(d, params)
         elsif @thing.label.downcase == "frt"
-          d.fill("green")
-          d.stroke("black")
-          d.arc( params[:x1] - params[:feature_width], params[:y1], params[:x2], params[:y2], 270, 90 )
-          d.line( params[:x1], params[:y1], params[:x1], params[:y2] )
+          draw_frt(d, params)
         end
       when "polyA_site" then
         d.fill("green")
@@ -76,8 +73,6 @@ class RenderAsPNG
         puts "row number: #{params[:row_number]}"
         # raise "Unkown Feature"
     end
-
-    d.draw(params[:section])
   end
 
   def render_section(params)
@@ -168,5 +163,29 @@ class RenderAsPNG
       grid.push( row.render(RenderAsPNG, params) )
     end
     grid.append(true)
+  end
+
+  # ------------------------------------------------------------------------
+  # Methods for rendering different features
+  # ------------------------------------------------------------------------
+  def draw_exon( d, params )
+    d.fill("yellow")
+    d.rectangle( params[:x1], params[:y1], params[:x2], params[:y2] )
+    d.draw( params[:section] )
+  end
+
+  def draw_loxp( d, params )
+    d.fill("red")
+    d.stroke("black")
+    d.polygon( params[:x1], params[:y1], params[:x1] + params[:feature_width], params[:y1] + params[:feature_width] / 2, params[:x1], params[:y1] + params[:feature_width] )
+    d.draw( params[:section] )
+  end
+
+  def draw_frt( d, params )
+    d.fill("green")
+    d.stroke("black")
+    d.arc( params[:x1] - params[:feature_width], params[:y1], params[:x2], params[:y2], 270, 90 )
+    d.line( params[:x1], params[:y1], params[:x1], params[:y2] )
+    d.draw( params[:section] )
   end
 end
