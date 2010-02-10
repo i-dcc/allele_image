@@ -38,7 +38,7 @@ class RenderAsPNG
         pp @thing
         # raise "Unlabelled feature"
       end
-      return d.annotate( params[:section], params[:width], params[:height], params[:x1], params[:y1], @thing.label || " " )
+      return draw_label(d, params)
     end
 
     # Here we should be checking the type of the feature and delegating to
@@ -171,6 +171,10 @@ class RenderAsPNG
   def draw_feature(d, params)
     yield
     d.draw( params[:section] )
+  end
+
+  def draw_label(d, params)
+    d.annotate( params[:section], params[:width], params[:height], params[:x1], params[:y1], @thing.label || " " )
   end
 
   def draw_exon( d, params )
