@@ -224,5 +224,7 @@ class RenderAsPNG
     params.delete(:fill)
     params.delete(:font)
     params.delete(:label)
+
+    return d
   end
 end
