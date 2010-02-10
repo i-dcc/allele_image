@@ -48,11 +48,11 @@ class RenderAsPNG
     # Thus each case should look like so:
     # when "feature" then return render_feature(params)
     case @thing.type
-      when "exon" then draw_exon(d, params)
+      when "exon"         then draw_exon(d, params)
       when "misc_feature" then
         d.fill("red")
         d.rectangle(params[:x1], params[:y1], params[:x2], params[:y2])
-      when "SSR_site" then
+      when "SSR_site"     then
         if @thing.label.downcase == "loxp"
           draw_loxp(d, params)
         elsif @thing.label.downcase == "frt"
@@ -60,10 +60,9 @@ class RenderAsPNG
         else
           puts "An unknown SSR_site: "
           pp @thing
+          # raise "Unkown SSR_site"
         end
-      when "polyA_site" then
-        d.fill("green")
-        d.rectangle(params[:x1], params[:y1], params[:x2], params[:y2])
+      when "polyA_site"   then draw_polyA_site(d, params)
       when "LRPCR_primer" then
         d.fill("violet")
         d.rectangle(params[:x1], params[:y1], params[:x2], params[:y2])
@@ -199,6 +198,20 @@ class RenderAsPNG
       d.fill("green")
       d.arc( params[:x1] - params[:feature_width], params[:y1], params[:x2], params[:y2], 270, 90 )
       d.line( params[:x1], params[:y1], params[:x1], params[:y2] )
+    end
+  end
+
+  # Because of the way draw_feature() works, we cannot use it with this method
+  # as the Magick::Draw#draw in draw_feature() will overwrite the
+  # Magick::Draw#annotate() in draw_polyA_site().
+  def draw_polyA_site(d, params)
+    d.fill("white")
+    d.rectangle( params[:x1], params[:y1], params[:x2], params[:y2] )
+    d.draw( params[:section] )
+    d.annotate( params[:section], params[:feature_width], params[:feature_height], params[:x1], params[:y1], "pA" ) do
+      self.fill        = "black"
+      self.font_weight = BoldWeight
+      self.gravity     = CenterGravity
     end
   end
 end
