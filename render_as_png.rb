@@ -50,8 +50,12 @@ class RenderAsPNG
     case @thing.type
       when "exon"         then draw_exon(d, params)
       when "misc_feature" then
-        d.fill("red")
-        d.rectangle(params[:x1], params[:y1], params[:x2], params[:y2])
+        # case @thing.label
+        # when "b-galactosidase"
+        #   puts "Bgal"
+        # else
+        #   # 
+        # end
       when "SSR_site"     then
         if @thing.label.downcase == "loxp"
           draw_loxp(d, params)
@@ -201,15 +205,14 @@ class RenderAsPNG
     end
   end
 
-  # Because of the way draw_feature() works, we cannot use it with this method
-  # as the Magick::Draw#draw in draw_feature() will overwrite the
-  # Magick::Draw#annotate() in draw_polyA_site().
   def draw_polyA_site(d, params)
-    params[:fill], params[:font], params[:label] = "white", "black", "pA"
-    draw_labelled_box(d, params)
+    draw_labelled_box(d, params) do
+      params[:fill], params[:font], params[:label] = "white", "black", "pA"
+    end
   end
 
   def draw_labelled_box(d, params)
+    yield
     d.fill( params[:fill] )
     draw_feature(d, params) do
       d.rectangle( params[:x1], params[:y1], params[:x2], params[:y2] )
