@@ -111,7 +111,7 @@ class TestRenderAsPNG < Test::Unit::TestCase
     end
   end
 
-  context "a Grid with real Features" do
+  context "a conditional allele" do
     setup do
       @features = Bio::GenBank.open("./2009_11_27_conditional_linear.gbk").next_entry.features.map do |f|
         Feature.new( f.feature, f.locations.first.from, f.assoc["label"] )
@@ -130,7 +130,33 @@ class TestRenderAsPNG < Test::Unit::TestCase
 
       # May have to write a "write" method for my Grid class
       begin
-        rendered_grid.write("grid.png")
+        rendered_grid.write("conditional_grid.png")
+      rescue ImageMagickError
+        puts "There was an error writing to 'grid.png'. Investigate and eliminate."
+      end
+    end
+  end
+
+  context "a non conditional allele" do
+    setup do
+      @features = Bio::GenBank.open("./2009_11_27_non_conditional_linear.gbk").next_entry.features.map do |f|
+        Feature.new( f.feature, f.locations.first.from, f.assoc["label"] )
+      end
+      @grid   = Grid.new(@features, 0)
+      @format = RenderAsPNG
+    end
+
+    should "have the correct number of features" do
+      assert_equal(@grid.features.size, @features.size)
+    end
+
+    should "render itself as a Magick::Image object" do
+      rendered_grid = @grid.render(@format)
+      assert_equal(rendered_grid.class, Magick::Image)
+
+      # May have to write a "write" method for my Grid class
+      begin
+        rendered_grid.write("non_conditional_grid.png")
       rescue ImageMagickError
         puts "There was an error writing to 'grid.png'. Investigate and eliminate."
       end
