@@ -176,14 +176,12 @@ class RenderAsPNG
 
   def draw_loxp( d, params )
     d.fill("red")
-    d.stroke("black")
     d.polygon( params[:x1], params[:y1], params[:x1] + params[:feature_width], params[:y1] + params[:feature_width] / 2, params[:x1], params[:y1] + params[:feature_width] )
     d.draw( params[:section] )
   end
 
   def draw_frt( d, params )
     d.fill("green")
-    d.stroke("black")
     d.arc( params[:x1] - params[:feature_width], params[:y1], params[:x2], params[:y2], 270, 90 )
     d.line( params[:x1], params[:y1], params[:x1], params[:y2] )
     d.draw( params[:section] )
