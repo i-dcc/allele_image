@@ -57,6 +57,9 @@ class RenderAsPNG
           draw_loxp(d, params)
         elsif @thing.label.downcase == "frt"
           draw_frt(d, params)
+        else
+          puts "An unknown SSR_site: "
+          pp @thing
         end
       when "polyA_site" then
         d.fill("green")
