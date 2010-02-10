@@ -54,13 +54,12 @@ class RenderAsPNG
         if @thing.label.downcase == "loxp"
           d.fill("red")
           d.stroke("black")
-          d.polygon(params[:x1], params[:y1], params[:x1] + 20, params[:y1] + 20 / 2, params[:x1], params[:y1] + 20 )
+          d.polygon( params[:x1], params[:y1], params[:x1] + params[:feature_width], params[:y1] + params[:feature_width] / 2, params[:x1], params[:y1] + params[:feature_width] )
         elsif @thing.label.downcase == "frt"
           d.fill("green")
           d.stroke("black")
-          x2 = params[:x1] + 50
-          y2 = params[:y1] + 50
-          d.arc(params[:x1], params[:y1], x2, y2, 270, 90)
+          d.arc( params[:x1] - params[:feature_width], params[:y1], params[:x2], params[:y2], 270, 90 )
+          d.line( params[:x1], params[:y1], params[:x1], params[:y2] )
         end
       when "polyA_site" then
         d.fill("green")
