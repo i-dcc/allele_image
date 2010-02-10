@@ -50,12 +50,14 @@ class RenderAsPNG
     case @thing.type
       when "exon"         then draw_exon(d, params)
       when "misc_feature" then
-        # case @thing.label
-        # when "b-galactosidase"
-        #   puts "Bgal"
-        # else
-        #   # 
-        # end
+        case @thing.label
+          when "b-galactosidase" then draw_bgal(d, params)
+          when "neo"             then draw_neo(d, params)
+          when "En2 intron"      then draw_en2_sa(d, params) # should this be exon or intron?
+          else
+            puts @thing.label
+            # raise "Unkown cassette feature"
+        end
       when "SSR_site"     then
         if @thing.label.downcase == "loxp"
           draw_loxp(d, params)
@@ -211,6 +213,7 @@ class RenderAsPNG
     end
   end
 
+  # Has an associated block that gets called first
   def draw_labelled_box(d, params)
     yield
     d.fill( params[:fill] )
@@ -229,5 +232,23 @@ class RenderAsPNG
     params.delete(:label)
 
     return d
+  end
+
+  def draw_neo(d, params)
+    draw_labelled_box(d, params) do
+      params[:fill], params[:font], params[:label] = "aquamarine", "white", "neo"
+    end
+  end
+
+  def draw_en2_sa(d, params)
+    draw_labelled_box(d, params) do
+      params[:fill], params[:font], params[:label] = "white", "black", "En2 SA"
+    end
+  end
+
+  def draw_bgal(d, params)
+    draw_labelled_box(d, params) do
+      params[:fill], params[:font], params[:label] = "blue", "white", "Bgal"
+    end
   end
 end
