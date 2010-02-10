@@ -179,21 +179,21 @@ class RenderAsPNG
     d.annotate( params[:section], params[:width], params[:height], params[:x1], params[:y1], @thing.label || " " )
   end
 
-  def draw_exon( d, params )
+  def draw_exon(d, params)
     draw_feature(d, params) do
       d.fill("yellow")
       d.rectangle( params[:x1], params[:y1], params[:x2], params[:y2] )
     end
   end
 
-  def draw_loxp( d, params )
+  def draw_loxp(d, params)
     draw_feature(d, params) do
       d.fill("red")
       d.polygon( params[:x1], params[:y1], params[:x1] + params[:feature_width], params[:y1] + params[:feature_width] / 2, params[:x1], params[:y1] + params[:feature_width] )
     end
   end
 
-  def draw_frt( d, params )
+  def draw_frt(d, params)
     draw_feature(d, params) do
       d.fill("green")
       d.arc( params[:x1] - params[:feature_width], params[:y1], params[:x2], params[:y2], 270, 90 )
@@ -205,13 +205,24 @@ class RenderAsPNG
   # as the Magick::Draw#draw in draw_feature() will overwrite the
   # Magick::Draw#annotate() in draw_polyA_site().
   def draw_polyA_site(d, params)
-    d.fill("white")
-    d.rectangle( params[:x1], params[:y1], params[:x2], params[:y2] )
-    d.draw( params[:section] )
-    d.annotate( params[:section], params[:feature_width], params[:feature_height], params[:x1], params[:y1], "pA" ) do
-      self.fill        = "black"
+    params[:fill], params[:font], params[:label] = "white", "black", "pA"
+    draw_labelled_box(d, params)
+  end
+
+  def draw_labelled_box(d, params)
+    d.fill( params[:fill] )
+    draw_feature(d, params) do
+      d.rectangle( params[:x1], params[:y1], params[:x2], params[:y2] )
+    end
+    d.annotate( params[:section], params[:feature_width], params[:feature_height], params[:x1], params[:y1], params[:label] ) do
+      self.fill        = params[:font]
       self.font_weight = BoldWeight
       self.gravity     = CenterGravity
     end
+
+    # Remove these so we don't run into any problems later
+    params.delete(:fill)
+    params.delete(:font)
+    params.delete(:label)
   end
 end
