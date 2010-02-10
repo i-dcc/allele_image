@@ -168,22 +168,30 @@ class RenderAsPNG
   # ------------------------------------------------------------------------
   # Methods for rendering different features
   # ------------------------------------------------------------------------
-  def draw_exon( d, params )
-    d.fill("yellow")
-    d.rectangle( params[:x1], params[:y1], params[:x2], params[:y2] )
+  def draw_feature(d, params)
+    yield
     d.draw( params[:section] )
+  end
+
+  def draw_exon( d, params )
+    draw_feature(d, params) do
+      d.fill("yellow")
+      d.rectangle( params[:x1], params[:y1], params[:x2], params[:y2] )
+    end
   end
 
   def draw_loxp( d, params )
-    d.fill("red")
-    d.polygon( params[:x1], params[:y1], params[:x1] + params[:feature_width], params[:y1] + params[:feature_width] / 2, params[:x1], params[:y1] + params[:feature_width] )
-    d.draw( params[:section] )
+    draw_feature(d, params) do
+      d.fill("red")
+      d.polygon( params[:x1], params[:y1], params[:x1] + params[:feature_width], params[:y1] + params[:feature_width] / 2, params[:x1], params[:y1] + params[:feature_width] )
+    end
   end
 
   def draw_frt( d, params )
-    d.fill("green")
-    d.arc( params[:x1] - params[:feature_width], params[:y1], params[:x2], params[:y2], 270, 90 )
-    d.line( params[:x1], params[:y1], params[:x1], params[:y2] )
-    d.draw( params[:section] )
+    draw_feature(d, params) do
+      d.fill("green")
+      d.arc( params[:x1] - params[:feature_width], params[:y1], params[:x2], params[:y2], 270, 90 )
+      d.line( params[:x1], params[:y1], params[:x1], params[:y2] )
+    end
   end
 end
