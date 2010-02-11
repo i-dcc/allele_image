@@ -32,55 +32,70 @@ class RenderAsPNG
     d = Draw.new
     d.stroke("black")
 
-    if params[:row_number] == 2
+    if params[:row_number] == 0
+      
+    elsif params[:row_number] == 1
+      # Here we should be checking the type of the feature and delegating to
+      # specific methods for rendering those features.
+      # All these methods should be refactored out and should be of the form:
+      # Magick::Draw = render_feature(params)
+      # Thus each case should look like so:
+      # when "feature" then return render_feature(params)
+      case @thing.type
+        when "exon"         then draw_exon(d, params)
+        when "misc_feature" then
+          case @thing.label
+            when "b-galactosidase" then draw_bgal(d, params)
+            when "neo"             then draw_neo(d, params)
+            when "En2 intron"      then draw_en2_sa(d, params) # should this be exon or intron?
+            else
+              # puts ""
+              # pp   [ "UNKNOWN CASSETTE FEATURE:", { :row => params[:row_number], :feature => @thing } ]
+              # raise "Unkown cassette feature"
+          end
+        when "SSR_site"     then
+          if @thing.label.downcase == "loxp"
+            draw_loxp(d, params)
+          elsif @thing.label.downcase == "frt"
+            draw_frt(d, params)
+          else
+            # puts ""
+            # pp   [ "UNKNOWN SSR_site:", { :row => params[:row_number], :feature => @thing } ]
+            # raise "Unkown SSR_site"
+          end
+        when "polyA_site"   then draw_polyA_site(d, params)
+        when "LRPCR_primer" then
+          # puts ""
+          # pp   [ "LRPCR_primer:", { :row => params[:row_number], :feature => @thing } ]
+        # when "rcmb_primer" then
+        #   # puts ""
+        #   # pp   [ "rcmb_primer:", { :row => params[:row_number], :feature => @thing } ]
+        # when "gateway"      then ""
+        # when "genomic"      then
+        #   puts ""
+        #   pp   [ "genomic:", { :row => params[:row_number], :feature => @thing } ]
+        else
+          # puts ""
+          # pp   [ "NO RENDER METHOD FOR FEATURE:", { :row => params[:row_number], :feature => @thing } ]
+          # raise "Unkown Feature"
+      end
+    elsif params[:row_number] == 2
       unless @thing.label
-        puts ""
-        pp   [ "NO LABEL FOR FEATURE:", { :row => params[:row_number], :feature => @thing } ]
+        # puts ""
+        # pp   [ "NO LABEL FOR FEATURE:", { :row => params[:row_number], :feature => @thing } ]
         # raise "Unlabelled feature"
       end
-      return draw_label(d, params)
-    end
-
-    # Here we should be checking the type of the feature and delegating to
-    # specific methods for rendering those features.
-    # All these methods should be refactored out and should be of the form:
-    # Magick::Draw = render_feature(params)
-    # Thus each case should look like so:
-    # when "feature" then return render_feature(params)
-    case @thing.type
-      when "exon"         then draw_exon(d, params)
-      when "misc_feature" then
-        case @thing.label
-          when "b-galactosidase" then draw_bgal(d, params)
-          when "neo"             then draw_neo(d, params)
-          when "En2 intron"      then draw_en2_sa(d, params) # should this be exon or intron?
-          else
-            puts ""
-            pp   [ "UNKNOWN CASSETTE FEATURE:", { :row => params[:row_number], :feature => @thing } ]
-            # raise "Unkown cassette feature"
-        end
-      when "SSR_site"     then
-        if @thing.label.downcase == "loxp"
-          draw_loxp(d, params)
-        elsif @thing.label.downcase == "frt"
-          draw_frt(d, params)
-        else
-          puts ""
-          pp   [ "UNKNOWN SSR_site:", { :row => params[:row_number], :feature => @thing } ]
-          # raise "Unkown SSR_site"
-        end
-      when "polyA_site"   then draw_polyA_site(d, params)
-      # when "LRPCR_primer" then ""
-      # when "gateway"      then ""
-      # when "genomic"      then ""
-      else
-        puts ""
-        pp   [ "NO RENDER METHOD FOR FEATURE:", { :row => params[:row_number], :feature => @thing } ]
-        # raise "Unkown Feature"
+      return draw_label(d, params) if @thing.type == "exon"
     end
   end
 
   def render_section(params)
+    # # 2010/02/11 -- DEBUGGING
+    # if params[:row_number] == 0
+    #   puts ""
+    #   pp   [ "DEBUGGING render_section():", { :row_number => params[:row_number], :features => @thing.features, :section_number => @thing.index } ]
+    # end
+
     # Calculate the section width based on the longest feature label
     # This should actually be the max of longest feature label and
     # sum of feature widths. Thus far we have no way of knowing the
@@ -139,6 +154,12 @@ class RenderAsPNG
     row = ImageList.new()
     params[:height], params[:row_number] = 100, @thing.index
 
+    # # 2010/02/11 -- DEBUGGING
+    # if params[:row_number] == 0
+    #   puts ""
+    #   pp   [ "DEBUGGING render_row():", { :row_number => params[:row_number], :features => @thing.features } ]
+    # end
+
     @thing.sections.each do |section|
       # this calculation needs to be re-thought. Need to have a
       # default params[:width]
@@ -150,8 +171,8 @@ class RenderAsPNG
       # Why is the old_section_width 190 in some cases (surely it should
       # be 100 or nil)?
       # TODO: Investigate this later when you start a dimensions branch.
-      # puts ""
-      # pp   [
+      # # puts ""
+      # # pp   [
       #   "SECTION WIDTH CALCULATIONS:",
       #   { :row_number        => params[:row_number],
       #     :section_number    => section.index,
@@ -174,7 +195,7 @@ class RenderAsPNG
     # Perhaps here we should set the default dimensions of each section
     # which will subsequently get updated if need be? We can set different
     # values depending on which row we are on.
-    # pp @thing.rows[1]
+    # # pp @thing.rows[1]
     # exit
 
     @thing.rows.each do |row|
