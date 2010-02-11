@@ -35,10 +35,13 @@ class RenderAsPNG
     if params[:row_number] == 0
       case @thing.type
         when "genomic"      then
-          puts ""
-          pp   [ "GENOMIC:", { :feature => @thing, :params => params, :line => [ 0, params[:height]/2, params[:width], params[:height]/2 ] } ]
-          draw_feature(d, params) do
-            d.line( params[:x1], params[:y1], params[:x2], params[:y2] )
+          if params[:primers].size == 2 and @thing.label != "target region"
+            puts ""
+            pp   [ "GENOMIC:", { :feature => @thing, :params => params } ]
+            draw_feature(d, params) do
+              d.stroke_width(2.5)
+              d.line( 0, params[:height] / 2, params[:width], params[:height] / 2 )
+            end
           end
         when "LRPCR_primer" then
           # 
@@ -104,8 +107,14 @@ class RenderAsPNG
     # # 2010/02/11 -- DEBUGGING
     # if params[:row_number] == 0
     #   puts ""
-    #   pp   [ "DEBUGGING render_section():", { :row_number => params[:row_number], :features => @thing.features, :section_number => @thing.index } ]
+    #   pp [ "DEBUGGING render_section():",
+    #      { :row_number => params[:row_number],
+    #        :features => @thing.features,
+    #        :section_number => @thing.index,
+    #        :primers => [ @thing.lower_primer, @thing.upper_primer ].select { |x| ! x.nil? } } ]
     # end
+
+    params[:primers] = [ @thing.lower_primer, @thing.upper_primer ].select { |x| ! x.nil? }
 
     # Calculate the section width based on the longest feature label
     # This should actually be the max of longest feature label and
