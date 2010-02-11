@@ -34,7 +34,8 @@ class RenderAsPNG
 
     if params[:row_number] == 2
       unless @thing.label
-        pp [ "NO LABEL FOR FEATURE:", { :feature => @thing } ]
+        puts ""
+        pp   [ "NO LABEL FOR FEATURE:", { :row => params[:row_number], :feature => @thing } ]
         # raise "Unlabelled feature"
       end
       return draw_label(d, params)
@@ -54,7 +55,8 @@ class RenderAsPNG
           when "neo"             then draw_neo(d, params)
           when "En2 intron"      then draw_en2_sa(d, params) # should this be exon or intron?
           else
-            puts @thing.label
+            puts ""
+            pp   [ "UNKNOWN CASSETTE FEATURE:", { :row => params[:row_number], :feature => @thing } ]
             # raise "Unkown cassette feature"
         end
       when "SSR_site"     then
@@ -63,8 +65,8 @@ class RenderAsPNG
         elsif @thing.label.downcase == "frt"
           draw_frt(d, params)
         else
-          puts "An unknown SSR_site: "
-          pp @thing
+          puts ""
+          pp   [ "UNKNOWN SSR_site:", { :row => params[:row_number], :feature => @thing } ]
           # raise "Unkown SSR_site"
         end
       when "polyA_site"   then draw_polyA_site(d, params)
@@ -73,7 +75,7 @@ class RenderAsPNG
       # when "genomic"      then ""
       else
         puts ""
-        pp   [ "NOT IMPLEMENTED RENDER METHOD FOR:", { :row => params[:row_number], :feature => @thing } ]
+        pp   [ "NO RENDER METHOD FOR FEATURE:", { :row => params[:row_number], :feature => @thing } ]
         # raise "Unkown Feature"
     end
   end
@@ -148,7 +150,8 @@ class RenderAsPNG
       # Why is the old_section_width 190 in some cases (surely it should
       # be 100 or nil)?
       # TODO: Investigate this later when you start a dimensions branch.
-      # pp [
+      # puts ""
+      # pp   [
       #   "SECTION WIDTH CALCULATIONS:",
       #   { :row_number        => params[:row_number],
       #     :section_number    => section.index,
