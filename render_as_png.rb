@@ -36,13 +36,16 @@ class RenderAsPNG
       case @thing.type
         when "genomic"      then
           if params[:primers].size == 2 and @thing.label != "target region"
-            puts ""
-            pp   [ "GENOMIC:", { :feature => @thing, :params => params } ]
+            # puts ""
+            # pp   [ "GENOMIC:", { :feature => @thing, :params => params } ]
             draw_feature(d, params) do
               d.stroke_width(2.5)
               d.line( 0, params[:height] / 2, params[:width], params[:height] / 2 )
             end
           end
+        when "rcmb_primer"  then
+          puts ""
+          pp   [ "RCMB_PRIMER:", { :feature => @thing, :params => params } ]
         when "LRPCR_primer" then
           # 
         else
