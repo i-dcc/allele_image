@@ -34,8 +34,7 @@ class RenderAsPNG
 
     if params[:row_number] == 2
       unless @thing.label
-        puts "The following feature has no label:"
-        pp @thing
+        pp [ "NO LABEL FOR FEATURE:", { :feature => @thing } ]
         # raise "Unlabelled feature"
       end
       return draw_label(d, params)
