@@ -178,7 +178,9 @@ class RenderAsPNG
   end
 
   def draw_label(d, params)
-    d.annotate( params[:section], params[:width], params[:height], params[:x1], params[:y1], @thing.label || " " )
+    d.annotate( params[:section], params[:width], params[:height], params[:x1], params[:y1], @thing.label || " " ) do
+      self.fill = "blue"
+    end
   end
 
   def draw_exon(d, params)
