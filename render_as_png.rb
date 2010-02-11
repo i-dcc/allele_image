@@ -36,7 +36,7 @@ class RenderAsPNG
       case @thing.type
         when "genomic"      then
           puts ""
-          pp   [ "GENOMIC:", { :feature => @thing, :params => params } ]
+          pp   [ "GENOMIC:", { :feature => @thing, :params => params, :line => [ 0, params[:height]/2, params[:width], params[:height]/2 ] } ]
           draw_feature(d, params) do
             d.line( params[:x1], params[:y1], params[:x2], params[:y2] )
           end
