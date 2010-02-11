@@ -33,7 +33,18 @@ class RenderAsPNG
     d.stroke("black")
 
     if params[:row_number] == 0
-      
+      case @thing.type
+        when "genomic"      then
+          puts ""
+          pp   [ "GENOMIC:", { :feature => @thing, :params => params } ]
+          draw_feature(d, params) do
+            d.line( params[:x1], params[:y1], params[:x2], params[:y2] )
+          end
+        when "LRPCR_primer" then
+          # 
+        else
+          # puts "NOT HANDLED HERE:"
+      end
     elsif params[:row_number] == 1
       # Here we should be checking the type of the feature and delegating to
       # specific methods for rendering those features.
@@ -64,9 +75,9 @@ class RenderAsPNG
             # raise "Unkown SSR_site"
           end
         when "polyA_site"   then draw_polyA_site(d, params)
-        when "LRPCR_primer" then
-          # puts ""
-          # pp   [ "LRPCR_primer:", { :row => params[:row_number], :feature => @thing } ]
+        # when "LRPCR_primer" then
+        #   puts ""
+        #   pp   [ "LRPCR_primer:", { :row => params[:row_number], :feature => @thing } ]
         # when "rcmb_primer" then
         #   # puts ""
         #   # pp   [ "rcmb_primer:", { :row => params[:row_number], :feature => @thing } ]
