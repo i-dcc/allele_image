@@ -90,7 +90,7 @@ class RenderAsPNG
     params[:width] = [ params[:width], 10 * ( feature_lengths.max || 0 ) + 10 ].max
 
     # Furthermore x1 and y1 would depend on the section width and the
-    # sum of feature widths.
+    # sum of RENDERABLE feature widths.
     params[:x1], params[:y1] = 10, 10
 
     if params[:row_number] == 2
@@ -144,12 +144,21 @@ class RenderAsPNG
       features_total_width = section.size * 20
       boundries_width      = 20
       gaps_total_width     = 5 * ( section.size - 1 )
-      params[:width]       = [ 100, features_total_width + boundries_width + gaps_total_width ].max
-      row.push( section.render( RenderAsPNG, params ) )
 
       # Don't understand why the following line gives me a funny image
-      # params[:width] = [ params[:width] || 100, features_total_width + boundries_width + gaps_total_width ].max
-      # pp [ ( params[:width] || 100 ), features_total_width + boundries_width + gaps_total_width ].max
+      # Why is the old_section_width 190 in some cases (surely it should
+      # be 100 or nil)?
+      # TODO: Investigate this later when you start a dimensions branch.
+      # pp [
+      #   "SECTION WIDTH CALCULATIONS:",
+      #   { :row_number        => params[:row_number],
+      #     :section_number    => section.index,
+      #     :feature_count     => section.size,
+      #     :old_section_width => params[:width],
+      #     :new_section_width => [ params[:width] || 100, features_total_width + boundries_width + gaps_total_width ].max } ]
+
+      params[:width]       = [ 100, features_total_width + boundries_width + gaps_total_width ].max
+      row.push( section.render( RenderAsPNG, params ) )
     end
     row.append(false)
   end
@@ -163,6 +172,9 @@ class RenderAsPNG
     # Perhaps here we should set the default dimensions of each section
     # which will subsequently get updated if need be? We can set different
     # values depending on which row we are on.
+    # pp @thing.rows[1]
+    # exit
+
     @thing.rows.each do |row|
       grid.push( row.render(RenderAsPNG, params) )
     end
