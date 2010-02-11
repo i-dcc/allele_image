@@ -69,16 +69,12 @@ class RenderAsPNG
           # raise "Unkown SSR_site"
         end
       when "polyA_site"   then draw_polyA_site(d, params)
-      when "LRPCR_primer" then
-        d.fill("violet")
-        d.rectangle(params[:x1], params[:y1], params[:x2], params[:y2])
-      when "gateway" then
-        d.fill("black")
-        d.rectangle(params[:x1], params[:y1], params[:x2], params[:y2])
+      # when "LRPCR_primer" then ""
+      # when "gateway"      then ""
+      # when "genomic"      then ""
       else
-        puts "cannot handle this feature:"
-        pp @thing
-        puts "row number: #{params[:row_number]}"
+        puts ""
+        pp   [ "NOT IMPLEMENTED RENDER METHOD FOR:", { :row => params[:row_number], :feature => @thing } ]
         # raise "Unkown Feature"
     end
   end
