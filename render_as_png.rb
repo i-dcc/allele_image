@@ -47,7 +47,16 @@ class RenderAsPNG
             draw_homology_arm(d, params)
           end
         when "LRPCR_primer" then
-          # 
+          # pp [ "LRPCR_primer:", { :feature => @thing, :params => params } ]
+          draw_feature(d, params) do
+            d.stroke("blue")
+            d.stroke_width(2)
+            d.line( params[:x1], ( params[:height] / 2 ), params[:x1] + 10, ( params[:height] / 2 ) )
+            d.draw( params[:section] )
+            d.line( params[:x1] + 8, ( params[:height] / 2 ) - 2, params[:x1] + 8, ( params[:height] / 2 ) )
+            d.draw( params[:section] )
+            d.line( params[:x1] + 8, ( params[:height] / 2 ) + 2, params[:x1] + 8, ( params[:height] / 2 ) )
+          end
         else
           # puts "NOT HANDLED HERE:"
       end
