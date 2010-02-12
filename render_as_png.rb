@@ -44,7 +44,8 @@ class RenderAsPNG
             # would be dependent on the presence of a U3 primer upstream of the D5.
             # puts ""
             # pp [ "GENOMIC:", { :primers => params[:bounding_primers].map { |p| p.label } } ]
-            draw_homology_arm(d, params) if @thing.label == "5 arm"
+            draw_G5_U5(d, params) if @thing.label == "5 arm"
+            
           end
         when "LRPCR_primer" then
           # pp [ "LRPCR_primer:", { :feature => @thing, :params => params } ]
@@ -277,7 +278,7 @@ class RenderAsPNG
     end
   end
 
-  def draw_homology_arm(d, params)
+  def draw_G5_U5(d, params)
     draw_feature(d, params) do
       d.stroke_width(2.5)
       d.line( 0, params[:height] / 2 + 10,  0, params[:height] / 2 )
