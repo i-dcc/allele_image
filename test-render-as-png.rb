@@ -190,4 +190,30 @@ class TestRenderAsPNG < Test::Unit::TestCase
       end
     end
   end
+
+  context "a NEW (i.e. up to date) non conditional allele" do
+    setup do
+      @features = Bio::GenBank.open("./2010_02_11_non_conditional_linear.gbk").next_entry.features.map do |f|
+        Feature.new( f.feature, f.locations.first.from, f.assoc["label"] )
+      end
+      @grid   = Grid.new(@features, 0)
+      @format = RenderAsPNG
+    end
+
+    should "have the correct number of features" do
+      assert_equal(@grid.features.size, @features.size)
+    end
+
+    should "render itself as a Magick::Image object" do
+      rendered_grid = @grid.render(@format)
+      assert_equal(rendered_grid.class, Magick::Image)
+
+      # May have to write a "write" method for my Grid class
+      begin
+        rendered_grid.write("new_non_conditional_grid.png")
+      rescue ImageMagickError
+        puts "There was an error writing to 'grid.png'. Investigate and eliminate."
+      end
+    end
+  end
 end
