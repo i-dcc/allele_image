@@ -35,7 +35,7 @@ class RenderAsPNG
     if params[:row_number] == 0
       case @thing.type
         when "genomic"      then
-          if params[:primers].size == 2 and @thing.label != "target region"
+          if params[:bounding_primers].size == 2 and @thing.label != "target region"
             # The homology arm drawn should depend on:
             # 1 - the bounding primers
             # 2 - the total number of primers
@@ -43,7 +43,7 @@ class RenderAsPNG
             # pairs of primers with the only variabilty being b/w D5 and D3. This
             # would be dependent on the presence of a U3 primer upstream of the D5.
             # puts ""
-            # pp [ "GENOMIC:", { :primers => params[:primers].map { |p| p.label } } ]
+            # pp [ "GENOMIC:", { :primers => params[:bounding_primers].map { |p| p.label } } ]
             draw_homology_arm(d, params)
           end
         when "LRPCR_primer" then
@@ -126,7 +126,7 @@ class RenderAsPNG
     #        :primers => [ @thing.lower_primer, @thing.upper_primer ].select { |x| ! x.nil? } } ]
     # end
 
-    params[:primers] = [ @thing.lower_primer, @thing.upper_primer ].select { |x| ! x.nil? }
+    params[:bounding_primers] = [ @thing.lower_primer, @thing.upper_primer ].select { |x| ! x.nil? }
 
     # Calculate the section width based on the longest feature label
     # This should actually be the max of longest feature label and
@@ -227,8 +227,7 @@ class RenderAsPNG
     # Perhaps here we should set the default dimensions of each section
     # which will subsequently get updated if need be? We can set different
     # values depending on which row we are on.
-    # # pp @thing.rows[1]
-    # exit
+    params[:rcmb_primers] = @thing.rcmb_primers
 
     @thing.rows.each do |row|
       grid.push( row.render(RenderAsPNG, params) )
