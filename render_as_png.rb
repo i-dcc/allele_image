@@ -37,15 +37,28 @@ class RenderAsPNG
         when "genomic"      then
           if params[:primers].size == 2 and @thing.label != "target region"
             # puts ""
-            # pp   [ "GENOMIC:", { :feature => @thing, :params => params } ]
-            draw_feature(d, params) do
-              d.stroke_width(2.5)
-              d.line( 0, params[:height] / 2, params[:width], params[:height] / 2 )
-            end
+            # pp [
+            #   # "GENOMIC:",
+            #   {
+            #     # :feature => @thing,
+            #     :params => params,
+            #     :polyline => [
+            #       0, ( params[:height] / 2 ) + 10,
+            #       0, params[:height] / 2,
+            #       params[:width], params[:height] / 2,
+            #       params[:width], ( params[:height] / 2 ) + 10
+            # ] } ]
+            draw_homology_arm(d, params)
           end
         when "rcmb_primer"  then
-          puts ""
-          pp   [ "RCMB_PRIMER:", { :feature => @thing, :params => params } ]
+          # if [ "G5" ].include?(@thing.label)
+          #   puts ""
+          #   pp   [ "RCMB_PRIMER:", { :feature => @thing, :params => params } ]
+          #   draw_feature(d, params) do
+          #     d.stroke_width(2.5)
+          #     d.line( 0, params[:height] / 2, 0, ( params[:height] / 2 ) + 10 )
+          #   end
+          # end
         when "LRPCR_primer" then
           # 
         else
@@ -266,6 +279,17 @@ class RenderAsPNG
   def draw_polyA_site(d, params)
     draw_labelled_box(d, params) do
       params[:fill], params[:font], params[:label] = "white", "black", "pA"
+    end
+  end
+
+  def draw_homology_arm(d, params)
+    draw_feature(d, params) do
+      d.stroke_width(2.5)
+      d.line( 0, params[:height] / 2 + 10,  0, params[:height] / 2 )
+      d.draw(params[:section])
+      d.line( 0, params[:height] / 2, params[:width] - 1, params[:height] / 2 )
+      d.draw(params[:section])
+      d.line( params[:width] - 1, params[:height] / 2, params[:width] - 1, params[:height] / 2 + 10 )
     end
   end
 
