@@ -44,7 +44,7 @@ class RenderAsPNG
             # would be dependent on the presence of a U3 primer upstream of the D5.
             # puts ""
             # pp [ "GENOMIC:", { :primers => params[:bounding_primers].map { |p| p.label } } ]
-            draw_homology_arm(d, params)
+            draw_homology_arm(d, params) if @thing.label == "5 arm"
           end
         when "LRPCR_primer" then
           # pp [ "LRPCR_primer:", { :feature => @thing, :params => params } ]
