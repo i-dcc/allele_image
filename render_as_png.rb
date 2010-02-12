@@ -36,29 +36,16 @@ class RenderAsPNG
       case @thing.type
         when "genomic"      then
           if params[:primers].size == 2 and @thing.label != "target region"
+            # The homology arm drawn should depend on:
+            # 1 - the bounding primers
+            # 2 - the total number of primers
+            # Essentially, there are standard images to be drawn between different
+            # pairs of primers with the only variabilty being b/w D5 and D3. This
+            # would be dependent on the presence of a U3 primer upstream of the D5.
             # puts ""
-            # pp [
-            #   # "GENOMIC:",
-            #   {
-            #     # :feature => @thing,
-            #     :params => params,
-            #     :polyline => [
-            #       0, ( params[:height] / 2 ) + 10,
-            #       0, params[:height] / 2,
-            #       params[:width], params[:height] / 2,
-            #       params[:width], ( params[:height] / 2 ) + 10
-            # ] } ]
+            # pp [ "GENOMIC:", { :primers => params[:primers].map { |p| p.label } } ]
             draw_homology_arm(d, params)
           end
-        when "rcmb_primer"  then
-          # if [ "G5" ].include?(@thing.label)
-          #   puts ""
-          #   pp   [ "RCMB_PRIMER:", { :feature => @thing, :params => params } ]
-          #   draw_feature(d, params) do
-          #     d.stroke_width(2.5)
-          #     d.line( 0, params[:height] / 2, 0, ( params[:height] / 2 ) + 10 )
-          #   end
-          # end
         when "LRPCR_primer" then
           # 
         else
