@@ -153,6 +153,7 @@ class RenderAsPNG
       # Calculate the required height for row 2 defaulting to 100
       params[:upper_margin], params[:lower_margin] = 5, 5
       params[:height] = [ params[:height], ( exons.size * params[:feature_height] ) + params[:upper_margin] + params[:lower_margin] ].max
+      params[:x1]     = ( params[:width] - ( ( feature_lengths.max || 0 ) * 10 ) ) / 2
     else
       params[:feature_width]  = 20
       params[:feature_height] = 20
@@ -162,24 +163,9 @@ class RenderAsPNG
       feature_total_width = params[:feature_width] * params[:renderable_features].size + params[:gap] * ( params[:renderable_features].size - 1 )
       feature_total_width = 0 unless feature_total_width > 0
       params[:width]      = [ params[:width], feature_total_width + params[:gap] * 2 ].max
-      margin = ( params[:width] - feature_total_width ) / 2
-      puts ""
-      pp   [
-        "ROW NUMBER #{ params[:row_number] }", {
-          :RenderableFeatureCount => params[:renderable_features].size,
-          :LeftMargin => margin,
-          :RightMargin => margin,
-          :SectionWidth => params[:width],
-          :SectionHeight => params[:height],
-          :FeatureTotalWidth => feature_total_width,
-          :SectionIndex => @thing.index
-        }
-      ]
-      params[:x1] = margin
-
-      # params[:x1]             = ( params[:renderable_features].size * params[:feature_width] ) + ( ( params[:renderable_features].size - 1 ) * params[:gap] ) / 2
-      params[:x2]             = params[:x1] + params[:feature_width]
-      params[:y2]             = params[:y1] + params[:feature_height]
+      params[:x1]         = ( params[:width] - feature_total_width ) / 2
+      params[:x2]         = params[:x1] + params[:feature_width]
+      params[:y2]         = params[:y1] + params[:feature_height]
     end
 
     params[:section] = Image.new( params[:width], params[:height] )
