@@ -25,6 +25,7 @@ class RenderAsPNG
   # - which section it needs to add itself to
   # - where on this section it needs to be rendered
   # - what shape it needs to be rendered as
+  # - what percentage of the image does it occupy i.e. height and width
   # These should all be passed in the params
   # (although the shape could be pre-determined from the feature type)
   def render_feature(params)
@@ -116,15 +117,12 @@ class RenderAsPNG
   end
 
   def render_section(params)
-    # # 2010/02/11 -- DEBUGGING
-    # if params[:row_number] == 0
-    #   puts ""
-    #   pp [ "DEBUGGING render_section():",
-    #      { :row_number => params[:row_number],
-    #        :features => @thing.features,
-    #        :section_number => @thing.index,
-    #        :primers => [ @thing.lower_primer, @thing.upper_primer ].select { |x| ! x.nil? } } ]
-    # end
+    # We should have a count of the "renderable" features.
+    # These would include the "exons" and "misc_features".
+    params[:renderable_features] = @thing.features.select do |feature|
+      [ "exon", "misc_feature" ].include?(feature.type)
+      # [ "exon", "genomic", "LRPCR_primer", "misc_feature", "polyA_site", "SSR_site" ].include?(feature.type)
+    end
 
     params[:bounding_primers] = [ @thing.lower_primer, @thing.upper_primer ].select { |x| ! x.nil? }
 
@@ -159,23 +157,37 @@ class RenderAsPNG
       params[:feature_width]  = 20
       params[:feature_height] = 20
       params[:gap]            = 5
+      # params[:x1]             = ( params[:renderable_features].size * params[:feature_width] ) + ( ( params[:renderable_features].size - 1 ) * params[:gap] ) / 2
       params[:x2]             = params[:x1] + params[:feature_width]
       params[:y2]             = params[:y1] + params[:feature_height]
+
+      # # centering the images
+      # puts ""
+      # pp   [
+      #   "ROW NUMBER #{ params[:row_number] }", {
+      #     :L => "",
+      #     :R => "",
+      #     :W => params[:width],
+      #     # :F => params[:feature_width] * @thing.size + params[:gap] * ( @thing.size - 1 ),
+      #     :F => params[:feature_width] * params[:renderable_features].size + params[:gap] * ( params[:renderable_features].size - 1 ),
+      #     :S => @thing.index
+      #   }
+      # ]
     end
 
     params[:section] = Image.new( params[:width], params[:height] )
 
-    # loop through our features ...
+    # loop through and render our features ...
     @thing.features.each do |feature|
-      feature.render( RenderAsPNG, params )
-
-      # update the coordinates
-      if params[:row_number] == 2
-        params[:y1] = params[:y2] + params[:gap]
-        params[:y2] = params[:y1] + params[:feature_height]
-      else
-        params[:x1] = params[:x2] + params[:gap]
-        params[:x2] = params[:x1] + params[:feature_width]
+      if feature.render( RenderAsPNG, params )
+        # update the coordinates if a feature was rendered
+        if params[:row_number] == 2
+          params[:y1] = params[:y2] + params[:gap]
+          params[:y2] = params[:y1] + params[:feature_height]
+        else
+          params[:x1] = params[:x2] + params[:gap]
+          params[:x2] = params[:x1] + params[:feature_width]
+        end
       end
     end
 
@@ -184,35 +196,9 @@ class RenderAsPNG
 
   def render_row(params)
     row = ImageList.new()
-    params[:height], params[:row_number] = 100, @thing.index
-
-    # # 2010/02/11 -- DEBUGGING
-    # if params[:row_number] == 0
-    #   puts ""
-    #   pp   [ "DEBUGGING render_row():", { :row_number => params[:row_number], :features => @thing.features } ]
-    # end
+    params[:height], params[:width], params[:row_number] = 100, 100, @thing.index
 
     @thing.sections.each do |section|
-      # this calculation needs to be re-thought. Need to have a
-      # default params[:width]
-      features_total_width = section.size * 20
-      boundries_width      = 20
-      gaps_total_width     = 5 * ( section.size - 1 )
-
-      # Don't understand why the following line gives me a funny image
-      # Why is the old_section_width 190 in some cases (surely it should
-      # be 100 or nil)?
-      # TODO: Investigate this later when you start a dimensions branch.
-      # # puts ""
-      # # pp   [
-      #   "SECTION WIDTH CALCULATIONS:",
-      #   { :row_number        => params[:row_number],
-      #     :section_number    => section.index,
-      #     :feature_count     => section.size,
-      #     :old_section_width => params[:width],
-      #     :new_section_width => [ params[:width] || 100, features_total_width + boundries_width + gaps_total_width ].max } ]
-
-      params[:width]       = [ 100, features_total_width + boundries_width + gaps_total_width ].max
       row.push( section.render( RenderAsPNG, params ) )
     end
     row.append(false)
