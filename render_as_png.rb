@@ -34,32 +34,31 @@ class RenderAsPNG
 
     if params[:row_number] == 0
       case @thing.type
-        when "genomic"      then
-          if params[:bounding_primers].size == 2 and @thing.label != "target region"
+        when "genomic" then
+          if params[:bounding_primers].size == 2
             # The homology arm drawn should depend on:
             # 1 - the bounding primers
             # 2 - the total number of primers
             # Essentially, there are standard images to be drawn between different
             # pairs of primers with the only variabilty being b/w D5 and D3. This
             # would be dependent on the presence of a U3 primer upstream of the D5.
-            # puts ""
-            # pp [ "GENOMIC:", { :primers => params[:bounding_primers].map { |p| p.label } } ]
-            draw_G5_U5(d, params) if @thing.label == "5 arm"
-            
+            case params[:bounding_primers].map { |p| p.label }
+              when ["G5", "U5"] then draw_G5_U5(d, params)
+              when ["U3", "D5"] then draw_U3_D5(d, params)
+              when ["D5", "D3"] then draw_D5_D3(d, params)
+              when ["D3", "G3"] then draw_D3_G3(d, params)
+              else
+                unless ["U5", "U3"].eql?( params[:bounding_primers].map { |p| p.label } )
+                  puts ""
+                  pp [ "NOT HANDLED YET:", { :bounding_primers => [ params[:bounding_primers].map { |x| x.label } ] } ]
+                end
+            end
           end
         when "LRPCR_primer" then
-          # pp [ "LRPCR_primer:", { :feature => @thing, :params => params } ]
-          draw_feature(d, params) do
-            d.stroke("blue")
-            d.stroke_width(2)
-            d.line( params[:x1], ( params[:height] / 2 ), params[:x1] + 10, ( params[:height] / 2 ) )
-            d.draw( params[:section] )
-            d.line( params[:x1] + 8, ( params[:height] / 2 ) - 2, params[:x1] + 8, ( params[:height] / 2 ) )
-            d.draw( params[:section] )
-            d.line( params[:x1] + 8, ( params[:height] / 2 ) + 2, params[:x1] + 8, ( params[:height] / 2 ) )
-          end
+          draw_lrpcr_primer(d, params)
         else
-          # puts "NOT HANDLED HERE:"
+          # puts ""
+          # pp [ "NOT HANDLED YET:", { :LRPCR_primer => @thing } ]
       end
     elsif params[:row_number] == 1
       # Here we should be checking the type of the feature and delegating to
@@ -286,6 +285,52 @@ class RenderAsPNG
       d.line( 0, params[:height] / 2, params[:width] - 1, params[:height] / 2 )
       d.draw(params[:section])
       d.line( params[:width] - 1, params[:height] / 2, params[:width] - 1, params[:height] / 2 + 10 )
+    end
+  end
+
+  def draw_U3_D5(d, params)
+    draw_feature(d, params) do
+      d.stroke_width(2.5)
+      d.line( 0, params[:height] / 2 + 10,  0, params[:height] / 2 )
+      d.draw(params[:section])
+      d.line( 0, params[:height] / 2, params[:width] - 1, params[:height] / 2 )
+    end
+  end
+
+  def draw_D3_G3(d, params)
+    draw_feature(d, params) do
+      d.stroke_width(2.5)
+      d.line( 0, params[:height] / 2, params[:width] - 1, params[:height] / 2 )
+      d.draw(params[:section])
+      d.line( params[:width] - 1, params[:height] / 2, params[:width] - 1, params[:height] / 2 + 10 )
+    end
+  end
+
+  def draw_D5_D3(d, params)
+    if params[:rcmb_primers][2].label == "D5"
+      draw_feature(d, params) do
+         d.stroke_width(2.5)
+         d.line( 0, params[:height] / 2 + 10,  0, params[:height] / 2 )
+         d.draw(params[:section])
+         d.line( 0, params[:height] / 2, params[:width] - 1, params[:height] / 2 )
+       end
+     else
+       draw_feature(d, params) do
+          d.stroke_width(2.5)
+          d.line( 0, params[:height] / 2, params[:width] - 1, params[:height] / 2 )
+        end
+    end
+  end
+
+  def draw_lrpcr_primer(d, params)
+    draw_feature(d, params) do
+      d.stroke("blue")
+      d.stroke_width(2)
+      d.line( params[:x1], ( params[:height] / 2 ), params[:x1] + 10, ( params[:height] / 2 ) )
+      d.draw( params[:section] )
+      d.line( params[:x1] + 8, ( params[:height] / 2 ) - 2, params[:x1] + 8, ( params[:height] / 2 ) )
+      d.draw( params[:section] )
+      d.line( params[:x1] + 8, ( params[:height] / 2 ) + 2, params[:x1] + 8, ( params[:height] / 2 ) )
     end
   end
 
