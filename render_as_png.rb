@@ -207,6 +207,7 @@ class RenderAsPNG
     # which will subsequently get updated if need be? We can set different
     # values depending on which row we are on.
     params[:rcmb_primers] = @thing.rcmb_primers
+    params[:width] = 200
 
     @thing.rows.each do |row|
       grid.push( row.render(RenderAsPNG, params) )
