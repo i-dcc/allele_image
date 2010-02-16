@@ -157,22 +157,29 @@ class RenderAsPNG
       params[:feature_width]  = 20
       params[:feature_height] = 20
       params[:gap]            = 5
+
+      # centering the images
+      feature_total_width = params[:feature_width] * params[:renderable_features].size + params[:gap] * ( params[:renderable_features].size - 1 )
+      feature_total_width = 0 unless feature_total_width > 0
+      params[:width]      = [ params[:width], feature_total_width + params[:gap] * 2 ].max
+      margin = ( params[:width] - feature_total_width ) / 2
+      puts ""
+      pp   [
+        "ROW NUMBER #{ params[:row_number] }", {
+          :RenderableFeatureCount => params[:renderable_features].size,
+          :LeftMargin => margin,
+          :RightMargin => margin,
+          :SectionWidth => params[:width],
+          :SectionHeight => params[:height],
+          :FeatureTotalWidth => feature_total_width,
+          :SectionIndex => @thing.index
+        }
+      ]
+      params[:x1] = margin
+
       # params[:x1]             = ( params[:renderable_features].size * params[:feature_width] ) + ( ( params[:renderable_features].size - 1 ) * params[:gap] ) / 2
       params[:x2]             = params[:x1] + params[:feature_width]
       params[:y2]             = params[:y1] + params[:feature_height]
-
-      # # centering the images
-      # puts ""
-      # pp   [
-      #   "ROW NUMBER #{ params[:row_number] }", {
-      #     :L => "",
-      #     :R => "",
-      #     :W => params[:width],
-      #     # :F => params[:feature_width] * @thing.size + params[:gap] * ( @thing.size - 1 ),
-      #     :F => params[:feature_width] * params[:renderable_features].size + params[:gap] * ( params[:renderable_features].size - 1 ),
-      #     :S => @thing.index
-      #   }
-      # ]
     end
 
     params[:section] = Image.new( params[:width], params[:height] )
