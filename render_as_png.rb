@@ -117,16 +117,10 @@ class RenderAsPNG
   end
 
   def render_section(params)
-    # if params[:text_width].nil?
-    #   pp [ "text_width IS NIL:", { :params => params, :section => @thing } ]
-    #   raise "text_width IS NIL:"
-    # end
-
     # We should have a count of the "renderable" features.
     # These would include the "exons" and "misc_features".
     params[:renderable_features] = @thing.features.select do |feature|
       [ "exon", "misc_feature" ].include?(feature.type)
-      # [ "exon", "genomic", "LRPCR_primer", "misc_feature", "polyA_site", "SSR_site" ].include?(feature.type)
     end
 
     params[:bounding_primers] = [ @thing.lower_primer, @thing.upper_primer ].select { |x| ! x.nil? }
@@ -139,7 +133,7 @@ class RenderAsPNG
       feature.label.nil? ? 0 : feature.label.length
     end
     max_feature_length = feature_lengths.length > 0 ? feature_lengths.max : 0
-    # params[:width]     = [ params[:width], ( params[:text_width] * max_feature_length ) + 10 ].max # 10 => params[:gap] * 2?
+
     # Furthermore x1 and y1 would depend on the section width and the
     # sum of RENDERABLE feature widths.
     params[:x1], params[:y1] = 10, 10
@@ -164,19 +158,6 @@ class RenderAsPNG
       params[:x1]     = left_margin
       params[:x2]     = params[:width] - left_margin
       params[:y2]     = params[:y1] + params[:feature_height]
-
-      # pp [
-      #   :x1                 => left_margin,
-      #   :x2                 => params[:width] - left_margin,
-      #   :y1                 => params[:upper_margin],
-      #   :y2                 => params[:y1] + params[:feature_height],
-      #   :height             => params[:height],
-      #   :width              => params[:width],
-      #   :text_width         => params[:text_width],
-      #   :feature_width      => params[:feature_width],
-      #   :should_be          => max_feature_length * params[:text_width],
-      #   :max_feature_length => max_feature_length
-      # ]
     else
       params[:feature_width]  = 20
       params[:feature_height] = 20
@@ -185,7 +166,6 @@ class RenderAsPNG
       # centering the images
       feature_total_width = ( params[:feature_width] * params[:renderable_features].size ) + ( params[:gap] * ( params[:renderable_features].size - 1 ) )
       feature_total_width = 0 unless feature_total_width > 0
-      # params[:width]      = [ params[:width], feature_total_width + params[:gap] * 2 ].max
       params[:x1]         = ( params[:width] - feature_total_width ) / 2
       params[:x2]         = params[:x1] + params[:feature_width]
       params[:y2]         = params[:y1] + params[:feature_height]
