@@ -155,11 +155,28 @@ class RenderAsPNG
       end
 
       # Calculate the required height for row 2 defaulting to 100
+      left_margin = ( params[:width] - ( max_feature_length * params[:text_width] ) ) / 2
       params[:upper_margin], params[:lower_margin] = 5, 5
+
       params[:height] = [ params[:height], ( exons.size * params[:feature_height] ) + params[:upper_margin] + params[:lower_margin] ].max
-      params[:x1]     = ( params[:width] - ( max_feature_length * params[:text_width] ) ) / 2
-      params[:x2]     = params[:x1] + params[:feature_width]
+
+      # center the label
+      params[:x1]     = left_margin
+      params[:x2]     = params[:width] - left_margin
       params[:y2]     = params[:y1] + params[:feature_height]
+
+      # pp [
+      #   :x1                 => left_margin,
+      #   :x2                 => params[:width] - left_margin,
+      #   :y1                 => params[:upper_margin],
+      #   :y2                 => params[:y1] + params[:feature_height],
+      #   :height             => params[:height],
+      #   :width              => params[:width],
+      #   :text_width         => params[:text_width],
+      #   :feature_width      => params[:feature_width],
+      #   :should_be          => max_feature_length * params[:text_width],
+      #   :max_feature_length => max_feature_length
+      # ]
     else
       params[:feature_width]  = 20
       params[:feature_height] = 20
@@ -190,7 +207,7 @@ class RenderAsPNG
       end
     end
 
-    puts "\tSECTION LEVEL: [ #{params[:width]}, #{params[:height]} ]"
+    # puts "\tSECTION LEVEL: [ #{params[:width]}, #{params[:height]} ]"
 
     params[:section]
   end
@@ -227,6 +244,7 @@ class RenderAsPNG
 
     widths = []
     @thing.rows[1].sections.each do |section|
+      # redo this logic ...
       feature_labels      = section.features.select { |f| f.type == "exon" }
       feature_labels      = feature_labels.map { |f| f.label.nil? ? 0 : f.label.length }
       renderable_features = section.features.select { |f| [ "exon", "misc_feature" ].include?(f.type) }
@@ -244,7 +262,7 @@ class RenderAsPNG
 
     @thing.rows.each_index do |row_index|
       params[:width] = widths[row_index]
-      puts "GRID LEVEL: [ #{params[:width]}, #{params[:height]} ]"
+      # puts "GRID LEVEL: [ #{params[:width]}, #{params[:height]} ]"
       grid.push( @thing.rows[row_index].render(RenderAsPNG, params) )
     end
     grid.append(true)
