@@ -145,10 +145,8 @@ class RenderAsPNG
       end
 
       # Calculate the required height for row 2 defaulting to 100
-      left_margin = ( params[:width] - ( max_feature_length * params[:text_width] ) ) / 2
+      left_margin           = ( params[:width] - ( max_feature_length * params[:text_width] ) ) / 2
       params[:lower_margin] = params[:upper_margin]
-
-      # params[:height] = [ params[:height], ( exons.size * params[:feature_height] ) + params[:upper_margin] + params[:lower_margin] ].max
 
       # center the label
       params[:x1]     = left_margin
@@ -159,16 +157,8 @@ class RenderAsPNG
       params[:feature_width]  = params[:x2] - params[:x1]
       params[:feature_height] = params[:text_height]
       params[:gap]            = 0
-
-      # pp [
-      #   :height => params[:height],
-      #   :x1     => params[:x1],
-      #   :y1     => params[:y1]
-      # ]
     else
-      params[:feature_width]  = 20
-      params[:feature_height] = 20
-      params[:gap]            = 5
+      params[:gap] = 5
 
       # centering the images
       feature_total_width = ( params[:feature_width] * params[:renderable_features].size ) + ( params[:gap] * ( params[:renderable_features].size - 1 ) )
@@ -237,10 +227,12 @@ class RenderAsPNG
     # Perhaps here we should set the default dimensions of each section
     # which will subsequently get updated if need be? We can set different
     # values depending on which row we are on.
-    params[:rcmb_primers] = @thing.rcmb_primers
-    params[:text_width]   = 10
-    params[:text_height]  = 20
-    params[:upper_margin] = 5
+    params[:rcmb_primers]   = @thing.rcmb_primers
+    params[:text_width]     = 10
+    params[:text_height]    = 20
+    params[:upper_margin]   = 5
+    params[:feature_height] = 20
+    params[:feature_width]  = 20
 
     widths = []
     height = params[:text_height] + 2 * params[:upper_margin]
@@ -262,13 +254,11 @@ class RenderAsPNG
     end
 
     params[:height] = 100 # need to calculate this too
-    # pp [ :height => height ]
 
     @thing.rows.each_index do |row_index|
       params[:width]  = widths[row_index]
       params[:height] = height if row_index == 2
-      # puts "height: #{ params[:height] = height }" if row_index == 2
-      # puts "GRID LEVEL: [ #{params[:width]}, #{params[:height]} ]"
+      puts "GRID LEVEL: [ #{params[:width]}, #{params[:height]} ]"
       grid.push( @thing.rows[row_index].render(RenderAsPNG, params) )
     end
     grid.append(true)
