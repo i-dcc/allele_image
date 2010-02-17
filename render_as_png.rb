@@ -140,25 +140,31 @@ class RenderAsPNG
 
     # All this should be done at Grid level
     if params[:row_number] == 2
-      params[:feature_width]  = 80
-      params[:feature_height] = 20
-      params[:gap]            = 0
-
       exons = @thing.features.select do |f|
         f.type == 'exon'
       end
 
       # Calculate the required height for row 2 defaulting to 100
       left_margin = ( params[:width] - ( max_feature_length * params[:text_width] ) ) / 2
-      params[:upper_margin], params[:lower_margin] = 5, 5
+      params[:lower_margin] = params[:upper_margin]
 
-      params[:height] = [ params[:height], ( exons.size * params[:feature_height] ) + params[:upper_margin] + params[:lower_margin] ].max
+      # params[:height] = [ params[:height], ( exons.size * params[:feature_height] ) + params[:upper_margin] + params[:lower_margin] ].max
 
       # center the label
       params[:x1]     = left_margin
       params[:y1]     = params[:upper_margin] #( params[:height] - params[:feature_height] ) / 2
       params[:x2]     = params[:width] - left_margin
       params[:y2]     = params[:y1] + params[:feature_height]
+
+      params[:feature_width]  = params[:x2] - params[:x1]
+      params[:feature_height] = params[:text_height]
+      params[:gap]            = 0
+
+      # pp [
+      #   :height => params[:height],
+      #   :x1     => params[:x1],
+      #   :y1     => params[:y1]
+      # ]
     else
       params[:feature_width]  = 20
       params[:feature_height] = 20
@@ -177,7 +183,7 @@ class RenderAsPNG
 
     # Draw the sequence
     if params[:row_number] == 1
-      pp [ "DRAW SEQUENCE:", { :params => [ 0, params[:height] / 2, params[:width], params[:height] / 2 ] } ]
+      # pp [ "DRAW SEQUENCE:", { :params => [ 0, params[:height] / 2, params[:width], params[:height] / 2 ] } ]
       draw_feature( d = Draw.new, params ) do
         d.stroke("black")
         d.stroke_width(2.5)
@@ -233,27 +239,35 @@ class RenderAsPNG
     # values depending on which row we are on.
     params[:rcmb_primers] = @thing.rcmb_primers
     params[:text_width]   = 10
+    params[:text_height]  = 20
+    params[:upper_margin] = 5
 
     widths = []
+    height = params[:text_height] + 2 * params[:upper_margin]
+
     @thing.rows[1].sections.each do |section|
       # redo this logic ...
-      feature_labels      = section.features.select { |f| f.type == "exon" }
-      feature_labels      = feature_labels.map { |f| f.label.nil? ? 0 : f.label.length }
+      exons      = section.features.select { |f| f.type == "exon" }
+      feature_labels      = exons.map { |f| f.label.nil? ? 0 : f.label.length }
       renderable_features = section.features.select { |f| [ "exon", "misc_feature" ].include?(f.type) }
       feature_total_size  = ( renderable_features.size * 20 ) + ( ( renderable_features.size - 1 ) * 5 )
 
       feature_labels     = params[:text_width] * ( feature_labels.length > 0 ? feature_labels.max : 0 )
       feature_total_size = 0 unless feature_total_size >= 0
 
-      widths[ section.index ] = [ feature_labels, feature_total_size ].max
+      widths[ section.index ]  = [ feature_labels, feature_total_size ].max
+      height = [ height, exons.size * params[:text_height] + 2 * params[:upper_margin] ].max
 
       # raise pp [ "WIDTH IS NIL:", { :params => params } ] if widths[ section.index ].nil?
     end
 
-    params[:height] = 100
+    params[:height] = 100 # need to calculate this too
+    # pp [ :height => height ]
 
     @thing.rows.each_index do |row_index|
-      params[:width] = widths[row_index]
+      params[:width]  = widths[row_index]
+      params[:height] = height if row_index == 2
+      # puts "height: #{ params[:height] = height }" if row_index == 2
       # puts "GRID LEVEL: [ #{params[:width]}, #{params[:height]} ]"
       grid.push( @thing.rows[row_index].render(RenderAsPNG, params) )
     end
@@ -269,8 +283,9 @@ class RenderAsPNG
   end
 
   def draw_label(d, params)
-    d.annotate( params[:section], params[:width], params[:height], params[:x1], params[:y1], @thing.label || " " ) do
-      self.fill = "blue"
+    d.annotate( params[:section], params[:feature_width], params[:feature_height], params[:x1], params[:y1], @thing.label || " " ) do
+      self.fill    = "blue"
+      self.gravity = CenterGravity
     end
   end
 
