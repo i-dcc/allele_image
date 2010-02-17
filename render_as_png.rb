@@ -201,19 +201,18 @@ class RenderAsPNG
   end
 
   def render_row(params)
-    row = ImageList.new()
-    # params[:height], params[:width], params[:row_number] = 100, 100, @thing.index
     params[:row_number] = @thing.index
 
-    # pp [ :DEBUGGING => params ]
+    print "\t"
+    pp [ :widths => params[:widths] ]
+
+    row = ImageList.new()
 
     @thing.sections.each do |section|
+      params[:width] = params[:widths][section.index]
       row.push( section.render( RenderAsPNG, params ) )
 
-      # if params[:width].nil?
-      #   puts "\tROW LEVEL: [ #{params[:width]}, #{params[:height]} ]"
-      #   pp [ :params => params ]
-      # end
+      puts "\tROW LEVEL (ROW == #{params[:row_number]}): [ #{params[:width]}, #{params[:height]} ]"
     end
     row.append(false)
   end
@@ -234,8 +233,10 @@ class RenderAsPNG
     params[:feature_height] = 20
     params[:feature_width]  = 20
 
-    widths = []
-    height = params[:text_height] + 2 * params[:upper_margin]
+    params[:widths] = []
+
+    height    = params[:text_height] + 2 * params[:upper_margin]
+    min_width = 1
 
     @thing.rows[1].sections.each do |section|
       # redo this logic ...
@@ -247,7 +248,7 @@ class RenderAsPNG
       feature_labels     = params[:text_width] * ( feature_labels.length > 0 ? feature_labels.max : 0 )
       feature_total_size = 0 unless feature_total_size >= 0
 
-      widths[ section.index ]  = [ feature_labels, feature_total_size ].max
+      params[:widths][ section.index ]  = [ min_width, feature_labels, feature_total_size ].max
       height = [ height, exons.size * params[:text_height] + 2 * params[:upper_margin] ].max
 
       # raise pp [ "WIDTH IS NIL:", { :params => params } ] if widths[ section.index ].nil?
@@ -255,10 +256,15 @@ class RenderAsPNG
 
     params[:height] = 100 # need to calculate this too
 
+    puts ""
+    pp [ :widths => params[:widths] ]
+
     @thing.rows.each_index do |row_index|
-      params[:width]  = widths[row_index]
+      params[:width]  = params[:widths][row_index]
       params[:height] = height if row_index == 2
-      puts "GRID LEVEL: [ #{params[:width]}, #{params[:height]} ]"
+
+      puts "GRID LEVEL (ROW == #{row_index}): [ #{params[:width]}, #{params[:height]} ]"
+
       grid.push( @thing.rows[row_index].render(RenderAsPNG, params) )
     end
     grid.append(true)
