@@ -139,11 +139,12 @@ class RenderAsPNG
       feature.label.nil? ? 0 : feature.label.length
     end
     max_feature_length = feature_lengths.length > 0 ? feature_lengths.max : 0
-    params[:width]     = [ params[:width], ( params[:text_width] * max_feature_length ) + 10 ].max # 10 => params[:gap] * 2?
+    # params[:width]     = [ params[:width], ( params[:text_width] * max_feature_length ) + 10 ].max # 10 => params[:gap] * 2?
     # Furthermore x1 and y1 would depend on the section width and the
     # sum of RENDERABLE feature widths.
     params[:x1], params[:y1] = 10, 10
 
+    # All this should be done at Grid level
     if params[:row_number] == 2
       params[:feature_width]  = 80
       params[:feature_height] = 20
@@ -167,7 +168,7 @@ class RenderAsPNG
       # centering the images
       feature_total_width = ( params[:feature_width] * params[:renderable_features].size ) + ( params[:gap] * ( params[:renderable_features].size - 1 ) )
       feature_total_width = 0 unless feature_total_width > 0
-      params[:width]      = [ params[:width], feature_total_width + params[:gap] * 2 ].max
+      # params[:width]      = [ params[:width], feature_total_width + params[:gap] * 2 ].max
       params[:x1]         = ( params[:width] - feature_total_width ) / 2
       params[:x2]         = params[:x1] + params[:feature_width]
       params[:y2]         = params[:y1] + params[:feature_height]
@@ -189,10 +190,7 @@ class RenderAsPNG
       end
     end
 
-    # if params[:width].nil?
-    #   puts "\t\tSECTION LEVEL: [ #{params[:width]}, #{params[:height]} ]"
-    #   pp [ :params => params ]
-    # end
+    puts "\tSECTION LEVEL: [ #{params[:width]}, #{params[:height]} ]"
 
     params[:section]
   end
@@ -246,9 +244,8 @@ class RenderAsPNG
 
     @thing.rows.each_index do |row_index|
       params[:width] = widths[row_index]
+      puts "GRID LEVEL: [ #{params[:width]}, #{params[:height]} ]"
       grid.push( @thing.rows[row_index].render(RenderAsPNG, params) )
-
-      # puts "GRID LEVEL: [ #{params[:width]}, #{params[:height]} ]" if params[:width].nil?
     end
     grid.append(true)
   end
