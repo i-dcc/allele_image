@@ -117,6 +117,11 @@ class RenderAsPNG
   end
 
   def render_section(params)
+    # if params[:width].nil?
+    #   pp [ "WIDTH IS NIL:", { :params => params, :section => @thing } ]
+    #   raise "WIDTH IS NIL:"
+    # end
+
     # We should have a count of the "renderable" features.
     # These would include the "exons" and "misc_features".
     params[:renderable_features] = @thing.features.select do |feature|
@@ -131,9 +136,25 @@ class RenderAsPNG
     # sum of feature widths. Thus far we have no way of knowing the
     # latter.
     feature_lengths = @thing.features.map do |feature|
-      ( feature.label || "" ).length
+      feature.label.nil? ? 0 : feature.label.length
     end
-    params[:width] = [ params[:width], 10 * ( feature_lengths.max || 0 ) + 10 ].max
+    max_feature_length = feature_lengths.length > 0 ? feature_lengths.max : 0
+    params[:width]     = [ params[:width], ( 10 * max_feature_length ) + 10 ].max
+
+    # begin
+    # rescue
+    #   pp [ :params_width => params[:width], :max_feature_length => max_feature_length ]
+    # end
+    # max_feature_length = 0
+    # if feature_lengths.size > 0
+    #   max_feature_length = 10 * ( feature_lengths.max ) + 10
+    # end
+    # pp [ :feature_lengths => feature_lengths, :max_feature_length => max_feature_length, :compare => [ params[:width], max_feature_length ] ]
+    # # params[:width] = [ params[:width], max_feature_length ].max
+    # if max_feature_length > params[:width]
+    #   params[:width] = max_feature_length
+    # end
+
 
     # Furthermore x1 and y1 would depend on the section width and the
     # sum of RENDERABLE feature widths.
@@ -163,6 +184,10 @@ class RenderAsPNG
       feature_total_width = params[:feature_width] * params[:renderable_features].size + params[:gap] * ( params[:renderable_features].size - 1 )
       feature_total_width = 0 unless feature_total_width > 0
       params[:width]      = [ params[:width], feature_total_width + params[:gap] * 2 ].max
+
+      # puts "params[:width] == nil"     if params[:width].nil?
+      # puts "feature_total_width == nil" if feature_total_width.nil?
+
       params[:x1]         = ( params[:width] - feature_total_width ) / 2
       params[:x2]         = params[:x1] + params[:feature_width]
       params[:y2]         = params[:y1] + params[:feature_height]
@@ -184,15 +209,28 @@ class RenderAsPNG
       end
     end
 
+    # if params[:width].nil?
+    #   puts "\t\tSECTION LEVEL: [ #{params[:width]}, #{params[:height]} ]"
+    #   pp [ :params => params ]
+    # end
+
     params[:section]
   end
 
   def render_row(params)
     row = ImageList.new()
-    params[:height], params[:width], params[:row_number] = 100, 100, @thing.index
+    # params[:height], params[:width], params[:row_number] = 100, 100, @thing.index
+    params[:row_number] = @thing.index
+
+    # pp [ :DEBUGGING => params ]
 
     @thing.sections.each do |section|
       row.push( section.render( RenderAsPNG, params ) )
+
+      # if params[:width].nil?
+      #   puts "\tROW LEVEL: [ #{params[:width]}, #{params[:height]} ]"
+      #   pp [ :params => params ]
+      # end
     end
     row.append(false)
   end
@@ -207,10 +245,29 @@ class RenderAsPNG
     # which will subsequently get updated if need be? We can set different
     # values depending on which row we are on.
     params[:rcmb_primers] = @thing.rcmb_primers
-    params[:width] = 200
 
-    @thing.rows.each do |row|
-      grid.push( row.render(RenderAsPNG, params) )
+    widths = []
+    @thing.rows[1].sections.each do |section|
+      feature_labels      = section.features.select { |f| f.type == "exon" }
+      feature_labels      = feature_labels.map { |f| f.label.nil? ? 0 : f.label.length }
+      renderable_features = section.features.select { |f| [ "exon", "misc_feature" ].include?(f.type) }
+      feature_total_size  = ( renderable_features.size * 20 ) + ( ( renderable_features.size - 1 ) * 5 )
+
+      feature_labels     = 10 * ( feature_labels.max || 0 )
+      feature_total_size = 0 unless feature_total_size >= 0
+
+      widths[ section.index ] = [ feature_labels, feature_total_size ].max
+
+      # raise pp [ "WIDTH IS NIL:", { :params => params } ] if widths[ section.index ].nil?
+    end
+
+    params[:height] = 100
+
+    @thing.rows.each_index do |row_index|
+      params[:width] = widths[row_index]
+      grid.push( @thing.rows[row_index].render(RenderAsPNG, params) )
+
+      # puts "GRID LEVEL: [ #{params[:width]}, #{params[:height]} ]" if params[:width].nil?
     end
     grid.append(true)
   end
