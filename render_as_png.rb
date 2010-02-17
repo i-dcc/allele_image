@@ -117,9 +117,9 @@ class RenderAsPNG
   end
 
   def render_section(params)
-    # if params[:width].nil?
-    #   pp [ "WIDTH IS NIL:", { :params => params, :section => @thing } ]
-    #   raise "WIDTH IS NIL:"
+    # if params[:text_width].nil?
+    #   pp [ "text_width IS NIL:", { :params => params, :section => @thing } ]
+    #   raise "text_width IS NIL:"
     # end
 
     # We should have a count of the "renderable" features.
@@ -139,23 +139,7 @@ class RenderAsPNG
       feature.label.nil? ? 0 : feature.label.length
     end
     max_feature_length = feature_lengths.length > 0 ? feature_lengths.max : 0
-    params[:width]     = [ params[:width], ( 10 * max_feature_length ) + 10 ].max
-
-    # begin
-    # rescue
-    #   pp [ :params_width => params[:width], :max_feature_length => max_feature_length ]
-    # end
-    # max_feature_length = 0
-    # if feature_lengths.size > 0
-    #   max_feature_length = 10 * ( feature_lengths.max ) + 10
-    # end
-    # pp [ :feature_lengths => feature_lengths, :max_feature_length => max_feature_length, :compare => [ params[:width], max_feature_length ] ]
-    # # params[:width] = [ params[:width], max_feature_length ].max
-    # if max_feature_length > params[:width]
-    #   params[:width] = max_feature_length
-    # end
-
-
+    params[:width]     = [ params[:width], ( params[:text_width] * max_feature_length ) + 10 ].max # 10 => params[:gap] * 2?
     # Furthermore x1 and y1 would depend on the section width and the
     # sum of RENDERABLE feature widths.
     params[:x1], params[:y1] = 10, 10
@@ -164,8 +148,6 @@ class RenderAsPNG
       params[:feature_width]  = 80
       params[:feature_height] = 20
       params[:gap]            = 0
-      params[:x2]             = params[:x1] + params[:feature_width]
-      params[:y2]             = params[:y1] + params[:feature_height]
 
       exons = @thing.features.select do |f|
         f.type == 'exon'
@@ -174,20 +156,18 @@ class RenderAsPNG
       # Calculate the required height for row 2 defaulting to 100
       params[:upper_margin], params[:lower_margin] = 5, 5
       params[:height] = [ params[:height], ( exons.size * params[:feature_height] ) + params[:upper_margin] + params[:lower_margin] ].max
-      params[:x1]     = ( params[:width] - ( ( feature_lengths.max || 0 ) * 10 ) ) / 2
+      params[:x1]     = ( params[:width] - ( max_feature_length * params[:text_width] ) ) / 2
+      params[:x2]     = params[:x1] + params[:feature_width]
+      params[:y2]     = params[:y1] + params[:feature_height]
     else
       params[:feature_width]  = 20
       params[:feature_height] = 20
       params[:gap]            = 5
 
       # centering the images
-      feature_total_width = params[:feature_width] * params[:renderable_features].size + params[:gap] * ( params[:renderable_features].size - 1 )
+      feature_total_width = ( params[:feature_width] * params[:renderable_features].size ) + ( params[:gap] * ( params[:renderable_features].size - 1 ) )
       feature_total_width = 0 unless feature_total_width > 0
       params[:width]      = [ params[:width], feature_total_width + params[:gap] * 2 ].max
-
-      # puts "params[:width] == nil"     if params[:width].nil?
-      # puts "feature_total_width == nil" if feature_total_width.nil?
-
       params[:x1]         = ( params[:width] - feature_total_width ) / 2
       params[:x2]         = params[:x1] + params[:feature_width]
       params[:y2]         = params[:y1] + params[:feature_height]
@@ -245,6 +225,7 @@ class RenderAsPNG
     # which will subsequently get updated if need be? We can set different
     # values depending on which row we are on.
     params[:rcmb_primers] = @thing.rcmb_primers
+    params[:text_width]   = 10
 
     widths = []
     @thing.rows[1].sections.each do |section|
@@ -253,7 +234,7 @@ class RenderAsPNG
       renderable_features = section.features.select { |f| [ "exon", "misc_feature" ].include?(f.type) }
       feature_total_size  = ( renderable_features.size * 20 ) + ( ( renderable_features.size - 1 ) * 5 )
 
-      feature_labels     = 10 * ( feature_labels.max || 0 )
+      feature_labels     = params[:text_width] * ( feature_labels.length > 0 ? feature_labels.max : 0 )
       feature_total_size = 0 unless feature_total_size >= 0
 
       widths[ section.index ] = [ feature_labels, feature_total_size ].max
