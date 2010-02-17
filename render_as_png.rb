@@ -136,7 +136,7 @@ class RenderAsPNG
 
     # Furthermore x1 and y1 would depend on the section width and the
     # sum of RENDERABLE feature widths.
-    params[:x1], params[:y1] = 10, 10
+    # params[:x1], params[:y1] = 10, 10
 
     # All this should be done at Grid level
     if params[:row_number] == 2
@@ -156,6 +156,7 @@ class RenderAsPNG
 
       # center the label
       params[:x1]     = left_margin
+      params[:y1]     = params[:upper_margin] #( params[:height] - params[:feature_height] ) / 2
       params[:x2]     = params[:width] - left_margin
       params[:y2]     = params[:y1] + params[:feature_height]
     else
@@ -167,11 +168,22 @@ class RenderAsPNG
       feature_total_width = ( params[:feature_width] * params[:renderable_features].size ) + ( params[:gap] * ( params[:renderable_features].size - 1 ) )
       feature_total_width = 0 unless feature_total_width > 0
       params[:x1]         = ( params[:width] - feature_total_width ) / 2
+      params[:y1]         = ( params[:height] - params[:feature_height] ) / 2
       params[:x2]         = params[:x1] + params[:feature_width]
       params[:y2]         = params[:y1] + params[:feature_height]
     end
 
     params[:section] = Image.new( params[:width], params[:height] )
+
+    # Draw the sequence
+    if params[:row_number] == 1
+      pp [ "DRAW SEQUENCE:", { :params => [ 0, params[:height] / 2, params[:width], params[:height] / 2 ] } ]
+      draw_feature( d = Draw.new, params ) do
+        d.stroke("black")
+        d.stroke_width(2.5)
+        d.line( 0, params[:height] / 2, params[:width], params[:height] / 2 )
+      end
+    end
 
     # loop through and render our features ...
     @thing.features.each do |feature|
