@@ -91,16 +91,6 @@ class RenderAsPNG
             # raise "Unkown SSR_site"
           end
         when "polyA_site"   then draw_polyA_site(d, params)
-        # when "LRPCR_primer" then
-        #   puts ""
-        #   pp   [ "LRPCR_primer:", { :row => params[:row_number], :feature => @thing } ]
-        # when "rcmb_primer" then
-        #   # puts ""
-        #   # pp   [ "rcmb_primer:", { :row => params[:row_number], :feature => @thing } ]
-        # when "gateway"      then ""
-        # when "genomic"      then
-        #   puts ""
-        #   pp   [ "genomic:", { :row => params[:row_number], :feature => @thing } ]
         else
           # puts ""
           # pp   [ "NO RENDER METHOD FOR FEATURE:", { :row => params[:row_number], :feature => @thing } ]
@@ -120,7 +110,7 @@ class RenderAsPNG
     # We should have a count of the "renderable" features.
     # These would include the "exons" and "misc_features".
     params[:renderable_features] = @thing.features.select do |feature|
-      [ "exon", "misc_feature" ].include?(feature.type)
+      params[:renderable_features_types].include?(feature.type)
     end
 
     params[:bounding_primers] = [ @thing.lower_primer, @thing.upper_primer ].select { |x| ! x.nil? }
@@ -133,10 +123,6 @@ class RenderAsPNG
       feature.label.nil? ? 0 : feature.label.length
     end
     max_feature_length = feature_lengths.length > 0 ? feature_lengths.max : 0
-
-    # Furthermore x1 and y1 would depend on the section width and the
-    # sum of RENDERABLE feature widths.
-    # params[:x1], params[:y1] = 10, 10
 
     # All this should be done at Grid level
     if params[:row_number] == 2
@@ -173,7 +159,6 @@ class RenderAsPNG
 
     # Draw the sequence
     if params[:row_number] == 1
-      # pp [ "DRAW SEQUENCE:", { :params => [ 0, params[:height] / 2, params[:width], params[:height] / 2 ] } ]
       draw_feature( d = Draw.new, params ) do
         d.stroke("black")
         d.stroke_width(2.5)
@@ -195,16 +180,14 @@ class RenderAsPNG
       end
     end
 
-    # puts "\tSECTION LEVEL: [ #{params[:width]}, #{params[:height]} ]"
-
     params[:section]
   end
 
   def render_row(params)
     params[:row_number] = @thing.index
 
-    print "\t"
-    pp [ :widths => params[:widths] ]
+    # print "\t"
+    # pp [ :widths => params[:widths] ]
 
     row = ImageList.new()
 
@@ -212,7 +195,7 @@ class RenderAsPNG
       params[:width] = params[:widths][section.index]
       row.push( section.render( RenderAsPNG, params ) )
 
-      puts "\tROW LEVEL (ROW == #{params[:row_number]}): [ #{params[:width]}, #{params[:height]} ]"
+      # puts "\tROW LEVEL (ROW == #{params[:row_number]}): [ #{params[:width]}, #{params[:height]} ]"
     end
     row.append(false)
   end
@@ -232,38 +215,34 @@ class RenderAsPNG
     params[:upper_margin]   = 5
     params[:feature_height] = 20
     params[:feature_width]  = 20
+    params[:renderable_features_types] = [ "exon", "misc_feature", "SSR_site", "polyA_site" ]
 
     params[:widths] = []
 
-    height    = params[:text_height] + 2 * params[:upper_margin]
-    min_width = 1
+    height     = params[:text_height] + 2 * params[:upper_margin]
+    min_width  = 1
+    min_margin = 1
 
     @thing.rows[1].sections.each do |section|
-      # redo this logic ...
-      exons      = section.features.select { |f| f.type == "exon" }
+      exons               = section.features.select { |f| f.type == "exon" }
       feature_labels      = exons.map { |f| f.label.nil? ? 0 : f.label.length }
-      renderable_features = section.features.select { |f| [ "exon", "misc_feature" ].include?(f.type) }
-      feature_total_size  = ( renderable_features.size * 20 ) + ( ( renderable_features.size - 1 ) * 5 )
+      renderable_features = section.features.select do |f|
+        params[:renderable_features_types].include?(f.type)
+      end
 
-      feature_labels     = params[:text_width] * ( feature_labels.length > 0 ? feature_labels.max : 0 )
-      feature_total_size = 0 unless feature_total_size >= 0
+      feature_total_size  = ( renderable_features.size * 20 ) + ( ( renderable_features.size - 1 ) * 5 )
+      feature_labels      = params[:text_width] * ( feature_labels.length > 0 ? feature_labels.max : 0 )
+      feature_total_size  = 0 unless feature_total_size >= 0
 
       params[:widths][ section.index ]  = [ min_width, feature_labels, feature_total_size ].max
       height = [ height, exons.size * params[:text_height] + 2 * params[:upper_margin] ].max
-
-      # raise pp [ "WIDTH IS NIL:", { :params => params } ] if widths[ section.index ].nil?
     end
 
     params[:height] = 100 # need to calculate this too
 
-    puts ""
-    pp [ :widths => params[:widths] ]
-
     @thing.rows.each_index do |row_index|
       params[:width]  = params[:widths][row_index]
       params[:height] = height if row_index == 2
-
-      puts "GRID LEVEL (ROW == #{row_index}): [ #{params[:width]}, #{params[:height]} ]"
 
       grid.push( @thing.rows[row_index].render(RenderAsPNG, params) )
     end
@@ -343,6 +322,12 @@ class RenderAsPNG
   end
 
   def draw_D5_D3(d, params)
+    # puts ""
+    # pp [
+    #   :width  => params[:width],
+    #   :height => params[:height],
+    #   :line   => [ 0, params[:height] / 2, params[:width] - 1, params[:height] / 2 ] ]
+
     if params[:rcmb_primers][2].label == "D5"
       draw_feature(d, params) do
          d.stroke_width(2.5)
@@ -353,7 +338,7 @@ class RenderAsPNG
      else
        draw_feature(d, params) do
           d.stroke_width(2.5)
-          d.line( 0, params[:height] / 2, params[:width] - 1, params[:height] / 2 )
+          d.line( 0, params[:height] / 2, params[:width], params[:height] / 2 )
         end
     end
   end
