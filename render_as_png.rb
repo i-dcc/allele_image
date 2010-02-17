@@ -56,7 +56,7 @@ class RenderAsPNG
             end
           end
         when "LRPCR_primer" then
-          draw_lrpcr_primer(d, params)
+          # draw_lrpcr_primer(d, params)
         else
           # puts ""
           # pp [ "NOT HANDLED YET:", { :LRPCR_primer => @thing } ]
