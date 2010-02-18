@@ -295,6 +295,14 @@ class RenderAsPNG
   def draw_G5_U5(d, params)
     draw_feature(d, params) do
       d.stroke_width(2.5)
+      d.annotate(
+        params[:section],
+        params[:width],
+        params[:text_height],
+        0,
+        params[:height] / 2 - params[:text_height],
+        "5' homology arm (#{params[:bounding_primers].last.position - params[:bounding_primers].first.position})"
+      ) { self.gravity = CenterGravity }
       d.line( 0, params[:height] / 2 + 10,  0, params[:height] / 2 )
       d.draw(params[:section])
       d.line( 0, params[:height] / 2, params[:width] - 1, params[:height] / 2 )
