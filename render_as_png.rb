@@ -246,7 +246,21 @@ class RenderAsPNG
 
       grid.push( @thing.rows[row_index].render(RenderAsPNG, params) )
     end
-    grid.append(true)
+    grid = grid.append(true)
+
+    # perhaps we can label both the homology arms here?
+    # Label the 3' homology arm
+    d = Draw.new
+    d.annotate(
+      grid,
+      eval( ( params[:rcmb_primers].size == 4 ? params[:widths][3,2] : params[:widths][3,3] ).join('+') ),
+      params[:text_height],
+      eval( params[:widths][0,3].join('+') ),
+      100 / 2 - params[:text_height],
+      "3' homology arm (#{params[:rcmb_primers].last.position - params[:rcmb_primers][2].position})"
+    ) { self.gravity = CenterGravity }
+
+    grid
   end
 
   # ------------------------------------------------------------------------
