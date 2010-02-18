@@ -86,20 +86,20 @@ class RenderAsPNG
           elsif @thing.label.downcase == "frt"
             draw_frt(d, params)
           else
-            # puts ""
-            # pp   [ "UNKNOWN SSR_site:", { :row => params[:row_number], :feature => @thing } ]
+            puts ""
+            pp   [ "UNKNOWN SSR_site:", { :row => params[:row_number], :feature => @thing } ]
             # raise "Unkown SSR_site"
           end
         when "polyA_site"   then draw_polyA_site(d, params)
         else
-          # puts ""
-          # pp   [ "NO RENDER METHOD FOR FEATURE:", { :row => params[:row_number], :feature => @thing } ]
+          puts ""
+          pp   [ "NO RENDER METHOD FOR FEATURE:", { :row => params[:row_number], :feature => @thing } ]
           # raise "Unkown Feature"
       end
     elsif params[:row_number] == 2
       unless @thing.label
-        # puts ""
-        # pp   [ "NO LABEL FOR FEATURE:", { :row => params[:row_number], :feature => @thing } ]
+        puts ""
+        pp   [ "NO LABEL FOR FEATURE:", { :row => params[:row_number], :feature => @thing } ]
         # raise "Unlabelled feature"
       end
       return draw_label(d, params) if @thing.type == "exon"
@@ -186,16 +186,11 @@ class RenderAsPNG
   def render_row(params)
     params[:row_number] = @thing.index
 
-    # print "\t"
-    # pp [ :widths => params[:widths] ]
-
     row = ImageList.new()
 
     @thing.sections.each do |section|
       params[:width] = params[:widths][section.index]
       row.push( section.render( RenderAsPNG, params ) )
-
-      # puts "\tROW LEVEL (ROW == #{params[:row_number]}): [ #{params[:width]}, #{params[:height]} ]"
     end
     row.append(false)
   end
@@ -344,12 +339,6 @@ class RenderAsPNG
   end
 
   def draw_D5_D3(d, params)
-    # puts ""
-    # pp [
-    #   :width  => params[:width],
-    #   :height => params[:height],
-    #   :line   => [ 0, params[:height] / 2, params[:width] - 1, params[:height] / 2 ] ]
-
     if params[:rcmb_primers][2].label == "D5"
       draw_feature(d, params) do
          d.stroke_width(2.5)
