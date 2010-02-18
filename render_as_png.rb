@@ -58,8 +58,8 @@ class RenderAsPNG
         when "LRPCR_primer" then
           # draw_lrpcr_primer(d, params)
         else
-          # puts ""
-          # pp [ "NOT HANDLED YET:", { :LRPCR_primer => @thing } ]
+          puts ""
+          pp [ "NOT HANDLED YET:", { :LRPCR_primer => @thing } ]
       end
     elsif params[:row_number] == 1
       # Here we should be checking the type of the feature and delegating to
@@ -74,10 +74,10 @@ class RenderAsPNG
           case @thing.label
             when "b-galactosidase" then draw_bgal(d, params)
             when "neo"             then draw_neo(d, params)
-            when "En2 intron"      then draw_en2_sa(d, params) # should this be exon or intron?
+            when /en.*2\s+intron/i then draw_en2_sa(d, params)
             else
-              # puts ""
-              # pp   [ "UNKNOWN CASSETTE FEATURE:", { :row => params[:row_number], :feature => @thing } ]
+              puts ""
+              pp   [ "UNKNOWN CASSETTE FEATURE:", { :row => params[:row_number], :feature => @thing } ]
               # raise "Unkown cassette feature"
           end
         when "SSR_site"     then
