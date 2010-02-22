@@ -231,6 +231,11 @@ class RenderAsPNG
 
       params[:widths][ section.index ]  = [ min_width, feature_labels, feature_total_size ].max
       height = [ height, exons.size * params[:text_height] + 2 * params[:upper_margin] ].max
+
+      # Ensure the 5' homology arm is long enough to write "5' homology arm (length)"
+      if section.index == 1 and params[:widths][section.index] == min_width
+        params[:widths][section.index] = [ params[:widths][section.index], 20 * params[:text_width] ].max
+      end
     end
 
     params[:height] = 100 # need to calculate this too
