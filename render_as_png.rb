@@ -62,6 +62,8 @@ class RenderAsPNG
           pp [ "NOT HANDLED YET:", { :LRPCR_primer => @thing } ]
       end
     elsif params[:row_number] == 1
+      puts
+      pp [ "ORIGIN", { :x1 => params[:x1], :y1 => params[:y1], :section => params[:section_index] } ]
       # Here we should be checking the type of the feature and delegating to
       # specific methods for rendering those features.
       # All these methods should be refactored out and should be of the form:
@@ -70,6 +72,7 @@ class RenderAsPNG
       # when "feature" then return render_feature(params)
       case @thing.type
         when "exon"         then draw_exon(d, params)
+        when "INTERVENING SEQUENCE" then draw_exon_cluster(d, params)
         when "misc_feature" then
           case @thing.label
             when "b-galactosidase" then draw_bgal(d, params)
@@ -126,9 +129,9 @@ class RenderAsPNG
 
     # All this should be done at Grid level
     if params[:row_number] == 2
-      exons = @thing.features.select do |f|
-        f.type == 'exon'
-      end
+      # exons = @thing.features.select do |f|
+      #   f.type == 'exon'
+      # end
 
       # Calculate the required height for row 2 defaulting to 100
       left_margin           = ( params[:width] - ( max_feature_length * params[:text_width] ) ) / 2
@@ -166,8 +169,25 @@ class RenderAsPNG
       end
     end
 
+    params[:section_index] = @thing.index
+    features_to_render = @thing.features
+
+    exons = @thing.features.select do |f|
+      f.type == 'exon'
+    end
+    if exons.size >= 5
+      require "feature"
+      puts
+      pp [ "NEW FEATURE LIST:" => [ exons.first, Feature.new("INTERVENING SEQUENCE", exons.first.position + exons.last.position - exons.first.position, "NA"), exons.last ] ]
+      features_to_render = [
+        exons.first,
+        Feature.new("INTERVENING SEQUENCE", exons.first.position + exons.last.position - exons.first.position, "NA"),
+        exons.last
+      ]
+    end
+
     # loop through and render our features ...
-    @thing.features.each do |feature|
+    features_to_render.each do |feature|
       if feature.render( RenderAsPNG, params )
         # update the coordinates if a feature was rendered
         if params[:row_number] == 2
@@ -179,6 +199,8 @@ class RenderAsPNG
         end
       end
     end
+
+    features_to_render = @thing.features
 
     params[:section]
   end
@@ -210,6 +232,7 @@ class RenderAsPNG
     params[:upper_margin]   = 5
     params[:feature_height] = 20
     params[:feature_width]  = 20
+    params[:gap]            = 5
     params[:renderable_features_types] = [ "exon", "misc_feature", "SSR_site", "polyA_site" ]
 
     params[:widths] = []
@@ -228,6 +251,13 @@ class RenderAsPNG
       feature_total_size  = ( renderable_features.size * 20 ) + ( ( renderable_features.size - 1 ) * 5 )
       feature_labels      = params[:text_width] * ( feature_labels.length > 0 ? feature_labels.max : 0 )
       feature_total_size  = 0 unless feature_total_size >= 0
+
+      # DEBUGGING:
+      if exons.size >= 5
+        feature_total_size = ( params[:feature_width] * 3 ) + ( params[:gap] * 4 )
+        # puts
+        # pp [ :features => section.features, :width => feature_total_size ]
+      end
 
       params[:widths][ section.index ]  = [ min_width, feature_labels, feature_total_size ].max
       height = [ height, exons.size * params[:text_height] + 2 * params[:upper_margin] ].max
@@ -283,6 +313,14 @@ class RenderAsPNG
       d.fill("yellow")
       d.rectangle( params[:x1], params[:y1], params[:x2], params[:y2] )
     end
+  end
+
+  def draw_exon_cluster(d, params)
+    d.stroke_width(2.5)
+    d.line( params[:x1], params[:y1] + params[:feature_height], params[:x1] + params[:feature_width] / 2, params[:y1])
+    d.draw( params[:section] )
+    d.line( params[:x1] + params[:feature_width] / 2, params[:y1] + params[:feature_height], params[:x1] + params[:feature_width], params[:y1] )
+    d.draw( params[:section] )
   end
 
   def draw_loxp(d, params)
