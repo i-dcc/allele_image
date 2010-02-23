@@ -50,16 +50,16 @@ class RenderAsPNG
               when ["D3", "G3"] then draw_D3_G3(d, params)
               else
                 unless ["U5", "U3"].eql?( params[:bounding_primers].map { |p| p.label } )
-                  puts ""
-                  pp [ "NOT HANDLED YET:", { :bounding_primers => [ params[:bounding_primers].map { |x| x.label } ] } ]
+                  # puts ""
+                  # pp [ "NOT HANDLED YET:", { :bounding_primers => [ params[:bounding_primers].map { |x| x.label } ] } ]
                 end
             end
           end
         when "LRPCR_primer" then
           # draw_lrpcr_primer(d, params)
         else
-          puts ""
-          pp [ "NOT HANDLED YET:", { :LRPCR_primer => @thing } ]
+          # puts ""
+          # pp [ "NOT HANDLED YET:", { :LRPCR_primer => @thing } ]
       end
     elsif params[:row_number] == 1
       puts
@@ -95,8 +95,8 @@ class RenderAsPNG
           end
         when "polyA_site"   then draw_polyA_site(d, params)
         else
-          puts ""
-          pp   [ "NO RENDER METHOD FOR FEATURE:", { :row => params[:row_number], :feature => @thing } ]
+          # puts ""
+          # pp   [ "NO RENDER METHOD FOR FEATURE:", { :row => params[:row_number], :feature => @thing } ]
           # raise "Unkown Feature"
       end
     elsif params[:row_number] == 2
@@ -175,10 +175,17 @@ class RenderAsPNG
     exons = @thing.features.select do |f|
       f.type == 'exon'
     end
-    if exons.size >= 5
+    if exons.size >= 5 and params[:row_number] == 1
       require "feature"
-      puts
-      pp [ "NEW FEATURE LIST:" => [ exons.first, Feature.new("INTERVENING SEQUENCE", exons.first.stop, exons.last.start, "NA"), exons.last ] ]
+      # puts
+      # pp [
+      #   "NEW FEATURE LIST:" => [
+      #     exons.first,
+      #     Feature.new("INTERVENING SEQUENCE", exons.first.stop, exons.last.start, "NA"),
+      #     exons.last
+      #   ],
+      #   "OLD FEATURE LIST:" => features_to_render
+      # ]
       features_to_render = [
         exons.first,
         Feature.new("INTERVENING SEQUENCE", exons.first.stop, exons.last.start, "NA"),
