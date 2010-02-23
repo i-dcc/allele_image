@@ -287,7 +287,7 @@ class RenderAsPNG
       params[:text_height],
       eval( params[:widths][0,3].join('+') ),
       100 / 2 - params[:text_height],
-      "3' homology arm (#{params[:rcmb_primers].last.start - params[:rcmb_primers][2].start})"
+      "3' homology arm (#{params[:rcmb_primers].last.stop - params[:rcmb_primers][2].start})"
     ) { self.gravity = CenterGravity }
 
     grid
@@ -353,7 +353,7 @@ class RenderAsPNG
         params[:text_height],
         0,
         params[:height] / 2 - params[:text_height],
-        "5' homology arm (#{params[:bounding_primers].last.start - params[:bounding_primers].first.start})"
+        "5' homology arm (#{params[:bounding_primers].last.stop - params[:bounding_primers].first.start})"
       ) { self.gravity = CenterGravity }
       d.line( 0, params[:height] / 2 + 10,  0, params[:height] / 2 )
       d.draw(params[:section])
