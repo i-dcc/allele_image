@@ -6,7 +6,7 @@ class Row
 
   def initialize(index, features, rcmb_primers)
     @index, @features = index, features
-    @rcmb_primers     = rcmb_primers.sort { |a,b| a.position <=> b.position }
+    @rcmb_primers     = rcmb_primers.sort { |a,b| a.start <=> b.start }
 
     # Allocate the features into their sections
     @sections   = Array.new()

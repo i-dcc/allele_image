@@ -18,11 +18,11 @@ class TestGrid < Test::Unit::TestCase
   context "a new Grid" do
     setup do
       @features = [
-        Feature.new("rcmb_primer", 80, "G5"),
-        Feature.new("lrpcr_primer", 10, nil),
-        Feature.new("genomic", 60, nil),
-        Feature.new("c", 100, nil),
-        Feature.new("d", 110, nil)
+        Feature.new("rcmb_primer", 80, 90, "G5"),
+        Feature.new("lrpcr_primer", 10, 20, nil),
+        Feature.new("genomic", 60, 70, nil),
+        Feature.new("c", 100, 105, nil),
+        Feature.new("d", 110, 115, nil)
       ]
 
       @is_circular = 0
@@ -35,8 +35,8 @@ class TestGrid < Test::Unit::TestCase
     end
     
     should "have sorted features" do
-      assert_equal( 10, @grid.features.first.position)
-      assert_equal(110, @grid.features.last.position )
+      assert_equal( 10, @grid.features.first.start)
+      assert_equal(110, @grid.features.last.start )
     end
     
     should "have some annotation features" do

@@ -14,7 +14,7 @@ require "render_as_png"
 class TestRenderAsPNG < Test::Unit::TestCase
   context "a new Feature" do
     setup do
-      @feature = Feature.new("exon", 100, "EXON001")
+      @feature = Feature.new("exon", 100, 110, "EXON001")
       @format  = RenderAsPNG
       @section = Image.new(90, 100)
     end
@@ -82,15 +82,15 @@ class TestRenderAsPNG < Test::Unit::TestCase
   context "a new Grid" do
     setup do
       @features = [
-        Feature.new("rcmb_primer", 150, "G5"),
-        Feature.new("rcmb_primer", 350, "U5"),
-        Feature.new("rcmb_primer", 450, "D3"),
-        Feature.new("rcmb_primer", 700, "G3"),
-        Feature.new("exon", 100, "EXON001"),
-        Feature.new("exon", 200, "EXON002"),
-        Feature.new("exon", 300, "EXON003"),
-        Feature.new("exon", 400, "EXON004"),
-        Feature.new("exon", 900, "EXON009")
+        Feature.new("rcmb_primer", 150, 160, "G5"),
+        Feature.new("rcmb_primer", 350, 360, "U5"),
+        Feature.new("rcmb_primer", 450, 460, "D3"),
+        Feature.new("rcmb_primer", 700, 710, "G3"),
+        Feature.new("exon", 100, 110, "EXON001"),
+        Feature.new("exon", 200, 210, "EXON002"),
+        Feature.new("exon", 300, 310, "EXON003"),
+        Feature.new("exon", 400, 410, "EXON004"),
+        Feature.new("exon", 900, 910, "EXON009")
       ]
       @grid    = Grid.new(@features, 0)
       @format  = RenderAsPNG
@@ -115,7 +115,7 @@ class TestRenderAsPNG < Test::Unit::TestCase
   context "a conditional allele" do
     setup do
       @features = Bio::GenBank.open("./2009_11_27_conditional_linear.gbk").next_entry.features.map do |f|
-        Feature.new( f.feature, f.locations.first.from, f.assoc["label"] )
+        Feature.new( f.feature, f.locations.first.from, f.locations.first.to, f.assoc["label"] )
       end
       @grid   = Grid.new(@features, 0)
       @format = RenderAsPNG
@@ -141,7 +141,7 @@ class TestRenderAsPNG < Test::Unit::TestCase
   context "a non conditional allele" do
     setup do
       @features = Bio::GenBank.open("./2009_11_27_non_conditional_linear.gbk").next_entry.features.map do |f|
-        Feature.new( f.feature, f.locations.first.from, f.assoc["label"] )
+        Feature.new( f.feature, f.locations.first.from, f.locations.first.to, f.assoc["label"] )
       end
       @grid   = Grid.new(@features, 0)
       @format = RenderAsPNG
@@ -169,7 +169,7 @@ class TestRenderAsPNG < Test::Unit::TestCase
   context "a NEW (i.e. up to date) conditional allele" do
     setup do
       @features = Bio::GenBank.open("./2010_02_11_conditional_linear.gbk").next_entry.features.map do |f|
-        Feature.new( f.feature, f.locations.first.from, f.assoc["label"] )
+        Feature.new( f.feature, f.locations.first.from, f.locations.first.to, f.assoc["label"] )
       end
       @grid   = Grid.new(@features, 0)
       @format = RenderAsPNG
@@ -195,7 +195,7 @@ class TestRenderAsPNG < Test::Unit::TestCase
   context "a NEW (i.e. up to date) non conditional allele" do
     setup do
       @features = Bio::GenBank.open("./2010_02_11_non_conditional_linear.gbk").next_entry.features.map do |f|
-        Feature.new( f.feature, f.locations.first.from, f.assoc["label"] )
+        Feature.new( f.feature, f.locations.first.from, f.locations.first.to, f.assoc["label"] )
       end
       @grid   = Grid.new(@features, 0)
       @format = RenderAsPNG

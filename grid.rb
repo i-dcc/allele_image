@@ -12,7 +12,7 @@ class Grid
     @rcmb_primers = features.select { |x| x.type.downcase == "rcmb_primer" }
 
     # Manage the features
-    @features = features.sort { |a,b| a.position <=> b.position }
+    @features = features.sort { |a,b| a.start <=> b.start }
 
     @annotation_features = @features.select do |x|
          x.type.downcase == "rcmb_primer"  \

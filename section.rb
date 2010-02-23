@@ -9,15 +9,15 @@ class Section
     # what do we do with features that are on the margins?
     if @lower_primer and @upper_primer
       @features = features.select do |feature|
-        feature.position >= lower_primer.position and feature.position <= upper_primer.position
+        feature.start >= lower_primer.start and feature.start <= upper_primer.start
       end
     elsif @lower_primer and not @upper_primer
       @features = features.select do |feature|
-        feature.position >= lower_primer.position
+        feature.start >= lower_primer.start
       end
     elsif not @lower_primer and @upper_primer
       @features = features.select do |feature|
-        feature.position <= upper_primer.position
+        feature.start <= upper_primer.start
       end
     else
       # Need to improve on this error message as it is not very helpful

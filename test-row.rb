@@ -9,17 +9,17 @@ class TestRow < Test::Unit::TestCase
   context "a new Row" do
     setup do
       @primers = [
-        Feature.new("rcmb_primer", 150, "G5"),
-        Feature.new("rcmb_primer", 350, "U5"),
-        Feature.new("rcmb_primer", 450, "D3"),
-        Feature.new("rcmb_primer", 700, "G3")
+        Feature.new("rcmb_primer", 150, 160, "G5"),
+        Feature.new("rcmb_primer", 350, 360, "U5"),
+        Feature.new("rcmb_primer", 450, 460, "D3"),
+        Feature.new("rcmb_primer", 700, 710, "G3")
       ]
       @features = [
-        Feature.new("exon", 100, "EXON001"),
-        Feature.new("exon", 200, "EXON002"),
-        Feature.new("exon", 300, "EXON003"),
-        Feature.new("exon", 400, "EXON004"),
-        Feature.new("exon", 900, "EXON009")
+        Feature.new("exon", 100, 110, "EXON001"),
+        Feature.new("exon", 200, 210, "EXON002"),
+        Feature.new("exon", 300, 310, "EXON003"),
+        Feature.new("exon", 400, 410, "EXON004"),
+        Feature.new("exon", 900, 910, "EXON009")
       ]
       @row = Row.new(1, @features, @primers)
     end

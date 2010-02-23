@@ -178,10 +178,10 @@ class RenderAsPNG
     if exons.size >= 5
       require "feature"
       puts
-      pp [ "NEW FEATURE LIST:" => [ exons.first, Feature.new("INTERVENING SEQUENCE", exons.first.position + exons.last.position - exons.first.position, "NA"), exons.last ] ]
+      pp [ "NEW FEATURE LIST:" => [ exons.first, Feature.new("INTERVENING SEQUENCE", exons.first.stop, exons.last.start, "NA"), exons.last ] ]
       features_to_render = [
         exons.first,
-        Feature.new("INTERVENING SEQUENCE", exons.first.position + exons.last.position - exons.first.position, "NA"),
+        Feature.new("INTERVENING SEQUENCE", exons.first.stop, exons.last.start, "NA"),
         exons.last
       ]
     end
@@ -287,7 +287,7 @@ class RenderAsPNG
       params[:text_height],
       eval( params[:widths][0,3].join('+') ),
       100 / 2 - params[:text_height],
-      "3' homology arm (#{params[:rcmb_primers].last.position - params[:rcmb_primers][2].position})"
+      "3' homology arm (#{params[:rcmb_primers].last.start - params[:rcmb_primers][2].start})"
     ) { self.gravity = CenterGravity }
 
     grid
@@ -353,7 +353,7 @@ class RenderAsPNG
         params[:text_height],
         0,
         params[:height] / 2 - params[:text_height],
-        "5' homology arm (#{params[:bounding_primers].last.position - params[:bounding_primers].first.position})"
+        "5' homology arm (#{params[:bounding_primers].last.start - params[:bounding_primers].first.start})"
       ) { self.gravity = CenterGravity }
       d.line( 0, params[:height] / 2 + 10,  0, params[:height] / 2 )
       d.draw(params[:section])
