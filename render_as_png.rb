@@ -127,12 +127,25 @@ class RenderAsPNG
     end
     max_feature_length = feature_lengths.length > 0 ? feature_lengths.max : 0
 
-    # All this should be done at Grid level
-    if params[:row_number] == 2
-      # exons = @thing.features.select do |f|
-      #   f.type == 'exon'
-      # end
+    params[:section_index] = @thing.index
+    features_to_render = @thing.features
 
+    exons = @thing.features.select do |f|
+      f.type == 'exon'
+    end
+    if exons.size >= 5 and params[:row_number] == 1
+      require "feature"
+      features_to_render = [
+        exons.first,
+        Feature.new("INTERVENING SEQUENCE", exons.first.stop, exons.last.start, "NA"),
+        exons.last
+      ]
+    end
+
+    # All this should be done at Grid level
+    # I believe all the calculation of the dimensions should be done long before this point
+    # (at Grid level probably) and thus no re-calculations done here.
+    if params[:row_number] == 2
       # Calculate the required height for row 2 defaulting to 100
       left_margin           = ( params[:width] - ( max_feature_length * params[:text_width] ) ) / 2
       params[:lower_margin] = params[:upper_margin]
@@ -169,30 +182,6 @@ class RenderAsPNG
       end
     end
 
-    params[:section_index] = @thing.index
-    features_to_render = @thing.features
-
-    exons = @thing.features.select do |f|
-      f.type == 'exon'
-    end
-    if exons.size >= 5 and params[:row_number] == 1
-      require "feature"
-      # puts
-      # pp [
-      #   "NEW FEATURE LIST:" => [
-      #     exons.first,
-      #     Feature.new("INTERVENING SEQUENCE", exons.first.stop, exons.last.start, "NA"),
-      #     exons.last
-      #   ],
-      #   "OLD FEATURE LIST:" => features_to_render
-      # ]
-      features_to_render = [
-        exons.first,
-        Feature.new("INTERVENING SEQUENCE", exons.first.stop, exons.last.start, "NA"),
-        exons.last
-      ]
-    end
-
     # loop through and render our features ...
     features_to_render.each do |feature|
       if feature.render( RenderAsPNG, params )
@@ -206,8 +195,6 @@ class RenderAsPNG
         end
       end
     end
-
-    features_to_render = @thing.features
 
     params[:section]
   end
