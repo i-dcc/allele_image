@@ -1,89 +1,48 @@
 #!/usr/bin/env ruby -wKU
-
+require "rubygems"
+require "pp"
+require "bio"
 require "feature"
 require "section"
+require "row"
+require "grid"
+require "render_as_png"
 
-class RenderAsText
-  def initialize(feature)
-    @feature = feature
-  end
-  def render(params)
-    feat  = "([ #{ @feature.type }, #{ @feature.position }, #{ @feature.label } } ], Feature)" 
-    feat += " : #{ params[:section].index }" if params[:section]
-    feat
-  end
-end
+# A perl one-liner to generate the image generate commands:
+# cd /nfs/users/nfs_i/io1/workspace/allele-imaging
+# perl -le 'print "ruby $ARGV[2] $ARGV[1] $_" while glob "$ARGV[0]/*.gbk"' ${DATADIR} ~/tmp /nfs/users/nfs_i/io1/workspace/allele-imaging/render_allele.rb
 
-# f1 = Feature.new("exon", 10, "EXON001").render(RenderAsText)
-# f2 = Feature.new("exon", 10, "EXON001").render(RenderAsText, :section => Section.new(0, [], Feature.new("rcmb_primer", 10, "G5"), nil))
+output_dir = ARGV.shift
+gbk_file   = ARGV.shift
+png_file   = "#{output_dir}/mutant_allele_#{ gbk_file.match(/\d+/).to_s }.png"
 
-class RenderAsPNG
-  require "RMagick"
-  include Magick
-  def initialize(feature)
-    @feature = feature
-  end
-  def render(params)
-    d = Draw.new
-    d.stroke("black")
-    d.fill("blue")
-    d.rectangle(params[:x1], params[:y1], params[:x2], params[:y2])
-    d.draw(params[:section])
-  end
-  def render_feature
-  end
-  def render_section
-  end
-  def render_row
-  end
-  def render_grid
+# Get the features
+# Parsing the GenBank is not yet complete. We need to get the is_circular flag from the GenBank file
+features = Bio::GenBank.open(gbk_file).next_entry.features.map do |f|
+  unless f.qualifiers.length == 0
+    name = ( f.assoc["label"] ? f.assoc["label"] : f.assoc["note"] )
+
+    # Trim the exon names. This shoud be here and not the rendering code (I think).
+    if f.feature == "exon"
+      name = name.match(/(\w+)$/).captures.last
+    end
+
+    Feature.new( f.feature, f.locations.first.from, f.locations.first.to, name )
   end
 end
 
-require "RMagick"
-include Magick
+# Remove undefined values
+features = features.select { |f| not f.nil? }
 
-i = Image.new(200, 100)
-f = Feature.new("exon", 10, "EXON001").render(RenderAsPNG, :section => i, :x1 => 50, :y1 => 25, :x2 => 150, :y2 => 75)
-i.display
+# Create a new grid
+grid = Grid.new(features, 0).render(RenderAsPNG)
 
-=begin
-
-## shift + alt to select vertical columns in TextMate
-# irb(main):061:0> Text = 'RMagick'
-# => "RMagick"
-# irb(main):062:0> granite = Magick::ImageList.new('granite:')
-# => [granite:=>GRANITE GRANITE 128x128 128x128+0+0 PseudoClass 16c 8-bit 6kb]
-# scene=0
-# irb(main):063:0> canvas = Magick::ImageList.new
-# => []
-# scene=
-# irb(main):064:0> canvas.new_image(300, 100, Magick::TextureFill.new(granite))
-# => [  300x100 DirectClass 16-bit]
-# scene=0
-# irb(main):065:0> text = Magick::Draw.new
-# => (no primitives defined)
-# irb(main):066:0> text.font_family = 'helvetica'
-# => "helvetica"
-# irb(main):067:0> text.pointsize = 52
-# => 52
-# irb(main):068:0> text.gravity = Magick::CenterGravity
-# => CenterGravity=5
-# irb(main):069:0> text.annotate(canvas, 0,0,2,2, Text) {
-# irb(main):070:1* self.fill = 'gray83'
-# irb(main):071:1> }
-# => (no primitives defined)
-# irb(main):072:0> text.annotate(canvas, 0,0,-1.5,-1.5, Text) {
-# irb(main):073:1* self.fill = 'gray40'
-# irb(main):074:1> }
-# => (no primitives defined)
-# irb(main):075:0> text.annotate(canvas, 0,0,0,0, Text) {
-# irb(main):076:1* self.fill = 'darkred'
-# irb(main):077:1> }
-# => (no primitives defined)
-# irb(main):078:0> canvas.write('rubyname.gif')
-# => [rubyname.gif  300x100 PseudoClass 154c 16-bit]
-# scene=0
-# irb(main):079:0> 
-
-=end
+# Write the png
+begin
+  if grid.write(png_file)
+    puts
+    pp [ "SUCCESSFUL RENDERING:", { "GenBank File" => gbk_file, "Image File" => png_file } ]
+  end
+rescue ImageMagickError
+  puts "There was an error writing to '#{png_file}'. Investigate and eliminate."
+end
