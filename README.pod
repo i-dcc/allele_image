@@ -2,7 +2,7 @@
 
 =head1 Allele-Imaging
 
-See examples here http://www.sanger.ac.uk/htgt/report/gene_report?project_id=35505
+See examples here L<http://www.sanger.ac.uk/htgt/report/gene_report?project_id=35505>
 
 =head1 TODO
 
@@ -18,8 +18,18 @@ we need to list the features we encounter and have some way of classifying them.
 
 Every image should contain the following regions/sections in this order:
 
-    G5                U5       U3/D5   [D3]   G3
-    | 5' homology arm | cassette | 3' homology |
+    G5                U5       U3/D5     [D3]     G3
+    | 5' homology arm | cassette | 3' homology arm |
+
+The 3' homology arm consists of a genomic region plus 2 optional regions:
+
+=over 8
+
+=item target region
+
+=item loxP region
+
+=back
 
 =item
 
@@ -31,7 +41,7 @@ Depending on the "circular" flag, we may have to render:
 =item i-dcc.org
 
 Need to be able to render the i-dcc GenBank files as well.
-See http://www.i-dcc.org/targ_rep/alleles/1 for an example GenBank file.
+See L<http://www.i-dcc.org/targ_rep/alleles/1> for an example GenBank file.
 
 =back
 
