@@ -15,7 +15,8 @@ $hoe = Hoe.spec 'allele_image' do
   self.post_install_message = 'PostInstall.txt' # TODO remove if post-install message not required
   self.rubyforge_name       = self.name # TODO this is default value
   # self.extra_deps         = [['activesupport','>= 2.0.2']]
-
+  self.extra_dev_deps   = [["shoulda",">=0"]]
+  self.extra_rdoc_files = ["README.rdoc"]
 end
 
 require 'newgem/tasks'

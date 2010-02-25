@@ -7,5 +7,6 @@ lib/allele_image.rb
 script/console
 script/destroy
 script/generate
+tasks/metrics.rake
 test/test_allele_image.rb
 test/test_helper.rb
