@@ -1,6 +1,6 @@
 = allele_image
 
-* http://github.com/#{github_username}/#{project_name}
+* http://github.com/j1n3l0/allele-imaging
 
 == DESCRIPTION:
 
