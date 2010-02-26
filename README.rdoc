@@ -8,6 +8,25 @@ Generate allele images in a specified format from a genomic data.
 By default the genomic data will be in GenBank format and the images
 will be rendered in PNG format.
 
+Only 10 "TYPE"s of things are in our cassette regions:
+
+[
+  'SSR_site',
+  'polyA_site',
+  'misc_feature',
+  'gateway',
+  'gene',
+  'LRPCR_primer',
+  'intron',
+  'primer_bind',
+  'promoter',
+  'PCR_primer',
+  'exon'
+]
+
+How many of these are we interested in displaying (probably all). What do
+we want to display in each case.
+
 == FEATURES/PROBLEMS:
 
 * Render images in various formats (PNG, SVG, Text)
