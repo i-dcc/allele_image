@@ -54,12 +54,12 @@ class CassetteRegion
     width, gaps = 0, 0
     @features.each do |feature|
       if feature[:name] == "gap"
-        gaps += 1
+        gaps += @gap_width
       else
-        width += feature[:name].length # should check/define feature.width/feature[:width] first
+        width += feature[:name].length * @text_width # should check/define feature.width/feature[:width] first
       end
     end
-    return width * @text_width + gaps * @gap_width
+    return width + gaps
   end
 
   # decide on the need for a gap/space. we need one:
