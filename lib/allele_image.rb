@@ -12,10 +12,10 @@ module AlleleImage
 
   # write the image to a file
   def write_to_file( file )
-    # this should also be in a try-catch block itself as sometimes we can't get the fonts
-    image = self.render()
     begin
-      image.write( file )
+      self.render().write( file )
+    rescue Magick::ImageMagickError => error
+      puts "Magick::ImageMagickError: " + error
     rescue
       puts "Problems writing image to file: #{ file }"
     end
