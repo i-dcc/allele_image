@@ -179,15 +179,5 @@ module AlleleImage
 
       return @image
     end
-
-    # write the image to a file
-    def write_to_file( file )
-      image = self.render()
-      begin
-        image.write( file )
-      rescue
-        puts "Problems writing image to file: #{ file }"
-      end
-    end
   end
 end
