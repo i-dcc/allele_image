@@ -37,6 +37,7 @@ include Magick
 # 
 # TODO:
 # + Refactor this to separate Rendering from Sorting (move insert_gaps_between() somewhere else)
+# + Currently focussing on the main row only
 class CassetteRegion
   def initialize( features )
     @features              = insert_gaps_between( features )
