@@ -1,4 +1,4 @@
-#!/software/team87/brave_new_world/app/ruby-1.8.7-p174/bin/ruby -wKU
+#!/usr/bin/env ruby
 require "rubygems"
 require "RMagick"
 require "pp"
@@ -34,6 +34,9 @@ include Magick
 # of known widths (i.e. FRT, loxP) should get tagged as such. With that in
 # place, when calculating the image width we should use this set width if
 # present. Otherwise we should use the name.length * text_width.
+# 
+# TODO:
+# + Refactor this to separate Rendering from Sorting (move insert_gaps_between() somewhere else)
 class CassetteRegion
   def initialize( features )
     @features              = insert_gaps_between( features )
@@ -157,9 +160,10 @@ class CassetteRegion
       end
   end
 
-  # draw the cassette @features, no spaces b/w the @features
-  # the @features have to be the renderable @features otherwise it throws off all calculatins
-  def draw_cassette
+  # Perhaps this should take an optional argument
+  # "file.png" to which the image will get written
+  # It should still return just the image.
+  def render
     cassette_width  = @cassette_width
     cassette_height = @cassette_height                             # again height will need to be calculated
     x               = 0
@@ -195,4 +199,4 @@ features = [
   # { :type => "misc_feature", :name => "human beta actin promoter" }
 ]
 
-CassetteRegion.new(features).draw_cassette().write("/nfs/users/nfs_i/io1/tmp/test.png")
+CassetteRegion.new(features).render().write("/nfs/users/nfs_i/io1/tmp/test.png")
