@@ -160,9 +160,6 @@ class CassetteRegion
       end
   end
 
-  # Perhaps this should take an optional argument
-  # "file.png" to which the image will get written
-  # It should still return just the image.
   def render
     cassette_width  = @cassette_width
     cassette_height = @cassette_height                             # again height will need to be calculated
@@ -184,6 +181,16 @@ class CassetteRegion
 
     return @image
   end
+
+  # write the image to a file
+  def write_to_file( file )
+    image = self.render()
+    begin
+      image.write( file )
+    rescue
+      puts "Problems writing image to file: #{ file }"
+    end
+  end
 end
 
 # some tests ...
@@ -199,4 +206,4 @@ features = [
   # { :type => "misc_feature", :name => "human beta actin promoter" }
 ]
 
-CassetteRegion.new(features).render().write("/nfs/users/nfs_i/io1/tmp/test.png")
+CassetteRegion.new( features ).write_to_file( "/nfs/users/nfs_i/io1/tmp/test.png" )
