@@ -43,14 +43,14 @@ class CassetteRegion
     @text_width            = 10
     @gap_width             = 5
     @text_height           = 20
-    @cassette_width        = cassette_section_width()
+    @cassette_width        = calculate_width()
     @cassette_height       = 100
     @sequence_stroke_width = 2.5
     @image                 = Image.new( @cassette_width, @cassette_height )
   end
 
   # find sum of feature labels
-  def cassette_section_width
+  def calculate_width
     width, gaps = 0, 0
     @features.each do |feature|
       if feature[:name] == "gap"
