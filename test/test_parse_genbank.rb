@@ -12,7 +12,10 @@ class TestAlleleImageParseGenbank < Test::Unit::TestCase
 
     should "return the correct number of features" do
       assert_equal 69, @parser.features.count
-      # pp @parser.features
+    end
+
+    should "return the correct number of rcmb_primers" do
+      assert_equal 6, @parser.rcmb_primers.count
     end
   end
 end
