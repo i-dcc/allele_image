@@ -17,5 +17,10 @@ class TestAlleleImageParseGenbank < Test::Unit::TestCase
     should "return the correct number of rcmb_primers" do
       assert_equal 6, @parser.rcmb_primers.count
     end
+
+    should "return the correct number of cassette features" do
+      # check what the correct number for this file should be and adjust
+      assert_equal 42, @parser.cassette_features.count
+    end
   end
 end

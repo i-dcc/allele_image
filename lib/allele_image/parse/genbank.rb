@@ -34,7 +34,9 @@ module AlleleImage::Parse
       @rcmb_primers = @features.select { |feature| feature[:type] == "rcmb_primer" }
 
       # Collect the features into appropriate regions
-      # @cassette_features = @features.select { |feature| }
+      @cassette_features = @features.select do |feature|
+        feature[:start] >= @rcmb_primers[1][:start] and feature[:start] <= @rcmb_primers[3][:start]
+      end
     end
   end
 end
