@@ -139,6 +139,8 @@ module AlleleImage
         draw_cassette_feature( feature[:name], x, y, background_colour = "aquamarine", text_colour = "white" )
       when "Bact::neo" then
         draw_cassette_feature( feature[:name], x, y, background_colour = "aquamarine", text_colour = "white" )
+      when "IRES" then
+        draw_cassette_feature( feature[:name], x, y, background_colour = "orange", text_colour = "white" )
       else                                     
         draw_cassette_feature( feature[:name], x, y )
       end
