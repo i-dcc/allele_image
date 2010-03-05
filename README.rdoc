@@ -25,8 +25,8 @@ Only 10 "TYPE"s of things are in our cassette regions:
 ]
 
 How many of these are we interested in displaying (probably all). What do
-we want to display in each case. Which of these are "main" fatures and which
-are "annotation" features?
+we want to display in each case. Which of these are "main" features and
+which are "annotation" features?
 
 Based on http://www.sanger.ac.uk/htgt/report/gene_report?project_id=47462,
 we may have to change the way we process the rows and sections. It may mean
