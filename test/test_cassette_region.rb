@@ -2,9 +2,9 @@ require File.dirname(__FILE__) + '/test_helper.rb'
 
 class TestAlleleImage < Test::Unit::TestCase
 
-  context "a promoter_less CassetteRegion" do
+  context "a promoterless CassetteRegion" do
     setup do
-      @cassette_region = AlleleImage::CassetteRegion.new([
+      @promoterless = AlleleImage::CassetteRegion.new([
         { :type => "misc_feature", :name => "pA"     },
         { :type => "SSR_site",     :name => "FRT"    },
         { :type => "misc_feature", :name => "En2 SA" },
@@ -17,11 +17,11 @@ class TestAlleleImage < Test::Unit::TestCase
     end
 
     should "return true when created" do
-      assert_not_nil @cassette_region
+      assert_not_nil @promoterless
     end
 
     should "write to a PNG file returning a Magick::Image" do
-      assert_instance_of Magick::Image, @cassette_region.write_to_file( "/nfs/users/nfs_i/io1/tmp/cassette_region.png" )
+      assert_instance_of Magick::Image, @promoterless.write_to_file( "/nfs/users/nfs_i/io1/tmp/promoterless.png" )
     end
   end
 
@@ -30,7 +30,7 @@ class TestAlleleImage < Test::Unit::TestCase
       @promoter_driven = AlleleImage::CassetteRegion.new([
         { :type => "SSR_site",     :name => "FRT"       },
         { :type => "misc_feature", :name => "En2 SA"    },
-        { :type => "misc_feature", :name => "IRES"      },
+        { :type => "misc_feature", :name => "IRES"      }, # /note="ECMV IRES"
         { :type => "misc_feature", :name => "Bgal"      },
         { :type => "misc_feature", :name => "pA"        },
         { :type => "SSR_site",     :name => "loxP"      },
