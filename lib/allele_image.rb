@@ -2,6 +2,7 @@ $:.unshift(File.dirname(__FILE__)) unless
   $:.include?(File.dirname(__FILE__)) || $:.include?(File.expand_path(File.dirname(__FILE__)))
 
 require "rubygems"
+require "bio"
 require "RMagick"
 require "pp"
 
@@ -25,3 +26,4 @@ end
 directory = File.expand_path( File.dirname(__FILE__) )
 
 require File.join( directory, 'allele_image', 'cassette_region' )
+require File.join( directory, 'allele_image', 'parse', 'genbank' )
