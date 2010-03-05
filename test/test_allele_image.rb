@@ -27,5 +27,9 @@ class TestAlleleImage < Test::Unit::TestCase
     should "return the correct number of 5' arm features" do
       assert_equal 6, @allele_image.five_homology_features.count
     end
+
+    should "return the correct number of 3' arm features" do
+      assert_equal 16, @allele_image.three_homology_features.count
+    end
   end
 end

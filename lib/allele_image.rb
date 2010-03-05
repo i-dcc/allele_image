@@ -13,6 +13,7 @@ module AlleleImage
 
   class Image
     attr_reader :features, :rcmb_primers, :cassette_features, :five_homology_features
+    attr_reader :three_homology_features
 
     # Need a smarter way of obtaining the format (in the long run) than supplying an argument
     # Should also (for example) be able to instantiate a new AlleleImage::Image from a list of
@@ -32,8 +33,9 @@ module AlleleImage
         feature[:start] >= @rcmb_primers[0][:start] and feature[:start] <= @rcmb_primers[1][:start]
       end
 
-      # Collect the rcmb_primers
-      @rcmb_primers = @features.select { |feature| feature[:type] == "rcmb_primer" }
+      @three_homology_features = @features.select do |feature|
+        feature[:start] >= @rcmb_primers[2][:start] and feature[:start] <= @rcmb_primers.last[:start]
+      end
     end
 
     # write the image to a file
