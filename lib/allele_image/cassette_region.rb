@@ -3,22 +3,6 @@ module AlleleImage
   # This version draws the cassette @features as boxes whose widths depend on the label length.
   # It inserts gaps in the right places as well.
 
-  # class Feature
-  #   attr_reader :type, :start, :stop, :label
-  #   
-  #   def initialize(type, start, stop, label)
-  #     @type, @start, @stop, @label = type, start, stop, label
-  #   end
-  #  
-  #   def render(format, params={})
-  #     format.new(self).render_feature(params)
-  #   end
-  #  
-  #   def to_hash
-  #     { :type => @type, :label => @label, :start => @start, :stop => @stop }
-  #   end
-  # end
-
   # The widths of each feature should be multiplied by a ratio R
   # 
   #   where:
