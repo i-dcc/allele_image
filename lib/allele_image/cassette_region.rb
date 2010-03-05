@@ -71,11 +71,16 @@ module AlleleImage
       features.each do |feature|
         unless previous_feature.nil?
           case [ previous_feature[:type], feature[:type] ]
+          # need a way to say [ "SSR_site", "whatever" ]
           when [ "SSR_site", "misc_feature" ] then
             features_with_gaps.push(gap_feature)
           when [ "SSR_site", "SSR_site" ] then 
             features_with_gaps.push(gap_feature)
+          when [ "SSR_site", "promoter" ] then
+            features_with_gaps.push(gap_feature)
           when [ "misc_feature", "SSR_site" ] then
+            features_with_gaps.push(gap_feature)
+          when [ "promoter", "human beta actin promoter" ]
             features_with_gaps.push(gap_feature)
           else
             # do nothing
@@ -131,6 +136,8 @@ module AlleleImage
       when "Bgal" then
         draw_cassette_feature( feature[:name], x, y, background_colour = "blue", text_colour = "white" )
       when "neo" then                          
+        draw_cassette_feature( feature[:name], x, y, background_colour = "aquamarine", text_colour = "white" )
+      when "Bact::neo" then
         draw_cassette_feature( feature[:name], x, y, background_colour = "aquamarine", text_colour = "white" )
       else                                     
         draw_cassette_feature( feature[:name], x, y )
