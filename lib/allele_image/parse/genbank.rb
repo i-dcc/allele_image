@@ -2,11 +2,12 @@ module AlleleImage::Parse
 
   # Parse a GenBank file and return a list of features
   class Genbank
+    attr_reader :features
 
     # Do we want to enforce 1 entry per file?
     # entries  = Bio::GenBank.open( file )
     def initialize( file )
-      @features = Bio::GenBank.open( file ).next_entry.features.map do |feature|
+      features = Bio::GenBank.open( file ).next_entry.features.map do |feature|
         unless feature.qualifiers.length == 0
           name = ( feature.assoc["label"] ? feature.assoc["label"] : feature.assoc["note"] )
 
@@ -26,9 +27,8 @@ module AlleleImage::Parse
       end
 
       # Sort and return features
-      @features.sort { |a,b| a[:start] <=> b[:start] }
+      @features = features.sort { |a,b| a[:start] <=> b[:start] }
     end
-    attr_reader :features
   end
 end
 

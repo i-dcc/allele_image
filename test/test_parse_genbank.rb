@@ -12,6 +12,7 @@ class TestAlleleImageParseGenbank < Test::Unit::TestCase
 
     should "return the correct number of features" do
       assert_equal 69, @parser.features.count
+      # pp @parser.features
     end
   end
 end
