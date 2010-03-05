@@ -25,6 +25,10 @@ class TestAlleleImageParseGenbank < Test::Unit::TestCase
       assert_equal 42, @parser.cassette_features.count
     end
 
+    should "return the correct number of 5' arm features" do
+      assert_equal 6, @parser.five_homology_features.count
+    end
+
     should "write to a PNG file returning a Magick::Image" do
       assert_instance_of Magick::Image, @cassette.write_to_file( "/nfs/users/nfs_i/io1/tmp/project_47462_conditional_allele.png" )
     end

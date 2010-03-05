@@ -2,7 +2,7 @@ module AlleleImage::Parse
 
   # Parse a GenBank file and return a list of features
   class Genbank
-    attr_reader :features, :rcmb_primers, :cassette_features
+    attr_reader :features, :rcmb_primers, :cassette_features, :five_homology_features
 
     # Do we want to enforce 1 entry per file?
     # entries  = Bio::GenBank.open( file )
@@ -36,6 +36,10 @@ module AlleleImage::Parse
       # Collect the features into appropriate regions
       @cassette_features = @features.select do |feature|
         feature[:start] >= @rcmb_primers[1][:start] and feature[:start] <= @rcmb_primers[3][:start]
+      end
+
+      @five_homology_features = @features.select do |feature|
+        feature[:start] >= @rcmb_primers[0][:start] and feature[:start] <= @rcmb_primers[1][:start]
       end
     end
   end
