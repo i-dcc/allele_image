@@ -21,9 +21,7 @@ module AlleleImage
 
     # find the longest exon label
     def calculate_width
-      exon_names_lengths = @exons.map { |exon| exon[:name].length }
-
-      return exon_names_lengths.max * @text_width
+      @exons.map { |exon| exon[:name].length } .max * @text_width
     end
 
     # 
