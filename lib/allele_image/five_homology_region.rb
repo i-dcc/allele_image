@@ -12,6 +12,7 @@ module AlleleImage
       @features              = features
       @text_width            = 10
       @text_height           = 30
+      @gap_width             = 10
       @exons                 = @features.select { |feature| feature[:type] == "exon" }
       @width, @height        = calculate_width(), 100 # calculate_height()
       @sequence_stroke_width = 2.5
@@ -47,16 +48,27 @@ module AlleleImage
       d.draw( @image )
     end
 
+    # Return the width occupied by the exons based on the exon count
+    def exon_width( count )
+      count = 3 if count >= 5
+      @text_width * count + @gap_width * ( count - 1 )
+    end
+
     def render
       draw_sequence( 0, @height / 2, @width, @height / 2 )
 
-      x = ( @width - @exons.size * @text_width ) / 2
+      x = ( @width  - exon_width( @exons.count ) ) / 2
       y = ( @height - @text_height ) / 2
 
-      @exons.each do |exon|
-        draw_exon( x, y )
-
-        x += @text_width
+      insert_gaps_between( @exons ).each do |feature|
+        feature_width = 0
+        if feature[:name] == "gap"
+          feature_width = @gap_width
+        else
+          draw_exon( x, y )
+          feature_width = @text_width # or Feature#width if it exists
+        end
+        x += feature_width # update the x coordinate
       end
 
       return @image

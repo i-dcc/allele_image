@@ -59,15 +59,17 @@ module AlleleImage
         case [ previous_feature[:type], feature[:type] ]
         # need a way to say [ "SSR_site", "whatever" ]
         when [ "SSR_site", "misc_feature" ] then
-          features_with_gaps.push(gap_feature)
+          features_with_gaps.push( gap_feature )
         when [ "SSR_site", "SSR_site" ] then
-          features_with_gaps.push(gap_feature)
+          features_with_gaps.push( gap_feature )
         when [ "SSR_site", "promoter" ] then
-          features_with_gaps.push(gap_feature)
+          features_with_gaps.push( gap_feature )
         when [ "misc_feature", "SSR_site" ] then
-          features_with_gaps.push(gap_feature)
+          features_with_gaps.push( gap_feature )
         when [ "promoter", "human beta actin promoter" ]
-          features_with_gaps.push(gap_feature)
+          features_with_gaps.push( gap_feature )
+        when [ "exon", "exon" ]
+          features_with_gaps.push( gap_feature )
         else
           # do nothing
         end
