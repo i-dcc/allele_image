@@ -49,11 +49,6 @@ module AlleleImage
       d.draw( @image )
     end
 
-    # split into sub-sections if required (i.e target region, loxP, e.t.c)
-    # Actually this should render (if defined):
-    # + target_egion
-    # + loxP_region
-    # + 3'arm_region
     def render
       draw_sequence( 0, @height / 2, @width, @height / 2 )
 
@@ -68,14 +63,5 @@ module AlleleImage
 
       return @image
     end
-
-  #   def write_to_file( file )
-  #     image = self.render()
-  #     begin
-  #       image.write( file )
-  #     rescue
-  #       puts "Problems writing image to file: #{ file }"
-  #     end
-  #   end
   end
 end
