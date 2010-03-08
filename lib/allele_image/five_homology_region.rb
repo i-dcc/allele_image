@@ -11,7 +11,7 @@ module AlleleImage
     def initialize( features )
       @features              = features
       @text_width            = 10
-      @text_height           = 20
+      @text_height           = 30
       @exons                 = @features.select { |feature| feature[:type] == "exon" }
       @width, @height        = calculate_width(), 100 # calculate_height()
       @sequence_stroke_width = 2.5
@@ -39,7 +39,7 @@ module AlleleImage
     end
 
     def draw_exon( x, y )
-      exon_width, exon_height = 10, 20
+      exon_width, exon_height = @text_width, @text_height
       d = Draw.new
       d.stroke( "black" )
       d.fill( "yellow" )
