@@ -31,5 +31,9 @@ class TestAlleleImage < Test::Unit::TestCase
     should "return the correct number of 3' arm features" do
       assert_equal 16, @allele_image.three_homology_features.count
     end
+
+    should "write to a PNG file returning a Magick::Image" do
+      assert_instance_of Magick::Image, @allele_image.write_to_file( File.dirname(__FILE__) + "/../misc/allele_image.png" )
+    end
   end
 end
