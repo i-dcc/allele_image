@@ -48,6 +48,7 @@ module AlleleImage
 
       image.push( AlleleImage::FiveHomologyRegion.new( @five_homology_features ).render() )
       image.push( AlleleImage::CassetteRegion.new( @cassette_features ).render() )
+      image.push( AlleleImage::ThreeHomologyRegion.new( @three_homology_features ).render() )
 
       image.append( false )
     end
@@ -141,4 +142,5 @@ directory = File.expand_path( File.dirname(__FILE__) )
 
 require File.join( directory, 'allele_image', 'cassette_region' )
 require File.join( directory, 'allele_image', 'five_homology_region' )
+require File.join( directory, 'allele_image', 'three_homology_region' )
 require File.join( directory, 'allele_image', 'parse', 'genbank' )
