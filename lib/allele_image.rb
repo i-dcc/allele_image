@@ -12,6 +12,8 @@ module AlleleImage
   VERSION = '0.0.1'
 
   class Image
+    include AlleleImage
+
     attr_reader :features, :rcmb_primers, :cassette_features, :five_homology_features
     attr_reader :three_homology_features
 
@@ -37,12 +39,18 @@ module AlleleImage
         feature[:start] >= @rcmb_primers[2][:start] and feature[:start] <= @rcmb_primers.last[:start]
       end
     end
+
+    # Put the different sections together here
+    def render
+      cassette_region = AlleleImage::CassetteRegion.new( @cassette_features ).render()
+    end
   end
 
   # write the image to a file
   def write_to_file( file )
     begin
       self.render().write( file )
+    # Need to handle more types of errors (I think)
     rescue Magick::ImageMagickError => error
       puts "Magick::ImageMagickError: " + error
     rescue
