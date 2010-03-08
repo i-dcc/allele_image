@@ -46,6 +46,40 @@ module AlleleImage
     end
   end
 
+  # decide on the need for a gap/space. we need one:
+  # + after each SSR_site unless its the last feature in the cassette region
+  # + before each SSR_site unless its the first feature in the cassette region
+  def insert_gaps_between( features )
+    features_with_gaps = []
+    gap_feature        = { :type => "misc_feature", :name => "gap" }
+    previous_feature   = nil
+
+    features.each do |feature|
+      unless previous_feature.nil?
+        case [ previous_feature[:type], feature[:type] ]
+        # need a way to say [ "SSR_site", "whatever" ]
+        when [ "SSR_site", "misc_feature" ] then
+          features_with_gaps.push(gap_feature)
+        when [ "SSR_site", "SSR_site" ] then
+          features_with_gaps.push(gap_feature)
+        when [ "SSR_site", "promoter" ] then
+          features_with_gaps.push(gap_feature)
+        when [ "misc_feature", "SSR_site" ] then
+          features_with_gaps.push(gap_feature)
+        when [ "promoter", "human beta actin promoter" ]
+          features_with_gaps.push(gap_feature)
+        else
+          # do nothing
+        end
+      end
+
+      features_with_gaps.push(feature)
+      previous_feature = feature
+    end
+
+    return features_with_gaps
+  end
+
   # write the image to a file
   def write_to_file( file )
     begin
