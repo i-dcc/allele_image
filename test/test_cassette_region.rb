@@ -1,7 +1,6 @@
 require File.dirname(__FILE__) + '/test_helper.rb'
 
 class TestAlleleImage < Test::Unit::TestCase
-
   context "a promoterless CassetteRegion" do
     setup do
       @promoterless = AlleleImage::CassetteRegion.new([
@@ -21,7 +20,7 @@ class TestAlleleImage < Test::Unit::TestCase
     end
 
     should "write to a PNG file returning a Magick::Image" do
-      assert_instance_of Magick::Image, @promoterless.write_to_file( "/nfs/users/nfs_i/io1/tmp/promoterless.png" )
+      assert_instance_of Magick::Image, @promoterless.write_to_file( File.dirname(__FILE__) + "/../misc/promoterless.png" )
     end
   end
 
@@ -46,7 +45,7 @@ class TestAlleleImage < Test::Unit::TestCase
     end
 
     should "write to a PNG file returning a Magick::Image" do
-      assert_instance_of Magick::Image, @promoter_driven.write_to_file( "/nfs/users/nfs_i/io1/tmp/promoter_driven.png" )
+      assert_instance_of Magick::Image, @promoter_driven.write_to_file( File.dirname(__FILE__) + "/../misc/promoter_driven.png" )
     end
   end
 end
