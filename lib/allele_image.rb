@@ -41,8 +41,15 @@ module AlleleImage
     end
 
     # Put the different sections together here
+    # I have somehow managed to merge the rendering and sorting code here.
+    # Separate them again later so we can render wit different formats.
     def render
-      cassette_region = AlleleImage::CassetteRegion.new( @cassette_features ).render()
+      image = Magick::ImageList.new
+
+      image.push( AlleleImage::FiveHomologyRegion.new( @five_homology_features ).render() )
+      image.push( AlleleImage::CassetteRegion.new( @cassette_features ).render() )
+
+      image.append( false )
     end
   end
 
@@ -51,8 +58,6 @@ module AlleleImage
   # + the mappings b/w features and draw method should live in a congig file (idealy)
   def draw_feature( feature, x, y )
     case feature[:name]
-    when "exon" then
-      draw_exon( x, y )
     when "FRT" then
       draw_frt( x, y )
     when "loxP" then
