@@ -1,3 +1,6 @@
 coverage*
 doc*
 tmp/metric_fu*
+misc/determine_cassette_features.sql
+misc/promoter_driven.png
+misc/promoterless.png
