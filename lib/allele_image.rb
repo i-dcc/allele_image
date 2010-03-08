@@ -37,16 +37,16 @@ module AlleleImage
         feature[:start] >= @rcmb_primers[2][:start] and feature[:start] <= @rcmb_primers.last[:start]
       end
     end
+  end
 
-    # write the image to a file
-    def write_to_file( file )
-      begin
-        self.render().write( file )
-      rescue Magick::ImageMagickError => error
-        puts "Magick::ImageMagickError: " + error
-      rescue
-        puts "Problems writing image to file: #{ file }"
-      end
+  # write the image to a file
+  def write_to_file( file )
+    begin
+      self.render().write( file )
+    rescue Magick::ImageMagickError => error
+      puts "Magick::ImageMagickError: " + error
+    rescue
+      puts "Problems writing image to file: #{ file }"
     end
   end
 end
