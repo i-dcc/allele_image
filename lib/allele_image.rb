@@ -62,4 +62,5 @@ end
 directory = File.expand_path( File.dirname(__FILE__) )
 
 require File.join( directory, 'allele_image', 'cassette_region' )
+require File.join( directory, 'allele_image', 'five_homology_region' )
 require File.join( directory, 'allele_image', 'parse', 'genbank' )
