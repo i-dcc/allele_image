@@ -28,7 +28,7 @@ module AlleleImage
       @cassette_width        = calculate_width()
       @cassette_height       = 100
       @sequence_stroke_width = 2.5
-      @image                 = Image.new( @cassette_width, @cassette_height )
+      @image                 = Magick::Image.new( @cassette_width, @cassette_height )
     end
 
     # find sum of feature labels
