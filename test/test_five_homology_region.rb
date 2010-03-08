@@ -15,6 +15,10 @@ class TestAlleleImageFiveHomologyRegion < Test::Unit::TestCase
       assert_not_nil @five_arm
     end
 
+    should "be as wide as the longest exon name length (18) * the text width (10)" do
+      assert_equal 180, @five_arm.width
+    end
+
     should "write to a PNG file returning a Magick::Image" do
       assert_instance_of Magick::Image, @five_arm.write_to_file( File.dirname(__FILE__) + "/../misc/five_arm.png" )
     end
