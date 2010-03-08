@@ -44,15 +44,6 @@ module AlleleImage
       return width + gaps
     end
 
-    # draw the sequence
-    def draw_sequence( x1, y1, x2, y2 )
-      d = Draw.new
-      d.stroke("black")
-      d.stroke_width( @sequence_stroke_width )
-      d.line( x1, y1, x2, y2 )
-      d.draw( @image )
-    end
-
     # @text_width and @text_height should really be feature_width and feature_height respectively
     def draw_loxp( x, y )
       feature_width = "loxP".length * @text_width
@@ -72,28 +63,6 @@ module AlleleImage
       d.arc( x - feature_width, y, x + feature_width, y + @text_height, 270, 90 )
       d.line( x, y, x, y + @text_height )
       d.draw( @image )
-    end
-
-    # draw the given feature based on the feature name:
-    # + there should be one method for each feature
-    # + the mappings b/w features and draw method should live in a congig file (idealy)
-    def draw_feature( feature, x, y )
-      case feature[:name]
-      when "FRT" then
-        draw_frt( x, y )
-      when "loxP" then
-        draw_loxp( x, y )
-      when "Bgal" then
-        draw_cassette_feature( feature[:name], x, y, background_colour = "blue", text_colour = "white" )
-      when "neo" then                          
-        draw_cassette_feature( feature[:name], x, y, background_colour = "aquamarine", text_colour = "white" )
-      when "Bact::neo" then
-        draw_cassette_feature( feature[:name], x, y, background_colour = "aquamarine", text_colour = "white" )
-      when "IRES" then
-        draw_cassette_feature( feature[:name], x, y, background_colour = "orange", text_colour = "white" )
-      else                                     
-        draw_cassette_feature( feature[:name], x, y )
-      end
     end
 
     # draw a box with a label to the correct width

@@ -30,15 +30,6 @@ module AlleleImage
       @exons.size * @text_height
     end
 
-    # draw the sequence
-    def draw_sequence( x1, y1, x2, y2 )
-      d = Draw.new
-      d.stroke("black")
-      d.stroke_width( @sequence_stroke_width )
-      d.line( x1, y1, x2, y2 )
-      d.draw( @image )
-    end
-
     def draw_exon( x, y )
       exon_width, exon_height = @text_width, @text_height
       d = Draw.new
