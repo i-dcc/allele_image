@@ -103,6 +103,10 @@ module AlleleImage
           features_with_gaps.push( gap_feature )
         when [ "exon", "exon" ]
           features_with_gaps.push( gap_feature )
+        when [ "exon", "intervening sequence" ]
+          features_with_gaps.push( gap_feature )
+        when [ "intervening sequence", "exon" ]
+          features_with_gaps.push( gap_feature )
         else
           # do nothing
         end

@@ -39,6 +39,16 @@ module AlleleImage
       d.draw( @image )
     end
 
+    def draw_intervening_sequence( x, y )
+      d = Draw.new
+      d.stroke( "black" )
+      d.stroke_width( @sequence_stroke_width )
+      d.line( x, y + @text_height, x + @text_width / 2, y )
+      d.draw( @image )
+      d.line( x + @text_width / 2, y + @text_height, x + @text_width, y )
+      d.draw( @image )
+    end
+
     # Return the width occupied by the exons based on the exon count
     def exon_width( count )
       count = 3 if count >= 5
@@ -51,10 +61,15 @@ module AlleleImage
       x = ( @width  - exon_width( @exons.count ) ) / 2
       y = ( @height - @text_height ) / 2
 
-      insert_gaps_between( @exons ).each do |feature|
+      features = insert_gaps_between( @exons.count >= 5 ? [ @exons.first, { :type => "intervening sequence", :name => "intervening sequence" }, @exons.last ] : @exons )
+
+      features.each do |feature|
         feature_width = 0
         if feature[:name] == "gap"
           feature_width = @gap_width
+        elsif feature[:name] == "intervening sequence"
+          draw_intervening_sequence( x, y )
+          feature_width = @text_width
         else
           draw_exon( x, y )
           feature_width = @text_width # or Feature#width if it exists
