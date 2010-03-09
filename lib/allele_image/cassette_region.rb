@@ -37,6 +37,7 @@ module AlleleImage
       @features.each do |feature|
         if feature[:name] == "gap"
           gaps += @gap_width
+        # ONLY CONSIDER RENDERABLE FEATURES WHEN CALCULATING WIDTH
         else
           width += feature[:name].length * @text_width # should check/define feature.width/feature[:width] first
         end
