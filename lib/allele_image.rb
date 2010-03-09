@@ -9,7 +9,7 @@ include Magick
 
 # This entire module could do with a better name
 module AlleleImage
-  VERSION = '0.0.1'
+  VERSION = '0.0.2'
 
   class Image
     include AlleleImage
