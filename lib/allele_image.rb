@@ -47,14 +47,26 @@ module AlleleImage
     # I have somehow managed to merge the rendering and sorting code here.
     # Separate them again later so we can render wit different formats.
     def render
-      image = Magick::ImageList.new
+      image     = Magick::ImageList.new
+      five_arm  = AlleleImage::FiveHomologyRegion.new( @five_homology_features ).render()
+      cassette  = AlleleImage::CassetteRegion.new( @cassette_features ).render()
+      three_arm = AlleleImage::ThreeHomologyRegion.new( @three_homology_features ).render()
 
-      image.push( AlleleImage::FiveHomologyRegion.new( @five_homology_features ).render() )
-      image.push( AlleleImage::CassetteRegion.new( @cassette_features ).render() )
-      image.push( AlleleImage::ThreeHomologyRegion.new( @three_homology_features ).render() )
+      image.push( draw_homology_arm( five_arm ) )
+      image.push( cassette )
+      image.push( draw_homology_arm( three_arm ) )
 
       image.append( false )
     end
+  end
+
+  def draw_homology_arm( image )
+    d = Draw.new
+    d.stroke( "black" )
+    d.stroke_width( 2.5 )
+    d.line( 0, image.rows / 10, image.columns, image.rows / 10 )
+    d.draw( image )
+    image
   end
 
   def select_renderable_features( features )
