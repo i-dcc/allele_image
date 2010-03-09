@@ -22,6 +22,7 @@ module AlleleImage
     # features
     def initialize( file, input_format = "Genbank" )
       @features = eval( "AlleleImage::Parse::#{ input_format }" ).new( file ).features
+      @features = select_renderable_features( @features )
 
       # Collect the rcmb_primers
       @rcmb_primers = @features.select { |feature| feature[:type] == "rcmb_primer" }
@@ -51,6 +52,14 @@ module AlleleImage
       image.push( AlleleImage::ThreeHomologyRegion.new( @three_homology_features ).render() )
 
       image.append( false )
+    end
+  end
+
+  def select_renderable_features( features )
+    features.select do |feature|
+      feature[ :type ] == "exon" or \
+      ( AlleleImage::RENDERABLE_FEATURES[ feature[ :type ] ] and \
+        AlleleImage::RENDERABLE_FEATURES[ feature[ :type ] ][ feature[ :name ] ] )
     end
   end
 
@@ -148,4 +157,5 @@ directory = File.expand_path( File.dirname(__FILE__) )
 require File.join( directory, 'allele_image', 'cassette_region' )
 require File.join( directory, 'allele_image', 'five_homology_region' )
 require File.join( directory, 'allele_image', 'three_homology_region' )
+require File.join( directory, 'allele_image', 'renderable_features' )
 require File.join( directory, 'allele_image', 'parse', 'genbank' )

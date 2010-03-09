@@ -12,7 +12,7 @@ class TestAlleleImage < Test::Unit::TestCase
     end
 
     should "return the correct number of features" do
-      assert_equal 69, @allele_image.features.count
+      assert_equal 23, @allele_image.features.count
     end
 
     should "return the correct number of rcmb_primers" do
@@ -21,15 +21,15 @@ class TestAlleleImage < Test::Unit::TestCase
 
     should "return the correct number of cassette features" do
       # check what the correct number for this file should be and adjust
-      assert_equal 42, @allele_image.cassette_features.count
+      assert_equal 10, @allele_image.cassette_features.count
     end
 
     should "return the correct number of 5' arm features" do
-      assert_equal 6, @allele_image.five_homology_features.count
+      assert_equal 5, @allele_image.five_homology_features.count
     end
 
     should "return the correct number of 3' arm features" do
-      assert_equal 16, @allele_image.three_homology_features.count
+      assert_equal 8, @allele_image.three_homology_features.count
     end
 
     should "write to a PNG file returning a Magick::Image" do
