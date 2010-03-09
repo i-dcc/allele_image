@@ -4,27 +4,37 @@ module AlleleImage
   # AS ALL EXONS WILL BE ACCOUNTED FOR
   RENDERABLE_FEATURES = {
     "SSR_site" => {
-      "FRT" => true,
-      "loxP" => true
+      "FRT" => {},
+      "loxP" => {}
     },
     "polyA_site" => {
-      "SV40 pA" => true
+      "pA" => {}
     },
     "promoter" => {
-      "EM7 promoter" => true,
-      "human beta actin promoter" => true,
-      "human ubiquitin promoter" => true,
-      "PGK Promoter" => true
+      "EM7 promoter" => {},
+      "Bact::neo" => {
+        "label" => "Bact::neo"
+      },
+      "human ubiquitin promoter" => {},
+      "PGK Promoter" => {
+        "label" => "PGK"
+      }
     },
     "rcmb_primer" => {
-      "G5" => true,
-      "G3" => true,
-      "U5" => true,
-      "U3" => true,
-      "D5" => true,
-      "D3" => true
+      "G5" => {},
+      "G3" => {},
+      "U5" => {},
+      "U3" => {},
+      "D5" => {},
+      "D3" => {}
     },
-    "misc_feature" => {}
+    "misc_feature" => {
+      "IRES" => {},
+      "En2 SA" => {},
+      "Bgal" => {},
+      "neo" => {}
+    }
+
 =begin
 
 ADD THE FOLLOWING AS WE WORK OUT WHAT WE NEED TO RENDER FROM THEM:
