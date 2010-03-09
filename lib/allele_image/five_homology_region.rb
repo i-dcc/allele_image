@@ -1,9 +1,5 @@
 module AlleleImage
-  # FiveHomologyRegion.new( features ).write_to_file( "5_homology_arm.png" )
-  # 
-  # Should be able to render both the 5' and 3' arms.
-  # Currently focussing on the main row only!
-
+  # Definitely have to rename this class. Perhaps CASSETTE and NON_CASSETTE?
   class FiveHomologyRegion
     include AlleleImage
     attr_reader :height, :width
