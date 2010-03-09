@@ -57,6 +57,11 @@ module AlleleImage
   # draw the given feature based on the feature name:
   # + there should be one method for each feature
   # + the mappings b/w features and draw method should live in a congig file (idealy)
+  # 
+  # ACTUALLY THE BEST SETUP WOULD BE A FEATURE CLASS WITH A RENDER METHOD:
+  # 
+  #  Feature#render( FORMAT, LOCUS )
+  # 
   def draw_feature( feature, x, y )
     case feature[:name]
     when "FRT" then
