@@ -77,6 +77,8 @@ module AlleleImage
         x += feature_width # update the x coordinate
       end
 
+      # DRAW HOMOLOGY ARM OVERHANGING
+
       return @image
     end
   end
