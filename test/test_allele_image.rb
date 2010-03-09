@@ -21,7 +21,7 @@ class TestAlleleImage < Test::Unit::TestCase
 
     should "return the correct number of cassette features" do
       # check what the correct number for this file should be and adjust
-      assert_equal 14, @allele_image.cassette_features.count
+      assert_equal 10, @allele_image.cassette_features.count
     end
 
     should "return the correct number of 5' arm features" do
