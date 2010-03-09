@@ -75,17 +75,17 @@ module AlleleImage
   # 
   def draw_feature( feature, x, y )
     case feature[:name]
-    when "FRT" then
+    when "FRT"
       draw_frt( x, y )
-    when "loxP" then
+    when "loxP"
       draw_loxp( x, y )
-    when "Bgal" then
+    when "Bgal"
       draw_cassette_feature( feature[:name], x, y, background_colour = "blue", text_colour = "white" )
-    when "neo" then
+    when "neo"
       draw_cassette_feature( feature[:name], x, y, background_colour = "aquamarine", text_colour = "white" )
-    when "Bact::neo" then
+    when "Bact::neo"
       draw_cassette_feature( feature[:name], x, y, background_colour = "aquamarine", text_colour = "white" )
-    when "IRES" then
+    when "IRES"
       draw_cassette_feature( feature[:name], x, y, background_colour = "orange", text_colour = "white" )
     else
       draw_cassette_feature( feature[:name], x, y )
@@ -113,15 +113,19 @@ module AlleleImage
       unless previous_feature.nil?
         case [ previous_feature[:type], feature[:type] ]
         # need a way to say [ "SSR_site", "whatever" ]
-        when [ "SSR_site", "misc_feature" ] then
+        when [ "SSR_site", "SSR_site" ]
           features_with_gaps.push( gap_feature )
-        when [ "SSR_site", "SSR_site" ] then
+        when [ "SSR_site", "misc_feature" ]
           features_with_gaps.push( gap_feature )
-        when [ "SSR_site", "promoter" ] then
+        when [ "SSR_site", "polyA_site" ]
           features_with_gaps.push( gap_feature )
-        when [ "misc_feature", "SSR_site" ] then
+        when [ "SSR_site", "promoter" ]
           features_with_gaps.push( gap_feature )
-        when [ "promoter", "human beta actin promoter" ]
+        when [ "misc_feature", "SSR_site" ]
+          features_with_gaps.push( gap_feature )
+        when [ "polyA_site", "SSR_site" ]
+          features_with_gaps.push( gap_feature )
+        when [ "promoter", "SSR_site" ]
           features_with_gaps.push( gap_feature )
         when [ "exon", "exon" ]
           features_with_gaps.push( gap_feature )
