@@ -52,20 +52,30 @@ module AlleleImage
       cassette  = AlleleImage::CassetteRegion.new( @cassette_features ).render()
       three_arm = AlleleImage::ThreeHomologyRegion.new( @three_homology_features ).render()
 
-      image.push( draw_homology_arm( five_arm ) )
+      image.push( draw_homology_arm( five_arm, "5' homology arm\n(#{ @rcmb_primers[1][:stop] - @rcmb_primers[0][:start] } bp)" ) )
       image.push( cassette )
-      image.push( draw_homology_arm( three_arm ) )
+      image.push( draw_homology_arm( three_arm, "3' homology arm\n(#{ @rcmb_primers.last[:stop] - @rcmb_primers[2][:start] } bp)" ) )
 
       image.append( false )
     end
   end
 
-  def draw_homology_arm( image )
+  # Calculate the correct height to draw the homology arms
+  def draw_homology_arm( image, label )
     d = Draw.new
+
+    # Draw the lines
     d.stroke( "black" )
     d.stroke_width( 2.5 )
     d.line( 0, image.rows / 10, image.columns, image.rows / 10 )
     d.draw( image )
+
+    # annotate the block
+    d.annotate( image, image.columns, image.rows / 10, 0, 0, label ) do
+      self.fill    = "blue"
+      self.gravity = CenterGravity
+    end
+
     image
   end
 
