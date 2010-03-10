@@ -24,6 +24,12 @@ module AlleleImage
       end
     end
 
+    def calculate_width
+      AlleleImage::FiveHomologyRegion.new( @three_arm_features ).calculate_width() +
+      AlleleImage::CassetteRegion.new( @loxp_region_features ).calculate_width()   +
+      AlleleImage::FiveHomologyRegion.new( @target_region_features ).calculate_width()
+    end
+
     def render
       image = Magick::ImageList.new
 
