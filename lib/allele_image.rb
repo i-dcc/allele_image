@@ -47,16 +47,35 @@ module AlleleImage
     # I have somehow managed to merge the rendering and sorting code here.
     # Separate them again later so we can render wit different formats.
     def render
-      image     = Magick::ImageList.new
-      five_arm  = AlleleImage::FiveHomologyRegion.new( @five_homology_features ).render()
-      cassette  = AlleleImage::CassetteRegion.new( @cassette_features ).render()
-      three_arm = AlleleImage::ThreeHomologyRegion.new( @three_homology_features ).render()
+      five_arm  = AlleleImage::FiveHomologyRegion.new( @five_homology_features )
+      cassette  = AlleleImage::CassetteRegion.new( @cassette_features )
+      three_arm = AlleleImage::ThreeHomologyRegion.new( @three_homology_features )
 
-      image.push( draw_homology_arm( five_arm, "5' homology arm\n(#{ @rcmb_primers[1][:stop] - @rcmb_primers[0][:start] } bp)" ) )
-      image.push( cassette )
-      image.push( draw_homology_arm( three_arm, "3' homology arm\n(#{ @rcmb_primers.last[:stop] - @rcmb_primers[2][:start] } bp)" ) )
+      # HANDLE THE ANNOTATIONS
+      # Annotate 5' arm
+      five_arm_ann = Magick::ImageList.new.push(
+        draw_homology_arm(
+          Magick::Image.new( five_arm.calculate_width(), 75 ),
+          "5' homology arm\n(#{ @rcmb_primers[1][:stop] - @rcmb_primers[0][:start] } bp)"
+      ) ).push( five_arm.render ).append( true )
+      five_arm_ann.write("/tmp/five_arm_ann.png")
 
-      image.append( false )
+      # Annotate cassette
+      cassette_ann = Magick::ImageList.new.push(
+        # draw in the annotations
+        Magick::Image.new( cassette.calculate_width(), 75 )
+      ).push( cassette.render ).append( true )
+      cassette_ann.write("/tmp/cassette_ann.png")
+
+      # Annotate 3' arm
+      three_arm_ann = Magick::ImageList.new.push(
+        draw_homology_arm(
+          Magick::Image.new( three_arm.calculate_width(), 75 ),
+          "3' homology arm\n(#{ @rcmb_primers.last[:stop] - @rcmb_primers[2][:start] } bp)"
+      ) ).push( three_arm.render ).append( true )
+      three_arm_ann.write("/tmp/three_arm_ann.png")
+
+      Magick::ImageList.new.push( five_arm_ann ).push( cassette_ann ).push( three_arm_ann ).append( false )
     end
   end
 
@@ -67,11 +86,11 @@ module AlleleImage
     # Draw the lines
     d.stroke( "black" )
     d.stroke_width( 2.5 )
-    d.line( 0, image.rows / 10, image.columns, image.rows / 10 )
+    d.line( 0, image.rows / 2, image.columns, image.rows / 2 )
     d.draw( image )
 
     # annotate the block
-    d.annotate( image, image.columns, image.rows / 10, 0, 0, label ) do
+    d.annotate( image, image.columns, image.rows / 2, 0, 0, label ) do
       self.fill    = "blue"
       self.gravity = CenterGravity
     end
