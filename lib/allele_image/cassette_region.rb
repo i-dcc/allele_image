@@ -20,11 +20,12 @@ module AlleleImage
   class CassetteRegion
     include AlleleImage
     attr_reader :features
-    def initialize( features )
+    def initialize( features, cassette_label = nil )
       @features              = insert_gaps_between( features )
       @text_width            = 10
       @gap_width             = 5
       @text_height           = 30
+      @cassette_label        = cassette_label
       @cassette_width        = calculate_width()
       @cassette_height       = 100
       @sequence_stroke_width = 2.5
@@ -109,6 +110,12 @@ module AlleleImage
           feature_width = feature[:name].length * @text_width # or Feature#width if it exists
         end
         x += feature_width # update the x coordinate
+      end
+
+      unless @cassette_label.nil?
+        label_image = Magick::Image.new( self.calculate_width, self.calculate_height )
+        draw_label( @cassette_label, label_image, 0, 0 )
+        @image = Magick::ImageList.new.push( @image ).push( label_image ).append( true )
       end
 
       return @image

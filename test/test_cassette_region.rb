@@ -12,7 +12,7 @@ class TestAlleleImage < Test::Unit::TestCase
         { :type => "misc_feature", :name => "pA"     },
         { :type => "SSR_site",     :name => "FRT"    },
         { :type => "SSR_site",     :name => "loxP"   }
-      ])
+      ], "Promoterless Cassette\n(L1L2_gt2)" )
     end
 
     should "return true when created" do

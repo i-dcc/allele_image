@@ -24,6 +24,9 @@ module AlleleImage
       @features = eval( "AlleleImage::Parse::#{ input_format }" ).new( file ).features
       @features = select_renderable_features( @features )
 
+      # retrieve this from the Genbank file
+      @cassette_type = nil # "Promoterless Cassette\n(L1L2_gt2)"
+
       # Collect the rcmb_primers
       @rcmb_primers = @features.select { |feature| feature[:type] == "rcmb_primer" }
 
@@ -48,7 +51,7 @@ module AlleleImage
     # Separate them again later so we can render wit different formats.
     def render
       five_arm  = AlleleImage::FiveHomologyRegion.new( @five_homology_features )
-      cassette  = AlleleImage::CassetteRegion.new( @cassette_features )
+      cassette  = AlleleImage::CassetteRegion.new( @cassette_features, @cassette_type )
       three_arm = AlleleImage::ThreeHomologyRegion.new( @three_homology_features )
 
       # HANDLE THE ANNOTATIONS
@@ -72,24 +75,18 @@ module AlleleImage
           "3' homology arm\n(#{ @rcmb_primers.last[:stop] - @rcmb_primers[2][:start] } bp)"
       ) ).push( three_arm.render ).append( true )
 
-      # HANDLE LABELS START ...
-      # labels_height = [ five_arm, cassette, three_arm ].map { |r| r.calculate_height } .max
-      # 
-      # puts
-      # label_row = Magick::ImageList.new
-      # [ five_arm, cassette, three_arm ].each do |region|
-      #   # pp [
-      #   #   region.class => Magick::Image.new( region.calculate_width, labels_height )
-      #   # ]
-      #   # Magick::Image.new( region.calculate_width, labels_height ).write( "/tmp/#{ region.class }.png" )
-      #   pp region.features.select { |f| f[:type] == "exon" }
-      #   region_image = Magick::Image.new( region.calculate_width, labels_height )
-      #   label_row.push( region_image )
-      # end
-      # pp label_row.append( false ).write( "/tmp/label_row.png" )
-      # HANDLE LABELS END ...
-
       Magick::ImageList.new.push( five_arm_ann ).push( cassette_ann ).push( three_arm_ann ).append( false )
+    end
+  end
+
+  def draw_label( label, image, x, y )
+    d = Magick::Draw.new
+    d.stroke( "black" )
+    d.fill( "white" )
+    d.draw( image )
+    d.annotate( image, self.calculate_width, @text_height, x, y, label ) do
+      self.fill    = "blue"
+      self.gravity = CenterGravity
     end
   end
 

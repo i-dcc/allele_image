@@ -77,23 +77,12 @@ module AlleleImage
       label_image = Magick::Image.new( self.calculate_width, self.calculate_height )
       x, y        = 0, 0
       @exons.each do |exon|
-        draw_exon_label( exon, label_image, x, y )
+        draw_label( exon[:name], label_image, x, y )
         y += @text_height
       end
 
       # Stack and return the images
-      Magick::ImageList.new.push( @image ).push( label_image ).append( true )
-    end
-
-    def draw_exon_label( exon, image, x, y )
-      label = Magick::Draw.new
-      label.stroke( "black" )
-      label.fill( "white" )
-      label.draw( image )
-      label.annotate( image, self.calculate_width, @text_height, x, y, exon[:name] ) do
-        self.fill    = "blue"
-        self.gravity = CenterGravity
-      end
+      @image = Magick::ImageList.new.push( @image ).push( label_image ).append( true )
     end
   end
 end
