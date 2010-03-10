@@ -28,6 +28,11 @@ module AlleleImage
       "D5" => {},
       "D3" => {}
     },
+    "genomic" => {
+      "5 arm" => {},
+      "3 arm" => {},
+      "target region" => {}
+    },
     "misc_feature" => {
       "IRES" => {},
       "En2 SA" => {},
