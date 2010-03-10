@@ -30,6 +30,10 @@ module AlleleImage
       AlleleImage::FiveHomologyRegion.new( @target_region_features ).calculate_width()
     end
 
+    def calculate_height
+      
+    end
+
     def render
       image = Magick::ImageList.new
 

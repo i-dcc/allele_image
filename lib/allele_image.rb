@@ -72,9 +72,16 @@ module AlleleImage
           "3' homology arm\n(#{ @rcmb_primers.last[:stop] - @rcmb_primers[2][:start] } bp)"
       ) ).push( three_arm.render ).append( true )
 
-      Magick::ImageList.new.push( five_arm_ann ).push( cassette_ann ).push( three_arm_ann ).append( false )
-
       # HANDLE LABELS
+      puts
+      [ five_arm, cassette, three_arm ].each do |region|
+        pp [
+          :region => region.class,
+          :height => region.calculate_height
+        ]
+      end
+
+      Magick::ImageList.new.push( five_arm_ann ).push( cassette_ann ).push( three_arm_ann ).append( false )
     end
   end
 

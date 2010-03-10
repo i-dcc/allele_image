@@ -45,6 +45,11 @@ module AlleleImage
       return width + gaps
     end
 
+    # Enough to write "Promoterless Cassette\n(L1L2_gt2)"
+    def calculate_height
+      @text_height * 2
+    end
+
     # @text_width and @text_height should really be feature_width and feature_height respectively
     def draw_loxp( x, y )
       feature_width = "loxP".length * @text_width
