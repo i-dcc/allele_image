@@ -38,7 +38,7 @@ module AlleleImage
       "En2 SA" => {},
       "Bgal" => {},
       "neo" => {},
-      "en-2 exon" => {}
+      "en-2 intron" => {}
     }
 
 =begin
