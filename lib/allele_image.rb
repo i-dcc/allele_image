@@ -73,6 +73,8 @@ module AlleleImage
       ) ).push( three_arm.render ).append( true )
 
       Magick::ImageList.new.push( five_arm_ann ).push( cassette_ann ).push( three_arm_ann ).append( false )
+
+      # HANDLE LABELS
     end
   end
 
@@ -80,16 +82,18 @@ module AlleleImage
   def draw_homology_arm( image, label )
     d = Draw.new
     y = image.rows / 2
+    w = image.columns - 1
+    h = image.rows / 5 # overhang
 
     # Draw the lines
     d.stroke( "black" )
     d.stroke_width( 2.5 )
-    d.line( 0, y + image.rows / 5, 0, y ).draw( image )
-    d.line( 0, y, image.columns - 1, y ).draw( image )
-    d.line( image.columns - 1, y, image.columns - 1, y + image.rows / 5 ).draw( image )
+    d.line( 0, y + h, 0, y ).draw( image )
+    d.line( 0, y, w, y ).draw( image )
+    d.line( w, y, w, y + h ).draw( image )
 
     # annotate the block
-    d.annotate( image, image.columns, y, 0, 0, label ) do
+    d.annotate( image, w, y, 0, 0, label ) do
       self.fill    = "blue"
       self.gravity = CenterGravity
     end
