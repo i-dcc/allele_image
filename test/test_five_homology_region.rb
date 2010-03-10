@@ -31,6 +31,7 @@ class TestAlleleImageFiveHomologyRegion < Test::Unit::TestCase
         { :type => "exon",        :name => "ENSMUSE00000290011" },
         { :type => "exon",        :name => "ENSMUSE00000290012" },
         { :type => "exon",        :name => "ENSMUSE00000290013" },
+        { :start => 10450, :stop => 15051, :type => "genomic",     :name => "5 arm"              },
         { :type => "exon",        :name => "ENSMUSE00000290014" },
         { :type => "exon",        :name => "ENSMUSE00000290015" },
         { :type => "exon",        :name => "ENSMUSE0000029001"  },
@@ -41,6 +42,11 @@ class TestAlleleImageFiveHomologyRegion < Test::Unit::TestCase
     should "be as wide as the longest exon name length (18) * the text width (10)" do
       assert_equal 180, @many_exons.width
     end
+
+    # should "annotate correctly" do
+    #   assert_instance_of Magick::Image, @many_exons.annotate_region( "5' homology arm" )
+    #   @many_exons.annotate_region( "5' homology arm" ).write( File.dirname(__FILE__) + "/../misc/5_homology_arm.png" )
+    # end
 
     should "write to a PNG file returning a Magick::Image" do
       assert_instance_of Magick::Image, @many_exons.write_to_file( File.dirname(__FILE__) + "/../misc/many_exons.png" )
