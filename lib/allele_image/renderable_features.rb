@@ -30,8 +30,8 @@ module AlleleImage
     },
     "genomic" => {
       "5 arm" => {},
-      "3 arm" => {},
-      "target region" => {}
+      # "target region" => {}, since we don't render it
+      "3 arm" => {}
     },
     "misc_feature" => {
       "IRES" => {},
