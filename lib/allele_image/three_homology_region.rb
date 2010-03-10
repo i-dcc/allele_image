@@ -42,8 +42,15 @@ module AlleleImage
       image = Magick::ImageList.new
 
       image.push( AlleleImage::FiveHomologyRegion.new( @three_arm_features ).render() )
-      image.unshift( AlleleImage::CassetteRegion.new( @loxp_region_features ).render() )       unless @loxp_region_features.nil?
-      image.unshift( AlleleImage::FiveHomologyRegion.new( @target_region_features ).render() ) unless @target_region_features.nil?
+
+      if @loxp_region_features.count > 0
+        # pp [ "loxp_region_features" => @loxp_region_features, "count" => @loxp_region_features.count ]
+        image.unshift( AlleleImage::CassetteRegion.new( @loxp_region_features ).render() )
+      end
+
+      if @target_region_features.count > 0
+        image.unshift( AlleleImage::FiveHomologyRegion.new( @target_region_features ).render() )
+      end
 
       image.append( false )
     end

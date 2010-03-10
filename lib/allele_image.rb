@@ -154,6 +154,7 @@ module AlleleImage
     d.stroke( "black" )
     d.stroke_width( @sequence_stroke_width )
     d.line( x1, y1, x2, y2 )
+    # pp [ "allele_image#draw_sequence(#{[ x1, y1, x2, y2 ].join(',')})" => @image ]
     d.draw( @image )
   end
 
@@ -203,8 +204,9 @@ module AlleleImage
 
   # write the image to a file
   def write_to_file( file )
+    image = self.render()
     begin
-      self.render().write( file )
+      image.write( file )
     # Need to handle more types of errors (I think)
     rescue Magick::ImageMagickError => error
       puts "Magick::ImageMagickError: " + error

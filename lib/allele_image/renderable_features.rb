@@ -37,7 +37,8 @@ module AlleleImage
       "IRES" => {},
       "En2 SA" => {},
       "Bgal" => {},
-      "neo" => {}
+      "neo" => {},
+      "en-2 exon" => {}
     }
 
 =begin
