@@ -4,13 +4,13 @@ module AlleleImage
     include AlleleImage
     attr_reader :height, :width, :features
 
-    def initialize( features )
+    def initialize( features, height = 100 )
       @features              = features
       @text_width            = 10
       @text_height           = 30
       @gap_width             = 10
       @exons                 = @features.select { |feature| feature[:type] == "exon" }
-      @width, @height        = calculate_width(), 100 # calculate_height()
+      @width, @height        = calculate_width(), height # calculate_height()
       @sequence_stroke_width = 2.5
 
       @image = Magick::Image.new( @width, @height )
@@ -28,7 +28,7 @@ module AlleleImage
 
     def draw_exon( x, y )
       exon_width, exon_height = @text_width, @text_height
-      d = Draw.new
+      d = Magick::Draw.new
       d.stroke( "black" )
       d.fill( "yellow" )
       d.rectangle( x, y, x + exon_width, y + exon_height )
@@ -36,7 +36,7 @@ module AlleleImage
     end
 
     def draw_intervening_sequence( x, y )
-      d = Draw.new
+      d = Magick::Draw.new
       d.stroke( "black" )
       d.stroke_width( @sequence_stroke_width )
       d.line( x, y + @text_height, x + @text_width / 2, y )
@@ -73,9 +73,27 @@ module AlleleImage
         x += feature_width # update the x coordinate
       end
 
-      # DRAW HOMOLOGY ARM OVERHANGING
+      # DRAW THE LABELS
+      label_image = Magick::Image.new( self.calculate_width, self.calculate_height )
+      x, y        = 0, 0
+      @exons.each do |exon|
+        draw_exon_label( exon, label_image, x, y )
+        y += @text_height
+      end
 
-      return @image
+      # Stack and return the images
+      Magick::ImageList.new.push( @image ).push( label_image ).append( true )
+    end
+
+    def draw_exon_label( exon, image, x, y )
+      label = Magick::Draw.new
+      label.stroke( "black" )
+      label.fill( "white" )
+      label.draw( image )
+      label.annotate( image, self.calculate_width, @text_height, x, y, exon[:name] ) do
+        self.fill    = "blue"
+        self.gravity = CenterGravity
+      end
     end
   end
 end
