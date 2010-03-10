@@ -43,12 +43,11 @@ module AlleleImage
 
       image.push( AlleleImage::FiveHomologyRegion.new( @three_arm_features ).render() )
 
-      if @loxp_region_features.count > 0
-        # pp [ "loxp_region_features" => @loxp_region_features, "count" => @loxp_region_features.count ]
+      if @loxp_region_features and @loxp_region_features.count > 0
         image.unshift( AlleleImage::CassetteRegion.new( @loxp_region_features ).render() )
       end
 
-      if @target_region_features.count > 0
+      if @target_region_features and @target_region_features.count > 0
         image.unshift( AlleleImage::FiveHomologyRegion.new( @target_region_features ).render() )
       end
 
