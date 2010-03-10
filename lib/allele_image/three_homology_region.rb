@@ -2,7 +2,7 @@ module AlleleImage
   # 
   class ThreeHomologyRegion
     include AlleleImage
-    # 
+    attr_reader :features
     def initialize( features )
       @features     = features
       @rcmb_primers = @features.select { |feature| feature[:type] == "rcmb_primer" }
@@ -31,7 +31,11 @@ module AlleleImage
     end
 
     def calculate_height
-      
+      [
+        AlleleImage::FiveHomologyRegion.new( @three_arm_features ).calculate_height(),
+        AlleleImage::CassetteRegion.new( @loxp_region_features ).calculate_height(),
+        AlleleImage::FiveHomologyRegion.new( @target_region_features ).calculate_height()
+      ].max
     end
 
     def render

@@ -2,7 +2,7 @@ module AlleleImage
   # Definitely have to rename this class. Perhaps CASSETTE and NON_CASSETTE?
   class FiveHomologyRegion
     include AlleleImage
-    attr_reader :height, :width
+    attr_reader :height, :width, :features
 
     def initialize( features )
       @features              = features

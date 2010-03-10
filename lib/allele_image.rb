@@ -72,14 +72,22 @@ module AlleleImage
           "3' homology arm\n(#{ @rcmb_primers.last[:stop] - @rcmb_primers[2][:start] } bp)"
       ) ).push( three_arm.render ).append( true )
 
-      # HANDLE LABELS
-      puts
-      [ five_arm, cassette, three_arm ].each do |region|
-        pp [
-          :region => region.class,
-          :height => region.calculate_height
-        ]
-      end
+      # HANDLE LABELS START ...
+      # labels_height = [ five_arm, cassette, three_arm ].map { |r| r.calculate_height } .max
+      # 
+      # puts
+      # label_row = Magick::ImageList.new
+      # [ five_arm, cassette, three_arm ].each do |region|
+      #   # pp [
+      #   #   region.class => Magick::Image.new( region.calculate_width, labels_height )
+      #   # ]
+      #   # Magick::Image.new( region.calculate_width, labels_height ).write( "/tmp/#{ region.class }.png" )
+      #   pp region.features.select { |f| f[:type] == "exon" }
+      #   region_image = Magick::Image.new( region.calculate_width, labels_height )
+      #   label_row.push( region_image )
+      # end
+      # pp label_row.append( false ).write( "/tmp/label_row.png" )
+      # HANDLE LABELS END ...
 
       Magick::ImageList.new.push( five_arm_ann ).push( cassette_ann ).push( three_arm_ann ).append( false )
     end

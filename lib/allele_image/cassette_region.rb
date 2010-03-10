@@ -19,12 +19,12 @@ module AlleleImage
   # + Currently focussing on the main row only
   class CassetteRegion
     include AlleleImage
-
+    attr_reader :features
     def initialize( features )
       @features              = insert_gaps_between( features )
       @text_width            = 10
       @gap_width             = 5
-      @text_height           = 20
+      @text_height           = 30
       @cassette_width        = calculate_width()
       @cassette_height       = 100
       @sequence_stroke_width = 2.5
