@@ -36,7 +36,7 @@ module AlleleImage
       # SORT THE FEATURES INTO REGIONS BASED ON rcmb_primers ABOVE
       @cassette_features = @features.select do |feature|
         feature[:start] >= @rcmb_primers[1][:start] and \
-        feature[:start] <= @rcmb_primers[3][:start] and \
+        feature[:start] <= @rcmb_primers[2][:start] and \
         not [ "exon", "rcmb_primer" ].include?( feature[:type] )
       end
 
