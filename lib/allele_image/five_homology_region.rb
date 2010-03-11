@@ -18,7 +18,11 @@ module AlleleImage
 
     # find the longest exon label
     def calculate_width
-      @exons.map { |exon| exon[:name].length } .max * @text_width
+      characters = "5' homology arm".length
+      if @exons and @exons.count > 0
+       characters = @exons.map { |exon| exon[:name].length } .max
+      end
+      characters * @text_width
     end
 
     # 
