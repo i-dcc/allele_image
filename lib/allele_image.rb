@@ -50,7 +50,7 @@ module AlleleImage
       end
 
       @three_homology_features = @features.select do |feature|
-        feature[:start] >= @rcmb_primers[-2][:start] and feature[:start] <= @rcmb_primers.last[:start]
+        feature[:start] >= @rcmb_primers[2][:start] and feature[:start] <= @rcmb_primers.last[:start]
       end
     end
 
