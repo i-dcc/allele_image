@@ -51,8 +51,6 @@ class TestAlleleImage < Test::Unit::TestCase
     end
 
     should "write to PNG file returning a Magick::Image" do
-      # puts
-      # pp @allele_image
       assert_instance_of Magick::Image, @allele_image.write_to_file( File.dirname( __FILE__ ) + "/../misc/project_47462_non_conditional_allele.png" )
     end
   end
