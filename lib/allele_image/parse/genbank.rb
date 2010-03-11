@@ -29,6 +29,9 @@ module AlleleImage::Parse
         end
       end
 
+      # Ignore nil features
+      features = features.select { |f| not f.nil? }
+
       # Sort the features
       @features = features.sort { |a,b| a[:start] <=> b[:start] }
     end
