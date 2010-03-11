@@ -37,6 +37,11 @@ module AlleleImage
         not [ "exon", "rcmb_primer" ].include?( feature[:type] )
       end
 
+      # Convert to use AlleleImage::RENDERABLE_FEATURES "labels" if available
+      @cassette_features.each do |feature|
+        feature[:name] = AlleleImage::RENDERABLE_FEATURES[feature[:type]][feature[:name]]["label"] || feature[:name]
+      end
+
       @five_homology_features = @features.select do |feature|
         feature[:start] >= @rcmb_primers[0][:start] and feature[:start] <= @rcmb_primers[1][:start]
       end
