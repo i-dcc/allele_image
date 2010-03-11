@@ -50,7 +50,7 @@ module AlleleImage
       end
 
       @three_homology_features = @features.select do |feature|
-        feature[:start] >= @rcmb_primers[2][:start] and feature[:start] <= @rcmb_primers.last[:start]
+        feature[:start] >= @rcmb_primers[-2][:start] and feature[:start] <= @rcmb_primers.last[:start]
       end
     end
 
@@ -184,6 +184,8 @@ module AlleleImage
     features_with_gaps = []
     gap_feature        = { :type => "misc_feature", :name => "gap" }
     previous_feature   = nil
+
+    return features_with_gaps unless features
 
     features.each do |feature|
       unless previous_feature.nil?

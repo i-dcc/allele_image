@@ -9,7 +9,12 @@ module AlleleImage
       @text_width            = 10
       @text_height           = 30
       @gap_width             = 10
-      @exons                 = @features.select { |feature| feature[:type] == "exon" }
+      @exons                 = []
+
+      if @features
+        @exons = @features.select { |feature| feature[:type] == "exon" }
+      end
+
       @width, @height        = calculate_width(), height # calculate_height()
       @sequence_stroke_width = 2.5
 
