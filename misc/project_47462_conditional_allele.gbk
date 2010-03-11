@@ -68,14 +68,14 @@ FEATURES             Location/Qualifiers
                      /label=R1R primer
                      /note="R1R primer"
      promoter        20222..20742
-                     /label=Bact::neo
-                     /note="Bact::neo"
+                     /label=human beta actin promoter
+                     /note="human beta actin promoter"
      polyA_site      19904..20159
-                     /label=pA
-                     /note="pA"
+                     /label=SV40 pA
+                     /note="SV40 pA"
      polyA_site      21760..22003
-                     /label=pA
-                     /note="pA"
+                     /label=SV40 pA
+                     /note="SV40 pA"
      gateway         15092..15103
                      /type="L1"
                      /label=Gateway L1 site
@@ -100,17 +100,17 @@ FEATURES             Location/Qualifiers
                      /label=FRT
                      /note="FRT"
      misc_feature    15164..16038
-                     /label=En2 SA
-                     /note="En2 SA"
+                     /label=en-2 intron
+                     /note="en-2 intron"
      SSR_site        20163..20196
-                     /label=loxP
-                     /note="loxP"
+                     /label=loxP site
+                     /note="loxP site"
      misc_feature    16252..16812
-                     /label=IRES
-                     /note="IRES"
+                     /label=ECMV IRES
+                     /note="ECMV IRES"
      misc_feature    16817..19876
-                     /label=Bgal
-                     /note="Bgal"
+                     /label=lacZ
+                     /note="lacZ"
      primer_bind     16197..16216
                      /label=IRES5for primer
                      /note="IRES5for primer"
