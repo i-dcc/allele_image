@@ -30,6 +30,9 @@ module AlleleImage
       # Collect the rcmb_primers
       @rcmb_primers = @features.select { |feature| feature[:type] == "rcmb_primer" }
 
+      @five_flank_features  = @features.select { |feature| feature[:start] < @rcmb_primers.first[:start] }
+      @three_flank_features = @features.select { |feature| feature[:start] > @rcmb_primers.last[:stop] }
+
       # SORT THE FEATURES INTO REGIONS BASED ON rcmb_primers ABOVE
       @cassette_features = @features.select do |feature|
         feature[:start] >= @rcmb_primers[1][:start] and \
@@ -55,9 +58,11 @@ module AlleleImage
     # I have somehow managed to merge the rendering and sorting code here.
     # Separate them again later so we can render wit different formats.
     def render
-      five_arm  = AlleleImage::FiveHomologyRegion.new( @five_homology_features )
-      cassette  = AlleleImage::CassetteRegion.new( @cassette_features, @cassette_type )
-      three_arm = AlleleImage::ThreeHomologyRegion.new( @three_homology_features )
+      five_flank  = AlleleImage::FiveHomologyRegion.new( @five_flank_features )
+      five_arm    = AlleleImage::FiveHomologyRegion.new( @five_homology_features )
+      cassette    = AlleleImage::CassetteRegion.new( @cassette_features, @cassette_type )
+      three_arm   = AlleleImage::ThreeHomologyRegion.new( @three_homology_features )
+      three_flank = AlleleImage::FiveHomologyRegion.new( @three_flank_features )
 
       # HANDLE THE ANNOTATIONS
       # Annotate 5' arm
@@ -80,7 +85,16 @@ module AlleleImage
           "3' homology arm\n(#{ @rcmb_primers.last[:stop] - @rcmb_primers[2][:start] } bp)"
       ) ).push( three_arm.render ).append( true )
 
-      Magick::ImageList.new.push( five_arm_ann ).push( cassette_ann ).push( three_arm_ann ).append( false )
+      # Annotate the flanks
+      five_flank_ann = Magick::ImageList.new.push(
+        Magick::Image.new( five_flank.calculate_width, 75 )
+      ).push( five_flank.render ).append( true )
+
+      three_flank_ann = Magick::ImageList.new.push(
+        Magick::Image.new( three_flank.calculate_width, 75 )
+      ).push( three_flank.render ).append( true )
+
+      Magick::ImageList.new.push( five_flank_ann ).push( five_arm_ann ).push( cassette_ann ).push( three_arm_ann ).push( three_flank_ann ).append( false )
     end
   end
 
