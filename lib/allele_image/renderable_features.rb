@@ -24,7 +24,7 @@ module AlleleImage
                                 "EM7_3'" => { "label" => false },
                                 "osteopontin repeat 6" => { "label" => false },
                                 "frame 0" => { "label" => false },
-                                "neomycin resistance " => { "label" => false },
+                                "neomycin resistance " => { "label" => "neo", "colour" => "aquamarine", "font" => "white" },
                                 "FRT" => { "label" => "FRT" },
                                 "Gateway L1 site" => { "label" => false },
                                 "osteopontin repeat 1" => { "label" => false },
