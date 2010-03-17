@@ -21,11 +21,10 @@ module AlleleImage
     # Should also (for example) be able to instantiate a new AlleleImage::Image from a list of
     # features
     def initialize( file, input_format = "Genbank" )
-      @features = eval( "AlleleImage::Parse::#{ input_format }" ).new( file ).features
-      @features = select_renderable_features( @features )
-
-      # retrieve this from the Genbank file
-      @cassette_type = nil # "Promoterless Cassette\n(L1L2_gt2)"
+      parsed_object  = eval( "AlleleImage::Parse::#{ input_format }" ).new( file )
+      @features      = parsed_object.features
+      @features      = select_renderable_features( @features )
+      @cassette_type = parsed_object.cassette_type # "Promoterless Cassette\n(L1L2_gt2)"
 
       # Collect the rcmb_primers
       @rcmb_primers = @features.select { |feature| feature[:type] == "rcmb_primer" }

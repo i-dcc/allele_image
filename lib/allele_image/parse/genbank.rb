@@ -4,7 +4,7 @@ module AlleleImage::Parse
 
   # Parse a GenBank file and return a list of features
   class Genbank
-    attr_reader :features
+    attr_reader :features, :cassette_type
 
     # Retrieve Bio::Genbank object from input
     def retrieve_genbank_object( input )
@@ -15,11 +15,18 @@ module AlleleImage::Parse
       end
     end
 
+    def extract_cassette_type( comment )
+      comment.split("\n").select{ |s| s.match("cassette") }.first.split(":").last.strip
+    end
+
     # Do we want to enforce 1 entry per file?
     # entries  = Bio::GenBank.open( file )
     def initialize( input )
+      genbank_object = retrieve_genbank_object( input )
+      @cassette_type = extract_cassette_type( genbank_object.comment )
+
       # Retrieve the features
-      features = retrieve_genbank_object( input ).features.map do |feature|
+      features = genbank_object.features.map do |feature|
         unless feature.qualifiers.length == 0
           name = ( feature.assoc["label"] ? feature.assoc["label"] : feature.assoc["note"] )
 

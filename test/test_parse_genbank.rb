@@ -14,5 +14,9 @@ class TestAlleleImageParseGenbank < Test::Unit::TestCase
     should "return the correct number of features" do
       assert_equal 69, @parser.features.count
     end
+
+    should "return the correct cassette label" do
+      assert_equal "L1L2_Bact_P", @parser.cassette_type
+    end
   end
 end
