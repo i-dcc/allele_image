@@ -6,11 +6,20 @@ module AlleleImage::Parse
   class Genbank
     attr_reader :features
 
+    # Retrieve Bio::Genbank object from input
+    def retrieve_genbank_object( input )
+      if File.file?( input )
+        Bio::GenBank.new( File.read( input ) )
+      else
+        Bio::GenBank.new( input )
+      end
+    end
+
     # Do we want to enforce 1 entry per file?
     # entries  = Bio::GenBank.open( file )
-    def initialize( file )
+    def initialize( input )
       # Retrieve the features
-      features = Bio::GenBank.open( file ).next_entry.features.map do |feature|
+      features = retrieve_genbank_object( input ).features.map do |feature|
         unless feature.qualifiers.length == 0
           name = ( feature.assoc["label"] ? feature.assoc["label"] : feature.assoc["note"] )
 
