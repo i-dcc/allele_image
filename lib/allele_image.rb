@@ -80,7 +80,7 @@ module AlleleImage
       # Annotate 3' arm
       three_arm_ann = Magick::ImageList.new.push(
         draw_homology_arm(
-          Magick::Image.new( three_arm.calculate_width(), 75 ),
+          Magick::Image.new( three_arm.render.columns, 75 ),
           "3' homology arm\n(#{ @rcmb_primers.last[:stop] - @rcmb_primers[2][:start] } bp)"
       ) ).push( three_arm.render ).append( true )
 
@@ -93,7 +93,8 @@ module AlleleImage
         Magick::Image.new( three_flank.calculate_width, 75 )
       ).push( three_flank.render ).append( true )
 
-      Magick::ImageList.new.push( five_flank_ann ).push( five_arm_ann ).push( cassette_ann ).push( three_arm_ann ).push( three_flank_ann ).append( false )
+      Magick::ImageList.new.push( five_flank_ann ).push( five_arm_ann ).push(
+        cassette_ann ).push( three_arm_ann ).push( three_flank_ann ).append( false )
     end
   end
 
