@@ -55,7 +55,7 @@ class TestAlleleImage < Test::Unit::TestCase
     end
   end
 
-  context "new AlleleImage from a string" do
+  context "a new AlleleImage from a string" do
     setup do
       @from_string = AlleleImage::Image.new( <<'EOF'
 LOCUS       allele_44372_OTTMUSE00000345825_L1L2_Bact_P        38059 bp    dna     linear   UNK 
@@ -950,6 +950,24 @@ EOF
 
     should "write to PNG file returning a Magick::Image" do
       assert_instance_of Magick::Image, @from_string.write_to_file( File.dirname( __FILE__ ) + "/../misc/project_47462_from_string.png" )
+    end
+  end
+
+  context "a new AlleleImage from NorCoMM" do
+    setup do
+      @nor_comm = AlleleImage::Image.new( File.dirname( __FILE__ ) + "/../misc/NorCoMM_example.gbk" )
+    end
+
+    should "instantiate" do
+      assert_not_nil @nor_comm
+    end
+
+    should "render" do
+      assert_not_nil @nor_comm.render()
+    end
+
+    should "write to PNG returning a Magick::Image" do
+      assert_instance_of Magick::Image, @nor_comm.write_to_file( File.dirname( __FILE__ ) + "/../misc/NorCoMM_example.png" )
     end
   end
 end
