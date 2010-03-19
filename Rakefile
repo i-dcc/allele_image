@@ -11,7 +11,7 @@ Hoe.plugin :newgem
 # Generate all the Rake tasks
 # Run 'rake -T' to see list of generated tasks (from gem root directory)
 $hoe = Hoe.spec 'allele_image' do
-  self.developer 'Nelo', 'io1@sanger.ac.uk'
+  self.developer 'Nelo Onyiah', 'io1@sanger.ac.uk'
   self.post_install_message = 'PostInstall.txt' # TODO remove if post-install message not required
   self.rubyforge_name       = self.name 
   # self.extra_deps         = [['activesupport','>= 2.0.2']]

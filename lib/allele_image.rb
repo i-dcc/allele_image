@@ -37,6 +37,7 @@ module AlleleImage
         feature[:start] >= @rcmb_primers[1][:start] and \
         feature[:start] <= @rcmb_primers[2][:start] and \
         not [ "exon", "rcmb_primer" ].include?( feature[:type] )
+        # "rcmb_primer" != feature[:type]
       end
 
       # Convert to use AlleleImage::RENDERABLE_FEATURES "labels" if available
@@ -80,7 +81,10 @@ module AlleleImage
       # Annotate 3' arm
       three_arm_ann = Magick::ImageList.new.push(
         draw_homology_arm(
-          Magick::Image.new( three_arm.calculate_width(), 75 ),
+          # Perhaps I should have an @image attribute from which we
+          # could retrieve the dimensions if we need them rather than
+          # this Magick::Image.render.columns() hack we have here.
+          Magick::Image.new( three_arm.render.columns, 75 ),
           "3' homology arm\n(#{ @rcmb_primers.last[:stop] - @rcmb_primers[2][:start] } bp)"
       ) ).push( three_arm.render ).append( true )
 
@@ -93,7 +97,8 @@ module AlleleImage
         Magick::Image.new( three_flank.calculate_width, 75 )
       ).push( three_flank.render ).append( true )
 
-      Magick::ImageList.new.push( five_flank_ann ).push( five_arm_ann ).push( cassette_ann ).push( three_arm_ann ).push( three_flank_ann ).append( false )
+      Magick::ImageList.new.push( five_flank_ann ).push( five_arm_ann ).push(
+        cassette_ann ).push( three_arm_ann ).push( three_flank_ann ).append( false )
     end
   end
 
@@ -243,3 +248,4 @@ require File.join( directory, 'allele_image', 'five_homology_region' )
 require File.join( directory, 'allele_image', 'three_homology_region' )
 require File.join( directory, 'allele_image', 'renderable_features' )
 require File.join( directory, 'allele_image', 'parse', 'genbank' )
+require File.join( directory, 'bio', 'genbank', 'locus' )

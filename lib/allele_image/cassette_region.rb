@@ -42,6 +42,11 @@ module AlleleImage
           width += feature[:name].length * @text_width # should check/define feature.width/feature[:width] first
         end
       end
+      # # This will "fix" the NorCoMM allelles but it does throw off the boundries
+      # # of the cassette region, so we will ignore this for now
+      # unless @cassette_label.nil?
+      #   return [ width + gaps, @cassette_label.length * @text_width ].max
+      # end
       return width + gaps
     end
 

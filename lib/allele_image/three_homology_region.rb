@@ -24,10 +24,27 @@ module AlleleImage
       end
     end
 
+    # This method is currently wrong. It seems to fall over when it has to
+    # deal with a 3' arm which has a loxP region. This stems from the fact
+    # that the AlleleImage::FiveHomologyRegion#calculate_width returns a
+    # width at least big enough to write "5 ' homology arm". So have to fix
+    # both methods
     def calculate_width
-      AlleleImage::FiveHomologyRegion.new( @three_arm_features ).calculate_width() +
-      AlleleImage::CassetteRegion.new( @loxp_region_features ).calculate_width()   +
-      AlleleImage::FiveHomologyRegion.new( @target_region_features ).calculate_width()
+      three_arm_width, loxp_region_width, target_region_width = 0, 0, 0
+
+      if @three_arm_features and @three_arm_features.count > 0
+        three_arm_width = AlleleImage::FiveHomologyRegion.new( @three_arm_features ).calculate_width()
+      end
+
+      if @loxp_region_features and @loxp_region_features.count > 0
+        loxp_region_width = AlleleImage::FiveHomologyRegion.new( @loxp_region_features ).calculate_width()
+      end
+
+      if @target_region_features and @target_region_features.count > 0
+        target_region_width = AlleleImage::FiveHomologyRegion.new( @target_region_features ).calculate_width()
+      end
+
+      three_arm_width + loxp_region_width + target_region_width
     end
 
     def calculate_height
