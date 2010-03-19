@@ -34,6 +34,58 @@ that we do not have to separate the annotation features from the main features.
 We should just not consider the annotation features when we are calculating
 the widths of sections.
 
+== TODO/REFACTOR
+
+           --------                   ----------          
+INPUT -> / parser / -> CONSTRUCT -> / renderer / -> OUTPUT
+         --------                   ----------          
+
+(new selects the INPUT parser and the render displays the image in the OUTPUT format)
+
+CONSTRUCT could be a JSON string, Ruby Hash, or perhaps a more
+sophisticated object. It should have the following attributes:
+
+    :features => [ { :name, :type, :start, :stop } ]
+    :circular => Bool
+    :label    => String
+
+It should perhaps also have the following (have not decided) attributes
+as well OR :features should be split into the following groups:
+
+    :cassette
+    :backbone
+    :five_arm
+    :three_arm
+    :five_flank
+    :three_flank
+
+The renderer has to decide on how to navigate the features and render it
+to the given format based on these attributes. The defaults for INPUT and
+OUTPUT are GenBank and PNG respectively.
+
+The code layout should be something like the following:
+
+    CONSTRUCT::IMAGE
+    CONSTRUCT::RENDERABLE_FEATURES
+    CONSTRUCT::PARSER::INPUT
+    CONSTRUCT::RENDERER::OUTPUT
+
+That way, when we want to create a new CONSTRUCT::IMAGE object, it
+selects the PARSER and RENDERER to use based on the specified INPUT and
+OUTPUT formats:
+
+    CONSTRUCT::IMAGE.new( DATA [, { optional arguments }] ) -> CONSTRUCT::IMAGE
+
+When we call the render method, an image in the OUTPUT format gets
+generated.
+
+    CONSTRUCT::IMAGE.new( DATA ).render() -> OUTPUT
+
+Any RENDERER should be able to render all the features listed in a configuration
+file or schema (RENDERABLE_FEATURES). How it handles these are up to the RENDERER.
+Any features not on this list should be ignored (with a warning). Perhaps the
+RENDERER should be a mixin?
+
 == FEATURES/PROBLEMS:
 
 * Render images in various formats (PNG, SVG, Text)
