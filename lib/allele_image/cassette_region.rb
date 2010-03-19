@@ -1,4 +1,3 @@
-#!/usr/bin/env ruby
 module AlleleImage
   # This version draws the cassette @features as boxes whose widths depend on the label length.
   # It inserts gaps in the right places as well.
