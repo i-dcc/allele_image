@@ -37,6 +37,7 @@ module AlleleImage
         feature[:start] >= @rcmb_primers[1][:start] and \
         feature[:start] <= @rcmb_primers[2][:start] and \
         not [ "exon", "rcmb_primer" ].include?( feature[:type] )
+        # "rcmb_primer" != feature[:type]
       end
 
       # Convert to use AlleleImage::RENDERABLE_FEATURES "labels" if available
@@ -80,6 +81,9 @@ module AlleleImage
       # Annotate 3' arm
       three_arm_ann = Magick::ImageList.new.push(
         draw_homology_arm(
+          # Perhaps I should have an @image attribute from which we
+          # could retrieve the dimensions if we need them rather than
+          # this Magick::Image.render.columns() hack we have here.
           Magick::Image.new( three_arm.render.columns, 75 ),
           "3' homology arm\n(#{ @rcmb_primers.last[:stop] - @rcmb_primers[2][:start] } bp)"
       ) ).push( three_arm.render ).append( true )
