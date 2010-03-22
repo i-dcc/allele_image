@@ -59,8 +59,7 @@ module AlleleImage
         features = features.sort { |a,b| a[:start] <=> b[:start] }
 
         # Return a AlleleImage::Construct object
-        # AlleleImage::Construct.new( features, circular, cassette_label )
-        { :features => features, :circular => circular, :cassette_label => cassette_label }
+        AlleleImage::Construct.new( features, circular, cassette_label )
       end
 
       private
