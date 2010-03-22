@@ -14,7 +14,8 @@ module AlleleImage
     attr_reader :type, :name, :start, :stop, :renderer
 
     def initialize( type, name, start, stop )
-      raise "NotRenderable" unless renderable_feature?( type, name )
+      # Switch this back on when we have RENDERABLE_FEATURES updated
+      # raise "NotRenderable" unless renderable_feature?( type, name )
 
       @type, @name, @start, @stop = type, name, start, stop
     end
@@ -27,7 +28,9 @@ module AlleleImage
 
     private
       def renderable_feature?( type, name )
-        AlleleImage::RENDERABLE_FEATURES[ type ] and AlleleImage::RENDERABLE_FEATURES[ type ][ name ]
+        return true if type == "exon"
+        return false unless AlleleImage::RENDERABLE_FEATURES[ type ]
+        return AlleleImage::RENDERABLE_FEATURES[ type ][ name ]
       end
   end
 end

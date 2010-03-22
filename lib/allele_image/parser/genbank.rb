@@ -29,7 +29,7 @@ module AlleleImage
       def parse( input )
         genbank_object = get_genbank_object( input )
         cassette_label = extract_cassette_type( genbank_object.comment )
-        circular       = false
+        circular       = false # get this automatically
 
         # Retrieve the features
         features = genbank_object.features.map do |feature|
@@ -42,13 +42,12 @@ module AlleleImage
             end
 
             # Here is our feature ...
-            # Should be a AlleleImage::Feature object ...
-            {
-              :type  => feature.feature,
-              :name  => name,
-              :start => feature.locations.first.from,
-              :stop  => feature.locations.first.to
-            }
+            AlleleImage::Feature.new(
+              feature.feature,
+              name,
+              feature.locations.first.from,
+              feature.locations.first.to
+            )
           end
         end
 
@@ -56,7 +55,7 @@ module AlleleImage
         features = features.select { |f| not f.nil? }
 
         # Sort the features
-        features = features.sort { |a,b| a[:start] <=> b[:start] }
+        features = features.sort { |a,b| a.start <=> b.start }
 
         # Return a AlleleImage::Construct object
         AlleleImage::Construct.new( features, circular, cassette_label )
