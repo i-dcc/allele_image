@@ -1,11 +1,3 @@
-# module RenderAs
-#   class PNG
-#     def render_feature( feature )
-#       feature
-#     end
-#   end
-# end
-
 module AlleleImage
   # == SYNOPSIS
   #   feature = AlleleImage::Feature.new( type, name, start, stop )
