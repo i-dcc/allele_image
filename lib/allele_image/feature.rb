@@ -1,9 +1,3 @@
-# RENDERABLE_FEATURES = {
-#   "polyA_site" => {
-#     "SV40 pA" => { "label" => "pA" }
-#   }
-# }
-# 
 # module RenderAs
 #   class PNG
 #     def render_feature( feature )
@@ -18,11 +12,18 @@ module AlleleImage
   #   feature.render( FORMAT )
   #
   # == DESCRIPTION
+  # A class to represent a feature of interest to us. The feature will
+  # only be instantiated if it is one of our RENDERABLE_FEATURES.
+  #
+  # My thoughts on the AlleleImage::Feature#render( FORMAT ) are not
+  # conclusive yet but I think I'm on the right track.
   #
   class Feature
     attr_reader :type, :name, :start, :stop, :renderer
 
     def initialize( type, name, start, stop )
+      raise "NotRenderable" unless renderable_feature?( type, name )
+
       @type, @name, @start, @stop = type, name, start, stop
     end
 
@@ -31,5 +32,10 @@ module AlleleImage
     #   @renderer = eval( "RenderAs::#{ format }.new" )
     #   @renderer.render_feature( self )
     # end
+
+    private
+      def renderable_feature?( type, name )
+        AlleleImage::RENDERABLE_FEATURES[ type ] and AlleleImage::RENDERABLE_FEATURES[ type ][ name ]
+      end
   end
 end
