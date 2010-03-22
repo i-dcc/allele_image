@@ -252,4 +252,5 @@ require File.join( directory, 'allele_image', 'parse', 'genbank' )
 
 # Separate Logic Refactor
 require File.join( directory, 'allele_image', 'construct' )
+require File.join( directory, 'allele_image', 'feature' )
 require File.join( directory, 'allele_image', 'parser', 'genbank' )
