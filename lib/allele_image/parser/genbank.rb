@@ -9,7 +9,7 @@ module AlleleImage
   # AlleleImage::Parser@construct attrinute.
   #
   # == NOTE
-  # Any parser yoy write should be named AlleleImage::Parser::FORMAT and
+  # Any parser you write should be named AlleleImage::Parser::FORMAT and
   # it should inherit from AlleleImage::Parser.
   #
   class Parser
