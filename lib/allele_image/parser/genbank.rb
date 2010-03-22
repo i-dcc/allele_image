@@ -6,7 +6,7 @@ module AlleleImage
   # This expects you to implement a parser for FORMAT that inherits
   # from AlleleImage::Parser and implements a parse() method. This method
   # MUST return a AlleleImage::Construct object which gets assigned to the
-  # AlleleImage::Parser@construct attrinute.
+  # AlleleImage::Parser@construct attribute.
   #
   # == NOTE
   # Any parser you write should be named AlleleImage::Parser::FORMAT and
