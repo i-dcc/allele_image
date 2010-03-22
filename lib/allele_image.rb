@@ -248,4 +248,8 @@ require File.join( directory, 'allele_image', 'five_homology_region' )
 require File.join( directory, 'allele_image', 'three_homology_region' )
 require File.join( directory, 'allele_image', 'renderable_features' )
 require File.join( directory, 'allele_image', 'parse', 'genbank' )
-require File.join( directory, 'bio', 'genbank', 'locus' )
+# require File.join( directory, 'bio', 'genbank', 'locus' )
+
+# Separate Logic Refactor
+require File.join( directory, 'allele_image', 'construct' )
+require File.join( directory, 'allele_image', 'parser', 'genbank' )
