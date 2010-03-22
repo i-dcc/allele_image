@@ -246,11 +246,12 @@ directory = File.expand_path( File.dirname(__FILE__) )
 require File.join( directory, 'allele_image', 'cassette_region' )
 require File.join( directory, 'allele_image', 'five_homology_region' )
 require File.join( directory, 'allele_image', 'three_homology_region' )
-require File.join( directory, 'allele_image', 'renderable_features' )
 require File.join( directory, 'allele_image', 'parse', 'genbank' )
 # require File.join( directory, 'bio', 'genbank', 'locus' )
 
 # Separate Logic Refactor
 require File.join( directory, 'allele_image', 'construct' )
+require File.join( directory, 'allele_image', 'renderable_features' )
 require File.join( directory, 'allele_image', 'feature' )
 require File.join( directory, 'allele_image', 'parser', 'genbank' )
+require File.join( directory, 'allele_image', 'renderer', 'png' )
