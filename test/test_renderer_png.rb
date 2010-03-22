@@ -4,7 +4,7 @@ require File.dirname(__FILE__) + '/test_helper.rb'
 class TestRendererPNG < Test::Unit::TestCase
   context "a PNG renderer" do
     setup do
-      @construct = ""
+      @construct = AlleleImage::Construct.new( "features", "circular", "cassette_label" )
       @format    = "PNG"
       @renderer  = AlleleImage::Renderer.new( @construct, @format )
     end
