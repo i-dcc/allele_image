@@ -20,15 +20,17 @@ module AlleleImage
     def initialize( construct, format )
       raise "NotAlleleImageConstruct" unless construct.instance_of?( AlleleImage::Construct )
 
-      @renderer = eval "AlleleImage::Renderer::#{ format }.new()"
-      @image    = @renderer.render( construct )
+      @renderer = eval "AlleleImage::Renderer::#{ format }.new( construct )"
+      @image    = @renderer.render
     end
 
     class PNG < Renderer
-      def initialize; end
+      def initialize( construct )
+        @construct = construct
+      end
 
-      def render( construct )
-        construct
+      def render
+        @construct
       end
     end
   end
