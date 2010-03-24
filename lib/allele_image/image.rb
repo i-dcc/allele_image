@@ -8,14 +8,13 @@ module AlleleImage
   # 
   #
   class Image
-    attr_reader :construct, :input, :output_format, :parser, :renderer
+    attr_reader :construct, :input, :parser, :renderer
 
     def initialize( input )
       @input         = input
-      @output_format = output_format
       @parser        = AlleleImage::Parser.new( @input )
       @construct     = @parser.construct
-      @renderer      = AlleleImage::Renderer.new( @construct, @output_format )
+      @renderer      = AlleleImage::Renderer.new( @construct )
     end
 
     def render_image

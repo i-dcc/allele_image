@@ -7,7 +7,7 @@ class TestRendererRMagick < Test::Unit::TestCase
       file       = File.dirname( __FILE__ ) + "/../misc/project_47462_conditional_allele.gbk"
       @construct = AlleleImage::Parser.new( file ).construct()
       @format    = "RMagick"
-      @renderer  = AlleleImage::Renderer.new( @construct, @format )
+      @renderer  = AlleleImage::Renderer.new( @construct )
     end
 
     should "instantiate" do

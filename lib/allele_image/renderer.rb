@@ -20,7 +20,7 @@ module AlleleImage
   class Renderer
     attr_reader :image
 
-    def initialize( construct, format )
+    def initialize( construct )
       raise "NotAlleleImageConstruct" unless construct.instance_of?( AlleleImage::Construct )
 
       @image     = self.render
