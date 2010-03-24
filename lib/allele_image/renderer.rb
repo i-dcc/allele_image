@@ -28,6 +28,7 @@ module AlleleImage
       @gap_width   = 10
       @text_width  = 10
       @text_height = 10
+      @sequence_stroke_width = 2.5
 
       @image = self.render
     end
@@ -49,13 +50,19 @@ module AlleleImage
       # These methods return a Magick::Image object
       def render_cassette
         cassette_features = insert_gaps_between( @construct.cassette_features() )
-        cassette_width    = calculate_width( cassette_features )
-        cassette_height   = 100 # again height will need to be calculated
-        image             = Magick::Image.new( cassette_width, cassette_height )
-        x                 = 0
-        y                 = ( cassette_height - @text_height ) / 2 # "y" should center the images vertically
+        image_list        = Magick::ImageList.new()
+        image_width       = calculate_width( cassette_features )
 
-        # draw_sequence( x, cassette_height / 2, cassette_width, cassette_height / 2 )
+        # Construct the annotation image
+        annotation_image = Magick::Image.new( image_width, 50 )
+
+        # Construct the main image
+        cassette_height = 100 # again height will need to be calculated
+        main_image      = Magick::Image.new( image_width, cassette_height )
+        x               = 0
+        y               = ( cassette_height - @text_height ) / 2 # "y" should center the images vertically
+
+        draw_sequence( main_image, x, cassette_height / 2, image_width, cassette_height / 2 )
 
         cassette_features.each do |feature|
           feature_width = 0
@@ -63,19 +70,22 @@ module AlleleImage
             feature_width = @gap_width
           else
             # draw_feature( feature, x, y )
-            draw_cassette_feature( image, feature, x, y )
+            draw_cassette_feature( main_image, feature, x, y )
             feature_width = feature.feature_name().length * @text_width # or Feature#width if it exists
           end
           x += feature_width # update the x coordinate
         end
 
-        # unless @cassette_label.nil?
-        #   label_image = Magick::Image.new( self.calculate_width, self.calculate_height )
-        #   draw_label( @cassette_label, label_image, 0, 0 )
-        #   image = Magick::ImageList.new.push( image ).push( label_image ).append( true )
-        # end
+        # Construct the label image
+        label_image = Magick::Image.new( image_width, @text_height * 2 )
+        label_image = draw_label( label_image, @construct.cassette_label(), 0, 0 )
 
-        return image
+        # Stack the images vertically
+        image_list.push( annotation_image )
+        image_list.push( main_image )
+        image_list.push( label_image )
+
+        return image_list.append( true )
       end
 
       # def render_five_arm; image_list.new_image(10,10); end
@@ -100,6 +110,34 @@ module AlleleImage
             self.font_weight = Magick::BoldWeight
             self.gravity     = Magick::CenterGravity
           end
+
+          return image
+      end
+
+      # draw the sequence
+      def draw_sequence( image, x1, y1, x2, y2 )
+        d = Magick::Draw.new
+
+        d.stroke( "black" )
+        d.stroke_width( @sequence_stroke_width )
+        d.line( x1, y1, x2, y2 )
+        d.draw( image )
+
+        return image
+      end
+
+      def draw_label( image, label, x, y )
+        d = Magick::Draw.new
+
+        d.stroke( "black" )
+        d.fill( "white" )
+        d.draw( image )
+        d.annotate( image, image.columns(), @text_height, x, y, label ) do
+          self.fill    = "blue"
+          self.gravity = Magick::CenterGravity
+        end
+
+        return image
       end
 
       # UTILITY METHODS
