@@ -5,8 +5,7 @@ class TestRendererRMagick < Test::Unit::TestCase
   context "a RMagick renderer" do
     setup do
       file       = File.dirname( __FILE__ ) + "/../misc/project_47462_conditional_allele.gbk"
-      format     = "GenBank"
-      @construct = AlleleImage::Parser.new( file, format ).construct()
+      @construct = AlleleImage::Parser.new( file ).construct()
       @format    = "RMagick"
       @renderer  = AlleleImage::Renderer.new( @construct, @format )
     end

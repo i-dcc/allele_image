@@ -889,7 +889,7 @@ ORIGIN
 //
 GENBANK_DATA
       @format = "GenBank"
-      @parser = AlleleImage::Parser.new( @input, @format )
+      @parser = AlleleImage::Parser.new( @input )
     end
 
     should "instantiate" do

@@ -17,7 +17,7 @@ module AlleleImage
   class Parser
     attr_reader :construct
 
-    def initialize( input, format )
+    def initialize( input )
       @construct = self.parse( input )
     end
 

@@ -8,13 +8,12 @@ module AlleleImage
   # 
   #
   class Image
-    attr_reader :construct, :input, :input_format, :output_format, :parser, :renderer
+    attr_reader :construct, :input, :output_format, :parser, :renderer
 
-    def initialize( input, input_format = "GenBank", output_format = "RMagick" )
+    def initialize( input )
       @input         = input
-      @input_format  = input_format
       @output_format = output_format
-      @parser        = AlleleImage::Parser.new( @input, @input_format )
+      @parser        = AlleleImage::Parser.new( @input )
       @construct     = @parser.construct
       @renderer      = AlleleImage::Renderer.new( @construct, @output_format )
     end

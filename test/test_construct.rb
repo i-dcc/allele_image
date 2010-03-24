@@ -5,8 +5,7 @@ class TestConstruct < Test::Unit::TestCase
   context "a Construct" do
     setup do
       file       = File.dirname( __FILE__ ) + "/../misc/project_47462_conditional_allele.gbk"
-      format     = "GenBank"
-      @construct = AlleleImage::Parser.new( file, format ).construct()
+      @construct = AlleleImage::Parser.new( file ).construct()
     end
 
     should "instantiate" do
