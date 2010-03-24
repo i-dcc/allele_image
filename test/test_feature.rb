@@ -12,8 +12,8 @@ class TestAlleleImageFeature < Test::Unit::TestCase
     end
 
     should "render in given format" do
-      # assert_not_nil @feature.render( "PNG" )
-      # assert_instance_of RenderAs::PNG, @feature.renderer
+      # assert_not_nil @feature.render( "RMagick" )
+      # assert_instance_of RenderAs::RMagick, @feature.renderer
     end
   end
 end

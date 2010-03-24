@@ -20,4 +20,4 @@ require File.join( directory, 'allele_image', 'image' )
 # Recursively add files in the following directories:
 #
 require File.join( directory, 'allele_image', 'parser', 'genbank' )
-require File.join( directory, 'allele_image', 'renderer', 'png' )
+require File.join( directory, 'allele_image', 'renderer', 'rmagick' )

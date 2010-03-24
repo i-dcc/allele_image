@@ -24,7 +24,7 @@ module AlleleImage
       @image    = @renderer.render
     end
 
-    class PNG < Renderer
+    class RMagick < Renderer
       def initialize( construct )
         @construct = construct
       end

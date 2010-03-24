@@ -10,7 +10,7 @@ module AlleleImage
   class Image
     attr_reader :construct, :input, :input_format, :output_format, :parser, :renderer
 
-    def initialize( input, input_format = "GenBank", output_format = "PNG" )
+    def initialize( input, input_format = "GenBank", output_format = "RMagick" )
       @input         = input
       @input_format  = input_format
       @output_format = output_format
