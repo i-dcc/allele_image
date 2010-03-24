@@ -17,5 +17,20 @@ class TestConstruct < Test::Unit::TestCase
     should "have rcmb_primers" do
       assert_not_nil @construct.rcmb_primers()
     end
+
+    should "have cassette features" do
+      assert_not_nil @construct.cassette_features()
+    end
+
+    should "have 5 arm features" do
+      assert_not_nil @construct.five_arm_features()
+    end
+
+    should "have 3 arm features" do
+      assert_not_nil @construct.three_arm_features()
+    end
+
+    # Test the behaviour when one of the above is empty.
+    # What do yo want/expect to happen?
   end
 end

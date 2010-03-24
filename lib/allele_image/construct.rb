@@ -26,9 +26,27 @@ module AlleleImage
     end
 
     # These methods always return something
-    def cassette_features; end
-    def five_arm_features; end
-    def three_arm_features; end
+    def cassette_features
+      features.select do |feature|
+        feature.start() >= @rcmb_primers[1].start() and \
+        feature.start() <= @rcmb_primers[2].start() and \
+        not [ "exon", "rcmb_primer" ].include?( feature.type() )
+      end
+    end
+
+    def five_arm_features
+      features.select do |feature|
+        feature.start() >= @rcmb_primers[0].start() and \
+        feature.start() <= @rcmb_primers[1].start()
+      end
+    end
+
+    def three_arm_features
+      features.select do |feature|
+        feature.start() >= @rcmb_primers[2].start() and \
+        feature.start() <= @rcmb_primers.last.start()
+      end
+    end
 
     # These would return nil depending on if the
     # Construct is an Allele or a Vector
