@@ -27,7 +27,7 @@ module AlleleImage
 
       @gap_width   = 10
       @text_width  = 10
-      @text_height = 10
+      @text_height = 20
       @sequence_stroke_width = 2.5
 
       @image = self.render
@@ -93,20 +93,22 @@ module AlleleImage
 
       # DRAW METHODS
       # draw a box with a label to the correct width
-      def draw_cassette_feature( image, feature, x, y, background_colour = "white", text_colour = "black" )
+      def draw_cassette_feature( image, feature, x, y, colour = "white", font = "black" )
           width  = feature.feature_name().length * @text_width
           height = @text_height
+          colour = feature.render_options()[ "colour" ] || colour
+          font   = feature.render_options()[ "font" ]   || font
           d      = Magick::Draw.new
 
           # create a block
           d.stroke( "black" )
-          d.fill( background_colour )
+          d.fill( colour )
           d.rectangle( x, y, x + width, y + height )
           d.draw( image )
 
           # annotate the block
           d.annotate( image, width, height, x, y, feature.feature_name() ) do
-            self.fill        = text_colour
+            self.fill        = font
             self.font_weight = Magick::BoldWeight
             self.gravity     = Magick::CenterGravity
           end

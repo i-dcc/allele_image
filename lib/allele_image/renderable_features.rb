@@ -95,7 +95,11 @@ module AlleleImage
                                 "frame 2" => { "label" => false },
                                 "FCHK2" => { "label" => false },
                                 "RAF5" => { "label" => false },
-                                "human beta actin promoter" => { "label" => "Bact::neo" },
+                                "human beta actin promoter" => {
+                                  "label"  => "Bact::neo",
+                                  "colour" => "aquamarine",
+                                  "font"   => "white"
+                                },
                                 "CD4 TM domain" => { "label" => false },
                                 "b-galactosidase" => { "label" => "Bgal" },
                                 "Gateway  L1 site" => { "label" => false },
@@ -108,7 +112,11 @@ module AlleleImage
                             "human ubiquitin promoter" => { "label" => false },
                             "EM7 promoter" => { "label" => false },
                             "PGK Promoter" => { "label" => "PGK" },
-                            "human beta actin promoter" => { "label" => "Bact::neo" }
+                            "human beta actin promoter" => {
+                              "label"  => "Bact::neo",
+                              "colour" => "aquamarine",
+                              "font"   => "white"
+                            }
                           },
             "rcmb_primer" => {
                                   "G5" => { "label" => false },
