@@ -38,6 +38,7 @@ module AlleleImage
 
     private
       def initialize_rcmb_primers( features )
+        features.select { |feature| feature.type() == "rcmb_primer" }
       end
   end
 end
