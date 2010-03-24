@@ -32,5 +32,9 @@ class TestConstruct < Test::Unit::TestCase
 
     # Test the behaviour when one of the above is empty.
     # What do yo want/expect to happen?
+
+    should "be linear by default" do
+      assert_equal false, @construct.circular()
+    end
   end
 end

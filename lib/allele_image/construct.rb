@@ -21,8 +21,10 @@ module AlleleImage
     attr_reader :circular, :features, :cassette_label, :rcmb_primers
 
     def initialize( features, circular, cassette_label )
-      @rcmb_primers = initialize_rcmb_primers( features )
-      @features     = features
+      @rcmb_primers   = initialize_rcmb_primers( features )
+      @features       = features
+      @circular       = circular
+      @cassette_label = cassette_label
     end
 
     # These methods always return something
@@ -50,7 +52,10 @@ module AlleleImage
 
     # These would return nil depending on if the
     # Construct is an Allele or a Vector
-    def backbone_features; end
+    def backbone_features
+      return nil unless @circular
+    end
+
     def five_flank_features; end
     def three_flank_features; end
 
