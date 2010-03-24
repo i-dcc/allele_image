@@ -10,12 +10,8 @@ end
 directory = File.expand_path( File.dirname(__FILE__) )
 
 require File.join( directory, 'allele_image', 'construct' )
-require File.join( directory, 'allele_image', 'renderable_features' )
 require File.join( directory, 'allele_image', 'feature' )
 require File.join( directory, 'allele_image', 'image' )
-
-# == TODO
-# Recursively add files in the following directories:
-#
-require File.join( directory, 'allele_image', 'parser', 'genbank' )
-require File.join( directory, 'allele_image', 'renderer', 'rmagick' )
+require File.join( directory, 'allele_image', 'parser' )
+require File.join( directory, 'allele_image', 'renderer' )
+require File.join( directory, 'allele_image', 'renderable_features' )
