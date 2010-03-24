@@ -29,7 +29,7 @@ module AlleleImage
 
     # These methods always return something
     def cassette_features
-      features.select do |feature|
+      @features.select do |feature|
         feature.start() >= @rcmb_primers[1].start() and \
         feature.start() <= @rcmb_primers[2].start() and \
         not [ "exon", "rcmb_primer" ].include?( feature.type() )
@@ -37,14 +37,14 @@ module AlleleImage
     end
 
     def five_arm_features
-      features.select do |feature|
+      @features.select do |feature|
         feature.start() >= @rcmb_primers[0].start() and \
         feature.start() <= @rcmb_primers[1].start()
       end
     end
 
     def three_arm_features
-      features.select do |feature|
+      @features.select do |feature|
         feature.start() >= @rcmb_primers[2].start() and \
         feature.start() <= @rcmb_primers.last.start()
       end
@@ -53,11 +53,19 @@ module AlleleImage
     # These would return nil depending on if the
     # Construct is an Allele or a Vector
     def backbone_features
-      return nil unless @circular
+      return unless @circular
     end
 
-    def five_flank_features; end
-    def three_flank_features; end
+    # Not 100% sure if these should be empty if the Construct is circular
+    def five_flank_features
+      return if @circular
+      @features.select { |feature| feature.start() < @rcmb_primers.first.start() }
+    end
+
+    def three_flank_features
+      return if @circular
+      @features.select { |feature| feature.start() > @rcmb_primers.last.stop() }
+    end
 
     private
       def initialize_rcmb_primers( features )

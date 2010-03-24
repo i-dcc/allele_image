@@ -36,5 +36,10 @@ class TestConstruct < Test::Unit::TestCase
     should "be linear by default" do
       assert_equal false, @construct.circular()
     end
+
+    should "have flanks when linear" do
+      assert_not_nil @construct.five_flank_features()
+      assert_not_nil @construct.three_flank_features()
+    end
   end
 end
