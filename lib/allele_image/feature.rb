@@ -16,10 +16,15 @@ module AlleleImage
     def initialize( feature_type, feature_name, start, stop )
       raise "NotRenderable" unless renderable_feature?( feature_type, feature_name )
 
-      @render_options = AlleleImage::RENDERABLE_FEATURES[ feature_type ][ feature_name ]
-      @feature_type   = feature_type
-      @start, @stop   = start, stop
-      @feature_name   = @render_options[ "label" ] || feature_name
+      @feature_type = feature_type
+      @start, @stop = start, stop
+
+      if feature_type == "exon"
+        @feature_name = feature_name
+      else
+        @render_options = AlleleImage::RENDERABLE_FEATURES[ feature_type ][ feature_name ]
+        @feature_name   = @render_options[ "label" ] || feature_name
+      end
     end
 
     # def render( format )

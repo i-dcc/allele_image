@@ -17,6 +17,13 @@ class TestAlleleImageFeature < Test::Unit::TestCase
       end
     end
 
+    should "create exons" do
+      exon = AlleleImage::Feature.new( "exon", "ENSMUSE00000317038", 22564, 22712 )
+      assert_not_nil exon
+      assert_equal "ENSMUSE00000317038", exon.feature_name()
+      assert_nil exon.render_options()
+    end
+
     should "have the correct name" do
       assert_equal "pA", @feature.feature_name()
     end
