@@ -29,6 +29,9 @@ module AlleleImage
         @construct = construct
       end
 
+      # The output of this method will get assigned to the @image attribute
+      # of the AlleleImage::Renderer class. This is what you get when you
+      # call AlleleImage::Image#render_image().
       def render
         @construct
       end

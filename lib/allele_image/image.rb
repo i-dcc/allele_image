@@ -19,8 +19,8 @@ module AlleleImage
       @renderer      = AlleleImage::Renderer.new( @construct, @output_format )
     end
 
-    def render
-      @renderer.render()
+    def render_image
+      @renderer.image()
     end
 
     # def image; end

@@ -902,8 +902,8 @@ GENBANK_DATA
       assert_instance_of AlleleImage::Renderer, @image.renderer
     end
 
-    # should "render something" do
-    #   assert_not_nil @image.render()
-    # end
+    should "render something" do
+      assert_not_nil @image.render_image()
+    end
   end
 end
