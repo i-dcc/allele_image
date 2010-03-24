@@ -32,7 +32,7 @@ module AlleleImage
       @features.select do |feature|
         feature.start() >= @rcmb_primers[1].start() and \
         feature.start() <= @rcmb_primers[2].start() and \
-        not [ "exon", "rcmb_primer" ].include?( feature.type() )
+        not [ "exon", "rcmb_primer" ].include?( feature.feature_type() )
       end
     end
 
@@ -69,7 +69,7 @@ module AlleleImage
 
     private
       def initialize_rcmb_primers( features )
-        features.select { |feature| feature.type() == "rcmb_primer" }
+        features.select { |feature| feature.feature_type() == "rcmb_primer" }
       end
   end
 end

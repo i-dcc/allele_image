@@ -1,6 +1,6 @@
 module AlleleImage
   # == SYNOPSIS
-  #   feature = AlleleImage::Feature.new( type, name, start, stop )
+  #   feature = AlleleImage::Feature.new( feature_type, feature_name, start, stop )
   #   feature.render( FORMAT )
   #
   # == DESCRIPTION
@@ -11,26 +11,26 @@ module AlleleImage
   # conclusive yet but I think I'm on the right track.
   #
   class Feature
-    attr_reader :type, :name, :start, :stop, :renderer
+    attr_reader :feature_type, :feature_name, :start, :stop, :renderer
 
-    def initialize( type, name, start, stop )
+    def initialize( feature_type, feature_name, start, stop )
       # Switch this back on when we have RENDERABLE_FEATURES updated
-      # raise "NotRenderable" unless renderable_feature?( type, name )
+      # raise "NotRenderable" unless renderable_feature?( feature_type, feature_name )
 
-      @type, @name, @start, @stop = type, name, start, stop
+      @feature_type, @feature_name, @start, @stop = feature_type, feature_name, start, stop
     end
 
     # def render( format )
-    #   # raise FeatureNotRenderable if RENDERABLE_FEATURES[ self.type ][ self.name ]
+    #   # raise FeatureNotRenderable if RENDERABLE_FEATURES[ self.feature_type ][ self.feature_name ]
     #   @renderer = eval( "RenderAs::#{ format }.new" )
     #   @renderer.render_feature( self )
     # end
 
     private
-      def renderable_feature?( type, name )
-        return true if type == "exon"
-        return false unless AlleleImage::RENDERABLE_FEATURES[ type ]
-        return AlleleImage::RENDERABLE_FEATURES[ type ][ name ]
+      def renderable_feature?( feature_type, feature_name )
+        return true if feature_type == "exon"
+        return false unless AlleleImage::RENDERABLE_FEATURES[ feature_type ]
+        return AlleleImage::RENDERABLE_FEATURES[ feature_type ][ feature_name ]
       end
   end
 end
