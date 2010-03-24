@@ -69,8 +69,7 @@ module AlleleImage
           if feature.feature_name() == "gap"
             feature_width = @gap_width
           else
-            # draw_feature( feature, x, y )
-            draw_cassette_feature( main_image, feature, x, y )
+            draw_feature( main_image, feature, x, y )
             feature_width = feature.feature_name().length * @text_width # or Feature#width if it exists
           end
           x += feature_width # update the x coordinate
@@ -92,6 +91,19 @@ module AlleleImage
       # def render_three_arm; image_list.new_image(10,10); end
 
       # DRAW METHODS
+      def draw_feature( image, feature, x, y )
+        case feature.feature_name()
+        when "FRT"
+          draw_frt( image, x, y )
+        when "loxP"
+          draw_loxp( image, x, y )
+        # Any non-speciall feature is probably a cassette feature
+        # and can be rendered with the feature.render_options()
+        else
+          draw_cassette_feature( image, feature, x, y )
+        end
+      end
+
       # draw a box with a label to the correct width
       def draw_cassette_feature( image, feature, x, y, colour = "white", font = "black" )
           width  = feature.feature_name().length * @text_width
@@ -138,6 +150,31 @@ module AlleleImage
           self.fill    = "blue"
           self.gravity = Magick::CenterGravity
         end
+
+        return image
+      end
+
+      def draw_loxp( image, x, y )
+        feature_width = "loxP".length * @text_width
+        d             = Magick::Draw.new
+
+        d.stroke( "black" )
+        d.fill( "red" )
+        d.polygon( x, y, x + feature_width, y + @text_height / 2, x, y + @text_height )
+        d.draw( image )
+
+        return image
+      end
+
+      def draw_frt( image, x, y )
+        feature_width = "FRT".length * @text_width
+        d             = Magick::Draw.new
+
+        d.stroke( "black" )
+        d.fill( "green" )
+        d.arc( x - feature_width, y, x + feature_width, y + @text_height, 270, 90 )
+        d.line( x, y, x, y + @text_height )
+        d.draw( image )
 
         return image
       end

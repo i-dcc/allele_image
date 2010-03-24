@@ -19,7 +19,11 @@ module AlleleImage
                                 "IRES5for seq primer" => { "label" => false },
                                 "LoxP" => { "label" => "loxP" },
                                 "osteopontin repeat 2" => { "label" => false },
-                                "lacZ" => { "label" => "Bgal" },
+                                "lacZ" => {
+                                  "label"  => "Bgal",
+                                  "colour" => "blue",
+                                  "font"   => "white"
+                                },
                                 "FCHK2 seq primer" => { "label" => false },
                                 "EM7_3'" => { "label" => false },
                                 "osteopontin repeat 6" => { "label" => false },
@@ -33,7 +37,11 @@ module AlleleImage
                                 "neo" => { "label" => "neo" },
                                 "B1 site" => { "label" => false },
                                 "L1 seq primer" => { "label" => false },
-                                "bgal" => { "label" => "Bgal" },
+                                "bgal" => {
+                                  "label"  => "Bgal",
+                                  "colour" => "blue",
+                                  "font"   => "white"
+                                },
                                 "LRPCR RAF5" => { "label" => false },
                                 "EM7_3' seq primer" => { "label" => false },
                                 "en-2 intron" => { "label" => "En2 SA" },
@@ -62,7 +70,11 @@ module AlleleImage
                                 "FRT5" => { "label" => false },
                                 "neoBstB1_5 seq primer" => { "label" => false },
                                 "En2SAF" => { "label" => false },
-                                "ECMV IRES" => { "label" => "IRES" },
+                                "ECMV IRES" => {
+                                  "label"  => "IRES",
+                                  "colour" => "orange",
+                                  "font"   => "white"
+                                },
                                 "en2intronbound3 seq primer" => { "label" => false },
                                 "TM domain" => { "label" => false },
                                 "PGK Promoter" => { "label" => "PGK" },
@@ -101,7 +113,11 @@ module AlleleImage
                                   "font"   => "white"
                                 },
                                 "CD4 TM domain" => { "label" => false },
-                                "b-galactosidase" => { "label" => "Bgal" },
+                                "b-galactosidase" => {
+                                  "label"  => "Bgal",
+                                  "colour" => "blue",
+                                  "font"   => "white"
+                                },
                                 "Gateway  L1 site" => { "label" => false },
                                 "gap" => { "label" => false }
                               },
