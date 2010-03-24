@@ -98,7 +98,8 @@ module AlleleImage
                                 "human beta actin promoter" => { "label" => "Bact::neo" },
                                 "CD4 TM domain" => { "label" => false },
                                 "b-galactosidase" => { "label" => "Bgal" },
-                                "Gateway  L1 site" => { "label" => false }
+                                "Gateway  L1 site" => { "label" => false },
+                                "gap" => { "label" => false }
                               },
             "intron" => {
                           "En2 intron1" => { "label" => "En2 SA" }
