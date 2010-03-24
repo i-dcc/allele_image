@@ -119,7 +119,8 @@ module AlleleImage
                                   "font"   => "white"
                                 },
                                 "Gateway  L1 site" => { "label" => false },
-                                "gap" => { "label" => false }
+                                "gap" => { "label" => false },
+                                "intervening sequence" => { "label" => false }
                               },
             "intron" => {
                           "En2 intron1" => { "label" => "En2 SA" }

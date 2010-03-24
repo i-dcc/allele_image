@@ -39,7 +39,7 @@ module AlleleImage
     def render
       image_list = Magick::ImageList.new()
 
-      # render_five_arm( image_list )
+      image_list.push( render_five_arm() )
       image_list.push( render_cassette() )
       # render_three_arm( image_list )
 
@@ -57,12 +57,11 @@ module AlleleImage
         annotation_image = Magick::Image.new( image_width, 50 )
 
         # Construct the main image
-        cassette_height = 100 # again height will need to be calculated
-        main_image      = Magick::Image.new( image_width, cassette_height )
+        image_height = 100 # again height will need to be calculated
+        main_image      = Magick::Image.new( image_width, image_height )
         x               = 0
-        y               = ( cassette_height - @text_height ) / 2 # "y" should center the images vertically
-
-        draw_sequence( main_image, x, cassette_height / 2, image_width, cassette_height / 2 )
+        y               = ( image_height - @text_height ) / 2 # "y" should center the images vertically
+        main_image      = draw_sequence( main_image, x, image_height / 2, image_width, image_height / 2 )
 
         cassette_features.each do |feature|
           feature_width = 0
@@ -87,10 +86,85 @@ module AlleleImage
         return image_list.append( true )
       end
 
-      # def render_five_arm; image_list.new_image(10,10); end
+      def render_five_arm
+        exons = []
+
+        if @construct.five_arm_features()
+          exons = @construct.five_arm_features.select { |feature| feature.feature_type() == "exon" }
+        end
+
+        image_list  = Magick::ImageList.new()
+        image_width = calculate_genomic_region_width( exons )
+
+        # Construct the annotation image
+        annotation_image = Magick::Image.new( image_width, 50 )
+
+        # Construct the main image
+        image_height = 100 # again height will need to be calculated
+        main_image   = Magick::Image.new( image_width, image_height )
+        main_image   = draw_sequence( main_image, 0, image_height / 2, image_width, image_height / 2 )
+
+        x = ( image_width - calculate_exon_image_width( exons.count ) ) / 2
+        y = ( image_height - @text_height ) / 2
+
+        # This could be cleaner
+        features = insert_gaps_between(
+          exons.count >= 5 ? [ 
+            exons.first,
+            AlleleImage::Feature.new( "misc_feature", "intervening sequence", 1, 1 ),
+            exons.last
+          ] : exons )
+
+          features.each do |feature|
+            feature_width = 0
+            if feature.feature_name() == "gap"
+              feature_width = @gap_width
+            elsif feature.feature_name() == "intervening sequence"
+              draw_intervening_sequence( main_image, x, y )
+              feature_width = @text_width
+            else
+              draw_exon( main_image, x, y )
+              feature_width = @text_width # or Feature#width if it exists
+            end
+            x += feature_width # update the x coordinate
+          end
+
+=begin from branch master
+
+          def render
+            draw_sequence( 0, @height / 2, @width, @height / 2 )
+
+
+
+
+            # DRAW THE LABELS
+
+            # Stack and return the images
+            @image = Magick::ImageList.new.push( @image ).push( label_image ).append( true )
+          end
+
+=end
+
+        # Construct the label image
+        label_image, x, y = Magick::Image.new( image_width, calculate_labels_image_height( exons ) ), 0, 0
+
+        exons.each do |exon|
+          draw_label( label_image, exon.feature_name(), x, y )
+          y += @text_height
+        end
+
+        # Stack the images vertically
+        image_list.push( annotation_image )
+        image_list.push( main_image )
+        image_list.push( label_image )
+
+        return image_list.append( true )
+      end
+
       # def render_three_arm; image_list.new_image(10,10); end
 
       # DRAW METHODS
+      # Need to get this method drawing exons as well
       def draw_feature( image, feature, x, y )
         case feature.feature_name()
         when "FRT"
@@ -137,6 +211,8 @@ module AlleleImage
         d.line( x1, y1, x2, y2 )
         d.draw( image )
 
+        # pp [ :sequence_stroke_width => @sequence_stroke_width, :drawing => d ]
+
         return image
       end
 
@@ -179,7 +255,51 @@ module AlleleImage
         return image
       end
 
+      def draw_exon( image, x, y )
+        exon_width  = @text_width
+        exon_height = @text_height
+        d           = Magick::Draw.new
+
+        d.stroke( "black" )
+        d.fill( "yellow" )
+        d.rectangle( x, y, x + exon_width, y + exon_height )
+        d.draw( image )
+
+        return image
+      end
+
+      def draw_intervening_sequence( image, x, y )
+        d = Magick::Draw.new
+
+        d.stroke( "black" )
+        d.stroke_width( @sequence_stroke_width )
+        d.line( x, y + @text_height, x + @text_width / 2, y )
+        d.draw( image )
+        d.line( x + @text_width / 2, y + @text_height, x + @text_width, y )
+        d.draw( image )
+
+        return image
+      end
+
       # UTILITY METHODS
+      def calculate_genomic_region_width( exons )
+        characters = 0 # "5' homology arm".length
+        if exons and exons.count > 0
+         characters = exons.map { |exon| exon.feature_name().length() } .max
+        end
+        characters * @text_width
+      end
+
+      # Return the width occupied by the exons based on the exon count
+      def calculate_exon_image_width( count )
+        count = 3 if count >= 5
+        @text_width * count + @gap_width * ( count - 1 )
+      end
+
+      def calculate_labels_image_height( exons )
+        exons.size * @text_height
+      end
+
       # find sum of feature labels
       def calculate_width( features )
         width, gaps = 0, 0
