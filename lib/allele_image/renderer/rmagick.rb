@@ -25,6 +25,11 @@ module AlleleImage
     end
 
     class RMagick < Renderer
+      require "RMagick"
+      require "pp"
+
+      # attr_reader :attr_names
+
       def initialize( construct )
         @construct = construct
       end
@@ -33,8 +38,23 @@ module AlleleImage
       # of the AlleleImage::Renderer class. This is what you get when you
       # call AlleleImage::Image#render_image().
       def render
-        @construct
+        image_list = Magick::ImageList.new()
+
+        # render_five_arm( image_list )
+        render_cassette( image_list )
+        # render_three_arm( image_list )
+
+        image_list.append( false )
       end
+
+      private
+        # These methods return a Magick::Image object
+        def render_cassette( image_list )
+          image_list.new_image(10,10)
+        end
+
+        # def render_five_arm( image_list ); image_list.new_image(10,10); end
+        # def render_three_arm( image_list ); image_list.new_image(10,10); end
     end
   end
 end
