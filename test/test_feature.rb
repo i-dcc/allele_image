@@ -11,9 +11,8 @@ class TestAlleleImageFeature < Test::Unit::TestCase
       assert_instance_of AlleleImage::Feature, @feature
     end
 
-    should "render in given format" do
-      # assert_not_nil @feature.render( "RMagick" )
-      # assert_instance_of RenderAs::RMagick, @feature.renderer
+    should "have the correct name" do
+      assert_equal "pA", @feature.feature_name()
     end
   end
 end

@@ -15,9 +15,11 @@ module AlleleImage
 
     def initialize( feature_type, feature_name, start, stop )
       # Switch this back on when we have RENDERABLE_FEATURES updated
-      # raise "NotRenderable" unless renderable_feature?( feature_type, feature_name )
+      raise "NotRenderable" unless renderable_feature?( feature_type, feature_name )
 
-      @feature_type, @feature_name, @start, @stop = feature_type, feature_name, start, stop
+      @feature_type = feature_type
+      @start, @stop = start, stop
+      @feature_name = AlleleImage::RENDERABLE_FEATURES[ feature_type ][ feature_name ][ "label" ] || feature_name
     end
 
     # def render( format )
