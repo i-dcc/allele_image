@@ -11,6 +11,12 @@ class TestAlleleImageFeature < Test::Unit::TestCase
       assert_instance_of AlleleImage::Feature, @feature
     end
 
+    should "raise exception with bad data" do
+      assert_raise RuntimeError do
+        AlleleImage::Feature.new( "A_Feature", "We_Do_Not_Render", 10, 20 )
+      end
+    end
+
     should "have the correct name" do
       assert_equal "pA", @feature.feature_name()
     end

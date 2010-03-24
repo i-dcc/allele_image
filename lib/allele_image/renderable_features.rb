@@ -110,17 +110,17 @@ module AlleleImage
                             "human beta actin promoter" => { "label" => "Bact::neo" }
                           },
             "rcmb_primer" => {
-                                  "G5" => {},
-                                  "G3" => {},
-                                  "U5" => {},
-                                  "U3" => {},
-                                  "D5" => {},
-                                  "D3" => {}
+                                  "G5" => { "label" => false },
+                                  "G3" => { "label" => false },
+                                  "U5" => { "label" => false },
+                                  "U3" => { "label" => false },
+                                  "D5" => { "label" => false },
+                                  "D3" => { "label" => false }
                                 },
                                 "genomic" => {
-                                  "5 arm" => {},
-                                  # "target region" => {}, since we don't render it
-                                  "3 arm" => {}
+                                  "5 arm" => { "label" => false },
+                                  # "target region" => { "label" => false }, since we don't render it
+                                  "3 arm" => { "label" => false }
             }
             # THESE STILL NEED TO BE VERIFIED:
             # "PCR_primer" => {

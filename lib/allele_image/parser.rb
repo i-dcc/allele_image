@@ -37,12 +37,17 @@ module AlleleImage
           end
 
           # Here is our feature ...
-          AlleleImage::Feature.new(
-            feature.feature,
-            name,
-            feature.locations.first.from,
-            feature.locations.first.to
-          )
+          # Since creating a Feature might throw a NotRenderable exception
+          # we need to wrap this in a begin/rescue block
+          begin
+            AlleleImage::Feature.new(
+              feature.feature,
+              name,
+              feature.locations.first.from,
+              feature.locations.first.to
+            )
+          rescue #NotRenderable
+          end
         end
       end
 
