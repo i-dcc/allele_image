@@ -19,7 +19,11 @@ module AlleleImage
                                 "IRES5for seq primer" => { "label" => false },
                                 "LoxP" => { "label" => "loxP" },
                                 "osteopontin repeat 2" => { "label" => false },
-                                "lacZ" => { "label" => "Bgal" },
+                                "lacZ" => {
+                                  "label"  => "Bgal",
+                                  "colour" => "blue",
+                                  "font"   => "white"
+                                },
                                 "FCHK2 seq primer" => { "label" => false },
                                 "EM7_3'" => { "label" => false },
                                 "osteopontin repeat 6" => { "label" => false },
@@ -33,7 +37,11 @@ module AlleleImage
                                 "neo" => { "label" => "neo" },
                                 "B1 site" => { "label" => false },
                                 "L1 seq primer" => { "label" => false },
-                                "bgal" => { "label" => "Bgal" },
+                                "bgal" => {
+                                  "label"  => "Bgal",
+                                  "colour" => "blue",
+                                  "font"   => "white"
+                                },
                                 "LRPCR RAF5" => { "label" => false },
                                 "EM7_3' seq primer" => { "label" => false },
                                 "en-2 intron" => { "label" => "En2 SA" },
@@ -62,7 +70,11 @@ module AlleleImage
                                 "FRT5" => { "label" => false },
                                 "neoBstB1_5 seq primer" => { "label" => false },
                                 "En2SAF" => { "label" => false },
-                                "ECMV IRES" => { "label" => "IRES" },
+                                "ECMV IRES" => {
+                                  "label"  => "IRES",
+                                  "colour" => "orange",
+                                  "font"   => "white"
+                                },
                                 "en2intronbound3 seq primer" => { "label" => false },
                                 "TM domain" => { "label" => false },
                                 "PGK Promoter" => { "label" => "PGK" },
@@ -95,10 +107,20 @@ module AlleleImage
                                 "frame 2" => { "label" => false },
                                 "FCHK2" => { "label" => false },
                                 "RAF5" => { "label" => false },
-                                "human beta actin promoter" => { "label" => "Bact::neo" },
+                                "human beta actin promoter" => {
+                                  "label"  => "Bact::neo",
+                                  "colour" => "aquamarine",
+                                  "font"   => "white"
+                                },
                                 "CD4 TM domain" => { "label" => false },
-                                "b-galactosidase" => { "label" => "Bgal" },
-                                "Gateway  L1 site" => { "label" => false }
+                                "b-galactosidase" => {
+                                  "label"  => "Bgal",
+                                  "colour" => "blue",
+                                  "font"   => "white"
+                                },
+                                "Gateway  L1 site" => { "label" => false },
+                                "gap" => { "label" => false },
+                                "intervening sequence" => { "label" => false }
                               },
             "intron" => {
                           "En2 intron1" => { "label" => "En2 SA" }
@@ -107,20 +129,24 @@ module AlleleImage
                             "human ubiquitin promoter" => { "label" => false },
                             "EM7 promoter" => { "label" => false },
                             "PGK Promoter" => { "label" => "PGK" },
-                            "human beta actin promoter" => { "label" => "Bact::neo" }
+                            "human beta actin promoter" => {
+                              "label"  => "Bact::neo",
+                              "colour" => "aquamarine",
+                              "font"   => "white"
+                            }
                           },
             "rcmb_primer" => {
-                                  "G5" => {},
-                                  "G3" => {},
-                                  "U5" => {},
-                                  "U3" => {},
-                                  "D5" => {},
-                                  "D3" => {}
+                                  "G5" => { "label" => false },
+                                  "G3" => { "label" => false },
+                                  "U5" => { "label" => false },
+                                  "U3" => { "label" => false },
+                                  "D5" => { "label" => false },
+                                  "D3" => { "label" => false }
                                 },
                                 "genomic" => {
-                                  "5 arm" => {},
-                                  # "target region" => {}, since we don't render it
-                                  "3 arm" => {}
+                                  "5 arm" => { "label" => false },
+                                  # "target region" => { "label" => false }, since we don't render it
+                                  "3 arm" => { "label" => false }
             }
             # THESE STILL NEED TO BE VERIFIED:
             # "PCR_primer" => {
