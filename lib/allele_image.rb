@@ -3,7 +3,7 @@ $:.unshift(File.dirname(__FILE__)) unless
 
 # This entire module could do with a better name
 module AlleleImage
-  VERSION = '0.0.2'
+  VERSION = '0.0.3'
 
 end
 
