@@ -39,9 +39,11 @@ module AlleleImage
     def render
       image_list = Magick::ImageList.new()
 
+      image_list.push( render_five_flank() )
       image_list.push( render_five_arm() )
       image_list.push( render_cassette() )
       image_list.push( render_three_arm() )
+      image_list.push( render_three_flank() )
 
       image_list.append( false )
     end
@@ -70,6 +72,20 @@ module AlleleImage
         annotation_image = Magick::Image.new( image.columns(), 50 )
         genomic          = @construct.five_arm_features.select { |feature| feature.feature_type() == "genomic" }
         annotation_image = draw_homology_arm( annotation_image, genomic.last() )
+
+        # Stack the images
+        image_list.push( annotation_image )
+        image_list.push( image )
+
+        return image_list.append( true )
+      end
+
+      def render_five_flank
+        image = render_genomic_region( @construct.five_flank_features() )
+
+        # Construct the annotation image
+        image_list       = Magick::ImageList.new()
+        annotation_image = Magick::Image.new( image.columns(), 50 )
 
         # Stack the images
         image_list.push( annotation_image )
@@ -125,6 +141,20 @@ module AlleleImage
         annotation_image = Magick::Image.new( image.columns(), 50 )
         genomic          = @construct.three_arm_features.select { |feature| feature.feature_type() == "genomic" }
         annotation_image = draw_homology_arm( annotation_image, genomic.last() )
+
+        # Stack the images
+        image_list.push( annotation_image )
+        image_list.push( image )
+
+        return image_list.append( true )
+      end
+
+      def render_three_flank
+        image = render_genomic_region( @construct.three_flank_features() )
+
+        # Construct the annotation image
+        image_list       = Magick::ImageList.new()
+        annotation_image = Magick::Image.new( image.columns(), 50 )
 
         # Stack the images
         image_list.push( annotation_image )
