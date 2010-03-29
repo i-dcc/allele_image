@@ -65,7 +65,7 @@ module AlleleImage
       end
 
       def render_five_arm
-        image = render_genomic_region( @construct.five_arm_features() )
+        image = render_genomic_region( @construct.five_arm_features(), "5' homology arm".length() * @text_width )
 
         # Construct the annotation image
         image_list       = Magick::ImageList.new()
@@ -132,9 +132,14 @@ module AlleleImage
         end
 
         # Add the rest of the three arm region
-        image_list.push( render_genomic_region( three_arm_features ) )
+        if three_arm_features and three_arm_features.count() > 0
+          image_list.push( render_genomic_region( three_arm_features ) )
+        end
 
         image = image_list.append( false )
+
+        # For the (unlikely) case where we have nothing in the 3' arm we could
+        # just construct an empty image with width = "3' homology arm".length()
 
         # Construct the annotation image
         image_list       = Magick::ImageList.new()
@@ -197,7 +202,7 @@ module AlleleImage
         return image_list.append( true )
       end
 
-      def render_genomic_region( features )
+      def render_genomic_region( features, image_width = 1 )
         exons = []
 
         if features
@@ -205,7 +210,11 @@ module AlleleImage
         end
 
         image_list  = Magick::ImageList.new()
-        image_width = calculate_genomic_region_width( exons )
+
+        # If we have no exons ...
+        if exons and exons.count() > 0
+          image_width = calculate_genomic_region_width( exons )
+        end
 
         # Construct the main image
         image_height = 100 # again height will need to be calculated
@@ -299,8 +308,6 @@ module AlleleImage
         d.stroke_width( @sequence_stroke_width )
         d.line( x1, y1, x2, y2 )
         d.draw( image )
-
-        # pp [ :sequence_stroke_width => @sequence_stroke_width, :drawing => d ]
 
         return image
       end
