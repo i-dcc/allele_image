@@ -269,6 +269,8 @@ module AlleleImage
           draw_frt( image, x, y )
         when "loxP"
           draw_loxp( image, x, y )
+        # when "F3"
+        #   draw_f3( image, x, y )
         # Any non-speciall feature is probably a cassette feature
         # and can be rendered with the feature.render_options()
         else
@@ -365,6 +367,18 @@ module AlleleImage
         return image
       end
 
+      def draw_f3( image, x, y )
+        feature_width = "loxP".length * @text_width
+        d             = Magick::Draw.new
+
+        d.stroke( "black" )
+        d.fill( "red" )
+        d.polygon( x, y, x + feature_width, y + @text_height / 2, x, y + @text_height )
+        d.draw( image )
+
+        return image
+      end
+
       def draw_frt( image, x, y )
         feature_width = "FRT".length * @text_width
         d             = Magick::Draw.new
@@ -444,6 +458,12 @@ module AlleleImage
       # decide on the need for a gap/space. we need one:
       # + after each SSR_site unless its the last feature in the cassette region
       # + before each SSR_site unless its the first feature in the cassette region
+      #
+      # == TODO
+      # Because of the way the NorCoMM GenBank files are defined,
+      # we will have to either:
+      # -- change this method
+      # -- change the GenBank files
       def insert_gaps_between( features )
         features_with_gaps = []
         gap_feature        = AlleleImage::Feature.new( "misc_feature", "gap", 1, 1 )

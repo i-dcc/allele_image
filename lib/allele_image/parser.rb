@@ -47,6 +47,7 @@ module AlleleImage
               feature.locations.first.to
             )
           rescue #NotRenderable
+            puts [ feature.feature, name ].join(",")
           end
         end
       end

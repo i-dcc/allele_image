@@ -7,7 +7,8 @@ module AlleleImage
                             "FRT site" => { "label" => "FRT" },
                             "loxP" => { "label" => "loxP" },
                             "loxP site" => { "label" => "loxP" },
-                            "FRT" => { "label" => "FRT" }
+                            "FRT" => { "label" => "FRT" },
+                            "FRT reverse" => { "label" => "FRT" }
                           },
             "polyA_site" => {
                               "SV40 pA"    => { "label" => "pA" },
@@ -18,6 +19,7 @@ module AlleleImage
                                 "EN2_exon2" => { "label" => false },
                                 "neoSphI_5 seq primer" => { "label" => false },
                                 "loxp site" => { "label" => "loxP" },
+                                "FRT reverse" => { "label" => "FRT" },
                                 "IRES5for seq primer" => { "label" => false },
                                 "LoxP" => { "label" => "loxP" },
                                 "osteopontin repeat 2" => { "label" => false },
@@ -128,6 +130,15 @@ module AlleleImage
                                   "label"  => "UiPCR",
                                   "colour" => "brown",
                                   "font"   => "white"
+                                },
+                                "SA exon (En2)" => { "label" => "En2 SA" },
+                                "SA (En2)" => { "label" => "En2 SA" },
+                                "F3" => {
+                                  # == TODO
+                                  # This should have its own method (that draws a red triangle) but for now ...
+                                  "label"  => "loxP",
+                                  "colour" => "red",
+                                  "font"   => "white"
                                 }
                               },
             "intron" => {
@@ -160,6 +171,11 @@ module AlleleImage
               "Puro" => {
                 "label"  => "Puro",
                 "colour" => "green",
+                "font"   => "white"
+              },
+              "Neo" => {
+                "label"  => "neo",
+                "colour" => "aquamarine",
                 "font"   => "white"
               }
                         # "neo" => { "label" => false },
