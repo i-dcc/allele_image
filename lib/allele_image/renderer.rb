@@ -41,7 +41,7 @@ module AlleleImage
 
       image_list.push( render_five_arm() )
       image_list.push( render_cassette() )
-      # render_three_arm( image_list )
+      image_list.push( render_three_arm() )
 
       image_list.append( false )
     end
@@ -49,7 +49,64 @@ module AlleleImage
     private
       # These methods return a Magick::Image object
       def render_cassette
-        cassette_features = insert_gaps_between( @construct.cassette_features() )
+        render_mutant_region( @construct.cassette_features(), true )
+
+        # Could move the annotation here as we have the entire image now
+      end
+
+      def render_five_arm
+        render_genomic_region( @construct.five_arm_features() )
+
+        # Could move the annotation here as we have the entire image now
+      end
+
+      def render_three_arm
+        image_list = Magick::ImageList.new()
+
+        rcmb_primers = @construct.three_arm_features.select do |feature|
+          feature.feature_type() == "rcmb_primer"
+        end
+
+        if rcmb_primers.count == 2
+           three_arm_features     = @construct.three_arm_features()
+           target_region_features = nil
+           loxp_region_features   = nil
+        else
+          target_region_features = @construct.three_arm_features().select do |feature|
+            feature.start() >= rcmb_primers[0].start() and \
+            feature.start() <= rcmb_primers[1].start()
+          end
+          loxp_region_features = @construct.three_arm_features().select do |feature|
+            feature.start() >= rcmb_primers[1].start() and \
+            feature.start() <= rcmb_primers[2].start() and \
+            feature.feature_type() == "SSR_site"
+          end
+          three_arm_features = @construct.three_arm_features().select do |feature|
+            feature.start() >= rcmb_primers[2].start() and \
+            feature.start() <= rcmb_primers[3].start()
+          end
+        end
+
+        # Add the target region
+        if target_region_features and target_region_features.count() > 0
+          image_list.push( render_genomic_region( target_region_features ) )
+        end
+
+        # Add the loxP region
+        if loxp_region_features and loxp_region_features.count() > 0
+          image_list.push( render_mutant_region( loxp_region_features ) )
+        end
+
+        # Add the rest of the three arm region
+        image_list.push( render_genomic_region( three_arm_features ) )
+
+        return image_list.append( false )
+
+        # Could move the annotation here as we have the entire image now
+      end
+
+      def render_mutant_region( features, label = false )
+        cassette_features = insert_gaps_between( features )
         image_list        = Magick::ImageList.new()
         image_width       = calculate_width( cassette_features )
 
@@ -76,7 +133,7 @@ module AlleleImage
 
         # Construct the label image
         label_image = Magick::Image.new( image_width, @text_height * 2 )
-        label_image = draw_label( label_image, @construct.cassette_label(), 0, 0 )
+        label_image = draw_label( label_image, @construct.cassette_label(), 0, 0 ) if label
 
         # Stack the images vertically
         image_list.push( annotation_image )
@@ -86,11 +143,11 @@ module AlleleImage
         return image_list.append( true )
       end
 
-      def render_five_arm
+      def render_genomic_region( features )
         exons = []
 
-        if @construct.five_arm_features()
-          exons = @construct.five_arm_features.select { |feature| feature.feature_type() == "exon" }
+        if features
+          exons = features.select { |feature| feature.feature_type() == "exon" }
         end
 
         image_list  = Magick::ImageList.new()
@@ -129,22 +186,6 @@ module AlleleImage
             x += feature_width # update the x coordinate
           end
 
-=begin from branch master
-
-          def render
-            draw_sequence( 0, @height / 2, @width, @height / 2 )
-
-
-
-
-            # DRAW THE LABELS
-
-            # Stack and return the images
-            @image = Magick::ImageList.new.push( @image ).push( label_image ).append( true )
-          end
-
-=end
-
         # Construct the label image
         label_image, x, y = Magick::Image.new( image_width, calculate_labels_image_height( exons ) ), 0, 0
 
@@ -160,8 +201,6 @@ module AlleleImage
 
         return image_list.append( true )
       end
-
-      # def render_three_arm; image_list.new_image(10,10); end
 
       # DRAW METHODS
       # Need to get this method drawing exons as well
