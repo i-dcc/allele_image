@@ -24,10 +24,10 @@ module AlleleImage
       raise "NotAlleleImageConstruct" unless construct.instance_of?( AlleleImage::Construct )
 
       @construct   = construct
-
       @gap_width   = 10
       @text_width  = 10
       @text_height = 20
+      @annotation_height = 70
       @sequence_stroke_width = 2.5
 
       @image = self.render
@@ -55,7 +55,7 @@ module AlleleImage
 
         # Construct the annotation image
         image_list       = Magick::ImageList.new()
-        annotation_image = Magick::Image.new( image.columns(), 50 )
+        annotation_image = Magick::Image.new( image.columns(), @annotation_height )
 
         # Stack the images
         image_list.push( annotation_image )
@@ -69,7 +69,7 @@ module AlleleImage
 
         # Construct the annotation image
         image_list       = Magick::ImageList.new()
-        annotation_image = Magick::Image.new( image.columns(), 50 )
+        annotation_image = Magick::Image.new( image.columns(), @annotation_height )
         genomic          = @construct.five_arm_features.select { |feature| feature.feature_type() == "genomic" }
         annotation_image = draw_homology_arm( annotation_image, genomic.last() )
 
@@ -85,7 +85,7 @@ module AlleleImage
 
         # Construct the annotation image
         image_list       = Magick::ImageList.new()
-        annotation_image = Magick::Image.new( image.columns(), 50 )
+        annotation_image = Magick::Image.new( image.columns(), @annotation_height )
 
         # Stack the images
         image_list.push( annotation_image )
@@ -138,7 +138,7 @@ module AlleleImage
 
         # Construct the annotation image
         image_list       = Magick::ImageList.new()
-        annotation_image = Magick::Image.new( image.columns(), 50 )
+        annotation_image = Magick::Image.new( image.columns(), @annotation_height )
         genomic          = @construct.three_arm_features.select { |feature| feature.feature_type() == "genomic" }
         annotation_image = draw_homology_arm( annotation_image, genomic.last() )
 
@@ -154,7 +154,7 @@ module AlleleImage
 
         # Construct the annotation image
         image_list       = Magick::ImageList.new()
-        annotation_image = Magick::Image.new( image.columns(), 50 )
+        annotation_image = Magick::Image.new( image.columns(), @annotation_height )
 
         # Stack the images
         image_list.push( annotation_image )
