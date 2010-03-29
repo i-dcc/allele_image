@@ -7,9 +7,9 @@ lib/allele_image.rb
 lib/allele_image/construct.rb
 lib/allele_image/feature.rb
 lib/allele_image/image.rb
-lib/allele_image/parser/genbank.rb
+lib/allele_image/parser.rb
 lib/allele_image/renderable_features.rb
-lib/allele_image/renderer/png.rb
+lib/allele_image/renderer.rb
 script/console
 script/destroy
 script/generate
@@ -19,5 +19,5 @@ test/test_construct.rb
 test/test_feature.rb
 test/test_helper.rb
 test/test_image.rb
-test/test_parser_genbank.rb
-test/test_renderer_png.rb
+test/test_parser.rb
+test/test_renderer.rb
