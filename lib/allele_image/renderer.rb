@@ -49,15 +49,31 @@ module AlleleImage
     private
       # These methods return a Magick::Image object
       def render_cassette
-        render_mutant_region( @construct.cassette_features(), true )
+        image = render_mutant_region( @construct.cassette_features(), true )
 
-        # Could move the annotation here as we have the entire image now
+        # Construct the annotation image
+        image_list       = Magick::ImageList.new()
+        annotation_image = Magick::Image.new( image.columns(), 50 )
+
+        # Stack the images
+        image_list.push( annotation_image )
+        image_list.push( image )
+
+        return image_list.append( true )
       end
 
       def render_five_arm
-        render_genomic_region( @construct.five_arm_features() )
+        image = render_genomic_region( @construct.five_arm_features() )
 
-        # Could move the annotation here as we have the entire image now
+        # Construct the annotation image
+        image_list       = Magick::ImageList.new()
+        annotation_image = Magick::Image.new( image.columns(), 50 )
+
+        # Stack the images
+        image_list.push( annotation_image )
+        image_list.push( image )
+
+        return image_list.append( true )
       end
 
       def render_three_arm
@@ -100,18 +116,23 @@ module AlleleImage
         # Add the rest of the three arm region
         image_list.push( render_genomic_region( three_arm_features ) )
 
-        return image_list.append( false )
+        image = image_list.append( false )
 
-        # Could move the annotation here as we have the entire image now
+        # Construct the annotation image
+        image_list       = Magick::ImageList.new()
+        annotation_image = Magick::Image.new( image.columns(), 50 )
+
+        # Stack the images
+        image_list.push( annotation_image )
+        image_list.push( image )
+
+        return image_list.append( true )
       end
 
       def render_mutant_region( features, label = false )
         cassette_features = insert_gaps_between( features )
         image_list        = Magick::ImageList.new()
         image_width       = calculate_width( cassette_features )
-
-        # Construct the annotation image
-        annotation_image = Magick::Image.new( image_width, 50 )
 
         # Construct the main image
         image_height = 100 # again height will need to be calculated
@@ -136,7 +157,6 @@ module AlleleImage
         label_image = draw_label( label_image, @construct.cassette_label(), 0, 0 ) if label
 
         # Stack the images vertically
-        image_list.push( annotation_image )
         image_list.push( main_image )
         image_list.push( label_image )
 
@@ -152,9 +172,6 @@ module AlleleImage
 
         image_list  = Magick::ImageList.new()
         image_width = calculate_genomic_region_width( exons )
-
-        # Construct the annotation image
-        annotation_image = Magick::Image.new( image_width, 50 )
 
         # Construct the main image
         image_height = 100 # again height will need to be calculated
@@ -195,7 +212,6 @@ module AlleleImage
         end
 
         # Stack the images vertically
-        image_list.push( annotation_image )
         image_list.push( main_image )
         image_list.push( label_image )
 
