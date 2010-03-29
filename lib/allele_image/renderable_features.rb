@@ -10,7 +10,9 @@ module AlleleImage
                             "FRT" => { "label" => "FRT" }
                           },
             "polyA_site" => {
-                              "SV40 pA" => { "label" => "pA" }
+                              "SV40 pA"    => { "label" => "pA" },
+                              "SV40 polyA" => { "label" => "pA" },
+                              "PGK polyA"  => { "label" => "pA" }
                             },
             "misc_feature" => {
                                 "EN2_exon2" => { "label" => false },
@@ -120,7 +122,13 @@ module AlleleImage
                                 },
                                 "Gateway  L1 site" => { "label" => false },
                                 "gap" => { "label" => false },
-                                "intervening sequence" => { "label" => false }
+                                "intervening sequence" => { "label" => false },
+                                "AttP" => { "label" => false },
+                                "UiPCR" => {
+                                  "label"  => "UiPCR",
+                                  "colour" => "brown",
+                                  "font"   => "white"
+                                }
                               },
             "intron" => {
                           "En2 intron1" => { "label" => "En2 SA" }
@@ -147,6 +155,23 @@ module AlleleImage
                                   "5 arm" => { "label" => false },
                                   # "target region" => { "label" => false }, since we don't render it
                                   "3 arm" => { "label" => false }
+            },
+            "gene" => {
+              "Puro" => {
+                "label"  => "Puro",
+                "colour" => "green",
+                "font"   => "white"
+              }
+                        # "neo" => { "label" => false },
+                        # "En2 T2A fusion" => { "label" => false },
+                        # "neo translation" => { "label" => false },
+                        # "b-galactosidase" => { "label" => false },
+                        # "bgal" => { "label" => false },
+                        # "rat CD4 B-gal fusion" => { "label" => false },
+                        # "B gal translation" => { "label" => false }
+            },
+            "intervening sequence" => {
+              "intervening sequence" => { "label" => false }
             }
             # THESE STILL NEED TO BE VERIFIED:
             # "PCR_primer" => {
@@ -185,15 +210,6 @@ module AlleleImage
             #                "Gateway L2" => { "label" => false },
             #                "Gateway  L1 site" => { "label" => false }
             #              },
-            # "gene" => {
-            #             "neo" => { "label" => false },
-            #             "En2 T2A fusion" => { "label" => false },
-            #             "neo translation" => { "label" => false },
-            #             "b-galactosidase" => { "label" => false },
-            #             "bgal" => { "label" => false },
-            #             "rat CD4 B-gal fusion" => { "label" => false },
-            #             "B gal translation" => { "label" => false }
-            #           },
             # "LRPCR_primer" => {
             #                     "LRPCR LAR3_EN2" => { "label" => false },
             #                     "RAF5" => { "label" => false },

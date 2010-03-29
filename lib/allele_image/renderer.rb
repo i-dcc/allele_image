@@ -228,7 +228,7 @@ module AlleleImage
         features = insert_gaps_between(
           exons.count >= 5 ? [ 
             exons.first,
-            AlleleImage::Feature.new( "misc_feature", "intervening sequence", 1, 1 ),
+            AlleleImage::Feature.new( "intervening sequence", "intervening sequence", 1, 1 ),
             exons.last
           ] : exons )
 
