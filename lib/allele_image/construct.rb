@@ -31,7 +31,7 @@ module AlleleImage
     def cassette_features
       @features.select do |feature|
         feature.start() >= @rcmb_primers[1].start() and \
-        feature.start() <= @rcmb_primers[2].start() and \
+        feature.stop()  <= @rcmb_primers[2].stop()  and \
         not [ "exon", "rcmb_primer" ].include?( feature.feature_type() )
       end
     end
@@ -39,14 +39,14 @@ module AlleleImage
     def five_arm_features
       @features.select do |feature|
         feature.start() >= @rcmb_primers[0].start() and \
-        feature.start() <= @rcmb_primers[1].start()
+        feature.stop()  <= @rcmb_primers[1].stop()
       end
     end
 
     def three_arm_features
       @features.select do |feature|
         feature.start() >= @rcmb_primers[2].start() and \
-        feature.start() <= @rcmb_primers.last.start()
+        feature.stop()  <= @rcmb_primers.last.stop()
       end
     end
 
