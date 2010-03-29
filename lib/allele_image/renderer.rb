@@ -68,6 +68,8 @@ module AlleleImage
         # Construct the annotation image
         image_list       = Magick::ImageList.new()
         annotation_image = Magick::Image.new( image.columns(), 50 )
+        genomic          = @construct.five_arm_features.select { |feature| feature.feature_type() == "genomic" }
+        annotation_image = draw_homology_arm( annotation_image, genomic.last() )
 
         # Stack the images
         image_list.push( annotation_image )
@@ -121,6 +123,8 @@ module AlleleImage
         # Construct the annotation image
         image_list       = Magick::ImageList.new()
         annotation_image = Magick::Image.new( image.columns(), 50 )
+        genomic          = @construct.three_arm_features.select { |feature| feature.feature_type() == "genomic" }
+        annotation_image = draw_homology_arm( annotation_image, genomic.last() )
 
         # Stack the images
         image_list.push( annotation_image )
@@ -267,6 +271,33 @@ module AlleleImage
         d.draw( image )
 
         # pp [ :sequence_stroke_width => @sequence_stroke_width, :drawing => d ]
+
+        return image
+      end
+
+      # draw the homology arms
+      def draw_homology_arm( image, feature )
+        d = Magick::Draw.new
+        y = image.rows / 2
+        w = image.columns - 1
+        h = image.rows / 5 # overhang
+
+        # Draw the lines
+        d.stroke( "black" )
+        d.stroke_width( 2.5 )
+        d.line( 0, y + h, 0, y ).draw( image )
+        d.line( 0, y, w, y ).draw( image )
+        d.line( w, y, w, y + h ).draw( image )
+
+        # We want better labels here
+        label_for = { "5 arm" => "5' homology arm", "3 arm" => "3' homology arm" }
+
+        # annotate the block
+        d.annotate( image, w, y, 0, 0,
+          "#{ label_for[ feature.feature_name() ] }\n(#{ feature.stop() - feature.start() } bp)" ) do
+          self.fill    = "blue"
+          self.gravity = Magick::CenterGravity
+        end
 
         return image
       end
