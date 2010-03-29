@@ -903,7 +903,7 @@ GENBANK_DATA
     end
 
     should "render something" do
-      assert_not_nil @image.render_image()
+      assert_not_nil @image.render()
     end
   end
 end
