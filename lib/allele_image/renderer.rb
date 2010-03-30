@@ -233,27 +233,26 @@ module AlleleImage
         x = ( image_width - calculate_exon_image_width( exons.count ) ) / 2
         y = ( image_height - @feature_height ) / 2
 
-        # This could be cleaner
-        features = insert_gaps_between(
-          exons.count >= 5 ? [ 
-            exons.first,
-            AlleleImage::Feature.new( "intervening sequence", "intervening sequence", 1, 1 ),
-            exons.last
-          ] : exons )
+        features             = []
+        intervening_sequence = AlleleImage::Feature.new(
+         "intervening sequence", "intervening sequence", 1, 1 )
 
-          features.each do |feature|
-            feature_width = 0
-            if feature.feature_name() == "gap"
-              feature_width = @gap_width
-            elsif feature.feature_name() == "intervening sequence"
-              draw_intervening_sequence( main_image, x, y )
-              feature_width = @text_width
-            else
-              draw_exon( main_image, x, y )
-              feature_width = @text_width # or Feature#width if it exists
-            end
-            x += feature_width # update the x coordinate
+        if exons.count >= 5
+          features = insert_gaps_between( [ exons.first, intervening_sequence, exons.last ] )
+        else
+          features = insert_gaps_between( exons )
+        end
+
+        features.each do |feature|
+          feature_width = 0
+          if feature.feature_name() == "gap"
+            feature_width = @gap_width
+          else
+            draw_feature( main_image, feature, x, y )
+            feature_width = @text_width # or Feature#width if it exists
           end
+          x += feature_width # update the x coordinate
+        end
 
         # Construct the label image
         label_image, x, y = Magick::Image.new( image_width, calculate_labels_image_height( exons ) ), 0, 0
@@ -273,19 +272,25 @@ module AlleleImage
       # DRAW METHODS
       # Need to get this method drawing exons as well
       def draw_feature( image, feature, x, y )
-        case feature.feature_name()
-        when "FRT"
-          draw_frt( image, x, y )
-        when "loxP"
-          draw_loxp( image, x, y )
-        when "AttP"
-          draw_attp( image, x, y )
-        # when "F3"
-        #   draw_f3( image, x, y )
-        # Any non-speciall feature is probably a cassette feature
-        # and can be rendered with the feature.render_options()
+        if feature.feature_type() == "exon"
+          draw_exon( image, x, y )
         else
-          draw_cassette_feature( image, feature, x, y )
+          case feature.feature_name()
+          when "FRT"
+            draw_frt( image, x, y )
+          when "loxP"
+            draw_loxp( image, x, y )
+          when "AttP"
+            draw_attp( image, x, y )
+          when "intervening sequence"
+            draw_intervening_sequence( image, x, y )
+          # when "F3"
+          #   draw_f3( image, x, y )
+          # Any non-speciall feature is probably a cassette feature
+          # and can be rendered with the feature.render_options()
+          else
+            draw_cassette_feature( image, feature, x, y )
+          end
         end
       end
 
