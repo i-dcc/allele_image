@@ -34,6 +34,11 @@ that we do not have to separate the annotation features from the main features.
 We should just not consider the annotation features when we are calculating
 the widths of sections.
 
+Bill has an example of what the images should look like in the link below.
+Develop the images to that specification:
+
+http://www.knockoutmouse.org/about/view-all-ikmc-allele-types
+
 == TODO/REFACTOR
 
            --------                   ----------          
