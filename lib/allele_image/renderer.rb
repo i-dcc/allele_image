@@ -527,11 +527,3 @@ module AlleleImage
       end
   end
 end
-
-=begin From branch master:
-
-      # Enough to write "Promoterless Cassette\n(L1L2_gt2)"
-      def calculate_height
-        @text_height * 2
-      end
-=end
