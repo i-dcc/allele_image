@@ -26,7 +26,7 @@ module AlleleImage
       @construct   = construct
       @gap_width   = 10
       @text_width  = 10
-      @text_height = 20
+      @text_height = 40
       @annotation_height = 70
       @sequence_stroke_width = 2.5
 
@@ -269,6 +269,8 @@ module AlleleImage
           draw_frt( image, x, y )
         when "loxP"
           draw_loxp( image, x, y )
+        when "AttP"
+          draw_attp( image, x, y )
         # when "F3"
         #   draw_f3( image, x, y )
         # Any non-speciall feature is probably a cassette feature
@@ -352,6 +354,22 @@ module AlleleImage
           self.gravity = Magick::CenterGravity
         end
 
+        return image
+      end
+
+      def draw_attp( image, x, y )
+        w = "attp".length * @text_width
+        h = @text_height
+        d = Magick::Draw.new
+        d.stroke( "black" )
+        d.fill( "red" )
+        d.polygon( x, y, x + w - 2, y, x, y + h - 2 )
+        d.draw( image )
+        d = Magick::Draw.new
+        d.stroke( "black" )
+        d.fill( "red" )
+        d.polygon( x + 2, y + h, x + w, y + 2, x + w, y + h )
+        d.draw( image )
         return image
       end
 
