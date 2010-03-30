@@ -174,6 +174,14 @@ module AlleleImage
         image_list        = Magick::ImageList.new()
         image_width       = calculate_width( cassette_features )
 
+        # The minimum width of the cassette region should be wide enough
+        # to write the cassette label. In the cases where the label is
+        # longer than the features we'd need to centralize the image.
+        # Since we don't have that logic, I'm leaving that off for now.
+        unless image_width and image_width > 0
+          image_width = @text_width * @construct.cassette_label().length()
+        end
+
         # Construct the main image
         image_height = @feature_height * 2.5 # again height will need to be calculated
         main_image   = Magick::Image.new( image_width, image_height )
