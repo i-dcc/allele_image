@@ -26,7 +26,8 @@ module AlleleImage
       @construct   = construct
       @gap_width   = 10
       @text_width  = 10
-      @text_height = 40
+      @text_height = 20
+      @feature_height = 40
       @annotation_height = 70
       @sequence_stroke_width = 2.5
 
@@ -174,11 +175,11 @@ module AlleleImage
         image_width       = calculate_width( cassette_features )
 
         # Construct the main image
-        image_height = 100 # again height will need to be calculated
-        main_image      = Magick::Image.new( image_width, image_height )
-        x               = 0
-        y               = ( image_height - @text_height ) / 2 # "y" should center the images vertically
-        main_image      = draw_sequence( main_image, x, image_height / 2, image_width, image_height / 2 )
+        image_height = @feature_height * 2.5 # again height will need to be calculated
+        main_image   = Magick::Image.new( image_width, image_height )
+        x            = 0
+        y            = ( image_height - @feature_height ) / 2 # "y" should center the images vertically
+        main_image   = draw_sequence( main_image, x, image_height / 2, image_width, image_height / 2 )
 
         cassette_features.each do |feature|
           feature_width = 0
@@ -217,12 +218,12 @@ module AlleleImage
         end
 
         # Construct the main image
-        image_height = 100 # again height will need to be calculated
+        image_height = @feature_height * 2.5 # again height will need to be calculated
         main_image   = Magick::Image.new( image_width, image_height )
         main_image   = draw_sequence( main_image, 0, image_height / 2, image_width, image_height / 2 )
 
         x = ( image_width - calculate_exon_image_width( exons.count ) ) / 2
-        y = ( image_height - @text_height ) / 2
+        y = ( image_height - @feature_height ) / 2
 
         # This could be cleaner
         features = insert_gaps_between(
@@ -283,7 +284,7 @@ module AlleleImage
       # draw a box with a label to the correct width
       def draw_cassette_feature( image, feature, x, y, colour = "white", font = "black" )
           width  = feature.feature_name().length * @text_width
-          height = @text_height
+          height = @feature_height
           colour = feature.render_options()[ "colour" ] || colour
           font   = feature.render_options()[ "font" ]   || font
           d      = Magick::Draw.new
@@ -359,7 +360,7 @@ module AlleleImage
 
       def draw_attp( image, x, y )
         w = "attp".length * @text_width
-        h = @text_height
+        h = @feature_height
         d = Magick::Draw.new
         d.stroke( "black" )
         d.fill( "red" )
@@ -379,7 +380,7 @@ module AlleleImage
 
         d.stroke( "black" )
         d.fill( "red" )
-        d.polygon( x, y, x + feature_width, y + @text_height / 2, x, y + @text_height )
+        d.polygon( x, y, x + feature_width, y + @feature_height / 2, x, y + @feature_height )
         d.draw( image )
 
         return image
@@ -391,7 +392,7 @@ module AlleleImage
 
         d.stroke( "black" )
         d.fill( "red" )
-        d.polygon( x, y, x + feature_width, y + @text_height / 2, x, y + @text_height )
+        d.polygon( x, y, x + feature_width, y + @feature_height / 2, x, y + @feature_height )
         d.draw( image )
 
         return image
@@ -403,8 +404,8 @@ module AlleleImage
 
         d.stroke( "black" )
         d.fill( "green" )
-        d.arc( x - feature_width, y, x + feature_width, y + @text_height, 270, 90 )
-        d.line( x, y, x, y + @text_height )
+        d.arc( x - feature_width, y, x + feature_width, y + @feature_height, 270, 90 )
+        d.line( x, y, x, y + @feature_height )
         d.draw( image )
 
         return image
@@ -412,7 +413,7 @@ module AlleleImage
 
       def draw_exon( image, x, y )
         exon_width  = @text_width
-        exon_height = @text_height
+        exon_height = @feature_height
         d           = Magick::Draw.new
 
         d.stroke( "black" )
@@ -428,9 +429,9 @@ module AlleleImage
 
         d.stroke( "black" )
         d.stroke_width( @sequence_stroke_width )
-        d.line( x, y + @text_height, x + @text_width / 2, y )
+        d.line( x, y + @feature_height, x + @text_width / 2, y )
         d.draw( image )
-        d.line( x + @text_width / 2, y + @text_height, x + @text_width, y )
+        d.line( x + @text_width / 2, y + @feature_height, x + @text_width, y )
         d.draw( image )
 
         return image
