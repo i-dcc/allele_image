@@ -170,7 +170,7 @@ module AlleleImage
             "gene" => {
               "Puro" => {
                 "label"  => "Puro",
-                "colour" => "green",
+                "colour" => "purple",
                 "font"   => "white"
               },
               "Neo" => {
