@@ -292,8 +292,8 @@ module AlleleImage
             draw_attp( image, x, y )
           when "intervening sequence"
             draw_intervening_sequence( image, x, y )
-          # when "F3"
-          #   draw_f3( image, x, y )
+          when "F3"
+            draw_f3( image, x, y )
           # Any non-speciall feature is probably a cassette feature
           # and can be rendered with the feature.render_options()
           else
@@ -417,14 +417,19 @@ module AlleleImage
         return image
       end
 
-      def draw_f3( image, x, y )
-        feature_width = "loxP".length * @text_width
-        d             = Magick::Draw.new
-
-        d.stroke( "black" )
-        d.fill( "red" )
-        d.polygon( x, y, x + feature_width, y + @feature_height / 2, x, y + @feature_height )
+      def draw_f3( image, x, y, d = Magick::Draw.new, feature_width = "F3".length * @text_width )
+        # Draw the triangle
+        d.fill( "orange" )
+        d.polygon( x, @top_margin, x, @image_height - @bottom_margin, x + feature_width, @top_margin )
         d.draw( image )
+
+        # write the annotation above
+        d.annotate( image, feature_width, @top_margin, x, 0, "F3" ) do
+          self.fill        = "orange"
+          self.gravity     = Magick::CenterGravity
+          self.font_weight = Magick::BoldWeight
+          self.font_style  = Magick::ItalicStyle
+        end
 
         return image
       end

@@ -136,7 +136,7 @@ module AlleleImage
                                 "F3" => {
                                   # == TODO
                                   # This should have its own method (that draws a red triangle) but for now ...
-                                  "label"  => "loxP",
+                                  "label"  => "F3",
                                   "colour" => "red",
                                   "font"   => "white"
                                 }
