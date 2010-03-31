@@ -20,8 +20,14 @@ module AlleleImage
   class Renderer
     attr_reader :image
 
-    def initialize( construct )
+    def initialize( construct, bottom_margin = 25, feature_height = 50, top_margin = 25 )
       raise "NotAlleleImageConstruct" unless construct.instance_of?( AlleleImage::Construct )
+
+      # For the main (feature) image
+      @bottom_margin  = bottom_margin
+      @feature_height = feature_height
+      @top_margin     = top_margin
+      @image_height   = @bottom_margin + @feature_height + @top_margin
 
       @construct   = construct
       @gap_width   = 10
@@ -32,6 +38,8 @@ module AlleleImage
       @sequence_stroke_width = 2.5
 
       @image = self.render
+
+      return self
     end
 
     # The output of this method will get assigned to the @image attribute
@@ -183,10 +191,10 @@ module AlleleImage
         end
 
         # Construct the main image
-        image_height = @feature_height * 2.5 # again height will need to be calculated
+        image_height = @image_height
         main_image   = Magick::Image.new( image_width, image_height )
         x            = 0
-        y            = ( image_height - @feature_height ) / 2 # "y" should center the images vertically
+        y            = image_height / 2
         main_image   = draw_sequence( main_image, x, image_height / 2, image_width, image_height / 2 )
 
         cassette_features.each do |feature|
@@ -295,21 +303,20 @@ module AlleleImage
       end
 
       # draw a box with a label to the correct width
-      def draw_cassette_feature( image, feature, x, y, colour = "white", font = "black" )
+      def draw_cassette_feature( image, feature, x, y, colour = "white", font = "black", d = Magick::Draw.new )
           width  = feature.feature_name().length * @text_width
           height = @feature_height
           colour = feature.render_options()[ "colour" ] || colour
           font   = feature.render_options()[ "font" ]   || font
-          d      = Magick::Draw.new
 
           # create a block
           d.stroke( "black" )
           d.fill( colour )
-          d.rectangle( x, y, x + width, y + height )
+          d.rectangle( x, @top_margin, x + width, @image_height - @bottom_margin )
           d.draw( image )
 
           # annotate the block
-          d.annotate( image, width, height, x, y, feature.feature_name() ) do
+          d.annotate( image, width, height, x, @top_margin, feature.feature_name() ) do
             self.fill        = font
             self.font_weight = Magick::BoldWeight
             self.gravity     = Magick::CenterGravity
@@ -387,14 +394,19 @@ module AlleleImage
         return image
       end
 
-      def draw_loxp( image, x, y )
-        feature_width = "loxP".length * @text_width
-        d             = Magick::Draw.new
-
-        d.stroke( "black" )
+      def draw_loxp( image, x, y, d = Magick::Draw.new, feature_width = "loxP".length * @text_width )
+        # Draw the triangle
         d.fill( "red" )
-        d.polygon( x, y, x + feature_width, y + @feature_height / 2, x, y + @feature_height )
+        d.polygon( x, @top_margin, x + feature_width, y, x, @image_height - @bottom_margin )
         d.draw( image )
+
+        # write the annotation above
+        d.annotate( image, feature_width, @top_margin, x, 0, "loxP" ) do
+          self.fill        = "red"
+          self.gravity     = Magick::CenterGravity
+          self.font_weight = Magick::BoldWeight
+          self.font_style  = Magick::ItalicStyle
+        end
 
         return image
       end
@@ -411,36 +423,23 @@ module AlleleImage
         return image
       end
 
-      def draw_frt( image, x, y )
-        feature_width = "FRT".length * @text_width
-        d             = Magick::Draw.new
-
-        d.stroke( "black" )
+      # Switch to use this when you change your coordinate system
+      def draw_frt( image, x, y, d = Magick::Draw.new, feature_width = "FRT".length * @text_width )
+        # Draw the triangle
         d.fill( "green" )
-        d.arc( x - feature_width, y, x + feature_width, y + @feature_height, 270, 90 )
-        d.line( x, y, x, y + @feature_height )
+        d.polygon( x, @top_margin, x, @image_height - @bottom_margin, x + feature_width, @top_margin )
         d.draw( image )
+
+        # write the annotation above
+        d.annotate( image, feature_width, @top_margin, x, 0, "FRT" ) do
+          self.fill        = "green"
+          self.gravity     = Magick::CenterGravity
+          self.font_weight = Magick::BoldWeight
+          self.font_style  = Magick::ItalicStyle
+        end
 
         return image
       end
-
-      # # Switch to use this when you change your coordinate system
-      # def draw_frt( image, x, y, d = Magick::Draw.new, h = @feature_height, t = 10, w = "FRT".length * @text_width )
-      #   # Draw the triangle
-      #   d.fill( "green" )
-      #   d.polygon( x, y - h / 2 + t, x, y + h / 2, x + w, y - h / 2 + t )
-      #   d.draw( image )
-      # 
-      #   # write the annotation above
-      #   d.annotate( image, w, t, x, y - h / 2, "FRT" ) do
-      #     self.fill        = "green"
-      #     self.gravity     = Magick::CenterGravity
-      #     self.font_weight = Magick::BoldWeight
-      #     self.font_style  = Magick::ItalicStyle
-      #   end
-      # 
-      #   return image
-      # end
 
       def draw_exon( image, x, y )
         exon_width  = @text_width
