@@ -234,12 +234,12 @@ module AlleleImage
         end
 
         # Construct the main image
-        image_height = @feature_height * 2.5 # again height will need to be calculated
+        image_height = @image_height
         main_image   = Magick::Image.new( image_width, image_height )
         main_image   = draw_sequence( main_image, 0, image_height / 2, image_width, image_height / 2 )
 
         x = ( image_width - calculate_exon_image_width( exons.count ) ) / 2
-        y = ( image_height - @feature_height ) / 2
+        y = image_height / 2
 
         features             = []
         intervening_sequence = AlleleImage::Feature.new(
@@ -441,14 +441,10 @@ module AlleleImage
         return image
       end
 
-      def draw_exon( image, x, y )
-        exon_width  = @text_width
-        exon_height = @feature_height
-        d           = Magick::Draw.new
-
+      def draw_exon( image, x, y, d = Magick::Draw.new, feature_width = @text_width )
         d.stroke( "black" )
         d.fill( "yellow" )
-        d.rectangle( x, y, x + exon_width, y + exon_height )
+        d.rectangle( x, @top_margin, x + feature_width, @image_height - @bottom_margin )
         d.draw( image )
 
         return image
