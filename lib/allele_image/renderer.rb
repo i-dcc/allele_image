@@ -424,6 +424,24 @@ module AlleleImage
         return image
       end
 
+      # # Switch to use this when you change your coordinate system
+      # def draw_frt( image, x, y, d = Magick::Draw.new, h = @feature_height, t = 10, w = "FRT".length * @text_width )
+      #   # Draw the triangle
+      #   d.fill( "green" )
+      #   d.polygon( x, y - h / 2 + t, x, y + h / 2, x + w, y - h / 2 + t )
+      #   d.draw( image )
+      # 
+      #   # write the annotation above
+      #   d.annotate( image, w, t, x, y - h / 2, "FRT" ) do
+      #     self.fill        = "green"
+      #     self.gravity     = Magick::CenterGravity
+      #     self.font_weight = Magick::BoldWeight
+      #     self.font_style  = Magick::ItalicStyle
+      #   end
+      # 
+      #   return image
+      # end
+
       def draw_exon( image, x, y )
         exon_width  = @text_width
         exon_height = @feature_height
