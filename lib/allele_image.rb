@@ -9,6 +9,7 @@ end
 
 directory = File.expand_path( File.dirname(__FILE__) )
 
+require "rubygems"
 require File.join( directory, 'allele_image', 'construct' )
 require File.join( directory, 'allele_image', 'feature' )
 require File.join( directory, 'allele_image', 'image' )
