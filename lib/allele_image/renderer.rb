@@ -378,19 +378,25 @@ module AlleleImage
         return image
       end
 
-      def draw_attp( image, x, y )
-        w = "attp".length * @text_width
-        h = @feature_height
-        d = Magick::Draw.new
+      def draw_attp( image, x, y, d = Magick::Draw.new, feature_width = "attp".length * @text_width )
+        # Draw the two triangles
         d.stroke( "black" )
         d.fill( "red" )
-        d.polygon( x, y, x + w - 2, y, x, y + h - 2 )
+        d.polygon( x, @top_margin, x + feature_width - 2, @top_margin, x, @image_height - @bottom_margin - 2 )
         d.draw( image )
-        d = Magick::Draw.new
         d.stroke( "black" )
         d.fill( "red" )
-        d.polygon( x + 2, y + h, x + w, y + 2, x + w, y + h )
+        d.polygon( x + 2, @image_height - @bottom_margin, x + feature_width, @top_margin + 2, x + feature_width, @image_height - @bottom_margin )
         d.draw( image )
+
+        # write the annotation above
+        d.annotate( image, feature_width, @top_margin, x, 0, "attP" ) do
+          self.fill        = "red"
+          self.gravity     = Magick::CenterGravity
+          self.font_weight = Magick::BoldWeight
+          self.font_style  = Magick::ItalicStyle
+        end
+
         return image
       end
 
