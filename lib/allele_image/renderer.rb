@@ -20,7 +20,7 @@ module AlleleImage
   class Renderer
     attr_reader :image
 
-    def initialize( construct, bottom_margin = 25, feature_height = 50, top_margin = 25 )
+    def initialize( construct, bottom_margin = 25, feature_height = 40, top_margin = 25 )
       raise "NotAlleleImageConstruct" unless construct.instance_of?( AlleleImage::Construct )
 
       # For the main (feature) image
