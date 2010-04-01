@@ -133,13 +133,27 @@ module AlleleImage
                                 },
                                 "SA exon (En2)" => { "label" => "En2 SA" },
                                 "SA (En2)" => { "label" => "En2 SA" },
-                                "F3" => {
-                                  # == TODO
-                                  # This should have its own method (that draws a red triangle) but for now ...
-                                  "label"  => "F3",
-                                  "colour" => "red",
+                                # "Frame 0 insert" => { "label" => false },
+                                # "attB2" => { "label" => false },
+                                # "ATG initiation codon" => { "label" => false },
+                                # "FRAME 1 INSERT" => { "label" => false },
+                                "lacZ" => {
+                                  "label" => "lacZ",
+                                  "colour" => "blue",
                                   "font"   => "white"
-                                }
+                                },
+                                # "FRAME INSERT. Has ATG init codon, but no" => { "label" => false },
+                                # "REverse primer GH754" => { "label" => false },
+                                "F3" => { "label" => false },
+                                "FRT reverse" => { "label" => "FRT" },
+                                # "attB1" => { "label" => false },
+                                # "Frame 2 insert" => { "label" => false },
+                                # "Fwd SA primer" => { "label" => false },
+                                # "T2A cleavage site #1" => { "label" => false },
+                                # "Restriction sites for UiPCR" => { "label" => false }
+                              },
+                              "misc_signal" => {
+                                "T2A cleavage site #2" => { "label" => false }
                               },
             "intron" => {
                           "En2 intron1" => { "label" => "En2 SA" }
