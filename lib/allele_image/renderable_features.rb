@@ -32,13 +32,21 @@ module AlleleImage
                                 "EM7_3'" => { "label" => false },
                                 "osteopontin repeat 6" => { "label" => false },
                                 "frame 0" => { "label" => false },
-                                "neomycin resistance " => { "label" => "neo", "colour" => "aquamarine", "font" => "white" },
+                                "neomycin resistance " => {
+                                  "label"  => "neo",
+                                  "colour" => "DarkSlateBlue",
+                                  "font"   => "white"
+                                },
                                 "FRT" => { "label" => "FRT" },
                                 "Gateway L1 site" => { "label" => false },
                                 "osteopontin repeat 1" => { "label" => false },
                                 "FRT " => { "label" => "FRT" },
                                 "En2_exon2" => { "label" => false },
-                                "neo" => { "label" => "neo" },
+                                "neo" => {
+                                  "label"  => "neo",
+                                  "colour" => "DarkSlateBlue",
+                                  "font"   => "white"
+                                },
                                 "B1 site" => { "label" => false },
                                 "L1 seq primer" => { "label" => false },
                                 "bgal" => {
@@ -113,7 +121,7 @@ module AlleleImage
                                 "RAF5" => { "label" => false },
                                 "human beta actin promoter" => {
                                   "label"  => "Bact::neo",
-                                  "colour" => "aquamarine",
+                                  "colour" => "DarkSlateBlue",
                                   "font"   => "white"
                                 },
                                 "CD4 TM domain" => { "label" => false },
@@ -153,7 +161,7 @@ module AlleleImage
                                 # "Restriction sites for UiPCR" => { "label" => false }
                               },
                               "misc_signal" => {
-                                "T2A cleavage site #2" => { "label" => false }
+                                # "T2A cleavage site #2" => { "label" => false }
                               },
             "intron" => {
                           "En2 intron1" => { "label" => "En2 SA" }
@@ -164,7 +172,7 @@ module AlleleImage
                             "PGK Promoter" => { "label" => "PGK" },
                             "human beta actin promoter" => {
                               "label"  => "Bact::neo",
-                              "colour" => "aquamarine",
+                              "colour" => "DarkSlateBlue",
                               "font"   => "white"
                             }
                           },
@@ -189,10 +197,14 @@ module AlleleImage
               },
               "Neo" => {
                 "label"  => "neo",
-                "colour" => "aquamarine",
+                "colour" => "DarkSlateBlue",
                 "font"   => "white"
               }
-                        # "neo" => { "label" => false },
+              # "neo" => {
+              #   "label"  => "neo",
+              #   "colour" => "DarkSlateBlue",
+              #   "font"   => "white"
+              # },
                         # "En2 T2A fusion" => { "label" => false },
                         # "neo translation" => { "label" => false },
                         # "b-galactosidase" => { "label" => false },
