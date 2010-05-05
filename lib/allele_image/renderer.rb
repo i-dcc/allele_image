@@ -210,7 +210,7 @@ module AlleleImage
 
         # Construct the label image
         label_image = Magick::Image.new( image_width, @text_height * 2 )
-        label_image = draw_label( label_image, @construct.cassette_label(), 0, 0 ) if label
+        label_image = draw_label( label_image, @construct.cassette_label(), 0, 0, @text_height * 2 ) if label
 
         # Stack the images vertically
         image_list.push( main_image )
@@ -364,13 +364,13 @@ module AlleleImage
         return image
       end
 
-      def draw_label( image, label, x, y )
+      def draw_label( image, label, x, y, height = @text_height )
         d = Magick::Draw.new
 
         d.stroke( "black" )
         d.fill( "white" )
         d.draw( image )
-        d.annotate( image, image.columns(), @text_height, x, y, label ) do
+        d.annotate( image, image.columns(), height, x, y, label ) do
           self.fill    = "blue"
           self.gravity = Magick::CenterGravity
         end
