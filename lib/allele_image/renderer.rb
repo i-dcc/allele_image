@@ -466,9 +466,9 @@ module AlleleImage
 
         d.stroke( "black" )
         d.stroke_width( @sequence_stroke_width )
-        d.line( x, y + @feature_height, x + @text_width / 2, y )
+        d.line( x, @image_height - @bottom_margin, x + @text_width / 2, @top_margin )
         d.draw( image )
-        d.line( x + @text_width / 2, y + @feature_height, x + @text_width, y )
+        d.line( x + @text_width / 2, @image_height - @bottom_margin, x + @text_width, @top_margin )
         d.draw( image )
 
         return image
