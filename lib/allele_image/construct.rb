@@ -24,7 +24,7 @@ module AlleleImage
       @rcmb_primers   = initialize_rcmb_primers( features )
       @features       = features
       @circular       = circular
-      @cassette_label = cassette_label
+      @cassette_label = classify_cassette_type( cassette_label )
     end
 
     # These methods always return something
@@ -70,6 +70,17 @@ module AlleleImage
     private
       def initialize_rcmb_primers( features )
         features.select { |feature| feature.feature_type() == "rcmb_primer" }
+      end
+
+      def classify_cassette_type( cassette_label )
+        cassette_type = "Promoterless Cassette"
+        promoters     = self.cassette_features.select { |f| f.feature_type() == "promoter" }
+
+        if promoters.size > 0
+          cassette_type = "Promoter-Driven Cassette"
+        end
+
+        return "#{ cassette_type }\n(#{ cassette_label })"
       end
   end
 end
