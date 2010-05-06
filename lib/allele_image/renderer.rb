@@ -147,8 +147,11 @@ module AlleleImage
 
         image = image_list.append( false )
 
-        # For the (unlikely) case where we have nothing in the 3' arm we could
-        # just construct an empty image with width = "3' homology arm".length()
+        # For the (unlikely) case where we have nothing in the 3' arm,
+        # construct an empty image with width = "3' homology arm".length()
+        if image.columns == 1
+          image = render_genomic_region( @construct.three_arm_features, "3' homology arm".length() * @text_width )
+        end
 
         # Construct the annotation image
         image_list       = Magick::ImageList.new()
