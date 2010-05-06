@@ -287,7 +287,7 @@ module AlleleImage
           when "FRT"
             draw_frt( feature, image, x, y )
           when "loxP"
-            draw_loxp( image, x, y )
+            draw_loxp( feature, image, x, y )
           when "AttP"
             draw_attp( image, x, y )
           when "intervening sequence"
@@ -400,10 +400,16 @@ module AlleleImage
         return image
       end
 
-      def draw_loxp( image, x, y, d = Magick::Draw.new, feature_width = "loxP".length * @text_width )
+      def draw_loxp( feature, image, x, y, d = Magick::Draw.new, feature_width = "loxP".length * @text_width )
         # Draw the triangle
         d.fill( "red" )
-        d.polygon( x, @top_margin, x + feature_width, y, x, @image_height - @bottom_margin )
+
+        if feature.orientation == "forward"
+          d.polygon( x, @top_margin, x + feature_width, y, x, @image_height - @bottom_margin )
+        else
+          d.polygon( x, y, x + feature_width, @top_margin, x + feature_width, @image_height - @bottom_margin )
+        end
+
         d.draw( image )
 
         # write the annotation above
