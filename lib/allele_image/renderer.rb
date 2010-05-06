@@ -285,7 +285,7 @@ module AlleleImage
         else
           case feature.feature_name()
           when "FRT"
-            draw_frt( image, x, y )
+            draw_frt( feature, image, x, y )
           when "loxP"
             draw_loxp( image, x, y )
           when "AttP"
@@ -435,10 +435,12 @@ module AlleleImage
       end
 
       # Switch to use this when you change your coordinate system
-      def draw_frt( image, x, y, d = Magick::Draw.new, feature_width = "FRT".length * @text_width )
+      def draw_frt( feature, image, x, y, d = Magick::Draw.new, feature_width = "FRT".length * @text_width )
+        b = feature.orientation == "forward" ? x : x + feature_width
+
         # Draw the triangle
         d.fill( "green" )
-        d.polygon( x, @top_margin, x, @image_height - @bottom_margin, x + feature_width, @top_margin )
+        d.polygon( x, @top_margin, b, @image_height - @bottom_margin, x + feature_width, @top_margin )
         d.draw( image )
 
         # write the annotation above
