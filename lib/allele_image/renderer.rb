@@ -293,7 +293,7 @@ module AlleleImage
           when "intervening sequence"
             draw_intervening_sequence( image, x, y )
           when "F3"
-            draw_f3( image, x, y )
+            draw_f3( feature, image, x, y )
           # Any non-speciall feature is probably a cassette feature
           # and can be rendered with the feature.render_options()
           else
@@ -417,10 +417,12 @@ module AlleleImage
         return image
       end
 
-      def draw_f3( image, x, y, d = Magick::Draw.new, feature_width = "F3".length * @text_width )
+      def draw_f3( feature, image, x, y, d = Magick::Draw.new, feature_width = "F3".length * @text_width )
+        b = feature.orientation == "forward" ? x : x + feature_width
+
         # Draw the triangle
         d.fill( "orange" )
-        d.polygon( x, @top_margin, x, @image_height - @bottom_margin, x + feature_width, @top_margin )
+        d.polygon( x, @top_margin, b, @image_height - @bottom_margin, x + feature_width, @top_margin )
         d.draw( image )
 
         # write the annotation above
