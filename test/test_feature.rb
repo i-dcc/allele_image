@@ -27,5 +27,9 @@ class TestAlleleImageFeature < Test::Unit::TestCase
     should "have the correct name" do
       assert_equal "pA", @feature.feature_name()
     end
+
+    should "have the correct orientation" do
+      assert_equal "forward", @feature.orientation()
+    end
   end
 end
