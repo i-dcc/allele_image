@@ -323,6 +323,8 @@ module AlleleImage
             self.fill        = font
             self.font_weight = Magick::BoldWeight
             self.gravity     = Magick::CenterGravity
+            self.pointsize   = 14
+            self.font_family = "arial"
           end
 
           return image
