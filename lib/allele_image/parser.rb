@@ -24,7 +24,8 @@ module AlleleImage
     def parse( input )
       genbank_object = get_genbank_object( input )
       cassette_label = extract_cassette_type( genbank_object.comment )
-      circular       = false # get this automatically
+      data           = File.file?( input ) ? File.read( input ) : input
+      circular       = data.split("\n").first.split(/\s+/)[5] == "circular" ? true : false
 
       # Retrieve the features
       features = genbank_object.features.map do |feature|
