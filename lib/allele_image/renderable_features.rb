@@ -16,6 +16,7 @@ module AlleleImage
                               "PGK polyA"  => { "label" => "pA" }
                             },
             "misc_feature" => {
+                                "AsiSI" => { "label" => false },
                                 "EN2_exon2" => { "label" => false },
                                 "neoSphI_5 seq primer" => { "label" => false },
                                 "loxp site" => { "label" => "loxP" },
