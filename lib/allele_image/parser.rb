@@ -18,16 +18,20 @@ module AlleleImage
     attr_reader :construct
 
     def initialize( input )
+      # puts "INPUT: #{input}"
       @construct = self.parse( input )
     end
 
     def parse( input )
       genbank_object = get_genbank_object( input )
+      # puts "GET_GENBANK_OBJECT: #{genbank_object}"
       cassette_label = extract_cassette_type( genbank_object.comment )
+      # puts "CASSETTE_LABEL: #{cassette_label}"
       data           = File.file?( input ) ? File.read( input ) : input
       circular       = data.split("\n").first.split(/\s+/)[5] == "circular" ? true : false
 
       # Retrieve the features
+      # pp [ :GENBANK_FEATURES => [ genbank_object.features ] ]
       features = genbank_object.features.map do |feature|
         unless feature.qualifiers.length == 0
           name = ( feature.assoc["label"] ? feature.assoc["label"] : feature.assoc["note"] )
@@ -36,6 +40,8 @@ module AlleleImage
           if feature.feature == "exon"
             name = name.match(/(\w+)$/).captures.last
           end
+
+          # pp [ "PGK" => feature ] if feature.assoc["label"] == "PGK promoter"
 
           # Here is our feature ...
           # Since creating a Feature might throw a NotRenderable exception
@@ -60,11 +66,13 @@ module AlleleImage
       features = features.sort { |a,b| a.start <=> b.start }
 
       # Return a AlleleImage::Construct object
+      # pp [ :ARGS_TO_NEW => [ features, circular, cassette_label ] ]
       AlleleImage::Construct.new( features, circular, cassette_label )
     end
 
     private
       def get_genbank_object( input )
+        # puts "INPUT: #{input}"
         if File.file?( input )
           Bio::GenBank.new( File.read( input ) )
         else
@@ -72,7 +80,7 @@ module AlleleImage
         end
       end
 
-      def extract_cassette_type( comment )
+      def extract_cassette_type( comment = "cassette : UNKNOWN" )
         comment.split("\n").select{ |s| s.match("cassette") }.first.split(":").last.strip
       end
   end
