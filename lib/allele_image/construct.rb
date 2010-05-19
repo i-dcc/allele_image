@@ -25,13 +25,10 @@ module AlleleImage
       @features       = features
       @circular       = circular
       @cassette_label = classify_cassette_type( cassette_label )
-      # pgk = features.select { |f| [ "PGK" ].include?( f.feature_name )  }
-      # pp [ "Construct#initialize( features )" => [ pgk, @rcmb_primers.first, @rcmb_primers.last ] ]
     end
 
     # These methods always return something
     def cassette_features
-      # pp [ :RCMB_PRIMERS => [@rcmb_primers] ]
       @features.select do |feature|
         feature.start() >= @rcmb_primers[1].start() and \
         feature.stop()  <= @rcmb_primers[2].stop()  and \
