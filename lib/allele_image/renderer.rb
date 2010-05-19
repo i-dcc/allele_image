@@ -54,13 +54,21 @@ module AlleleImage
       image_list.push( render_three_arm() )
       image_list.push( render_three_flank() ) unless @construct.circular()
 
-      image_list.append( false )
+      return image_list.append( false ) unless @construct.circular()
+
+      # backbone = Magick::Image.new( image_list.columns, 100 )
+      # pp [ :BACKBONE => backbone, :MAIN => image_list ]
+
+      image = Magick::ImageList.new()
+      image.push( image_list.append( false ) )
+      image.push( render_mutant_region( @construct.backbone_features ) )
+      return image.append( true )
     end
 
     private
       # These methods return a Magick::Image object
       def render_cassette
-        image = render_mutant_region( @construct.cassette_features(), true )
+        image = render_mutant_region( @construct.cassette_features(), :label => true )
 
         # Construct the annotation image
         image_list       = Magick::ImageList.new()
@@ -180,10 +188,13 @@ module AlleleImage
         return image_list.append( true )
       end
 
-      def render_mutant_region( features, label = false )
+      # This needs to centralize the features it renders
+      def render_mutant_region( features, params={} )
+        params[:label]    = false unless params.include?(:label)
+        # params[:width]    = nil   unless params.include?(:width)
         cassette_features = insert_gaps_between( features )
         image_list        = Magick::ImageList.new()
-        image_width       = calculate_width( cassette_features )
+        image_width       = params.include?(:width) ? params[:width] : calculate_width( cassette_features )
 
         # The minimum width of the cassette region should be wide enough
         # to write the cassette label. In the cases where the label is
@@ -213,7 +224,7 @@ module AlleleImage
 
         # Construct the label image
         label_image = Magick::Image.new( image_width, @text_height * 2 )
-        label_image = draw_label( label_image, @construct.cassette_label(), 0, 0, @text_height * 2 ) if label
+        label_image = draw_label( label_image, @construct.cassette_label(), 0, 0, @text_height * 2 ) if params[:label]
 
         # Stack the images vertically
         image_list.push( main_image )
