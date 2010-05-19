@@ -170,6 +170,7 @@ module AlleleImage
                             "human ubiquitin promoter" => { "label" => false },
                             "EM7 promoter" => { "label" => false },
                             "PGK Promoter" => { "label" => "PGK" },
+                            "PGK promoter" => { "label" => "PGK" },
                             "human beta actin promoter" => {
                               "label"  => "Bact::neo",
                               "colour" => "DarkSlateBlue",
