@@ -48,11 +48,11 @@ module AlleleImage
     def render
       image_list = Magick::ImageList.new()
 
-      image_list.push( render_five_flank() )
+      image_list.push( render_five_flank() ) unless @construct.circular()
       image_list.push( render_five_arm() )
       image_list.push( render_cassette() )
       image_list.push( render_three_arm() )
-      image_list.push( render_three_flank() )
+      image_list.push( render_three_flank() ) unless @construct.circular()
 
       image_list.append( false )
     end
