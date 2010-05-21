@@ -46,23 +46,32 @@ module AlleleImage
     # of the AlleleImage::Renderer class. This is what you get when you
     # call AlleleImage::Image#render_image().
     def render
-      image_list = Magick::ImageList.new()
+      # Construct the main image components
+      main_image = Magick::ImageList.new()
+      five_arm   = render_five_arm()
+      cassette   = render_cassette()
+      three_arm  = render_three_arm()
 
-      image_list.push( render_five_flank() ) unless @construct.circular()
-      image_list.push( render_five_arm() )
-      image_list.push( render_cassette() )
-      image_list.push( render_three_arm() )
-      image_list.push( render_three_flank() ) unless @construct.circular()
+      main_image.push( five_arm ).push( cassette ).push( three_arm )
 
-      return image_list.append( false ) unless @construct.circular()
+      unless @construct.circular()
+        return main_image.unshift( render_five_flank ).push( render_three_flank ).append( false )
+      end
 
-      # backbone = Magick::Image.new( image_list.columns, 100 )
-      # pp [ :BACKBONE => backbone, :MAIN => image_list ]
+      # Construct the backbone components
+      backbone_image = Magick::ImageList.new()
+      backbone       = render_mutant_region( @construct.backbone_features(), :width => cassette.columns() )
 
-      image = Magick::ImageList.new()
-      image.push( image_list.append( false ) )
-      image.push( render_mutant_region( @construct.backbone_features ) )
-      return image.append( true )
+      backbone_image.push( render_mutant_region( [], :width => five_arm.columns() ) )
+      backbone_image.push( backbone )
+      backbone_image.push( render_mutant_region( [], :width => three_arm.columns() ) )
+
+      main_image     = main_image.append( false )
+      backbone_image = backbone_image.append( false )
+
+      # Now put the two images together
+      vector_image = Magick::ImageList.new()
+      return vector_image.push( main_image ).push( backbone_image ).append( true )
     end
 
     private
@@ -191,7 +200,6 @@ module AlleleImage
       # This needs to centralize the features it renders
       def render_mutant_region( features, params={} )
         params[:label]    = false unless params.include?(:label)
-        # params[:width]    = nil   unless params.include?(:width)
         cassette_features = insert_gaps_between( features )
         image_list        = Magick::ImageList.new()
         image_width       = params.include?(:width) ? params[:width] : calculate_width( cassette_features )
@@ -210,6 +218,10 @@ module AlleleImage
         x            = 0
         y            = image_height / 2
         main_image   = draw_sequence( main_image, x, image_height / 2, image_width, image_height / 2 )
+
+        # Centralize the features on the image
+        features_width = calculate_width( cassette_features )
+        x              = ( image_width - features_width ) / 2
 
         cassette_features.each do |feature|
           feature_width = 0
