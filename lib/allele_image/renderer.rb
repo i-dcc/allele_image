@@ -59,6 +59,7 @@ module AlleleImage
       main_image.unshift( render_five_flank )
       main_image.push( render_three_flank )
 
+      # Return the allele (i.e no backbone) unless this is a vector
       return main_image.append( false ) unless @construct.circular()
 
       # Construct the backbone components and put the two images together
