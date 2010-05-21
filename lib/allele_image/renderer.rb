@@ -56,17 +56,10 @@ module AlleleImage
 
       # Actually makes more sense to push this functionality into the
       # flank drawing code. Just check for circular/linear and draw.
-      unless @construct.circular()
-        return main_image.unshift( render_five_flank ).push( render_three_flank ).append( false )
-      end
+      main_image.unshift( render_five_flank )
+      main_image.push( render_three_flank )
 
-      # if @construct.circular()
-      #   pp [
-      #     # :FIVE_FLANK_FEATURES => @construct.five_flank_features,
-      #     :cassette => cassette.columns,
-      #     :main_image => main_image.append(false).columns
-      #   ]
-      # end
+      return main_image.append( false ) unless @construct.circular()
 
       # Construct the backbone components and put the two images together
       vector_image = Magick::ImageList.new()
@@ -109,6 +102,11 @@ module AlleleImage
       end
 
       def render_five_flank
+        unless @construct.five_flank_features()
+          puts "\nno five_flank_features ... draw a curve here"
+          return render_genomic_region([])
+        end
+
         image = render_genomic_region( @construct.five_flank_features() )
 
         # Construct the annotation image
@@ -186,6 +184,11 @@ module AlleleImage
       end
 
       def render_three_flank
+        unless @construct.three_flank_features()
+          puts "\nno three_flank_features ... draw a curve here"
+          return render_genomic_region([])
+        end
+
         image = render_genomic_region( @construct.three_flank_features() )
 
         # Construct the annotation image
