@@ -31,7 +31,7 @@ module AlleleImage
 
       @construct   = construct
       @gap_width   = 10
-      @text_width  = 10
+      @text_width  = 12
       @text_height = 20
       @feature_height = 40
       @annotation_height = 70
