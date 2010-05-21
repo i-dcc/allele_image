@@ -90,7 +90,11 @@ module AlleleImage
                                 },
                                 "en2intronbound3 seq primer" => { "label" => false },
                                 "TM domain" => { "label" => false },
-                                "PGK Promoter" => { "label" => "PGK" },
+                                "PGK Promoter" => {
+                                  "label"  => "PGK",
+                                  "colour" => "black",
+                                  "font"   => "white"
+                                },
                                 # "en-2 exon" => { "label" => false },
                                 "FRT site" => { "label" => "FRT" },
                                 "neoPstI_5" => { "label" => false },
@@ -170,8 +174,16 @@ module AlleleImage
             "promoter" => {
                             "human ubiquitin promoter" => { "label" => false },
                             "EM7 promoter" => { "label" => false },
-                            "PGK Promoter" => { "label" => "PGK" },
-                            "PGK promoter" => { "label" => "PGK" },
+                            "PGK Promoter" => {
+                              "label"  => "PGK",
+                              "colour" => "black",
+                              "font"   => "white"
+                            },
+                            "PGK promoter" => {
+                              "label"  => "PGK",
+                              "colour" => "black",
+                              "font"   => "white"
+                            },
                             "human beta actin promoter" => {
                               "label"  => "Bact::neo",
                               "colour" => "DarkSlateBlue",
