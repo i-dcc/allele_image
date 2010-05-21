@@ -54,24 +54,26 @@ module AlleleImage
 
       main_image.push( five_arm ).push( cassette ).push( three_arm )
 
+      # Actually makes more sense to push this functionality into the
+      # flank drawing code. Just check for circular/linear and draw.
       unless @construct.circular()
         return main_image.unshift( render_five_flank ).push( render_three_flank ).append( false )
       end
 
-      # Construct the backbone components
-      backbone_image = Magick::ImageList.new()
-      backbone       = render_mutant_region( @construct.backbone_features(), :width => cassette.columns() )
+      # if @construct.circular()
+      #   pp [
+      #     # :FIVE_FLANK_FEATURES => @construct.five_flank_features,
+      #     :cassette => cassette.columns,
+      #     :main_image => main_image.append(false).columns
+      #   ]
+      # end
 
-      backbone_image.push( render_mutant_region( [], :width => five_arm.columns() ) )
-      backbone_image.push( backbone )
-      backbone_image.push( render_mutant_region( [], :width => three_arm.columns() ) )
-
-      main_image     = main_image.append( false )
-      backbone_image = backbone_image.append( false )
-
-      # Now put the two images together
+      # Construct the backbone components and put the two images together
       vector_image = Magick::ImageList.new()
-      return vector_image.push( main_image ).push( backbone_image ).append( true )
+      main_image   = main_image.append( false )
+      backbone     = render_mutant_region( @construct.backbone_features(), :width => main_image.columns() )
+
+      return vector_image.push( main_image ).push( backbone ).append( true )
     end
 
     private
