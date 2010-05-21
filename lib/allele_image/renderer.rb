@@ -87,7 +87,7 @@ module AlleleImage
       end
 
       def render_five_arm
-        image = render_genomic_region( @construct.five_arm_features(), "5' homology arm".length() * @text_width )
+        image = render_genomic_region( @construct.five_arm_features(), :width => "5' homology arm".length() * @text_width )
 
         # Construct the annotation image
         image_list       = Magick::ImageList.new()
@@ -103,12 +103,7 @@ module AlleleImage
       end
 
       def render_five_flank
-        unless @construct.five_flank_features()
-          puts "\nno five_flank_features ... draw a curve here"
-          return render_genomic_region([])
-        end
-
-        image = render_genomic_region( @construct.five_flank_features() )
+        image = render_genomic_region( @construct.five_flank_features(), :turn => "left" )
 
         # Construct the annotation image
         image_list       = Magick::ImageList.new()
@@ -168,7 +163,7 @@ module AlleleImage
         # For the (unlikely) case where we have nothing in the 3' arm,
         # construct an empty image with width = "3' homology arm".length()
         if image.columns == 1
-          image = render_genomic_region( @construct.three_arm_features, "3' homology arm".length() * @text_width )
+          image = render_genomic_region( @construct.three_arm_features, :width => "3' homology arm".length() * @text_width )
         end
 
         # Construct the annotation image
@@ -185,12 +180,7 @@ module AlleleImage
       end
 
       def render_three_flank
-        unless @construct.three_flank_features()
-          puts "\nno three_flank_features ... draw a curve here"
-          return render_genomic_region([])
-        end
-
-        image = render_genomic_region( @construct.three_flank_features() )
+        image = render_genomic_region( @construct.three_flank_features(), :turn => "right" )
 
         # Construct the annotation image
         image_list       = Magick::ImageList.new()
@@ -251,8 +241,14 @@ module AlleleImage
         return image_list.append( true )
       end
 
-      def render_genomic_region( features, image_width = 1 )
-        exons = []
+      def render_genomic_region( features, params={} )
+        exons       = []
+        image_width = params[:width] || 1
+
+        if @construct.circular() and params[:turn]
+          # puts "will be turning #{params[:turn]} because circular == #{@construct.circular}"
+          image_width = 50
+        end
 
         if features
           exons = features.select { |feature| feature.feature_type() == "exon" }
