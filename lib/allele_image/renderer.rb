@@ -260,7 +260,6 @@ module AlleleImage
 
         image_list  = Magick::ImageList.new()
 
-        # If we have no exons ...
         if exons and exons.count() > 0
           image_width = calculate_genomic_region_width( exons )
         end
