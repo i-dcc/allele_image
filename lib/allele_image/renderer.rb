@@ -46,21 +46,40 @@ module AlleleImage
     # of the AlleleImage::Renderer class. This is what you get when you
     # call AlleleImage::Image#render_image().
     def render
-      image_list = Magick::ImageList.new()
+      # Construct the main image components
+      main_image = Magick::ImageList.new()
+      five_arm   = render_five_arm()
+      cassette   = render_cassette()
+      three_arm  = render_three_arm()
 
-      image_list.push( render_five_flank() ) unless @construct.circular()
-      image_list.push( render_five_arm() )
-      image_list.push( render_cassette() )
-      image_list.push( render_three_arm() )
-      image_list.push( render_three_flank() ) unless @construct.circular()
+      main_image.push( five_arm ).push( cassette ).push( three_arm )
 
-      image_list.append( false )
+      # Actually makes more sense to push this functionality into the
+      # flank drawing code. Just check for circular/linear and draw.
+      unless @construct.circular()
+        return main_image.unshift( render_five_flank ).push( render_three_flank ).append( false )
+      end
+
+      # if @construct.circular()
+      #   pp [
+      #     # :FIVE_FLANK_FEATURES => @construct.five_flank_features,
+      #     :cassette => cassette.columns,
+      #     :main_image => main_image.append(false).columns
+      #   ]
+      # end
+
+      # Construct the backbone components and put the two images together
+      vector_image = Magick::ImageList.new()
+      main_image   = main_image.append( false )
+      backbone     = render_mutant_region( @construct.backbone_features(), :width => main_image.columns() )
+
+      return vector_image.push( main_image ).push( backbone ).append( true )
     end
 
     private
       # These methods return a Magick::Image object
       def render_cassette
-        image = render_mutant_region( @construct.cassette_features(), true )
+        image = render_mutant_region( @construct.cassette_features(), :label => true )
 
         # Construct the annotation image
         image_list       = Magick::ImageList.new()
@@ -180,10 +199,12 @@ module AlleleImage
         return image_list.append( true )
       end
 
-      def render_mutant_region( features, label = false )
+      # This needs to centralize the features it renders
+      def render_mutant_region( features, params={} )
+        params[:label]    = false unless params.include?(:label)
         cassette_features = insert_gaps_between( features )
         image_list        = Magick::ImageList.new()
-        image_width       = calculate_width( cassette_features )
+        image_width       = params.include?(:width) ? params[:width] : calculate_width( cassette_features )
 
         # The minimum width of the cassette region should be wide enough
         # to write the cassette label. In the cases where the label is
@@ -200,6 +221,10 @@ module AlleleImage
         y            = image_height / 2
         main_image   = draw_sequence( main_image, x, image_height / 2, image_width, image_height / 2 )
 
+        # Centralize the features on the image
+        features_width = calculate_width( cassette_features )
+        x              = ( image_width - features_width ) / 2
+
         cassette_features.each do |feature|
           feature_width = 0
           if feature.feature_name() == "gap"
@@ -213,7 +238,7 @@ module AlleleImage
 
         # Construct the label image
         label_image = Magick::Image.new( image_width, @text_height * 2 )
-        label_image = draw_label( label_image, @construct.cassette_label(), 0, 0, @text_height * 2 ) if label
+        label_image = draw_label( label_image, @construct.cassette_label(), 0, 0, @text_height * 2 ) if params[:label]
 
         # Stack the images vertically
         image_list.push( main_image )

@@ -85,4 +85,30 @@ class TestRendererRMagick < Test::Unit::TestCase
       assert_not_nil @renderer.image.write( File.dirname( __FILE__ ) + "/../misc/norcomm/106140.png" )
     end
   end
+
+  context "a Conditional Vector" do
+    setup do
+      file       = File.dirname( __FILE__ ) + "/../misc/project_47462_conditional_vector.gbk"
+      @construct = AlleleImage::Parser.new( file ).construct()
+      @renderer  = AlleleImage::Renderer.new( @construct )
+    end
+
+    should "instantiate" do
+      assert_not_nil @construct
+    end
+
+    should "have backbone features" do
+      assert_not_nil @construct.backbone_features()
+      # pp [ :BACK_BONE_FEATURES => @construct.backbone_features() ]
+    end
+
+    should "have no flank features" do
+      assert_nil @construct.five_flank_features()
+      assert_nil @construct.three_flank_features()
+    end
+
+    should "write to PNG file" do
+      assert_not_nil @renderer.image.write( File.dirname( __FILE__ ) + "/../misc/project_47462_conditional_vector.png" )
+    end
+  end
 end
