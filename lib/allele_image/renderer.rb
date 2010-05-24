@@ -54,20 +54,33 @@ module AlleleImage
 
       main_image.push( five_arm ).push( cassette ).push( three_arm )
 
+      # get the width of the cassette + homology arms
+      bb_width = main_image.append( false ).columns()
+
       # Actually makes more sense to push this functionality into the
       # flank drawing code. Just check for circular/linear and draw.
-      main_image.unshift( render_five_flank )
-      main_image.push( render_three_flank )
+      five_flank  = render_five_flank()
+      three_flank = render_three_flank()
+      main_image.unshift( five_flank )
+      main_image.push( three_flank )
 
+      main_image   = main_image.append( false )
       # Return the allele (i.e no backbone) unless this is a vector
-      return main_image.append( false ) unless @construct.circular()
+      return main_image unless @construct.circular()
 
       # Construct the backbone components and put the two images together
-      vector_image = Magick::ImageList.new()
-      main_image   = main_image.append( false )
-      backbone     = render_mutant_region( @construct.backbone_features(), :width => main_image.columns() )
+      vector_image   = Magick::ImageList.new()
+      backbone_image = Magick::ImageList.new()
+      five_flank_bb  = draw_empty_flank("5' arm backbone")
+      three_flank_bb = draw_empty_flank("3' arm backbone")
+      backbone       = render_mutant_region( @construct.backbone_features(), :width => bb_width )
 
-      return vector_image.push( main_image ).push( backbone ).append( true )
+      backbone_image.push( five_flank_bb ).push( backbone ).push( three_flank_bb )
+      backbone_image = backbone_image.append( false )
+
+      vector_image.push( main_image ).push( backbone_image )
+
+      return vector_image.append( true )
     end
 
     private
@@ -102,8 +115,54 @@ module AlleleImage
         return image_list.append( true )
       end
 
+      def draw_empty_flank( region, height = @image_height, width = 100 )
+        # let's create the 3 points we'll need
+        a, b, c, e = [], [], [], []
+
+        # set the points based on the flank "region"
+        case region
+          when "5' arm main"
+            a, b, c, e = [width*0.5,height], [width*0.5,height*0.5], [width*0.75,height*0.5], [width,height*0.5]
+          when "3' arm main"
+            a, b, c, e = [width*0.5,height], [width*0.5,height*0.5], [width*0.25,height*0.5],  [0,height*0.5]
+          when "5' arm backbone"
+            a, b, c, e = [width*0.5,0],      [width*0.5,height*0.5], [width*0.75,height*0.5], [width,height*0.5]
+          when "3' arm backbone"
+            a, b, c, e = [width*0.5,0],      [width*0.5,height*0.5], [width*0.25,height*0.5],  [0,height*0.5]
+          else
+            raise "Not a valid region to render: #{region}"
+        end
+
+        # draw the image
+        i = Magick::Image.new(width, height)
+        d = Magick::Draw.new
+        d.stroke_width(@sequence_stroke_width)
+        d.fill("white")
+        d.stroke("black")
+        d.bezier(a.first, a.last, b.first, b.last, c.first, c.last)
+        d.line(c.first, c.last, e.first, e.last)
+        d.draw(i)
+
+        return i if region.match(/backbone/)
+
+        # the linker to the other curved section
+        l      = Magick::Image.new( width, calculate_labels_image_height() )
+        linker = Magick::Draw.new
+        linker.stroke_width(@sequence_stroke_width)
+        linker.fill("white")
+        linker.stroke("black")
+        linker.line( width * 0.5, 0, width * 0.5, l.rows() )
+        linker.draw(l)
+
+        # create an ImageList to stack both images
+        flank_image = Magick::ImageList.new()
+        flank_image.push(i).push(l)
+
+        return flank_image.append( true )
+      end
+
       def render_five_flank
-        image = render_genomic_region( @construct.five_flank_features(), :turn => "left" )
+        image = @construct.circular() ? draw_empty_flank("5' arm main") : render_genomic_region( @construct.five_flank_features() )
 
         # Construct the annotation image
         image_list       = Magick::ImageList.new()
@@ -180,7 +239,7 @@ module AlleleImage
       end
 
       def render_three_flank
-        image = render_genomic_region( @construct.three_flank_features(), :turn => "right" )
+        image = @construct.circular() ? draw_empty_flank("3' arm main") : render_genomic_region( @construct.three_flank_features() )
 
         # Construct the annotation image
         image_list       = Magick::ImageList.new()
@@ -245,11 +304,6 @@ module AlleleImage
         exons       = []
         image_width = params[:width] || 1
 
-        if @construct.circular() and params[:turn]
-          # puts "will be turning #{params[:turn]} because circular == #{@construct.circular}"
-          image_width = 50
-        end
-
         if features
           exons = features.select { |feature| feature.feature_type() == "exon" }
         end
@@ -290,7 +344,7 @@ module AlleleImage
         end
 
         # Construct the label image
-        label_image, x, y = Magick::Image.new( image_width, calculate_labels_image_height( exons ) ), 0, 0
+        label_image, x, y = Magick::Image.new( image_width, calculate_labels_image_height() ), 0, 0
 
         exons.each do |exon|
           draw_label( label_image, exon.feature_name(), x, y )
@@ -375,7 +429,7 @@ module AlleleImage
 
         # Draw the lines
         d.stroke( "black" )
-        d.stroke_width( 2.5 )
+        d.stroke_width( @sequence_stroke_width )
         d.line( 0, y + h, 0, y ).draw( image )
         d.line( 0, y, w, y ).draw( image )
         d.line( w, y, w, y + h ).draw( image )
@@ -528,8 +582,10 @@ module AlleleImage
         @text_width * count + @gap_width * ( count - 1 )
       end
 
-      def calculate_labels_image_height( exons )
-        exons.size * @text_height
+      def calculate_labels_image_height
+        five_arm_features  = @construct.five_arm_features.select  { |f| f.feature_type == "exon" }.size
+        three_arm_features = @construct.three_arm_features.select { |f| f.feature_type == "exon" }.size
+        [ five_arm_features, three_arm_features ].max * @text_height
       end
 
       # find sum of feature labels
