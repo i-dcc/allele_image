@@ -318,7 +318,9 @@ module AlleleImage
          "label" => false
        },
        "DTA" => {
-         "label" => "DTA"
+         "label"  => "DTA",
+         "colour" => "violet",
+         "font"   => "white"
        },
        "Flag" => {
          "label" => false
@@ -441,7 +443,9 @@ module AlleleImage
          "label" => false
        },
        "DTA ORF" => {
-         "label" => "DTA"
+         "label"  => "DTA",
+         "colour" => "violet",
+         "font"   => "white"
        },
        "primer GH716" => {
          "label" => false
