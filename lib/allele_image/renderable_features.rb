@@ -28,7 +28,7 @@ module AlleleImage
        "LoxP" => { "label" => "loxP" },
        "osteopontin repeat 2" => { "label" => false },
        "lacZ" => {
-         "label"  => "Bgal",
+         "label"  => "lacZ",
          "colour" => "blue",
          "font"   => "white"
        },
@@ -54,7 +54,7 @@ module AlleleImage
        "B1 site" => { "label" => false },
        "L1 seq primer" => { "label" => false },
        "bgal" => {
-         "label"  => "Bgal",
+         "label"  => "lacZ",
          "colour" => "blue",
          "font"   => "white"
        },
@@ -134,7 +134,7 @@ module AlleleImage
        },
        "CD4 TM domain" => { "label" => false },
        "b-galactosidase" => {
-         "label"  => "Bgal",
+         "label"  => "lacZ",
          "colour" => "blue",
          "font"   => "white"
        },
