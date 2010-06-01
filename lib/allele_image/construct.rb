@@ -18,13 +18,14 @@ module AlleleImage
   # * three_flank_features
   # 
   class Construct
-    attr_reader :circular, :features, :cassette_label, :rcmb_primers
+    attr_reader :circular, :features, :cassette_label, :rcmb_primers, :backbone_label
 
-    def initialize( features, circular, cassette_label )
+    def initialize( features, circular, cassette_label, backbone_label )
       @rcmb_primers   = initialize_rcmb_primers( features )
       @features       = features
       @circular       = circular
       @cassette_label = classify_cassette_type( cassette_label )
+      @backbone_label = backbone_label
     end
 
     # These methods always return something

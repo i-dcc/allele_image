@@ -23,7 +23,6 @@ module AlleleImage
 
     def parse( input )
       genbank_object = get_genbank_object( input )
-      cassette_label = extract_cassette_type( genbank_object.comment )
       data           = File.file?( input ) ? File.read( input ) : input
       circular       = data.split("\n").first.split(/\s+/)[5] == "circular" ? true : false
 
@@ -60,7 +59,12 @@ module AlleleImage
       features = features.sort { |a,b| a.start <=> b.start }
 
       # Return a AlleleImage::Construct object
-      AlleleImage::Construct.new( features, circular, cassette_label )
+      AlleleImage::Construct.new(
+        features,
+        circular,
+        extract_label( genbank_object, "cassette" ),
+        extract_label( genbank_object, "backbone" )
+      )
     end
 
     private
@@ -72,8 +76,14 @@ module AlleleImage
         end
       end
 
-      def extract_cassette_type( comment = "cassette : UNKNOWN" )
-        comment.split("\n").select{ |s| s.match("cassette") }.first.split(":").last.strip
+      def extract_label( genbank_object, label )
+        begin
+          bioseq = genbank_object.to_biosequence
+          result = bioseq.comments.find { |x| x.match(label) }
+          result = result.split(":").last.strip
+        rescue
+          puts "Could not extract #{label} from GenBank file"
+        end
       end
   end
 end
