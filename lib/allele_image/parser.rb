@@ -82,7 +82,7 @@ module AlleleImage
           result = bioseq.comments.find { |x| x.match(label) }
           result = result.split(":").last.strip
         rescue
-          puts "Could not extract #{label} from GenBank file"
+          # puts "Could not extract #{label} from GenBank file"
         end
       end
   end
