@@ -73,7 +73,7 @@ module AlleleImage
       backbone_image = Magick::ImageList.new()
       five_flank_bb  = draw_empty_flank("5' arm backbone")
       three_flank_bb = draw_empty_flank("3' arm backbone")
-      backbone       = render_mutant_region( @construct.backbone_features(), :width => bb_width )
+      backbone       = render_mutant_region( @construct.backbone_features(), :width => bb_width, :label => @construct.backbone_label() )
 
       backbone_image.push( five_flank_bb ).push( backbone ).push( three_flank_bb )
       backbone_image = backbone_image.append( false )
@@ -86,7 +86,7 @@ module AlleleImage
     private
       # These methods return a Magick::Image object
       def render_cassette
-        image = render_mutant_region( @construct.cassette_features(), :label => true )
+        image = render_mutant_region( @construct.cassette_features(), :label => @construct.cassette_label() )
 
         # Construct the annotation image
         image_list       = Magick::ImageList.new()
@@ -264,7 +264,7 @@ module AlleleImage
         # longer than the features we'd need to centralize the image.
         # Since we don't have that logic, I'm leaving that off for now.
         unless image_width and image_width > 0
-          image_width = @text_width * @construct.cassette_label().length()
+          image_width = @text_width * params[:label].length()
         end
 
         # Construct the main image
@@ -291,7 +291,7 @@ module AlleleImage
 
         # Construct the label image
         label_image = Magick::Image.new( image_width, @text_height * 2 )
-        label_image = draw_label( label_image, @construct.cassette_label(), 0, 0, @text_height * 2 ) if params[:label]
+        label_image = draw_label( label_image, params[:label], 0, 0, @text_height * 2 ) if params[:label]
 
         # Stack the images vertically
         image_list.push( main_image )
