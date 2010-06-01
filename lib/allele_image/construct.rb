@@ -18,14 +18,38 @@ module AlleleImage
   # * three_flank_features
   # 
   class Construct
-    attr_reader :circular, :features, :cassette_label, :rcmb_primers, :backbone_label
+    attr_reader :circular, :features, :rcmb_primers
 
     def initialize( features, circular, cassette_label, backbone_label )
       @rcmb_primers   = initialize_rcmb_primers( features )
       @features       = features
       @circular       = circular
-      @cassette_label = classify_cassette_type( cassette_label )
+      @cassette_label = cassette_label
       @backbone_label = backbone_label
+    end
+
+    def cassette_label
+      cassette_type = "Promoterless Cassette"
+      promoters     = cassette_features.select { |f| f.feature_type() == "promoter" }
+
+      if promoters.size > 0
+        cassette_type = "Promoter-Driven Cassette"
+      end
+
+      return "#{ cassette_type }\n(#{ @cassette_label })"
+    end
+
+    def backbone_label
+      return @backbone_label unless @circular
+
+      backbone_type = "Non-DTA Containing Plasmid Backbone"
+      dta_features  = backbone_features.select { |x| x.feature_name.match(/DTA/) }
+
+      if dta_features.size > 0
+        backbone_type = "DTA Containing Plasmid Backbone"
+      end
+
+      return "#{ backbone_type }\n(#{ @backbone_label })"
     end
 
     # These methods always return something
@@ -76,17 +100,6 @@ module AlleleImage
     private
       def initialize_rcmb_primers( features )
         features.select { |feature| feature.feature_type() == "rcmb_primer" }
-      end
-
-      def classify_cassette_type( cassette_label )
-        cassette_type = "Promoterless Cassette"
-        promoters     = self.cassette_features.select { |f| f.feature_type() == "promoter" }
-
-        if promoters.size > 0
-          cassette_type = "Promoter-Driven Cassette"
-        end
-
-        return "#{ cassette_type }\n(#{ cassette_label })"
       end
   end
 end
