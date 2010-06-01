@@ -51,7 +51,7 @@ module AlleleImage
          "colour" => "DarkSlateBlue",
          "font"   => "white"
        },
-       "B1 site" => { "label" => false },
+       "B1 site" => { "label" => "B1" },
        "L1 seq primer" => { "label" => false },
        "bgal" => {
          "label"  => "lacZ",
@@ -67,7 +67,7 @@ module AlleleImage
        "Gateway L1" => { "label" => false },
        "loxP site" => { "label" => "loxP" },
        "EM7" => { "label" => false },
-       "B2 site?" => { "label" => false },
+       "B2 site?" => { "label" => "B2" },
        "FRT3" => { "label" => false },
        "seq primer NF" => { "label" => false },
        "betact5" => { "label" => false },
@@ -306,7 +306,7 @@ module AlleleImage
          "label" => false
        },
        "B3" => {
-         "label" => false
+         "label" => "B3"
        },
        "attP-F primer" => {
          "label" => false
@@ -329,7 +329,7 @@ module AlleleImage
          "label" => false
        },
        "B4" => {
-         "label" => false
+         "label" => "B4"
        },
        "KanR" => {
          "label" => "KanR"
