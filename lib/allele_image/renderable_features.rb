@@ -179,18 +179,18 @@ module AlleleImage
        "Bsd ORF" => {
          "label" => false
        },
-       "m13 forward" => {
-         "label" => false
-       },
+       # "m13 forward" => {
+       #   "label" => false
+       # },
        "FseI" => {
          "label" => false
        },
        "pUC ori" => {
          "label" => "ori"
        },
-       "Transcription Terminator" => {
-         "label" => false
-       },
+       # "Transcription Terminator" => {
+       #   "label" => false
+       # },
        "Spectinomycin Promoter" => {
          "label" => false
        },
@@ -296,9 +296,9 @@ module AlleleImage
        " spectinomycin R short (aadA1) ORF" => {
          "label" => "SpecR"
        },
-       "G PCR rev" => {
-         "label" => false
-       },
+       # "G PCR rev" => {
+       #   "label" => false
+       # },
        "V5_biotin tag" => {
          "label" => false
        },
@@ -338,7 +338,7 @@ module AlleleImage
          "label" => false
        },
        "kanamycin resistance ORF" => {
-         "label" => false
+         "label" => "KanR"
        },
        "ccdB ORF" => {
          "label" => false
@@ -349,9 +349,9 @@ module AlleleImage
        "GH681 reverse seq primer" => {
          "label" => false
        },
-       "rrnB T2" => {
-         "label" => false
-       },
+       # "rrnB T2" => {
+       #   "label" => false
+       # },
        "primer 778" => {
          "label" => false
        },
@@ -397,9 +397,9 @@ module AlleleImage
        "CheckFspI(In)" => {
          "label" => false
        },
-       "G PCR fwd" => {
-         "label" => false
-       },
+       # "G PCR fwd" => {
+       #   "label" => false
+       # },
        "UI-PCR insertion site(1)" => {
          "label" => false
        },
@@ -430,9 +430,9 @@ module AlleleImage
        "beta-GAL" => {
          "label" => false
        },
-       "rrnB T1" => {
-         "label" => false
-       },
+       # "rrnB T1" => {
+       #   "label" => false
+       # },
        "pZERO" => {
          "label" => false
        },
