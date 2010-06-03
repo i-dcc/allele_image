@@ -498,7 +498,7 @@ module AlleleImage
     },
     "genomic" => {
       "5 arm" => { "label" => false },
-      # "target region" => { "label" => false }, since we don't render it
+      "target region" => { "label" => false },
       "3 arm" => { "label" => false }
     },
     "gene" => {

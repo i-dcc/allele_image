@@ -105,8 +105,8 @@ module AlleleImage
         # Construct the annotation image
         image_list       = Magick::ImageList.new()
         annotation_image = Magick::Image.new( image.columns(), @annotation_height )
-        genomic          = @construct.five_arm_features.select { |feature| feature.feature_type() == "genomic" }
-        annotation_image = draw_homology_arm( annotation_image, genomic.last() )
+        genomic          = @construct.five_arm_features.find { |feature| feature.feature_type() == "genomic" }
+        annotation_image = draw_homology_arm( annotation_image, genomic.feature_name(), genomic.stop() - genomic.start() )
 
         # Stack the images
         image_list.push( annotation_image )
@@ -229,7 +229,7 @@ module AlleleImage
         image_list       = Magick::ImageList.new()
         annotation_image = Magick::Image.new( image.columns(), @annotation_height )
         genomic          = @construct.three_arm_features.select { |feature| feature.feature_type() == "genomic" }
-        annotation_image = draw_homology_arm( annotation_image, genomic.last() )
+        annotation_image = draw_homology_arm( annotation_image, genomic.last.feature_name(), genomic.last.stop() - genomic.first.start() )
 
         # Stack the images
         image_list.push( annotation_image )
@@ -421,7 +421,7 @@ module AlleleImage
       end
 
       # draw the homology arms
-      def draw_homology_arm( image, feature )
+      def draw_homology_arm( image, name, length )
         d = Magick::Draw.new
         y = image.rows / 2
         w = image.columns - 1
@@ -439,7 +439,7 @@ module AlleleImage
 
         # annotate the block
         d.annotate( image, w, y, 0, 0,
-          "#{ label_for[ feature.feature_name() ] }\n(#{ feature.stop() - feature.start() } bp)" ) do
+          "#{ label_for[ name ] }\n(#{ length } bp)" ) do
           self.fill    = "blue"
           self.gravity = Magick::CenterGravity
         end
