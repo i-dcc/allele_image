@@ -80,10 +80,11 @@ module AlleleImage
     def backbone_features
       return unless @circular
 
-      # retrieve any features not within the bounds of the homology arms
-      @features.select do |feature|
-        feature.stop() < @rcmb_primers.first.start() or feature.start() > @rcmb_primers.last.stop()
-      end
+      # retrieve and sort any features not within the bounds of the homology arms
+      upstream_features   = @features.select { |feature| feature.start() > @rcmb_primers.last.stop()   }
+      downstream_features = @features.select { |feature| feature.stop()  < @rcmb_primers.first.start() }
+
+      return downstream_features.reverse() + upstream_features.reverse()
     end
 
     # Not 100% sure if these should be empty if the Construct is circular
