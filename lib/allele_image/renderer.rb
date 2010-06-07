@@ -362,7 +362,7 @@ module AlleleImage
 
       #
       # draw an arrow at the point
-      def draw_arrow( image, point, direction="south" )
+      def draw_arrow( image, point, params={} )
         arrow = Magick::Draw.new
 
         # set colour and thickness of arrow
@@ -373,29 +373,30 @@ module AlleleImage
         arrow.translate( point.first, point.last )
 
         # rotate based on the direction
-        case direction
+        params[:direction] = "south" unless params[:direction]
+        case params[:direction]
           when "north" then arrow.rotate(  0)
           when "east"  then arrow.rotate( 90)
           when "south" then arrow.rotate(180)
           when "west"  then arrow.rotate(270)
-          else raise "Not a valid direction: #{direction}"
+          else raise "Not a valid direction: #{params[:direction]}"
         end
 
         # calculate the arrow dimensions
         # NOTE
         # I would like to be able to specify what percentage of the
         # image these values should be
-        tail_height = 0.100 * image.rows
-        arm_height  = 0.050 * image.rows
-        arm_width   = 0.025 * image.columns
+        params[:tail_height] = 0.100 * image.rows    unless params[:tail_height]
+        params[:arm_height]  = 0.050 * image.rows    unless params[:arm_height]
+        params[:arm_width]   = 0.025 * image.columns unless params[:arm_width]
 
         # draw the arrow
         # NOTE
         # We are always drawing a south-facing arrow, the "direction"
         # takes care of rotating it to point in the right ... direction
-        arrow.line(          0, tail_height, 0, 0 ) # line going down
-        arrow.line(  arm_width,  arm_height, 0, 0 ) # line from the right
-        arrow.line( -arm_width,  arm_height, 0, 0 ) # line from the left
+        arrow.line(                   0, params[:tail_height], 0, 0 ) # line going down
+        arrow.line(  params[:arm_width],  params[:arm_height], 0, 0 ) # line from the right
+        arrow.line( -params[:arm_width],  params[:arm_height], 0, 0 ) # line from the left
         arrow.draw( image )
 
         return image
@@ -411,9 +412,11 @@ module AlleleImage
         # We draw the text "AsiSI" in a box with dimensions
         annotation_width  = @text_width * "AsiSI".length
         annotation_height = @text_height
+        annotation_x      = position.first
+        annotation_y      = position.last - 10 - @text_height
 
         # draw the AsiSI on the sequence
-        asisi.annotate( image, annotation_width, annotation_height, position, 25, "AsiSI" ) do
+        asisi.annotate( image, annotation_width, annotation_height, annotation_x, annotation_y, "AsiSI" ) do
           self.gravity     = Magick::CenterGravity
           self.stroke      = "black"
           self.pointsize   = 14
@@ -421,7 +424,8 @@ module AlleleImage
         end
 
         # Draw the arrow pointing down in the moddle of the annotation
-        draw_arrow( image, [ position + annotation_width / 2, 50 ] )
+        draw_arrow( image, [ position.first + annotation_width / 2, position.last ],
+          :tail_height => 10, :arm_height => 5, :arm_width => 5 )
 
         return image
       end
@@ -443,7 +447,7 @@ module AlleleImage
           when "F3"
             draw_f3( feature, image, x, y )
           when "AsiSI"
-            draw_asisi( image, x )
+            draw_asisi( image, [x, y] )
           # Any non-speciall feature is probably a cassette feature
           # and can be rendered with the feature.render_options()
           else
