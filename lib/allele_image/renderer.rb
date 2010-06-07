@@ -382,16 +382,12 @@ module AlleleImage
           else raise "Not a valid direction: #{params[:direction]}"
         end
 
-        # calculate the arrow dimensions
-        # NOTE
-        # I would like to be able to specify what percentage of the
-        # image these values should be
+        # set the arrow dimensions
         params[:tail_height] = 0.100 * image.rows    unless params[:tail_height]
         params[:arm_height]  = 0.050 * image.rows    unless params[:arm_height]
         params[:arm_width]   = 0.025 * image.columns unless params[:arm_width]
 
         # draw the arrow
-        # NOTE
         # We are always drawing a south-facing arrow, the "direction"
         # takes care of rotating it to point in the right ... direction
         arrow.line(                   0, params[:tail_height], 0, 0 ) # line going down
@@ -404,12 +400,10 @@ module AlleleImage
 
       #
       # prototyping rendering AsiSI
-      # NOTE
-      # definitely need to specify the arrow arm/tail lengths/proportions
       def draw_asisi( image, position )
         asisi = Magick::Draw.new
 
-        # We draw the text "AsiSI" in a box with dimensions
+        # We draw the text "AsiSI" in a box with dimensions:
         annotation_width  = @text_width * "AsiSI".length
         annotation_height = @text_height
         annotation_x      = position.first
