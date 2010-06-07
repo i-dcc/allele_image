@@ -73,7 +73,10 @@ module AlleleImage
       backbone_image = Magick::ImageList.new()
       five_flank_bb  = draw_empty_flank("5' arm backbone")
       three_flank_bb = draw_empty_flank("3' arm backbone")
-      backbone       = render_mutant_region( @construct.backbone_features(), :width => bb_width, :label => @construct.backbone_label() )
+
+      # we want to render the "AsiSI" somewhere else
+      backbone_features = @construct.backbone_features.select { |feature| feature.feature_name != "AsiSI" }
+      backbone          = render_mutant_region( backbone_features, :width => bb_width, :label => @construct.backbone_label() )
 
       backbone_image.push( five_flank_bb ).push( backbone ).push( three_flank_bb )
       backbone_image = backbone_image.append( false )
@@ -142,6 +145,20 @@ module AlleleImage
         d.bezier(a.first, a.last, b.first, b.last, c.first, c.last)
         d.line(c.first, c.last, e.first, e.last)
         d.draw(i)
+
+        # insert the AsiSI in here somewhere
+        if region.match(/5' arm/)
+          asisi = Magick::Image.new( @text_width * "AsiSI".length, height )
+          asisi = draw_sequence( asisi, 0, height/2, asisi.columns, height/2 )
+
+          if region.match(/main/) and @construct.backbone_features.find { |feature| feature.feature_name == "AsiSI" }
+            asisi = draw_asisi( asisi, [0, height/2] )
+          end
+
+          test  = Magick::ImageList.new
+          test.push(i).push(asisi)
+          i = test.append(false)
+        end
 
         return i if region.match(/backbone/)
 
