@@ -359,6 +359,73 @@ module AlleleImage
       end
 
       # DRAW METHODS
+
+      #
+      # draw an arrow at the point
+      def draw_arrow( image, point, direction="south" )
+        arrow = Magick::Draw.new
+
+        # set colour and thickness of arrow
+        arrow.stroke( "black" )
+        arrow.stroke_width(2.5)
+
+        # make the value of "point" the center (origin)
+        arrow.translate( point.first, point.last )
+
+        # rotate based on the direction
+        case direction
+          when "north" then arrow.rotate(  0)
+          when "east"  then arrow.rotate( 90)
+          when "south" then arrow.rotate(180)
+          when "west"  then arrow.rotate(270)
+          else raise "Not a valid direction: #{direction}"
+        end
+
+        # calculate the arrow dimensions
+        # NOTE
+        # I would like to be able to specify what percentage of the
+        # image these values should be
+        tail_height = 0.100 * image.rows
+        arm_height  = 0.050 * image.rows
+        arm_width   = 0.025 * image.columns
+
+        # draw the arrow
+        # NOTE
+        # We are always drawing a south-facing arrow, the "direction"
+        # takes care of rotating it to point in the right ... direction
+        arrow.line(          0, tail_height, 0, 0 ) # line going down
+        arrow.line(  arm_width,  arm_height, 0, 0 ) # line from the right
+        arrow.line( -arm_width,  arm_height, 0, 0 ) # line from the left
+        arrow.draw( image )
+
+        return image
+      end
+
+      #
+      # prototyping rendering AsiSI
+      # NOTE
+      # definitely need to specify the arrow arm/tail lengths/proportions
+      def draw_asisi( image, position )
+        asisi = Magick::Draw.new
+
+        # We draw the text "AsiSI" in a box with dimensions
+        annotation_width  = @text_width * "AsiSI".length
+        annotation_height = @text_height
+
+        # draw the AsiSI on the sequence
+        asisi.annotate( image, annotation_width, annotation_height, position, 25, "AsiSI" ) do
+          self.gravity     = Magick::CenterGravity
+          self.stroke      = "black"
+          self.pointsize   = 14
+          self.font_family = "arial"
+        end
+
+        # Draw the arrow pointing down in the moddle of the annotation
+        draw_arrow( image, [ position + annotation_width / 2, 50 ] )
+
+        return image
+      end
+
       # Need to get this method drawing exons as well
       def draw_feature( image, feature, x, y )
         if feature.feature_type() == "exon"
@@ -375,6 +442,8 @@ module AlleleImage
             draw_intervening_sequence( image, x, y )
           when "F3"
             draw_f3( feature, image, x, y )
+          when "AsiSI"
+            draw_asisi( image, x )
           # Any non-speciall feature is probably a cassette feature
           # and can be rendered with the feature.render_options()
           else
