@@ -412,7 +412,7 @@ module AlleleImage
         # draw the AsiSI on the sequence
         asisi.annotate( image, annotation_width, annotation_height, annotation_x, annotation_y, "AsiSI" ) do
           self.gravity     = Magick::CenterGravity
-          self.stroke      = "black"
+          self.fill        = "black"
           self.pointsize   = 14
           self.font_family = "arial"
         end
@@ -430,8 +430,10 @@ module AlleleImage
         origin = Magick::Draw.new
 
         origin.annotate( image, @text_width * "ori".length, @text_height, x_coord, y_coord - @text_height, "ori" ) do
-          self.fill    = "black"
-          self.gravity = Magick::CenterGravity
+          self.gravity     = Magick::CenterGravity
+          self.fill        = "black"
+          self.pointsize   = 14
+          self.font_family = "arial"
         end
 
         return image
