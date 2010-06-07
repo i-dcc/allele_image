@@ -291,7 +291,7 @@ module AlleleImage
          "label" => false
        },
        "Spectinomycin resistance ORF" => {
-         "label" => false
+         "label" => "SpecR"
        },
        " spectinomycin R short (aadA1) ORF" => {
          "label" => "SpecR"
@@ -359,7 +359,7 @@ module AlleleImage
          "label" => false
        },
        "spectinomycin ORF" => {
-         "label" => false
+         "label" => "SpecR"
        },
        "reverse primer 1112" => {
          "label" => false
