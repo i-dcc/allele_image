@@ -424,6 +424,19 @@ module AlleleImage
         return image
       end
 
+      #
+      # draw the replication origin
+      def draw_ori( image, x_coord, y_coord )
+        origin = Magick::Draw.new
+
+        origin.annotate( image, @text_width * "ori".length, @text_height, x_coord, y_coord - @text_height, "ori" ) do
+          self.fill    = "black"
+          self.gravity = Magick::CenterGravity
+        end
+
+        return image
+      end
+
       # Need to get this method drawing exons as well
       def draw_feature( image, feature, x, y )
         if feature.feature_type() == "exon"
@@ -442,6 +455,8 @@ module AlleleImage
             draw_f3( feature, image, x, y )
           when "AsiSI"
             draw_asisi( image, [x, y] )
+          when "ori"
+            draw_ori( image, x, y )
           # Any non-speciall feature is probably a cassette feature
           # and can be rendered with the feature.render_options()
           else
