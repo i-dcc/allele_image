@@ -192,7 +192,7 @@ module AlleleImage
        #   "label" => false
        # },
        "Spectinomycin Promoter" => {
-         "label" => false
+         "label" => "SpecR"
        },
        "GH810 PCR-attP-R" => {
          "label" => false
