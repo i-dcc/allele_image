@@ -42,7 +42,7 @@ module AlleleImage
          "font"   => "white"
        },
        "FRT" => { "label" => "FRT" },
-       "Gateway L1 site" => { "label" => false },
+       # "Gateway L1 site" => { "label" => false },
        "osteopontin repeat 1" => { "label" => false },
        "FRT " => { "label" => "FRT" },
        "En2_exon2" => { "label" => false },
@@ -64,16 +64,16 @@ module AlleleImage
        "PNF seq primer" => { "label" => false },
        "3IRES5" => { "label" => false },
        "neoPstI_5 seq primer" => { "label" => false },
-       "Gateway L1" => { "label" => false },
+       # "Gateway L1" => { "label" => false },
        "loxP site" => { "label" => "loxP" },
-       "EM7" => { "label" => false },
+       # "EM7" => { "label" => false },
        "B2 site?" => { "label" => "B2" },
        "FRT3" => { "label" => false },
        "seq primer NF" => { "label" => false },
        "betact5" => { "label" => false },
        "seq primer FCHK1" => { "label" => false },
        "osteopontin repeat 3" => { "label" => false },
-       "GatewayL2" => { "label" => false },
+       # "GatewayL2" => { "label" => false },
        "osteopontin repeat 4" => { "label" => false },
        "Frt" => { "label" => false },
        "seq primer FCHK2" => { "label" => false },
@@ -106,14 +106,14 @@ module AlleleImage
        "LAR3_1" => { "label" => false },
        "osteopontin repeat 5" => { "label" => false },
        "neoBstB1_5" => { "label" => false },
-       "Gateway L2 site" => { "label" => false },
+       # "Gateway L2 site" => { "label" => false },
        "loxP" => { "label" => "loxP" },
-       "Gateway L2" => { "label" => false },
+       # "Gateway L2" => { "label" => false },
        "neoSphI_5" => { "label" => false },
        "En2 exon" => { "label" => false },
        "LRPCR LAR3_EN2" => { "label" => false },
        "frame2" => { "label" => false },
-       "EM7 promoter" => { "label" => false },
+       # "EM7 promoter" => { "label" => false },
        "IRES5for primer" => { "label" => false },
        "LacZCla5 seq primer" => { "label" => false },
        "ClonNAT" => { "label" => false },
@@ -138,7 +138,7 @@ module AlleleImage
          "colour" => "blue",
          "font"   => "white"
        },
-       "Gateway  L1 site" => { "label" => false },
+       # "Gateway  L1 site" => { "label" => false },
        "gap" => { "label" => false },
        "intervening sequence" => { "label" => false },
        "AttP" => { "label" => false },
@@ -177,7 +177,7 @@ module AlleleImage
          "label" => false
        },
        "Bsd ORF" => {
-         "label" => false
+         "label" => "BsdR"
        },
        # "m13 forward" => {
        #   "label" => false
@@ -212,9 +212,9 @@ module AlleleImage
        "AscI-EagI adpater" => {
          "label" => false
        },
-       "CheckBsd(Out)" => {
-         "label" => false
-       },
+       # "CheckBsd(Out)" => {
+       #   "label" => false
+       # },
        "bpA" => {
          "label" => false
        },
@@ -239,9 +239,9 @@ module AlleleImage
        "R1 ampF" => {
          "label" => false
        },
-       "G3 primer" => {
-         "label" => false
-       },
+       # "G3 primer" => {
+       #   "label" => false
+       # },
        "chloramphenicol ORF" => {
          "label" => false
        },
@@ -254,15 +254,15 @@ module AlleleImage
        "TEV" => {
          "label" => false
        },
-       "5' pBR Homology Arm" => {
-         "label" => false
-       },
+       # "5' pBR Homology Arm" => {
+       #   "label" => false
+       # },
        "Ty1" => {
          "label" => false
        },
-       "Gateway L4" => {
-         "label" => false
-       },
+       # "Gateway L4" => {
+       #   "label" => false
+       # },
        "ChlR_ccdB" => {
          "label" => false
        },
@@ -276,7 +276,9 @@ module AlleleImage
          "label" => false
        },
        "PGK" => {
-         "label" => false
+         "label"  => "PGK",
+         "colour" => "black",
+         "font"   => "white"
        },
        "D backbone" => {
          "label" => false
@@ -325,9 +327,9 @@ module AlleleImage
        "Flag" => {
          "label" => false
        },
-       "bghpA" => {
-         "label" => false
-       },
+       # "bghpA" => {
+       #   "label" => false
+       # },
        "B4" => {
          "label" => "B4"
        },
@@ -376,11 +378,13 @@ module AlleleImage
        "ChlR ORF" => {
          "label" => false
        },
-       "Gateway R3" => {
-         "label" => false
-       },
+       # "Gateway R3" => {
+       #   "label" => false
+       # },
        "PGK promoter" => {
-         "label" => "PGK"
+         "label"  => "PGK",
+         "colour" => "black",
+         "font"   => "white"
        },
        "chl R" => {
          "label" => false
@@ -391,12 +395,12 @@ module AlleleImage
        "U backbone" => {
          "label" => false
        },
-       "CheckPGK(Out)" => {
-         "label" => false
-       },
-       "CheckFspI(In)" => {
-         "label" => false
-       },
+       # "CheckPGK(Out)" => {
+       #   "label" => false
+       # },
+       # "CheckFspI(In)" => {
+       #   "label" => false
+       # },
        # "G PCR fwd" => {
        #   "label" => false
        # },
@@ -412,21 +416,21 @@ module AlleleImage
        "ipcrTAR1 (GH1111)" => {
          "label" => false
        },
-       "Gateway R4" => {
-         "label" => false
-       },
+       # "Gateway R4" => {
+       #   "label" => false
+       # },
        "GH822 PCR-attP-F" => {
          "label" => false
        },
-       "G5 primer" => {
-         "label" => false
-       },
-       "CheckXmnI(In)" => {
-         "label" => false
-       },
-       "3' pBR Homology Arm" => {
-         "label" => false
-       },
+       # "G5 primer" => {
+       #   "label" => false
+       # },
+       # "CheckXmnI(In)" => {
+       #   "label" => false
+       # },
+       # "3' pBR Homology Arm" => {
+       #   "label" => false
+       # },
        "beta-GAL" => {
          "label" => false
        },
@@ -450,9 +454,9 @@ module AlleleImage
        "primer GH716" => {
          "label" => false
        },
-       "Gateway L3" => {
-         "label" => false
-       },
+       # "Gateway L3" => {
+       #   "label" => false
+       # },
        "b_actin promoter cloned into L1L2Beta backbone" => {
          "label" => "Bact::neo"
        },
@@ -471,7 +475,7 @@ module AlleleImage
     },
     "promoter" => {
       "human ubiquitin promoter" => { "label" => false },
-      "EM7 promoter" => { "label" => false },
+      # "EM7 promoter" => { "label" => false },
       "PGK Promoter" => {
         "label"  => "PGK",
         "colour" => "black",
