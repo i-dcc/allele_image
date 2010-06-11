@@ -4,11 +4,11 @@ module AlleleImage
   # EXONS WILL BE ACCOUNTED FOR
   RENDERABLE_FEATURES = {
     "SSR_site" => {
-      "FRT site"    => { "label" => "FRT" },
+      "FRT site"    => { "label" => "FRT", "width" => 35 },
       "loxP"        => { "label" => "loxP", "width" => 35 },
       "loxP site"   => { "label" => "loxP", "width" => 35 },
-      "FRT"         => { "label" => "FRT" },
-      "FRT reverse" => { "label" => "FRT" }
+      "FRT"         => { "label" => "FRT", "width" => 35 },
+      "FRT reverse" => { "label" => "FRT", "width" => 35 }
     },
     "polyA" => {
       "SV40 polyA" => { "label" => "pA" }
@@ -23,7 +23,7 @@ module AlleleImage
        "EN2_exon2" => { "label" => false },
        "neoSphI_5 seq primer" => { "label" => false },
        "loxp site" => { "label" => "loxP", "width" => 35 },
-       "FRT reverse" => { "label" => "FRT" },
+       "FRT reverse" => { "label" => "FRT", "width" => 35 },
        "IRES5for seq primer" => { "label" => false },
        "LoxP" => { "label" => "loxP", "width" => 35 },
        "osteopontin repeat 2" => { "label" => false },
@@ -41,10 +41,10 @@ module AlleleImage
          "colour" => "DarkSlateBlue",
          "font"   => "white"
        },
-       "FRT" => { "label" => "FRT" },
+       "FRT" => { "label" => "FRT", "width" => 35 },
        # "Gateway L1 site" => { "label" => false },
        "osteopontin repeat 1" => { "label" => false },
-       "FRT " => { "label" => "FRT" },
+       "FRT " => { "label" => "FRT", "width" => 35 },
        "En2_exon2" => { "label" => false },
        "neo" => {
          "label"  => "neo",
@@ -99,7 +99,7 @@ module AlleleImage
          "font"   => "white"
        },
        # "en-2 exon" => { "label" => false },
-       "FRT site" => { "label" => "FRT" },
+       "FRT site" => { "label" => "FRT", "width" => 35 },
        "neoPstI_5" => { "label" => false },
        "3IRES5 seq primer" => { "label" => false },
        "SV40 pA" => { "label" => "pA" },
@@ -160,8 +160,8 @@ module AlleleImage
        },
        # "FRAME INSERT. Has ATG init codon, but no" => { "label" => false },
        # "REverse primer GH754" => { "label" => false },
-       "F3" => { "label" => false },
-       "FRT reverse" => { "label" => "FRT" },
+       "F3" => { "label" => "F3", "width" => 35 },
+       "FRT reverse" => { "label" => "FRT", "width" => 35 },
        # "attB1" => { "label" => false },
        # "Frame 2 insert" => { "label" => false },
        # "Fwd SA primer" => { "label" => false },
