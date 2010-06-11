@@ -141,7 +141,7 @@ module AlleleImage
        # "Gateway  L1 site" => { "label" => false },
        "gap" => { "label" => false },
        "intervening sequence" => { "label" => false },
-       "AttP" => { "label" => false },
+       "AttP" => { "label" => "AttP", "width" => 35 },
        "UiPCR" => {
          "label"  => "UiPCR",
          "colour" => "brown",
