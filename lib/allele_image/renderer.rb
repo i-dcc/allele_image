@@ -20,24 +20,49 @@ module AlleleImage
   class Renderer
     attr_reader :image
 
-    def initialize( construct, bottom_margin = 25, feature_height = 40, top_margin = 25, font_size = 14 )
+    def initialize( construct, params = {} )
       raise "NotAlleleImageConstruct" unless construct.instance_of?( AlleleImage::Construct )
 
-      # For the main (feature) image
-      @bottom_margin  = bottom_margin
-      @feature_height = feature_height
-      @top_margin     = top_margin
-      @image_height   = @bottom_margin + @feature_height + @top_margin
+      # assign our construct attribute
+      @construct = construct
 
-      @construct             = construct
-      @gap_width             = 10
-      @text_width            = 12
-      @text_height           = 20
-      @feature_height        = 40
-      @annotation_height     = 70
-      @sequence_stroke_width = 2.5
-      @font_size             = font_size
+      #
+      # NOTE
+      # See sebs example of how to make this bit of logic more succinct
+      # http://svn.internal.sanger.ac.uk/cgi-bin/viewvc.cgi/projects/htgt_to_targ_rep
+      # /trunk/lib/molecular_structures.rb?revision=1679&root=htgt&view=markup
+      #
 
+      # handle the optional parameters passed in via params hash
+      defaults = {
+        :bottom_margin         => 25,
+        :feature_height        => 40,
+        :top_margin            => 25,
+        :font_size             => 14,
+        :gap_width             => 10,
+        :text_width            => 12,
+        :text_height           => 20,
+        :feature_height        => 40,
+        :annotation_height     => 70,
+        :sequence_stroke_width => 2.5
+      }
+      params = defaults.update( params )
+
+      # update the attributes from their default values
+      @bottom_margin         = params[:bottom_margin]
+      @feature_height        = params[:feature_height]
+      @top_margin            = params[:top_margin]
+      @gap_width             = params[:gap_width]
+      @text_width            = params[:text_width]
+      @text_height           = params[:text_height]
+      @feature_height        = params[:feature_height]
+      @annotation_height     = params[:annotation_height]
+      @sequence_stroke_width = params[:sequence_stroke_width]
+      @font_size             = params[:font_size]
+      @image_height          = @bottom_margin + @feature_height + @top_margin
+
+      # render the image
+      # XXX -- not quite sure why we do this here [2010-06-11] io1
       @image = self.render
 
       return self
