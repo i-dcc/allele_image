@@ -99,20 +99,27 @@ module AlleleImage
 
       # Construct the backbone components and put the two images together
       vector_image   = Magick::ImageList.new()
+      backbone_image = render_backbone( :width => bb_width )
+
+      vector_image.push( main_image ).push( backbone_image )
+
+      return vector_image.append( true )
+    end
+
+    def render_backbone( params = {} )
       backbone_image = Magick::ImageList.new()
       five_flank_bb  = draw_empty_flank("5' arm backbone")
       three_flank_bb = draw_empty_flank("3' arm backbone")
 
       # we want to render the "AsiSI" somewhere else
       backbone_features = @construct.backbone_features.select { |feature| feature.feature_name != "AsiSI" }
-      backbone          = render_mutant_region( backbone_features, :width => bb_width, :label => @construct.backbone_label() )
+      params[:width]    = [ calculate_width( backbone_features ), params[:width] ].max
+      backbone          = render_mutant_region( backbone_features, :width => params[:width], :label => @construct.backbone_label() )
 
       backbone_image.push( five_flank_bb ).push( backbone ).push( three_flank_bb )
       backbone_image = backbone_image.append( false )
 
-      vector_image.push( main_image ).push( backbone_image )
-
-      return vector_image.append( true )
+      return backbone_image
     end
 
     private
