@@ -11,6 +11,12 @@ module AlleleImage
   # conclusive yet but I think I'm on the right track.
   #
   class Feature
+    @@text_width = 12
+
+    def Feature.text_width(new_width)
+      @@text_width = new_width
+    end
+
     attr_reader :feature_type, :feature_name, :orientation, :start, :stop, :render_options
 
     def initialize( feature_type, feature_name, start, stop )
@@ -26,6 +32,10 @@ module AlleleImage
         @render_options = AlleleImage::RENDERABLE_FEATURES[ feature_type ][ feature_name ]
         @feature_name   = @render_options[ "label" ] || feature_name
       end
+    end
+
+    def width
+      @render_options and @render_options.has_key?("width") ? @render_options[ "width" ] :  @feature_name.length * @@text_width
     end
 
     # def render( format )

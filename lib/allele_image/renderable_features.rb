@@ -5,8 +5,8 @@ module AlleleImage
   RENDERABLE_FEATURES = {
     "SSR_site" => {
       "FRT site"    => { "label" => "FRT" },
-      "loxP"        => { "label" => "loxP" },
-      "loxP site"   => { "label" => "loxP" },
+      "loxP"        => { "label" => "loxP", "width" => 35 },
+      "loxP site"   => { "label" => "loxP", "width" => 35 },
       "FRT"         => { "label" => "FRT" },
       "FRT reverse" => { "label" => "FRT" }
     },
@@ -22,10 +22,10 @@ module AlleleImage
        "AsiSI" => { "label" => false },
        "EN2_exon2" => { "label" => false },
        "neoSphI_5 seq primer" => { "label" => false },
-       "loxp site" => { "label" => "loxP" },
+       "loxp site" => { "label" => "loxP", "width" => 35 },
        "FRT reverse" => { "label" => "FRT" },
        "IRES5for seq primer" => { "label" => false },
-       "LoxP" => { "label" => "loxP" },
+       "LoxP" => { "label" => "loxP", "width" => 35 },
        "osteopontin repeat 2" => { "label" => false },
        "lacZ" => {
          "label"  => "lacZ",
@@ -65,7 +65,7 @@ module AlleleImage
        "3IRES5" => { "label" => false },
        "neoPstI_5 seq primer" => { "label" => false },
        # "Gateway L1" => { "label" => false },
-       "loxP site" => { "label" => "loxP" },
+       "loxP site" => { "label" => "loxP", "width" => 35 },
        # "EM7" => { "label" => false },
        "B2 site?" => { "label" => "B2" },
        "FRT3" => { "label" => false },
@@ -107,7 +107,7 @@ module AlleleImage
        "osteopontin repeat 5" => { "label" => false },
        "neoBstB1_5" => { "label" => false },
        # "Gateway L2 site" => { "label" => false },
-       "loxP" => { "label" => "loxP" },
+       "loxP" => { "label" => "loxP", "width" => 35 },
        # "Gateway L2" => { "label" => false },
        "neoSphI_5" => { "label" => false },
        "En2 exon" => { "label" => false },

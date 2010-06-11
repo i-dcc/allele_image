@@ -61,6 +61,9 @@ module AlleleImage
       @font_size             = params[:font_size]
       @image_height          = @bottom_margin + @feature_height + @top_margin
 
+      # set the AlleleImage::Feature class attribute text_width
+      AlleleImage::Feature.text_width(@text_width)
+
       # render the image
       # XXX -- not quite sure why we do this here [2010-06-11] io1
       @image = self.render
@@ -327,7 +330,8 @@ module AlleleImage
             feature_width = @gap_width
           else
             draw_feature( main_image, feature, x, y )
-            feature_width = feature.feature_name().length * @text_width # or Feature#width if it exists
+            # feature_width = feature.feature_name().length * @text_width # or Feature#width if it exists
+            feature_width = feature.width()
           end
           x += feature_width # update the x coordinate
         end
@@ -514,7 +518,8 @@ module AlleleImage
 
       # draw a box with a label to the correct width
       def draw_cassette_feature( image, feature, x, y, colour = "white", font = "black", d = Magick::Draw.new )
-          width  = feature.feature_name().length * @text_width
+          # width  = feature.feature_name().length * @text_width
+          width  = feature.width()
           height = @feature_height
           colour = feature.render_options()[ "colour" ] || colour
           font   = feature.render_options()[ "font" ]   || font
@@ -619,7 +624,7 @@ module AlleleImage
         return image
       end
 
-      def draw_loxp( feature, image, x, y, d = Magick::Draw.new, feature_width = "loxP".length * @text_width )
+      def draw_loxp( feature, image, x, y, d = Magick::Draw.new, feature_width = feature.width() )
         # Draw the triangle
         d.fill( "red" )
 
@@ -644,7 +649,7 @@ module AlleleImage
         return image
       end
 
-      def draw_f3( feature, image, x, y, d = Magick::Draw.new, feature_width = "F3".length * @text_width )
+      def draw_f3( feature, image, x, y, d = Magick::Draw.new, feature_width = feature.width() )
         b = feature.orientation == "forward" ? x : x + feature_width
 
         # Draw the triangle
@@ -738,7 +743,7 @@ module AlleleImage
           if feature.feature_name() == "gap"
             gaps += @gap_width
           else
-            width += feature.feature_name().length * @text_width # should check/define feature.width/feature[:width] first
+            width += feature.width()
           end
         end
         # # This will "fix" the NorCoMM allelles but it does throw off the boundries

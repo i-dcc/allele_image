@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/test_helper.rb'
 class TestAlleleImageFeature < Test::Unit::TestCase
   context "a new AlleleImage::Feature" do
     setup do
-      @feature = AlleleImage::Feature.new( "polyA_site", "SV40 pA", 1000, 2000 )
+      @feature = AlleleImage::Feature.new( "SSR_site", "loxP", 1000, 2000 )
     end
 
     should "instintiate" do
@@ -25,11 +25,15 @@ class TestAlleleImageFeature < Test::Unit::TestCase
     end
 
     should "have the correct name" do
-      assert_equal "pA", @feature.feature_name()
+      assert_equal "loxP", @feature.feature_name()
     end
 
     should "have the correct orientation" do
       assert_equal "forward", @feature.orientation()
+    end
+
+    should "have the correct width" do
+      assert_equal 35, @feature.width()
     end
   end
 end
