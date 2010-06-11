@@ -20,7 +20,7 @@ module AlleleImage
   class Renderer
     attr_reader :image
 
-    def initialize( construct, bottom_margin = 25, feature_height = 40, top_margin = 25 )
+    def initialize( construct, bottom_margin = 25, feature_height = 40, top_margin = 25, font_size = 14 )
       raise "NotAlleleImageConstruct" unless construct.instance_of?( AlleleImage::Construct )
 
       # For the main (feature) image
@@ -29,13 +29,14 @@ module AlleleImage
       @top_margin     = top_margin
       @image_height   = @bottom_margin + @feature_height + @top_margin
 
-      @construct   = construct
-      @gap_width   = 10
-      @text_width  = 12
-      @text_height = 20
-      @feature_height = 40
-      @annotation_height = 70
+      @construct             = construct
+      @gap_width             = 10
+      @text_width            = 12
+      @text_height           = 20
+      @feature_height        = 40
+      @annotation_height     = 70
       @sequence_stroke_width = 2.5
+      @font_size             = font_size
 
       @image = self.render
 
@@ -427,10 +428,11 @@ module AlleleImage
         annotation_y      = position.last - 10 - @text_height
 
         # draw the AsiSI on the sequence
+        pointsize = @font_size
         asisi.annotate( image, annotation_width, annotation_height, annotation_x, annotation_y, "AsiSI" ) do
           self.gravity     = Magick::CenterGravity
           self.fill        = "black"
-          self.pointsize   = 14
+          self.pointsize   = pointsize
           self.font_family = "arial"
         end
 
@@ -445,11 +447,12 @@ module AlleleImage
       # draw the replication origin
       def draw_ori( image, x_coord, y_coord )
         origin = Magick::Draw.new
+        pointsize = @font_size
 
         origin.annotate( image, @text_width * "ori".length, @text_height, x_coord, y_coord - @text_height, "ori" ) do
           self.gravity     = Magick::CenterGravity
           self.fill        = "black"
-          self.pointsize   = 14
+          self.pointsize   = pointsize
           self.font_family = "arial"
         end
 
@@ -498,11 +501,12 @@ module AlleleImage
           d.draw( image )
 
           # annotate the block
+          pointsize = @font_size
           d.annotate( image, width, height, x, @top_margin, feature.feature_name() ) do
             self.fill        = font
             self.font_weight = Magick::BoldWeight
             self.gravity     = Magick::CenterGravity
-            self.pointsize   = 14
+            self.pointsize   = pointsize
             self.font_family = "arial"
           end
 
@@ -539,10 +543,12 @@ module AlleleImage
         label_for = { "5 arm" => "5' homology arm", "3 arm" => "3' homology arm" }
 
         # annotate the block
+        pointsize = @font_size
         d.annotate( image, w, y, 0, 0,
           "#{ label_for[ name ] }\n(#{ length } bp)" ) do
-          self.fill    = "blue"
-          self.gravity = Magick::CenterGravity
+          self.fill      = "blue"
+          self.gravity   = Magick::CenterGravity
+          self.pointsize = pointsize
         end
 
         return image
@@ -554,9 +560,11 @@ module AlleleImage
         d.stroke( "black" )
         d.fill( "white" )
         d.draw( image )
+        pointsize = @font_size
         d.annotate( image, image.columns(), height, x, y, label ) do
-          self.fill    = "blue"
-          self.gravity = Magick::CenterGravity
+          self.fill      = "blue"
+          self.gravity   = Magick::CenterGravity
+          self.pointsize = pointsize
         end
 
         return image
@@ -574,11 +582,13 @@ module AlleleImage
         d.draw( image )
 
         # write the annotation above
+        pointsize = @font_size
         d.annotate( image, feature_width, @top_margin, x, 0, "attP" ) do
           self.fill        = "red"
           self.gravity     = Magick::CenterGravity
           self.font_weight = Magick::BoldWeight
           self.font_style  = Magick::ItalicStyle
+          self.pointsize   = pointsize
         end
 
         return image
@@ -597,11 +607,13 @@ module AlleleImage
         d.draw( image )
 
         # write the annotation above
+        pointsize = @font_size
         d.annotate( image, feature_width, @top_margin, x, 0, "loxP" ) do
           self.fill        = "red"
           self.gravity     = Magick::CenterGravity
           self.font_weight = Magick::BoldWeight
           self.font_style  = Magick::ItalicStyle
+          self.pointsize   = pointsize
         end
 
         return image
@@ -616,11 +628,13 @@ module AlleleImage
         d.draw( image )
 
         # write the annotation above
+        pointsize = @font_size
         d.annotate( image, feature_width, @top_margin, x, 0, "F3" ) do
           self.fill        = "orange"
           self.gravity     = Magick::CenterGravity
           self.font_weight = Magick::BoldWeight
           self.font_style  = Magick::ItalicStyle
+          self.pointsize   = pointsize
         end
 
         return image
@@ -636,11 +650,13 @@ module AlleleImage
         d.draw( image )
 
         # write the annotation above
+        pointsize = @font_size
         d.annotate( image, feature_width, @top_margin, x, 0, "FRT" ) do
           self.fill        = "green"
           self.gravity     = Magick::CenterGravity
           self.font_weight = Magick::BoldWeight
           self.font_style  = Magick::ItalicStyle
+          self.pointsize   = pointsize
         end
 
         return image
