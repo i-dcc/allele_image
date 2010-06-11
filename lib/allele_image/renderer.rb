@@ -177,11 +177,12 @@ module AlleleImage
 
         # insert the AsiSI in here somewhere
         if region.match(/5' arm/)
-          asisi = Magick::Image.new( @text_width * "AsiSI".length, height )
-          asisi = draw_sequence( asisi, 0, height/2, asisi.columns, height/2 )
+          asisi   = Magick::Image.new( @text_width * "AsiSI".length, height )
+          asisi   = draw_sequence( asisi, 0, height/2, asisi.columns, height/2 )
+          feature = @construct.backbone_features.find { |feature| feature.feature_name == "AsiSI" }
 
-          if region.match(/main/) and @construct.backbone_features.find { |feature| feature.feature_name == "AsiSI" }
-            asisi = draw_asisi( asisi, [0, height/2] )
+          if region.match(/main/) and feature
+            asisi = draw_asisi( asisi, feature, [0, height/2] )
           end
 
           test  = Magick::ImageList.new
@@ -330,7 +331,6 @@ module AlleleImage
             feature_width = @gap_width
           else
             draw_feature( main_image, feature, x, y )
-            # feature_width = feature.feature_name().length * @text_width # or Feature#width if it exists
             feature_width = feature.width()
           end
           x += feature_width # update the x coordinate
@@ -385,6 +385,7 @@ module AlleleImage
             feature_width = @gap_width
           else
             draw_feature( main_image, feature, x, y )
+            # XXX -- do we have an Exon feature? I don't think so [2010-06-11] io1
             feature_width = @text_width # or Feature#width if it exists
           end
           x += feature_width # update the x coordinate
@@ -447,18 +448,18 @@ module AlleleImage
 
       #
       # prototyping rendering AsiSI
-      def draw_asisi( image, position )
+      def draw_asisi( image, feature, position )
         asisi = Magick::Draw.new
 
         # We draw the text "AsiSI" in a box with dimensions:
-        annotation_width  = @text_width * "AsiSI".length
+        annotation_width  = feature.width()
         annotation_height = @text_height
         annotation_x      = position.first
         annotation_y      = position.last - 10 - @text_height
 
         # draw the AsiSI on the sequence
         pointsize = @font_size
-        asisi.annotate( image, annotation_width, annotation_height, annotation_x, annotation_y, "AsiSI" ) do
+        asisi.annotate( image, annotation_width, annotation_height, annotation_x, annotation_y, feature.feature_name() ) do
           self.gravity     = Magick::CenterGravity
           self.fill        = "black"
           self.pointsize   = pointsize
@@ -495,17 +496,17 @@ module AlleleImage
         else
           case feature.feature_name()
           when "FRT"
-            draw_frt( feature, image, x, y )
+            draw_frt( image, feature, x, y )
           when "loxP"
-            draw_loxp( feature, image, x, y )
+            draw_loxp( image, feature, x, y )
           when "AttP"
-            draw_attp( image, x, y )
+            draw_attp( image, feature, x, y )
           when "intervening sequence"
             draw_intervening_sequence( image, x, y )
           when "F3"
-            draw_f3( feature, image, x, y )
+            draw_f3( image, feature, x, y )
           when "AsiSI"
-            draw_asisi( image, [x, y] )
+            draw_asisi( image, feature, [x, y] )
           when "ori"
             draw_ori( image, x, y )
           # Any non-speciall feature is probably a cassette feature
@@ -518,7 +519,6 @@ module AlleleImage
 
       # draw a box with a label to the correct width
       def draw_cassette_feature( image, feature, x, y, colour = "white", font = "black", d = Magick::Draw.new )
-          # width  = feature.feature_name().length * @text_width
           width  = feature.width()
           height = @feature_height
           colour = feature.render_options()[ "colour" ] || colour
@@ -600,7 +600,7 @@ module AlleleImage
         return image
       end
 
-      def draw_attp( image, x, y, d = Magick::Draw.new, feature_width = "attp".length * @text_width )
+      def draw_attp( image, feature, x, y, d = Magick::Draw.new, feature_width = feature.width() )
         # Draw the two triangles
         d.stroke( "black" )
         d.fill( "red" )
@@ -613,7 +613,7 @@ module AlleleImage
 
         # write the annotation above
         pointsize = @font_size
-        d.annotate( image, feature_width, @top_margin, x, 0, "attP" ) do
+        d.annotate( image, feature_width, @top_margin, x, 0, feature.feature_name() ) do
           self.fill        = "red"
           self.gravity     = Magick::CenterGravity
           self.font_weight = Magick::BoldWeight
@@ -624,7 +624,7 @@ module AlleleImage
         return image
       end
 
-      def draw_loxp( feature, image, x, y, d = Magick::Draw.new, feature_width = feature.width() )
+      def draw_loxp( image, feature, x, y, d = Magick::Draw.new, feature_width = feature.width() )
         # Draw the triangle
         d.fill( "red" )
 
@@ -638,7 +638,7 @@ module AlleleImage
 
         # write the annotation above
         pointsize = @font_size
-        d.annotate( image, feature_width, @top_margin, x, 0, "loxP" ) do
+        d.annotate( image, feature_width, @top_margin, x, 0, feature.feature_name() ) do
           self.fill        = "red"
           self.gravity     = Magick::CenterGravity
           self.font_weight = Magick::BoldWeight
@@ -649,7 +649,7 @@ module AlleleImage
         return image
       end
 
-      def draw_f3( feature, image, x, y, d = Magick::Draw.new, feature_width = feature.width() )
+      def draw_f3( image, feature, x, y, d = Magick::Draw.new, feature_width = feature.width() )
         b = feature.orientation == "forward" ? x : x + feature_width
 
         # Draw the triangle
@@ -671,7 +671,7 @@ module AlleleImage
       end
 
       # Switch to use this when you change your coordinate system
-      def draw_frt( feature, image, x, y, d = Magick::Draw.new, feature_width = "FRT".length * @text_width )
+      def draw_frt( image, feature, x, y, d = Magick::Draw.new, feature_width = feature.width() )
         b = feature.orientation == "forward" ? x : x + feature_width
 
         # Draw the triangle
@@ -681,7 +681,7 @@ module AlleleImage
 
         # write the annotation above
         pointsize = @font_size
-        d.annotate( image, feature_width, @top_margin, x, 0, "FRT" ) do
+        d.annotate( image, feature_width, @top_margin, x, 0, feature.feature_name() ) do
           self.fill        = "green"
           self.gravity     = Magick::CenterGravity
           self.font_weight = Magick::BoldWeight
