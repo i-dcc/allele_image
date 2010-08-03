@@ -233,7 +233,8 @@ module AlleleImage
         image_list = Magick::ImageList.new()
 
         rcmb_primers = @construct.three_arm_features.select do |feature|
-          feature.feature_type() == "rcmb_primer"
+          feature.feature_type() == "primer_bind" and \
+            ['D3', 'D5', 'G3', 'G5', 'U3', 'U5'].include?( feature.feature_name )
         end
 
         if rcmb_primers.count == 2

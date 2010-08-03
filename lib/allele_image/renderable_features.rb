@@ -492,7 +492,7 @@ module AlleleImage
         "font"   => "white"
       }
     },
-    "rcmb_primer" => {
+    "primer_bind" => {
       "G5" => { "label" => false },
       "G3" => { "label" => false },
       "U5" => { "label" => false },
