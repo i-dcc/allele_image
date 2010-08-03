@@ -20,11 +20,11 @@ FEATURES             Location/Qualifiers
      primer_bind     3043..3065
                      /label=R3 primer
                      /note="R3 primer"
-     rcmb_primer     complement(3066..3115)
+     primer_bind     complement(3066..3115)
                      /label=G5
                      /type="G5"
                      /note="G5"
-     rcmb_primer     7618..7667
+     primer_bind     7618..7667
                      /label=U5
                      /type="U5"
                      /note="U5"
@@ -208,11 +208,11 @@ FEATURES             Location/Qualifiers
      primer_bind     14770..14789
                      /label=R2R primer
                      /note="R2R primer"
-     rcmb_primer     complement(14790..14839)
+     primer_bind     complement(14790..14839)
                      /label=U3
                      /type="U3"
                      /note="U3"
-     rcmb_primer     15496..15545
+     primer_bind     15496..15545
                      /label=D5
                      /type="D5"
                      /note="D5"
@@ -246,11 +246,11 @@ FEATURES             Location/Qualifiers
      primer_bind     15603..15622
                      /label=LRR primer
                      /note="LRR primer"
-     rcmb_primer     complement(15626..15675)
+     primer_bind     complement(15626..15675)
                      /label=D3
                      /type="D3"
                      /note="D3"
-     rcmb_primer     20690..20739
+     primer_bind     20690..20739
                      /label=G3
                      /type="G3"
                      /note="G3"

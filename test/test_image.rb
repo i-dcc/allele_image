@@ -10,11 +10,11 @@ DBSOURCE    accession design_id=44372
 COMMENT     cassette : L1L2_Bact_P
 COMMENT     design_id : 44372
 FEATURES             Location/Qualifiers
-     rcmb_primer     complement(10450..10499)
+     primer_bind     complement(10450..10499)
                      /label=G5
                      /type="G5"
                      /note="G5"
-     rcmb_primer     15002..15051
+     primer_bind     15002..15051
                      /label=U5
                      /type="U5"
                      /note="U5"
@@ -171,11 +171,11 @@ FEATURES             Location/Qualifiers
      primer_bind     22154..22173
                      /label=R2R primer
                      /note="R2R primer"
-     rcmb_primer     complement(22174..22223)
+     primer_bind     complement(22174..22223)
                      /label=U3
                      /type="U3"
                      /note="U3"
-     rcmb_primer     22880..22929
+     primer_bind     22880..22929
                      /label=D5
                      /type="D5"
                      /note="D5"
@@ -209,11 +209,11 @@ FEATURES             Location/Qualifiers
      primer_bind     22987..23006
                      /label=LRR primer
                      /note="LRR primer"
-     rcmb_primer     complement(23010..23059)
+     primer_bind     complement(23010..23059)
                      /label=D3
                      /type="D3"
                      /note="D3"
-     rcmb_primer     28074..28123
+     primer_bind     28074..28123
                      /label=G3
                      /type="G3"
                      /note="G3"
@@ -901,7 +901,7 @@ GENBANK_DATA
       assert_instance_of AlleleImage::Parser, @image.parser
       assert_instance_of AlleleImage::Renderer, @image.renderer
     end
-
+  
     should "render something" do
       assert_not_nil @image.render()
     end

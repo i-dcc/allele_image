@@ -4,11 +4,11 @@ DBSOURCE    accession design_id=44372
 COMMENT     cassette : L1L2_Bact_P
 COMMENT     design_id : 44372
 FEATURES             Location/Qualifiers
-     rcmb_primer     complement(10450..10499)
+     primer_bind     complement(10450..10499)
                      /label=G5
                      /type="G5"
                      /note="G5"
-     rcmb_primer     15002..15051
+     primer_bind     15002..15051
                      /label=U5
                      /type="U5"
                      /note="U5"
@@ -165,19 +165,19 @@ FEATURES             Location/Qualifiers
      primer_bind     22154..22173
                      /label=R2R primer
                      /note="R2R primer"
-     rcmb_primer     complement(22174..22223)
+     primer_bind     complement(22174..22223)
                      /label=U3
                      /type="U3"
                      /note="U3"
-     rcmb_primer     22880..22929
+     primer_bind     22880..22929
                      /label=D5
                      /type="D5"
                      /note="D5"
-     rcmb_primer     complement(22933..22982)
+     primer_bind     complement(22933..22982)
                      /label=D3
                      /type="D3"
                      /note="D3"
-     rcmb_primer     27997..28046
+     primer_bind     27997..28046
                      /label=G3
                      /type="G3"
                      /note="G3"

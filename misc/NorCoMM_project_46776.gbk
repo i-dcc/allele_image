@@ -5,11 +5,11 @@ COMMENT     ApEinfo:methylated:1
 COMMENT     cassette : B1B2_frame1_Norcomm
 COMMENT     design_id : 46776
 FEATURES             Location/Qualifiers
-     rcmb_primer     complement(13154..13203)
+     primer_bind     complement(13154..13203)
                      /label=G5
                      /type="G5"
                      /note="G5"
-     rcmb_primer     14951..15000
+     primer_bind     14951..15000
                      /label=U5
                      /type="U5"
                      /note="U5"
@@ -104,11 +104,11 @@ FEATURES             Location/Qualifiers
                      /ApEinfo_fwdcolor="#ff6967"
                      /ApEinfo_label="Restriction sites for UiPCR"
                      /ApEinfo_revcolor="green"
-     rcmb_primer     complement(22238..22287)
+     primer_bind     complement(22238..22287)
                      /label=D3
                      /type="D3"
                      /note="D3"
-     rcmb_primer     29287..29336
+     primer_bind     29287..29336
                      /label=G3
                      /type="G3"
                      /note="G3"
