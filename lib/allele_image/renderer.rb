@@ -252,7 +252,8 @@ module AlleleImage
           loxp_region_features = @construct.three_arm_features().select do |feature|
             feature.start() >= rcmb_primers[1].start() and \
             feature.start() <= rcmb_primers[2].start() and \
-            feature.feature_type() == "SSR_site"
+            feature.feature_type() == "misc_feature" and \
+            feature.feature_name == "loxP"
           end
           three_arm_features = @construct.three_arm_features().select do |feature|
             feature.start() >= rcmb_primers[2].start() and \
