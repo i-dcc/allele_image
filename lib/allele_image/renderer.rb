@@ -144,7 +144,10 @@ module AlleleImage
         # Construct the annotation image
         image_list       = Magick::ImageList.new()
         annotation_image = Magick::Image.new( image.columns(), @annotation_height )
-        genomic          = @construct.five_arm_features.find { |feature| feature.feature_type() == "genomic" }
+        genomic          = @construct.five_arm_features.find do |feature|
+          feature.feature_type() == "misc_feature" and \
+            ["5 arm", "target region", "3 arm"].include?( feature.feature_name )
+        end
         annotation_image = draw_homology_arm( annotation_image, genomic.feature_name(), genomic.stop() - genomic.start() )
 
         # Stack the images
@@ -283,7 +286,10 @@ module AlleleImage
         # Construct the annotation image
         image_list       = Magick::ImageList.new()
         annotation_image = Magick::Image.new( image.columns(), @annotation_height )
-        genomic          = @construct.three_arm_features.select { |feature| feature.feature_type() == "genomic" }
+        genomic          = @construct.three_arm_features.select do |feature|
+          feature.feature_type() == "misc_feature" and \
+            ["5 arm", "target region", "3 arm"].include?( feature.feature_name )
+        end
         annotation_image = draw_homology_arm( annotation_image, genomic.last.feature_name(), genomic.last.stop() - genomic.first.start() )
 
         # Stack the images
