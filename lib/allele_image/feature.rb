@@ -20,7 +20,11 @@ module AlleleImage
     attr_reader :feature_type, :feature_name, :orientation, :start, :stop, :render_options
 
     def initialize( feature_type, feature_name, start, stop )
-      raise "NotRenderable" unless renderable_feature?( feature_type, feature_name )
+      unless renderable_feature?( feature_type, feature_name )
+        require "pp"
+        pp [ feature_type, feature_name, start, stop ]
+        raise "NotRenderable"
+      end
 
       @feature_type = feature_type
       @start, @stop = start, stop
