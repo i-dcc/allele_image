@@ -40,7 +40,7 @@ FEATURES             Location/Qualifiers
                      /db_xref="ens:ENSMUSE00000130775"
                      /label=ENSMUSE00000130775
                      /note="ENSMUSE00000130775"
-     genomic         3066..7667
+     misc_feature    3066..7667
                      /label=5 arm
                      /note="5 arm"
      primer_bind     7668..7687
@@ -228,7 +228,7 @@ FEATURES             Location/Qualifiers
                      /type="EX32"
                      /label=EX32
                      /note="EX32"
-     genomic         14790..15545
+     misc_feature    14790..15545
                      /label=target region
                      /note="target region"
      SSR_site        15569..15602
@@ -262,7 +262,7 @@ FEATURES             Location/Qualifiers
                      /db_xref="ens:ENSMUSE00000130768"
                      /label=ENSMUSE00000130768
                      /note="ENSMUSE00000130768"
-     genomic         15626..20739
+     misc_feature    15626..20739
                      /label=3 arm
                      /note="3 arm"
      misc_feature    20740..20759

@@ -33,7 +33,7 @@ FEATURES             Location/Qualifiers
                      /type="GF4"
                      /label=GF4
                      /note="GF4"
-     genomic         13154..15000
+     misc_feature    13154..15000
                      /label=5 arm
                      /note="5 arm"
      misc_feature    15174..15456
@@ -140,7 +140,7 @@ FEATURES             Location/Qualifiers
                      /type="GR4"
                      /label=GR4
                      /note="GR4"
-     genomic         22238..29336
+     misc_feature    22238..29336
                      /label=3 arm
                      /note="3 arm"
 BASE COUNT     8715 a   9116 c   9303 g  10102 t

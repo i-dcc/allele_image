@@ -52,7 +52,7 @@ FEATURES             Location/Qualifiers
                      /type="GF2"
                      /label=GF2
                      /note="GF2"
-     genomic         10450..15051
+     misc_feature   10450..15051
                      /label=5 arm
                      /note="5 arm"
      primer_bind     15052..15071
@@ -185,7 +185,7 @@ FEATURES             Location/Qualifiers
                      /type="EX32"
                      /label=EX32
                      /note="EX32"
-     genomic         22174..22929
+     misc_feature    22174..22929
                      /label=target region
                      /note="target region"
      SSR_site        22953..22986
@@ -239,7 +239,7 @@ FEATURES             Location/Qualifiers
                      /type="GR1"
                      /label=GR1
                      /note="GR1"
-     genomic         23010..28123
+     misc_feature    23010..28123
                      /label=3 arm
                      /note="3 arm"
 BASE COUNT     9636 a   8610 c   9068 g  10745 t

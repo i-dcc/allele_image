@@ -36,7 +36,7 @@ FEATURES             Location/Qualifiers
                      /db_xref="ens:ENSMUSE00000609155"
                      /label=ENSMUSE00000609155
                      /note="ENSMUSE00000609155"
-     genomic         2952..4149
+     misc_feature    2952..4149
                      /label=5 arm
                      /note="5 arm"
      misc_feature    4323..4605
@@ -123,7 +123,7 @@ FEATURES             Location/Qualifiers
                      /db_xref="ens:ENSMUSE00000549528"
                      /label=ENSMUSE00000549528
                      /note="ENSMUSE00000549528"
-     genomic         11387..16336
+     misc_feature    11387..16336
                      /label=3 arm
                      /note="3 arm"
      misc_feature    16337..16356
