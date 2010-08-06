@@ -1,5 +1,6 @@
 module AlleleImage
   require "bio"
+  # require "pp"
 
   # == SYNOPSIS
   #   construct = AlleleImage::Parser.new( INPUT, FORMAT ).construct()
@@ -33,6 +34,8 @@ module AlleleImage
 
           # Trim the exon names.
           if feature.feature == "exon"
+            # The "SA exon (En2)" problem should dissapear once we've cleaned up the NorCoMM files
+            # name = "En2 exon" if name == "SA exon (En2)"
             name = name.match(/(\w+)$/).captures.last
           end
 

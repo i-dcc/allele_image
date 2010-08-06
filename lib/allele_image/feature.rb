@@ -22,7 +22,7 @@ module AlleleImage
     def initialize( feature_type, feature_name, start, stop )
       unless renderable_feature?( feature_type, feature_name )
         require "pp"
-        pp [ feature_type, feature_name, start, stop ]
+        # pp [ feature_type, feature_name, start, stop ]
         raise "NotRenderable"
       end
 

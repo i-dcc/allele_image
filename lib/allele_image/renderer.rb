@@ -148,6 +148,7 @@ module AlleleImage
           feature.feature_type() == "misc_feature" and \
             ["5 arm", "target region", "3 arm"].include?( feature.feature_name )
         end
+        # pp [ :genomic => genomic, :features => @construct.five_arm_features ]
         annotation_image = draw_homology_arm( annotation_image, genomic.feature_name(), genomic.stop() - genomic.start() )
 
         # Stack the images
