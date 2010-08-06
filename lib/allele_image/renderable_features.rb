@@ -98,7 +98,8 @@ module AlleleImage
         "label" => false
       },
       "loxP" => {
-        "label" => false
+        "label" => "loxP",
+        "width" => 35
       },
       "F3" => {
         "label" => false

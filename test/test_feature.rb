@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/test_helper.rb'
 class TestAlleleImageFeature < Test::Unit::TestCase
   context "a new AlleleImage::Feature" do
     setup do
-      @feature = AlleleImage::Feature.new( "SSR_site", "loxP", 1000, 2000 )
+      @feature = AlleleImage::Feature.new( "misc_feature", "loxP", 1000, 2000 )
     end
 
     should "instintiate" do
