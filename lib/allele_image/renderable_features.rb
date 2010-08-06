@@ -150,9 +150,6 @@ module AlleleImage
       "CD4 TM domain" => {
         "label" => false
       },
-      # "rat Cd4" => {
-      #   "label" => false
-      # },
       "neomycin resistance fragment cloned into L1L2Betabackbone" => {
         "label" => false
       }
