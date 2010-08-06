@@ -1,28 +1,17 @@
 module AlleleImage
   RENDERABLE_FEATURES = {
-    # "genomic" => {
-    #   "5 arm" => { "label" => false },
-    #   "target region" => { "label" => false },
-    #   "3 arm" => { "label" => false }
-    # },
     "intervening sequence" => {
       "intervening sequence" => { "label" => false }
     },
-
-    # "source" => {
-    #   "FIXME: sort this feature out" => {
-    #     "label" => false
-    #   }
-    # },
     "polyA_site" => {
       "SV40 pA" => {
-        "label" => false
+        "label" => "pA"
       },
       "BGH pA" => {
-        "label" => false
+        "label" => "pA"
       },
       "PGK pA" => {
-        "label" => false
+        "label" => "pA"
       }
     },
     "misc_feature" => {
@@ -35,12 +24,6 @@ module AlleleImage
         "label" => false
       },
       "FseI" => {
-        "label" => false
-      },
-      "L4 Gateway" => {
-        "label" => false
-      },
-      "R3 Gateway" => {
         "label" => false
       },
       "pUC ori" => {
@@ -62,8 +45,10 @@ module AlleleImage
         "label" => false
       },
       "ECMV IRES" => {
-        "label" => false
-      },
+        "label"  => "IRES",
+        "colour" => "orange",
+        "font"   => "white"
+       },
       "TM domain" => {
         "label" => false
       },
@@ -83,12 +68,6 @@ module AlleleImage
         "label" => false
       },
       "LAR3_1" => {
-        "label" => false
-      },
-      "R2 Gateway" => {
-        "label" => false
-      },
-      "R4 Gateway" => {
         "label" => false
       },
       "osteopontin repeat 1" => {
@@ -116,15 +95,6 @@ module AlleleImage
       "TEV" => {
         "label" => false
       },
-      "B1 site" => {
-        "label" => false
-      },
-      "B2 site" => {
-        "label" => false
-      },
-      "R1 Gateway" => {
-        "label" => false
-      },
       "Ty1" => {
         "label" => false
       },
@@ -135,9 +105,6 @@ module AlleleImage
         "label" => false
       },
       "ipcrTAR1 (GH1111)" => {
-        "label" => false
-      },
-      "L3 Gateway" => {
         "label" => false
       },
       "AsiSI" => {
@@ -158,13 +125,7 @@ module AlleleImage
       "SgrA1" => {
         "label" => false
       },
-      "B4 site" => {
-        "label" => false
-      },
       "rat CD4 fragment" => {
-        "label" => false
-      },
-      "L1 Gateway" => {
         "label" => false
       },
       "rrnB T1" => {
@@ -177,7 +138,8 @@ module AlleleImage
         "label" => false
       },
       "Frt" => {
-        "label" => false
+        "label" => "FRT",
+        "width" => 35
       },
       "pZERO" => {
         "label" => false
@@ -188,16 +150,10 @@ module AlleleImage
       "CD4 TM domain" => {
         "label" => false
       },
-      "rat Cd4" => {
-        "label" => false
-      },
+      # "rat Cd4" => {
+      #   "label" => false
+      # },
       "neomycin resistance fragment cloned into L1L2Betabackbone" => {
-        "label" => false
-      },
-      "B3 site" => {
-        "label" => false
-      },
-      "L2 Gateway" => {
         "label" => false
       }
     },
@@ -215,7 +171,9 @@ module AlleleImage
         "label" => false
       },
       "lacZ" => {
-        "label" => false
+        "label"  => "lacZ",
+        "colour" => "blue",
+        "font"   => "white"
       }
     },
     "CDS" => {
@@ -241,7 +199,9 @@ module AlleleImage
         "label" => false
       },
       "NeoR" => {
-        "label" => false
+        "label"  => "neo",
+        "colour" => "DarkSlateBlue",
+        "font"   => "white"
       },
       "ZeoR" => {
         "label" => false
@@ -253,7 +213,9 @@ module AlleleImage
         "label" => false
       },
       "DTA" => {
-        "label" => false
+        "label"  => "DTA",
+        "colour" => "violet",
+        "font"   => "white"
       }
     },
     "intron" => {
@@ -269,23 +231,11 @@ module AlleleImage
       "D5" => { "label" => false },
       "D3" => { "label" => false }
     },
-    # "primer_bind" => {
-    #   "R1" => {
-    #     "label" => false
-    #   },
-    #   "G5" => {
-    #     "label" => false
-    #   },
-    #   "G3" => {
-    #     "label" => false
-    #   },
-    #   "R2" => {
-    #     "label" => false
-    #   }
-    # },
     "promoter" => {
       "PGK promoter" => {
-        "label" => false
+        "label"  => "PGK",
+        "colour" => "black",
+        "font"   => "white"
       },
       "human ubiquitin promoter" => {
         "label" => false
@@ -294,7 +244,9 @@ module AlleleImage
         "label" => false
       },
       "human beta actin promoter" => {
-        "label" => false
+        "label"  => "Bact",
+        "colour" => "DarkSlateBlue",
+        "font"   => "white"
       },
       "spectinomycin promoter" => {
         "label" => false
