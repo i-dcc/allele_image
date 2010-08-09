@@ -27,7 +27,7 @@ module AlleleImage
         "label" => false
       },
       "pUC ori" => {
-        "label" => false
+        "label" => "ori"
       },
       "Frame 0 insert" => {
         "label" => false
@@ -52,9 +52,9 @@ module AlleleImage
       "TM domain" => {
         "label" => false
       },
-      "rrnB T2" => {
-        "label" => false
-      },
+      # "rrnB T2" => {
+      #   "label" => false
+      # },
       "osteopontin repeat 2" => {
         "label" => false
       },
@@ -86,9 +86,9 @@ module AlleleImage
       "Frame 2 insert" => {
         "label" => false
       },
-      "U backbone" => {
-        "label" => false
-      },
+      # "U backbone" => {
+      #   "label" => false
+      # },
       "biotin" => {
         "label" => false
       },
@@ -113,9 +113,9 @@ module AlleleImage
       "EGFP" => {
         "label" => false
       },
-      "D backbone" => {
-        "label" => false
-      },
+      # "D backbone" => {
+      #   "label" => false
+      # },
       "SA" => {
         "label" => false
       },
@@ -128,9 +128,9 @@ module AlleleImage
       "rat CD4 fragment" => {
         "label" => false
       },
-      "rrnB T1" => {
-        "label" => false
-      },
+      # "rrnB T1" => {
+      #   "label" => false
+      # },
       "T2A" => {
         "label" => false
       },
