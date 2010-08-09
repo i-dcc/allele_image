@@ -58,7 +58,7 @@ class TestAlleleImageFeature < Test::Unit::TestCase
       end
 
       should "have the correct render_options" do
-        assert_equal false, @exon.render_options["label"]
+        assert_nil @exon.render_options["label"]
       end
     end
   end
