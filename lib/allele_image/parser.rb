@@ -33,9 +33,7 @@ module AlleleImage
           name = ( feature.assoc["label"] ? feature.assoc["label"] : feature.assoc["note"] )
 
           # Trim the exon names.
-          if feature.feature == "exon"
-            # The "SA exon (En2)" problem should dissapear once we've cleaned up the NorCoMM files
-            # name = "En2 exon" if name == "SA exon (En2)"
+          if feature.feature == "exon" and not name.match(/En2/)
             name = name.match(/(\w+)$/).captures.last
           end
 

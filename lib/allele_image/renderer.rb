@@ -507,7 +507,7 @@ module AlleleImage
 
       # Need to get this method drawing exons as well
       def draw_feature( image, feature, x, y )
-        if feature.feature_type() == "exon"
+        if feature.feature_type() == "exon" and not feature.feature_name.match(/En2/)
           draw_exon( image, x, y )
         else
           case feature.feature_name()

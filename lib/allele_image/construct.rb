@@ -57,7 +57,7 @@ module AlleleImage
       @features.select do |feature|
         feature.start() >= @rcmb_primers[1].start() and \
         feature.stop()  <= @rcmb_primers[2].stop()  and \
-        not [ "exon", "primer_bind" ].include?( feature.feature_type() )
+        feature.feature_type != "primer_bind"
       end
     end
 

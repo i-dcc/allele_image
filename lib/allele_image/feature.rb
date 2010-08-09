@@ -30,7 +30,7 @@ module AlleleImage
       @start, @stop = start, stop
       @orientation  = @start < @stop ? "forward" : "reverse"
 
-      if feature_type == "exon"
+      if feature_type == "exon" and not feature_name.match(/En2/)
         @feature_name = feature_name
       else
         @render_options = AlleleImage::RENDERABLE_FEATURES[ feature_type ][ feature_name ]
