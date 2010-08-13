@@ -465,8 +465,87 @@ module AlleleImage
        },
        "neomycin resistance fragment cloned into L1L2Betabackbone" => {
          "label" => "neo"
-       }
-    },
+       },
+       
+       # NorCoMM misc_features
+          "SV40 late polyA" => {
+            "label" => "pA"
+          },
+          "PGK polyA" => {
+            "label" => "pA"
+          },
+          "Reverse priemr GH754" => {
+            "label" => false
+          },
+          "attL1" => {
+            "label" => false
+          },
+          "Puro" => {
+            "label"  => "Puro",
+            "colour" => "purple",
+            "font"   => "white"
+          },
+          "bGH polyA" => {
+            "label" => "pA"
+          },
+          "lacZ" => {
+             "label"  => "lacZ",
+             "colour" => "blue",
+             "font"   => "white"
+           },
+          "BETA-GEO" => {
+            "label" => false
+          },
+          "Fwd primer SA" => {
+            "label" => false
+          },
+          "Human beta-actin Promoter" => {
+             "label"  => "Bact::neo",
+             "colour" => "DarkSlateBlue",
+             "font"   => "white"
+           },
+          "AttP" => {
+            "label" => false
+          },
+          "colE1 origin" => {
+            "label" => false
+          },
+          "loxP(1)" => {
+           "label" => "loxP",
+           "width" => 35
+           },
+          "REverse primer GH754" => {
+            "label" => false
+          },
+          "Fwd SA primer" => {
+            "label" => false
+          },
+          "IRES" => {
+             "label"  => "IRES",
+             "colour" => "orange",
+             "font"   => "white"
+           },
+          "Neo" =>  {
+             "label"  => "neo",
+             "colour" => "DarkSlateBlue",
+             "font"   => "white"
+           },
+          "Splice Acceptor" => {
+            "label" => "SA"
+          },
+          "ATG initiation codon" => {
+            "label" => false
+          },
+          "clonNAT" => {
+            "label" => false
+          },
+          "AttL2" => {
+            "label" => false
+          },
+          "delTK1" => {
+            "label" => false
+          }
+       },
     "misc_signal" => {
       # "T2A cleavage site #2" => { "label" => false }
     },
