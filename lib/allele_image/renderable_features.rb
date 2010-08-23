@@ -68,7 +68,7 @@ module AlleleImage
        "loxP site" => { "label" => "loxP", "width" => 35 },
        # "EM7" => { "label" => false },
        "B2 site?" => { "label" => "B2" },
-       "FRT3" => { "label" => false },
+       # "FRT3" => { "label" => false },
        "seq primer NF" => { "label" => false },
        "betact5" => { "label" => false },
        "seq primer FCHK1" => { "label" => false },
@@ -477,9 +477,9 @@ module AlleleImage
           "Reverse priemr GH754" => {
             "label" => false
           },
-          "attL1" => {
-            "label" => false
-          },
+          # "attL1" => {
+          #   "label" => false
+          # },
           "Puro" => {
             "label"  => "Puro",
             "colour" => "purple",
@@ -538,13 +538,13 @@ module AlleleImage
           },
           "clonNAT" => {
             "label" => false
-          },
-          "AttL2" => {
-            "label" => false
-          },
-          "delTK1" => {
-            "label" => false
           }
+          # "AttL2" => {
+          #   "label" => false
+          # },
+          # "delTK1" => {
+          #   "label" => false
+          # }
        },
     "misc_signal" => {
       # "T2A cleavage site #2" => { "label" => false }
