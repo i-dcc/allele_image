@@ -148,7 +148,6 @@ module AlleleImage
           feature.feature_type() == "misc_feature" and \
             ["5 arm", "target region", "3 arm"].include?( feature.feature_name )
         end
-        # pp [ :genomic => genomic, :features => @construct.five_arm_features ]
         annotation_image = draw_homology_arm( annotation_image, genomic.feature_name(), genomic.stop() - genomic.start() )
 
         # Stack the images
@@ -241,11 +240,6 @@ module AlleleImage
             ['D3', 'D5', 'G3', 'G5', 'U3', 'U5'].include?( feature.feature_name )
         end
 
-        # pp [
-        #   :rcmb_primers => rcmb_primers,
-        #   :three_arm_features => @construct.three_arm_features
-        # ]
-
         if rcmb_primers.count == 2
            three_arm_features     = @construct.three_arm_features()
            target_region_features = nil
@@ -262,7 +256,6 @@ module AlleleImage
             feature.feature_name == "loxP"
           end
           three_arm_features = @construct.three_arm_features().select do |feature|
-            # pp feature
             feature.start() >= rcmb_primers[2].start() and \
             feature.start() <= rcmb_primers[3].start()
           end
