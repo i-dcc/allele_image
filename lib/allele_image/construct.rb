@@ -55,8 +55,8 @@ module AlleleImage
     # These methods always return something
     def cassette_features
       @features.select do |feature|
-        feature.start() >= @rcmb_primers[1].start() and \
-        feature.stop()  <= @rcmb_primers[2].stop()  and \
+        feature.start() > @rcmb_primers[1].stop()  and \
+        feature.stop()  < @rcmb_primers[2].start() and \
         feature.feature_type != "primer_bind"
       end
     end
