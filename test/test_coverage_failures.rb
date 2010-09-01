@@ -18,6 +18,7 @@ class TestCoverageFailures < Test::Unit::TestCase
       end
     end
 
+    # this fails due to 2 *G5* features annotated in GenBank file
     context "that throws: undefined method `feature_name' for nil:NilClass" do
       setup do
         @data_dir =  @dir + "/undefined-feature_name"
