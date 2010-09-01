@@ -2,12 +2,28 @@ require File.dirname(__FILE__) + '/test_helper.rb'
 
 class TestCoverageFailures < Test::Unit::TestCase
   context 'An updated GenBank file' do
+    setup do
+      @dir = File.dirname( __FILE__ ) + '/../misc/coverage-failures'
+    end
+
     context 'with a deleted exon overlapping the rcmb primers' do
       setup do
-        @data_dir = File.dirname( __FILE__ ) + '/../misc/coverage-failures/fixnum-coercions'
+        @data_dir = @dir + '/fixnum-coercions'
       end
       
-      should 'not have Fixnum coercion problems' do
+      should 'not throw Fixnum coercion error' do
+        Dir["#{@data_dir}/*.gbk"].each do |file|
+          assert_not_nil AlleleImage::Image.new( file ), "#{ file } instantiates"
+        end
+      end
+    end
+
+    context "that throws: undefined method `feature_name' for nil:NilClass" do
+      setup do
+        @data_dir =  @dir + "/undefined-feature_name"
+      end
+
+      should 'not throw undefined feature_name error' do
         Dir["#{@data_dir}/*.gbk"].each do |file|
           assert_not_nil AlleleImage::Image.new( file ), "#{ file } instantiates"
         end
