@@ -1,9 +1,13 @@
-=== 0.0.1 2010-02-25
-
+=== 0.2.2 2010-10-01
 * 1 major enhancement:
-  * Initial release
+  * Fix the bugs found in the coverage tests
 
 === 0.0.2 2010-03-09
 
 * 1 major enhancement:
   * Render main features in cassette, 5' and 3' arms
+
+=== 0.0.1 2010-02-25
+
+* 1 major enhancement:
+  * Initial release
