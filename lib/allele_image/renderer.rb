@@ -94,6 +94,14 @@ module AlleleImage
       main_image.push( three_flank )
 
       main_image   = main_image.append( false )
+
+      # pp [
+      #     :five_flank  => five_flank,
+      #     :three_flank => three_flank,
+      #     :main_image  => main_image
+      #    ]
+      # three_flank.write("/tmp/io1/three_flank.png")
+
       # Return the allele (i.e no backbone) unless this is a vector
       return main_image unless @construct.circular()
 
@@ -307,6 +315,8 @@ module AlleleImage
         image_list       = Magick::ImageList.new()
         annotation_image = Magick::Image.new( image.columns(), @annotation_height )
 
+        # pp [ :annotation_height => @annotation_height ]
+
         # Stack the images
         image_list.push( annotation_image )
         image_list.push( image )
@@ -405,6 +415,10 @@ module AlleleImage
           end
           x += feature_width # update the x coordinate
         end
+
+        # pp [
+        #     :calculate_labels_image_height => calculate_labels_image_height
+        #    ]
 
         # Construct the label image
         label_image, x, y = Magick::Image.new( image_width, calculate_labels_image_height() ), 0, 0
