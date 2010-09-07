@@ -26,6 +26,8 @@ module AlleleImage
       @circular       = circular
       @cassette_label = cassette_label
       @backbone_label = backbone_label
+
+      raise "NoRcmbPrimers" unless @rcmb_primers.size > 0
     end
 
     def cassette_label
