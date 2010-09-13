@@ -78,7 +78,11 @@ module AlleleImage
       "neomycin resistance fragment cloned into L1L2Betabackbone" => {}
     },
     "gene" => {
-      "Puro" => {},
+      "Puro" => {
+        "label"  => "Puro",
+        "colour" => "purple",
+        "font"   => "white"
+      },
       "PheS" => {},
       "En2 T2A fusion" => {},
       "rat CD4 B-gal fusion" => {},
