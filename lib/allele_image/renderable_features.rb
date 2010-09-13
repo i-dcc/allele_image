@@ -23,7 +23,8 @@ module AlleleImage
       "target region" => {},
       "3 arm" => {},
       "gap" => {},
-
+      "UiPCR" => {},
+      "BETA-GEO" => {},
       "Flag" => {},
       "FseI" => {},
       "pUC ori" => {
@@ -38,7 +39,7 @@ module AlleleImage
         "label"  => "IRES",
         "colour" => "orange",
         "font"   => "white"
-       },
+      },
       "TM domain" => {},
       "osteopontin repeat 2" => {},
       "AscI-EagI adpater" => {},
@@ -136,7 +137,6 @@ module AlleleImage
       "spectinomycin promoter" => {}
     },
     "exon" => {
-      "SA exon (En2)" => {},
       "En2 exon" => {}
     }
   }
