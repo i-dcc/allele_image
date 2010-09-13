@@ -1,13 +1,18 @@
-=== 0.2.2 2010-10-01
-* 1 major enhancement:
+=== 0.2.3 2010-09-13
+* 2 major enhancement(s):
+  * Correctly display NorCOMM cassette features
+  * Improved coverage for EUCOMM, KOMP-CSD and NorCOMM data
+
+=== 0.2.2 2010-09-01
+* 1 major enhancement(s):
   * Fix the bugs found in the coverage tests
 
 === 0.0.2 2010-03-09
 
-* 1 major enhancement:
+* 1 major enhancement(s):
   * Render main features in cassette, 5' and 3' arms
 
 === 0.0.1 2010-02-25
 
-* 1 major enhancement:
+* 1 major enhancement(s):
   * Initial release
