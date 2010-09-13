@@ -24,11 +24,11 @@ FEATURES             Location/Qualifiers
      primer_bind     2929..2951
                      /label=R3 primer
                      /note="R3 primer"
-     rcmb_primer     complement(2952..3001)
+     primer_bind     complement(2952..3001)
                      /label=G5
                      /type="G5"
                      /note="G5"
-     rcmb_primer     4100..4149
+     primer_bind     4100..4149
                      /label=U5
                      /type="U5"
                      /note="U5"
@@ -36,7 +36,7 @@ FEATURES             Location/Qualifiers
                      /db_xref="ens:ENSMUSE00000609155"
                      /label=ENSMUSE00000609155
                      /note="ENSMUSE00000609155"
-     genomic         2952..4149
+     misc_feature    2952..4149
                      /label=5 arm
                      /note="5 arm"
      misc_feature    4323..4605
@@ -107,11 +107,11 @@ FEATURES             Location/Qualifiers
                      /revcolor="green"
                      /label=Restriction sites for UiPCR
                      /fwdcolor="#ff6967"
-     rcmb_primer     complement(11387..11436)
+     primer_bind     complement(11387..11436)
                      /label=D3
                      /type="D3"
                      /note="D3"
-     rcmb_primer     16287..16336
+     primer_bind     16287..16336
                      /label=G3
                      /type="G3"
                      /note="G3"
@@ -123,7 +123,7 @@ FEATURES             Location/Qualifiers
                      /db_xref="ens:ENSMUSE00000549528"
                      /label=ENSMUSE00000549528
                      /note="ENSMUSE00000549528"
-     genomic         11387..16336
+     misc_feature    11387..16336
                      /label=3 arm
                      /note="3 arm"
      misc_feature    16337..16356

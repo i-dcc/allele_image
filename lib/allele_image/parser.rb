@@ -1,5 +1,6 @@
 module AlleleImage
   require "bio"
+  # require "pp"
 
   # == SYNOPSIS
   #   construct = AlleleImage::Parser.new( INPUT, FORMAT ).construct()
@@ -32,7 +33,7 @@ module AlleleImage
           name = ( feature.assoc["label"] ? feature.assoc["label"] : feature.assoc["note"] )
 
           # Trim the exon names.
-          if feature.feature == "exon"
+          if feature.feature == "exon" and not name.match(/En2/)
             name = name.match(/(\w+)$/).captures.last
           end
 

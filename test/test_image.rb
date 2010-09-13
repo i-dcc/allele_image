@@ -10,11 +10,11 @@ DBSOURCE    accession design_id=44372
 COMMENT     cassette : L1L2_Bact_P
 COMMENT     design_id : 44372
 FEATURES             Location/Qualifiers
-     rcmb_primer     complement(10450..10499)
+     primer_bind     complement(10450..10499)
                      /label=G5
                      /type="G5"
                      /note="G5"
-     rcmb_primer     15002..15051
+     primer_bind     15002..15051
                      /label=U5
                      /type="U5"
                      /note="U5"
@@ -58,7 +58,7 @@ FEATURES             Location/Qualifiers
                      /type="GF2"
                      /label=GF2
                      /note="GF2"
-     genomic         10450..15051
+     misc_feature    10450..15051
                      /label=5 arm
                      /note="5 arm"
      primer_bind     15052..15071
@@ -171,11 +171,11 @@ FEATURES             Location/Qualifiers
      primer_bind     22154..22173
                      /label=R2R primer
                      /note="R2R primer"
-     rcmb_primer     complement(22174..22223)
+     primer_bind     complement(22174..22223)
                      /label=U3
                      /type="U3"
                      /note="U3"
-     rcmb_primer     22880..22929
+     primer_bind     22880..22929
                      /label=D5
                      /type="D5"
                      /note="D5"
@@ -191,7 +191,7 @@ FEATURES             Location/Qualifiers
                      /type="EX32"
                      /label=EX32
                      /note="EX32"
-     genomic         22174..22929
+     misc_feature    22174..22929
                      /label=target region
                      /note="target region"
      SSR_site        22953..22986
@@ -209,11 +209,11 @@ FEATURES             Location/Qualifiers
      primer_bind     22987..23006
                      /label=LRR primer
                      /note="LRR primer"
-     rcmb_primer     complement(23010..23059)
+     primer_bind     complement(23010..23059)
                      /label=D3
                      /type="D3"
                      /note="D3"
-     rcmb_primer     28074..28123
+     primer_bind     28074..28123
                      /label=G3
                      /type="G3"
                      /note="G3"
@@ -245,7 +245,7 @@ FEATURES             Location/Qualifiers
                      /type="GR1"
                      /label=GR1
                      /note="GR1"
-     genomic         23010..28123
+     misc_feature    23010..28123
                      /label=3 arm
                      /note="3 arm"
 BASE COUNT     9636 a   8610 c   9068 g  10745 t
@@ -901,7 +901,7 @@ GENBANK_DATA
       assert_instance_of AlleleImage::Parser, @image.parser
       assert_instance_of AlleleImage::Renderer, @image.renderer
     end
-
+  
     should "render something" do
       assert_not_nil @image.render()
     end

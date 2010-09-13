@@ -5,11 +5,11 @@ COMMENT     ApEinfo:methylated:1
 COMMENT     cassette : B1B2_frame0_Norcomm
 COMMENT     design_id : 46529
 FEATURES             Location/Qualifiers
-     rcmb_primer     complement(12618..12667)
+     primer_bind     complement(12618..12667)
                      /label=G5
                      /type="G5"
                      /note="G5"
-     rcmb_primer     14951..15000
+     primer_bind     14951..15000
                      /label=U5
                      /type="U5"
                      /note="U5"
@@ -108,11 +108,11 @@ FEATURES             Location/Qualifiers
                      /ApEinfo_fwdcolor="#3337ff"
                      /ApEinfo_revcolor="green"
                      /label=Frame 0 insert
-     rcmb_primer     complement(22224..22273)
+     primer_bind     complement(22224..22273)
                      /label=D3
                      /type="D3"
                      /note="D3"
-     rcmb_primer     28879..28928
+     primer_bind     28879..28928
                      /label=G3
                      /type="G3"
                      /note="G3"

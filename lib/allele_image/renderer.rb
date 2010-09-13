@@ -144,7 +144,10 @@ module AlleleImage
         # Construct the annotation image
         image_list       = Magick::ImageList.new()
         annotation_image = Magick::Image.new( image.columns(), @annotation_height )
-        genomic          = @construct.five_arm_features.find { |feature| feature.feature_type() == "genomic" }
+        genomic          = @construct.five_arm_features.find do |feature|
+          feature.feature_type() == "misc_feature" and \
+            ["5 arm", "target region", "3 arm"].include?( feature.feature_name )
+        end
         annotation_image = draw_homology_arm( annotation_image, genomic.feature_name(), genomic.stop() - genomic.start() )
 
         # Stack the images
@@ -233,7 +236,8 @@ module AlleleImage
         image_list = Magick::ImageList.new()
 
         rcmb_primers = @construct.three_arm_features.select do |feature|
-          feature.feature_type() == "rcmb_primer"
+          feature.feature_type() == "primer_bind" and \
+            ['D3', 'D5', 'G3', 'G5', 'U3', 'U5'].include?( feature.feature_name )
         end
 
         if rcmb_primers.count == 2
@@ -248,7 +252,8 @@ module AlleleImage
           loxp_region_features = @construct.three_arm_features().select do |feature|
             feature.start() >= rcmb_primers[1].start() and \
             feature.start() <= rcmb_primers[2].start() and \
-            feature.feature_type() == "SSR_site"
+            feature.feature_type() == "misc_feature" and \
+            feature.feature_name == "loxP"
           end
           three_arm_features = @construct.three_arm_features().select do |feature|
             feature.start() >= rcmb_primers[2].start() and \
@@ -282,7 +287,10 @@ module AlleleImage
         # Construct the annotation image
         image_list       = Magick::ImageList.new()
         annotation_image = Magick::Image.new( image.columns(), @annotation_height )
-        genomic          = @construct.three_arm_features.select { |feature| feature.feature_type() == "genomic" }
+        genomic          = @construct.three_arm_features.select do |feature|
+          feature.feature_type() == "misc_feature" and \
+            ["5 arm", "target region", "3 arm"].include?( feature.feature_name )
+        end
         annotation_image = draw_homology_arm( annotation_image, genomic.last.feature_name(), genomic.last.stop() - genomic.first.start() )
 
         # Stack the images
@@ -498,7 +506,7 @@ module AlleleImage
 
       # Need to get this method drawing exons as well
       def draw_feature( image, feature, x, y )
-        if feature.feature_type() == "exon"
+        if feature.feature_type() == "exon" and not feature.feature_name.match(/En2/)
           draw_exon( image, x, y )
         else
           case feature.feature_name()
