@@ -23,6 +23,8 @@ module AlleleImage
       "target region" => {},
       "3 arm" => {},
       "gap" => {},
+      # do we want to display the UiPCR elements?
+      "UiPCR cassette" => {},
       "UiPCR" => {},
       "BETA-GEO" => {},
       "Flag" => {},
