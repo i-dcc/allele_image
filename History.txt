@@ -1,6 +1,7 @@
 === 0.2.4 2010-09-23
-* i major enhancement(s):
+* 2 major enhancement(s):
   * Always draw something in genomic regions even if it's empty
+  * Include the flanks in the image height calculation [closes #1321]
 
 === 0.2.3 2010-09-13
 * 2 major enhancement(s):
