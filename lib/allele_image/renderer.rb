@@ -374,7 +374,7 @@ module AlleleImage
 
       def render_genomic_region( features, params={} )
         exons       = []
-        image_width = params[:width] || 1
+        image_width = params[:width] || 50
 
         if features
           exons = features.select { |feature| feature.feature_type() == "exon" }
@@ -383,7 +383,7 @@ module AlleleImage
         image_list  = Magick::ImageList.new()
 
         if exons and exons.count() > 0
-          image_width = calculate_genomic_region_width( exons )
+          image_width = [ calculate_genomic_region_width( exons ), image_width ].max
         end
 
         # Construct the main image

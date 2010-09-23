@@ -23,7 +23,10 @@ module AlleleImage
       "target region" => {},
       "3 arm" => {},
       "gap" => {},
-
+      # do we want to display the UiPCR elements?
+      "UiPCR cassette" => {},
+      "UiPCR" => {},
+      "BETA-GEO" => {},
       "Flag" => {},
       "FseI" => {},
       "pUC ori" => {
@@ -38,7 +41,7 @@ module AlleleImage
         "label"  => "IRES",
         "colour" => "orange",
         "font"   => "white"
-       },
+      },
       "TM domain" => {},
       "osteopontin repeat 2" => {},
       "AscI-EagI adpater" => {},
@@ -77,7 +80,11 @@ module AlleleImage
       "neomycin resistance fragment cloned into L1L2Betabackbone" => {}
     },
     "gene" => {
-      "Puro" => {},
+      "Puro" => {
+        "label"  => "Puro",
+        "colour" => "purple",
+        "font"   => "white"
+      },
       "PheS" => {},
       "En2 T2A fusion" => {},
       "rat CD4 B-gal fusion" => {},
@@ -136,7 +143,6 @@ module AlleleImage
       "spectinomycin promoter" => {}
     },
     "exon" => {
-      "SA exon (En2)" => {},
       "En2 exon" => {}
     }
   }
