@@ -7,7 +7,7 @@ class TestEmptyRegions < Test::Unit::TestCase
     end
 
     [ 'allele', 'vector' ].each do |construct|
-      context "for an #{ construct } with empty spaces" do
+      context "for a(n) #{ construct } with empty spaces" do
         setup do
           @data_dir = @base_dir + "/#{ construct }"
         end
