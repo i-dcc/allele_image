@@ -95,13 +95,6 @@ module AlleleImage
 
       main_image   = main_image.append( false )
 
-      # pp [
-      #     :five_flank  => five_flank,
-      #     :three_flank => three_flank,
-      #     :main_image  => main_image
-      #    ]
-      # three_flank.write("/tmp/io1/three_flank.png")
-
       # Return the allele (i.e no backbone) unless this is a vector
       return main_image unless @construct.circular()
 
@@ -315,8 +308,6 @@ module AlleleImage
         image_list       = Magick::ImageList.new()
         annotation_image = Magick::Image.new( image.columns(), @annotation_height )
 
-        # pp [ :annotation_height => @annotation_height ]
-
         # Stack the images
         image_list.push( annotation_image )
         image_list.push( image )
@@ -415,10 +406,6 @@ module AlleleImage
           end
           x += feature_width # update the x coordinate
         end
-
-        # pp [
-        #     :calculate_labels_image_height => calculate_labels_image_height
-        #    ]
 
         # Construct the label image
         label_image, x, y = Magick::Image.new( image_width, calculate_labels_image_height() ), 0, 0
@@ -759,10 +746,29 @@ module AlleleImage
       end
 
       def calculate_labels_image_height
-        cassette_label_rows = 2 # "cassette type\(cassette label)"
-        five_arm_features   = @construct.five_arm_features.select  { |f| f.feature_type == "exon" }.size
-        three_arm_features  = @construct.three_arm_features.select { |f| f.feature_type == "exon" }.size
-        [ cassette_label_rows, five_arm_features, three_arm_features ].max * @text_height
+        cassette_label_rows   = 2 # in case of "cassette type\(cassette label)"
+        five_flank_features   = 0
+        five_arm_features     = @construct.five_arm_features.select  { |f| f.feature_type == "exon" }.size
+        three_arm_features    = @construct.three_arm_features.select { |f| f.feature_type == "exon" }.size
+        three_flank_features  = 0
+
+        # these might be nil
+        unless @construct.five_flank_features.nil?
+          five_flank_features = @construct.five_flank_features.select { |f| f.feature_type == "exon" }.size
+        end
+
+        unless @construct.three_flank_features.nil?
+          three_flank_features = @construct.three_flank_features.select { |f| f.feature_type == "exon" }.size
+        end
+
+        # we want the maximum here
+        [
+         cassette_label_rows,
+         five_flank_features,
+         five_arm_features,
+         three_arm_features,
+         three_flank_features
+        ].max * @text_height
       end
 
       # find sum of feature labels
