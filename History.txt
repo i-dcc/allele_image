@@ -1,3 +1,7 @@
+=== 0.2.4 2010-09-23
+* i major enhancement(s):
+  * Always draw something in genomic regions even if it's empty
+
 === 0.2.3 2010-09-13
 * 2 major enhancement(s):
   * Correctly display NorCOMM cassette features
