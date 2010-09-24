@@ -1,4 +1,14 @@
 module AlleleImage
+  # TODO:
+  # rename this file to constants.rb so we can include the functional
+  # units in here as well
+  FUNCTIONAL_UNITS = {
+    ["En2 intron", "SA", "En2 exon", "Frame 0 insert", "T2A"] => "En2 SA",
+    ["En2 intron", "SA", "En2 exon", "Frame 1 insert", "T2A"] => "En2 SA",
+    ["En2 intron", "SA", "En2 exon", "Frame 2 insert", "T2A"] => "En2 SA",
+    ["En2 intron", "SA", "En2 exon", "Frame k insert", "T2A"] => "En2 SA",
+    ["Bact", "neo"] => "Bact::neo"
+  }
 
   # IDEALLY THIS WOULD GET PARSED FROM A CONFIG FILE/SCHEMA
   # NOTE THAT THESE ARE ONLY RELEVANT TO THE CASSETTE AS ALL
