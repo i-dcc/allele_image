@@ -5,7 +5,7 @@ class TestFunctionalUnits < Test::Unit::TestCase
     setup do
       @data_dir  = "#{ File.dirname( __FILE__ ) }/../misc/known-issues/functional-units"
       @cassettes = {
-        "#{ @data_dir }/157.gbk" => { :label => "L1L2_gt0" }
+        "#{ @data_dir }/157.gbk" => { :label => "L1L2_gt0", :feature_count => 8 }
       }
     end
 
@@ -15,7 +15,7 @@ class TestFunctionalUnits < Test::Unit::TestCase
 
         assert_not_nil allele_image, "#{ file } has an allele_image"
         assert_equal(
-          8,
+          @cassettes[file][:feature_count],
           allele_image.construct.cassette_features.size,
           "#{ @cassettes[file][:label] } has the correct number of features"
         )
