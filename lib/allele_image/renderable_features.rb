@@ -108,7 +108,7 @@ module AlleleImage
         "font"   => "white"
       },
       "ZeoR" => {},
-      "spectinomycin R short (aadA1) ORF" => {},
+      # "spectinomycin R short (aadA1) ORF" => {},
       "SpecR" => {},
       "DTA" => {
         "label"  => "DTA",
