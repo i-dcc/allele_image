@@ -98,15 +98,22 @@ RENDERER should be a mixin?
 
 == SYNOPSIS:
 
-  FIX (code sample of usage)
+  require "allele_image"
+
+  allele_image = AlleleImage::Image.new( "/path/to/genbank/file.gbk" )
+  magick_image = allele_image.render()
+
+  # the image is a Magick::Image
+  magick_image.write( "/path/to/image/file.png" )
 
 == REQUIREMENTS:
 
-* FIX (list of requirements)
+* RMagick
+* bioruby
 
 == INSTALL:
 
-* FIX (sudo gem install, anything else)
+* sudo gem install allele_image
 
 == LICENSE:
 
