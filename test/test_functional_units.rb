@@ -5,7 +5,7 @@ class TestFunctionalUnits < Test::Unit::TestCase
     setup do
       @data_dir  = "#{ File.dirname( __FILE__ ) }/../misc/known-issues/functional-units"
       @cassettes = {
-        "#{ @data_dir }/157.gbk" => { :label => "L1L2_gt0", :feature_count => 8 }
+        "#{ @data_dir }/157.gbk" => { :label => "L1L2_gt0", :feature_count => 9 }
       }
     end
 

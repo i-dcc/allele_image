@@ -3,11 +3,10 @@ module AlleleImage
   # rename this file to constants.rb so we can include the functional
   # units in here as well
   FUNCTIONAL_UNITS = {
-    ["En2 intron", "SA", "En2 exon", "Frame 0 insert", "T2A"] => "En2 SA",
-    ["En2 intron", "SA", "En2 exon", "Frame 1 insert", "T2A"] => "En2 SA",
-    ["En2 intron", "SA", "En2 exon", "Frame 2 insert", "T2A"] => "En2 SA",
-    ["En2 intron", "SA", "En2 exon", "Frame k insert", "T2A"] => "En2 SA",
-    ["Bact", "neo"] => "Bact::neo"
+    ["En2 intron", "SA", "En2 exon", "Frame 0 insert"] => "En2 SA",
+    ["En2 intron", "SA", "En2 exon", "Frame 1 insert"] => "En2 SA",
+    ["En2 intron", "SA", "En2 exon", "Frame 2 insert"] => "En2 SA",
+    ["En2 intron", "SA", "En2 exon", "Frame k insert"] => "En2 SA",
   }
 
   # IDEALLY THIS WOULD GET PARSED FROM A CONFIG FILE/SCHEMA
@@ -37,6 +36,7 @@ module AlleleImage
       }
     },
     "misc_feature" => {
+      "En2 SA" => {},
       "Flag" => {},
       "FseI" => {},
       "Frame 0 insert" => {},
