@@ -4,146 +4,137 @@ module AlleleImage
   # NOTE THAT THESE ARE ONLY RELEVANT TO THE CASSETTE AS ALL
   # EXONS WILL BE ACCOUNTED FOR
   RENDERABLE_FEATURES = {
-    "intervening sequence" => {
-      "intervening sequence" => {}
+    "intron" => {
+      "En2 intron" => {}
+    },
+    "primer_bind" => {
+      "D5" => {},
+      "D3" => {},
+      "G5" => {},
+      "G3" => {},
+      "U5" => {},
+      "U3" => {}
     },
     "polyA_site" => {
       "SV40 pA" => {
         "label" => "pA"
       },
-      "BGH pA" => {
+      "PGK pA" => {
         "label" => "pA"
       },
-      "PGK pA" => {
+      "BGH pA" => {
         "label" => "pA"
       }
     },
     "misc_feature" => {
-      "5 arm" => {},
-      "target region" => {},
-      "3 arm" => {},
-      "gap" => {},
-      # do we want to display the UiPCR elements?
-      "UiPCR cassette" => {},
-      "UiPCR" => {},
-      "BETA-GEO" => {},
       "Flag" => {},
       "FseI" => {},
+      "Frame 0 insert" => {},
       "pUC ori" => {
         "label" => "ori"
       },
-      "Frame 0 insert" => {},
       "Transcription Terminator" => {},
       "PreScission" => {},
-      "FRAME INSERT. Has ATG init codon, but no T2A" => {},
-      "pBR322" => {},
+      "gap" => {},
       "ECMV IRES" => {
-        "label"  => "IRES",
         "colour" => "orange",
-        "font"   => "white"
+        "label" => "IRES",
+        "font" => "white"
       },
+      "pBR322" => {},
       "TM domain" => {},
       "osteopontin repeat 2" => {},
+      "BETA-GEO" => {},
       "AscI-EagI adpater" => {},
-      "osteopontin repeat 6" => {},
+      "3 arm" => {},
       "AttP" => {},
-      "LAR3_1" => {},
+      "osteopontin repeat 6" => {},
+      "target region" => {},
       "osteopontin repeat 1" => {},
-      "En2 SA" => {},
-      "loxP" => {
-        "label" => "loxP",
-        "width" => 35
-      },
       "F3" => {},
+      "loxP" => {
+        "width" => 35,
+        "label" => "loxP"
+      },
       "Frame 2 insert" => {},
       "biotin" => {},
       "TEV" => {},
+      "UiPCR cassette" => {},
       "Ty1" => {},
       "ChlR_ccdB" => {},
-      "SA (En2)" => {},
       "ipcrTAR1 (GH1111)" => {},
-      "AsiSI" => {},
       "EGFP" => {},
+      "AsiSI" => {},
       "SA" => {},
-      "ATG initiation codon" => {},
       "SgrA1" => {},
       "rat CD4 fragment" => {},
       "T2A" => {},
-      "osteopontin repeat 4" => {},
+      "UiPCR" => {},
+      "5 arm" => {},
       "Frt" => {
-        "label" => "FRT",
-        "width" => 35
+        "width" => 35,
+        "label" => "FRT"
       },
-      "pZERO" => {},
+      "osteopontin repeat 4" => {},
       "Frame 1 insert" => {},
-      "CD4 TM domain" => {},
-      "neomycin resistance fragment cloned into L1L2Betabackbone" => {}
-    },
-    "gene" => {
-      "Puro" => {
-        "label"  => "Puro",
-        "colour" => "purple",
-        "font"   => "white"
-      },
-      "PheS" => {},
-      "En2 T2A fusion" => {},
-      "rat CD4 B-gal fusion" => {},
-      "lacZ" => {
-        "label"  => "lacZ",
-        "colour" => "blue",
-        "font"   => "white"
-      }
-    },
-    "CDS" => {
-      "AmpR" => {},
-      "ccdB/ChlR" => {},
-      "KanR" => {},
-      "BsdR" => {},
-      "ccdB" => {},
-      "ChlR" => {},
-      "ClonNATR" => {},
-      "NeoR" => {
-        "label"  => "neo",
-        "colour" => "DarkSlateBlue",
-        "font"   => "white"
-      },
-      "ZeoR" => {},
-      # "spectinomycin R short (aadA1) ORF" => {},
-      "SpecR" => {},
-      "DTA" => {
-        "label"  => "DTA",
-        "colour" => "violet",
-        "font"   => "white"
-      }
-    },
-    "intron" => {
-      "En2 intron" => {}
-    },
-    "primer_bind" => {
-      "G5" => {},
-      "G3" => {},
-      "U5" => {},
-      "U3" => {},
-      "D5" => {},
-      "D3" => {}
+      "pZERO" => {},
+      "CD4 TM domain" => {}
     },
     "promoter" => {
       "PGK promoter" => {
-        "label"  => "PGK",
         "colour" => "black",
-        "font"   => "white"
+        "label" => "PGK",
+        "font" => "white"
       },
       "human ubiquitin promoter" => {},
       "EM7 promoter" => {},
       "human beta actin promoter" => {
-        "label"  => "Bact",
         "colour" => "DarkSlateBlue",
-        "font"   => "white"
+        "label" => "Bact",
+        "font" => "white"
       },
       "spectinomycin promoter" => {}
     },
+    "gene" => {
+      "Puro" => {
+        "colour" => "purple",
+        "label" => "Puro",
+        "font" => "white"
+      },
+      "PheS" => {},
+      "lacZ" => {
+        "colour" => "blue",
+        "label" => "lacZ",
+        "font" => "white"
+      },
+      "rat CD4 B-gal fusion" => {}
+    },
     "exon" => {
       "En2 exon" => {}
+    },
+    "CDS" => {
+      "AmpR" => {},
+      "KanR" => {},
+      "ccdB/ChlR" => {},
+      "ClonNATR" => {},
+      "ChlR" => {},
+      "ccdB" => {},
+      "BsdR" => {},
+      "NeoR" => {
+        "colour" => "DarkSlateBlue",
+        "label" => "neo",
+        "font" => "white"
+      },
+      "ZeoR" => {},
+      "SpecR" => {},
+      "DTA" => {
+        "colour" => "violet",
+        "label" => "DTA",
+        "font" => "white"
+      }
+    },
+    "intervening sequence" => {
+      "intervening sequence" => {}
     }
   }
 end
