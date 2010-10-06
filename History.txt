@@ -1,3 +1,7 @@
+=== 0.2.5 INSERT DATE
+* ? major enhancement(s):
+  * Classify and render functional units
+
 === 0.2.4 2010-09-23
 * 2 major enhancement(s):
   * Always draw something in genomic regions even if it's empty
