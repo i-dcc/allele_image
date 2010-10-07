@@ -21,19 +21,46 @@ class TestFunctionalUnits < Test::Unit::TestCase
           :expected_features =>
             ["FRT", "En2 SA", "IRES", "lacZ", "pA", "loxP", "hubiP", "neo", "pA", "FRT", "loxP"]
         },
+        # TODO: annotate the "F3" and "UiPCR cassette" in the GB file
         "#{ @data_dir }/27498.gbk" => {
           :label => "L1L2_GOHANU",
           :expected_features =>
-            # TODO: add an "F3" in the GB file and update this list
-            ["UiPCR", "SA", "IRES", "lacZ", "pA", "loxP", "hBactP",
+            ["F3", "UiPCR", "SA", "IRES", "lacZ", "pA", "loxP", "hBactP",
               "T2A", "neo", "pA", "loxP", "AttP", "Puro", "pA", "FRT"]
-        }
+        },
+        "#{ @data_dir }/27415.gbk" => {
+          :label => "L1L2_NTARU-0",
+          :expected_features =>
+            ["F3", "UiPCR", "En2 SA", "T2A", "lacZ", "T2A", "neo", "pA", "AttP", "Puro", "pA", "FRT"]
+        },
+        "#{ @data_dir }/27437.gbk" => {
+          :label => "L1L2_NTARU-1",
+          :expected_features =>
+            ["F3", "UiPCR", "En2 SA", "T2A", "lacZ", "T2A", "neo", "pA", "AttP", "Puro", "pA", "FRT"]
+        },
+        "#{ @data_dir }/27433.gbk" => {
+          :label => "L1L2_NTARU-2",
+          :expected_features =>
+            ["F3", "UiPCR", "En2 SA", "T2A", "lacZ", "T2A", "neo", "pA", "AttP", "Puro", "pA", "FRT"]
+        },
+        # TODO: annotate the "ATG initiation codon" in the GB file
+        "#{ @data_dir }/27474.gbk" => {
+          :label => "L1L2_NTARU-K",
+          :expected_features =>
+            ["F3", "UiPCR", "En2 SA (ATG)", "lacZ", "T2A", "neo", "pA", "AttP", "Puro", "pA", "FRT"]
+        },
       }
     end
 
     should "correctly handle its functional units" do
       @cassettes.each_key do |file|
         allele_image = AlleleImage::Image.new(file)
+
+        # TODO: these need updates to the GB files
+        # if ["L1L2_GOHANU", "L1L2_NTARU-K"].include?( @cassettes[file][:label] )
+        #   allele_image.render.write( file.gsub( /\.gbk$/, ".png" ) )
+        #   pp allele_image.construct.cassette_features.map { |feature| feature.feature_name }
+        # end
 
         assert_not_nil allele_image, "#{ file } has an allele_image"
         assert_equal(
