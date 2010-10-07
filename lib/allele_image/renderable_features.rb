@@ -98,7 +98,7 @@ module AlleleImage
       "EM7 promoter" => {},
       "human beta actin promoter" => {
         "colour" => "DarkSlateBlue",
-        "label" => "Bact",
+        "label" => "hBactP",
         "font" => "white"
       },
       "spectinomycin promoter" => {}
