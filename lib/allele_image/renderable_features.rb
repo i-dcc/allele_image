@@ -50,7 +50,11 @@ module AlleleImage
       "pBR322" => {},
       "TM domain" => {},
       "osteopontin repeat 2" => {},
-      "BETA-GEO" => {},
+      "BETA-GEO" => {
+        "colour" => "blue",
+        "label" => "lacZ",
+        "font" => "white"
+      },
       "AscI-EagI adpater" => {},
       "3 arm" => {},
       "AttP" => {},
