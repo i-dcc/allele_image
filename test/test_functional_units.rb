@@ -20,6 +20,12 @@ class TestFunctionalUnits < Test::Unit::TestCase
           :label => "L1L2_hubi_P",
           :expected_features =>
             ["FRT", "En2 SA", "IRES", "lacZ", "pA", "loxP", "hubiP", "neo", "pA", "FRT", "loxP"]
+        },
+        "#{ @data_dir }/27498.gbk" => {
+          :label => "L1L2_GOHANU",
+          :expected_features =>
+            ["UiPCR", "SA", "IRES", "lacZ", "pA", "loxP", "hBactP",
+              "T2A", "neo", "pA", "loxP", "AttP", "Puro", "pA", "FRT"]
         }
       }
     end

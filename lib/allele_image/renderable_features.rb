@@ -70,7 +70,7 @@ module AlleleImage
       },
       "biotin" => {},
       "TEV" => {},
-      "UiPCR cassette" => {},
+      "UiPCR" => {},
       "Ty1" => {},
       "ChlR_ccdB" => {},
       "ipcrTAR1 (GH1111)" => {},
