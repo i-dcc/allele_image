@@ -20,9 +20,12 @@ module AlleleImage
   class Construct
     attr_reader :circular, :features, :rcmb_primers
 
+
+    # TODO:
+    # update the @features to account for the functional units
     def initialize( features, circular, cassette_label, backbone_label )
       @rcmb_primers   = initialize_rcmb_primers( features )
-      @features       = features
+      @features       = update_functional_units_in_feature_list( features, AlleleImage::FUNCTIONAL_UNITS )
       @circular       = circular
       @cassette_label = cassette_label
       @backbone_label = backbone_label
@@ -106,6 +109,27 @@ module AlleleImage
           feature.feature_type == 'primer_bind' and \
            ['D3', 'D5', 'G3', 'G5', 'U3', 'U5'].include?( feature.feature_name )
         end
+      end
+
+      def find_functional_unit_in_feature_list( unit, list )
+        start_index = list.index( unit.first )
+        return unless start_index
+        return [ start_index, unit.size ] if list.slice( start_index, unit.size ) == unit
+      end
+
+      def update_functional_units_in_feature_list( features, functional_units )
+        feature_labels = features.map { |feature| feature.feature_name }
+        functional_units.each_pair do |unit, label|
+          if slice_args = find_functional_unit_in_feature_list( unit, feature_labels )
+            # we want to create a feature from the start of the first
+            # feature to end of the last feature in our functional unit
+            start = features[ slice_args.first ].start
+            stop  = features[ slice_args.first + slice_args.last - 1 ].stop
+            features.slice!( slice_args.first, slice_args.last )
+            features.insert( slice_args.first, AlleleImage::Feature.new( 'misc_feature', label, start, stop ) )
+          end
+        end
+        return features
       end
   end
 end

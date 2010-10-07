@@ -1,4 +1,10 @@
 module AlleleImage
+  # TODO:
+  # rename this file to constants.rb so we can include the functional
+  # units in here as well
+  FUNCTIONAL_UNITS = {
+    ["En2 intron", "SA", "En2 exon"] => "En2 SA",
+  }
 
   # IDEALLY THIS WOULD GET PARSED FROM A CONFIG FILE/SCHEMA
   # NOTE THAT THESE ARE ONLY RELEVANT TO THE CASSETTE AS ALL
@@ -27,9 +33,9 @@ module AlleleImage
       }
     },
     "misc_feature" => {
+      "En2 SA" => {},
       "Flag" => {},
       "FseI" => {},
-      "Frame 0 insert" => {},
       "pUC ori" => {
         "label" => "ori"
       },
@@ -44,7 +50,11 @@ module AlleleImage
       "pBR322" => {},
       "TM domain" => {},
       "osteopontin repeat 2" => {},
-      "BETA-GEO" => {},
+      "BETA-GEO" => {
+        "colour" => "blue",
+        "label" => "lacZ",
+        "font" => "white"
+      },
       "AscI-EagI adpater" => {},
       "3 arm" => {},
       "AttP" => {},
@@ -56,7 +66,6 @@ module AlleleImage
         "width" => 35,
         "label" => "loxP"
       },
-      "Frame 2 insert" => {},
       "biotin" => {},
       "TEV" => {},
       "UiPCR cassette" => {},
@@ -76,7 +85,6 @@ module AlleleImage
         "label" => "FRT"
       },
       "osteopontin repeat 4" => {},
-      "Frame 1 insert" => {},
       "pZERO" => {},
       "CD4 TM domain" => {}
     },
