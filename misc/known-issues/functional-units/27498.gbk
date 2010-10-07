@@ -46,8 +46,8 @@ FEATURES             Location/Qualifiers
                      /label=attL1
                      /note="attL1"
      misc_feature    3570..3880
-                     /label=UiPCR
-                     /note="UiPCR"
+                     /label=UiPCR cassette
+                     /note="UiPCR cassette"
      misc_feature    3907..4024
                      /label=SA
                      /note="SA"
