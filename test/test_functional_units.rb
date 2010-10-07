@@ -24,6 +24,7 @@ class TestFunctionalUnits < Test::Unit::TestCase
         "#{ @data_dir }/27498.gbk" => {
           :label => "L1L2_GOHANU",
           :expected_features =>
+            # TODO: add an "F3" in the GB file and update this list
             ["UiPCR", "SA", "IRES", "lacZ", "pA", "loxP", "hBactP",
               "T2A", "neo", "pA", "loxP", "AttP", "Puro", "pA", "FRT"]
         }
