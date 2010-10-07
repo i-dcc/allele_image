@@ -4,6 +4,7 @@ module AlleleImage
   # units in here as well
   FUNCTIONAL_UNITS = {
     ["En2 intron", "SA", "En2 exon"] => "En2 SA",
+    ["En2 intron", "SA", "En2 exon", "ATG initiation codon"] => "En2 SA (ATG)",
   }
 
   # IDEALLY THIS WOULD GET PARSED FROM A CONFIG FILE/SCHEMA
