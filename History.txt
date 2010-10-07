@@ -1,6 +1,7 @@
 === 0.2.5 INSERT DATE
 * ? major enhancement(s):
   * Classify and render functional units
+  * Render BETA-GEO as lacZ as recommended by NorCOMM
 
 === 0.2.4 2010-09-23
 * 2 major enhancement(s):
