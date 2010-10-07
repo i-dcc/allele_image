@@ -119,6 +119,7 @@ module AlleleImage
 
       def update_functional_units_in_feature_list( features, functional_units )
         feature_labels = features.map { |feature| feature.feature_name }
+
         functional_units.each_pair do |unit, label|
           if slice_args = find_functional_unit_in_feature_list( unit, feature_labels )
             # we want to create a feature from the start of the first
@@ -127,8 +128,13 @@ module AlleleImage
             stop  = features[ slice_args.first + slice_args.last - 1 ].stop
             features.slice!( slice_args.first, slice_args.last )
             features.insert( slice_args.first, AlleleImage::Feature.new( 'misc_feature', label, start, stop ) )
+
+            # now update the labels list so we don't loose our index
+            feature_labels.slice!( slice_args.first, slice_args.last )
+            feature_labels.insert( slice_args.first, label )
           end
         end
+
         return features
       end
   end
