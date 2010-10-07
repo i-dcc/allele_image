@@ -33,7 +33,9 @@ module AlleleImage
       }
     },
     "misc_feature" => {
+      # the functional units
       "En2 SA" => {},
+
       "Flag" => {},
       "FseI" => {},
       "pUC ori" => {
@@ -94,8 +96,11 @@ module AlleleImage
         "label" => "PGK",
         "font" => "white"
       },
-      "human ubiquitin promoter" => {},
-      "EM7 promoter" => {},
+      "human ubiquitin promoter" => {
+        "colour" => "DarkSlateBlue",
+        "label" => "hubiP",
+        "font" => "white"
+      },
       "human beta actin promoter" => {
         "colour" => "DarkSlateBlue",
         "label" => "hBactP",
