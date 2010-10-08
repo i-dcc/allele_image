@@ -50,7 +50,6 @@ module AlleleImage
         "label" => "IRES",
         "font" => "white"
       },
-      "pBR322" => {},
       "TM domain" => {},
       "osteopontin repeat 2" => {},
       "BETA-GEO" => {
