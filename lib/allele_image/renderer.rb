@@ -789,53 +789,31 @@ module AlleleImage
         return width + gaps
       end
 
-      # decide on the need for a gap/space. we need one:
-      # + after each SSR_site unless its the last feature in the cassette region
-      # + before each SSR_site unless its the first feature in the cassette region
+      # Insert gaps around the SSR sites and between the exons
       #
-      # == TODO
-      # Because of the way the NorCoMM GenBank files are defined,
-      # we will have to either:
-      # -- change this method
-      # -- change the GenBank files
+      # @param  [Array<AlleleImage::Feature>] list of features
+      # @return [Array<AlleleImage::Feature>] list of features
       def insert_gaps_between( features )
         features_with_gaps = []
         gap_feature        = AlleleImage::Feature.new( "misc_feature", "gap", 1, 1 )
-        previous_feature   = nil
 
-        return features_with_gaps unless features
+        return features_with_gaps if features.nil?
 
-        features.each do |feature|
-          unless previous_feature.nil?
-            case [ previous_feature.feature_type(), feature.feature_type() ]
-            # need a way to say [ "SSR_site", "whatever" ]
-            when [ "SSR_site", "SSR_site" ]
+        features.each_index do |current_index|
+          features_with_gaps.push( features[current_index] )
+          next_index = current_index + 1
+          unless features[next_index].nil?
+            consecutive_names = [ features[current_index].feature_name, features[next_index].feature_name ]
+            consecutive_types = [ features[current_index].feature_type, features[next_index].feature_type ]
+            if consecutive_names.include?("loxP") ||
+               consecutive_names.include?("FRT")  ||
+               consecutive_names.include?("F3")   ||
+               consecutive_names.include?("AttP") ||
+               consecutive_names.include?("intervening sequence") ||
+               consecutive_types.include?("exon")
               features_with_gaps.push( gap_feature )
-            when [ "SSR_site", "misc_feature" ]
-              features_with_gaps.push( gap_feature )
-            when [ "SSR_site", "polyA_site" ]
-              features_with_gaps.push( gap_feature )
-            when [ "SSR_site", "promoter" ]
-              features_with_gaps.push( gap_feature )
-            when [ "misc_feature", "SSR_site" ]
-              features_with_gaps.push( gap_feature )
-            when [ "polyA_site", "SSR_site" ]
-              features_with_gaps.push( gap_feature )
-            when [ "promoter", "SSR_site" ]
-              features_with_gaps.push( gap_feature )
-            when [ "exon", "exon" ]
-              features_with_gaps.push( gap_feature )
-            when [ "exon", "intervening sequence" ]
-              features_with_gaps.push( gap_feature )
-            when [ "intervening sequence", "exon" ]
-              features_with_gaps.push( gap_feature )
-            else
-              # do nothing
             end
           end
-
-          features_with_gaps.push( feature )
-          previous_feature = feature
         end
 
         return features_with_gaps
