@@ -56,7 +56,7 @@ module AlleleImage
         "colour" => "blue",
         "label" => "lacZ",
         "font" => "white",
-        "width" => 100
+        "width" => 140
       },
       "AscI-EagI adpater" => {},
       "3 arm" => {},
@@ -123,7 +123,7 @@ module AlleleImage
         "colour" => "blue",
         "label" => "lacZ",
         "font" => "white",
-        "width" => 100
+        "width" => 140
       },
       "rat CD4 B-gal fusion" => {}
     },
