@@ -55,7 +55,8 @@ module AlleleImage
       "BETA-GEO" => {
         "colour" => "blue",
         "label" => "lacZ",
-        "font" => "white"
+        "font" => "white",
+        "width" => 100
       },
       "AscI-EagI adpater" => {},
       "3 arm" => {},
@@ -120,7 +121,8 @@ module AlleleImage
       "lacZ" => {
         "colour" => "blue",
         "label" => "lacZ",
-        "font" => "white"
+        "font" => "white",
+        "width" => 100
       },
       "rat CD4 B-gal fusion" => {}
     },
@@ -136,9 +138,10 @@ module AlleleImage
       "ccdB" => {},
       "BsdR" => {},
       "NeoR" => {
-        "colour" => "DarkSlateBlue",
+        "colour" => "aquamarine",
         "label" => "neo",
-        "font" => "white"
+        "font" => "white",
+        "width" => 80
       },
       "ZeoR" => {},
       "SpecR" => {},
