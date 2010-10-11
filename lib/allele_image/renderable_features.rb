@@ -35,7 +35,9 @@ module AlleleImage
     },
     "misc_feature" => {
       # the functional units
-      "En2 SA" => {},
+      "En2 SA" => {
+        "width" => 80
+      },
 
       "Flag" => {},
       "FseI" => {},
