@@ -791,6 +791,7 @@ module AlleleImage
 
       # Insert gaps around the SSR sites and between the exons
       #
+      # @since  0.2.5
       # @param  [Array<AlleleImage::Feature>] list of features
       # @return [Array<AlleleImage::Feature>] list of features
       def insert_gaps_between( features )

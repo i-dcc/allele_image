@@ -3,6 +3,7 @@
   * Classify and render functional units
   * Incorporate NorCOMM recommendations
   * Don't render prokaryotic promoters
+  * Insert spaces around SSR sites and between exons
 
 === 0.2.4 2010-09-23
 * 2 major enhancement(s):
