@@ -115,7 +115,8 @@ module AlleleImage
       "Puro" => {
         "colour" => "purple",
         "label" => "Puro",
-        "font" => "white"
+        "font" => "white",
+        "width" => 80
       },
       "PheS" => {},
       "lacZ" => {
