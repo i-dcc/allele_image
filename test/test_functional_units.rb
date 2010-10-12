@@ -21,7 +21,6 @@ class TestFunctionalUnits < Test::Unit::TestCase
           :expected_features =>
             ["FRT", "En2 SA", "IRES", "lacZ", "pA", "loxP", "hubiP", "neo", "pA", "FRT", "loxP"]
         },
-        # TODO: annotate the "F3" and "UiPCR cassette" in the GB file
         "#{ @data_dir }/27498.gbk" => {
           :label => "L1L2_GOHANU",
           :expected_features =>

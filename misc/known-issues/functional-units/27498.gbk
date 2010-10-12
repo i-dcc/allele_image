@@ -1,4 +1,4 @@
-<pre>LOCUS       vector_117397_ENSMUSE00000276231-ENSMUSE00000276207_L1L2_GOHANU_L3L4_pZero_DTA_kan        22016 bp    dna     circular UNK 
+LOCUS       vector_117397_ENSMUSE00000276231-ENSMUSE00000276207_L1L2_GOHANU_L3L4_pZero_DTA_kan        22016 bp    dna     circular UNK 
 ACCESSION   unknown
 DBSOURCE    accession design_id=117397
 COMMENT     ApEinfo:methylated:1
@@ -45,6 +45,9 @@ FEATURES             Location/Qualifiers
      misc_feature    3500..3511
                      /label=attL1
                      /note="attL1"
+     misc_feature    3536..3569
+                     /label=F3
+                     /note="F3"
      misc_feature    3570..3880
                      /label=UiPCR cassette
                      /note="UiPCR cassette"
@@ -515,4 +518,3 @@ ORIGIN
     21901 agccggaaca cggcggcatc agagcagccg attgtctgtt gtgcccagtc atagccgaat
     21961 agcctctcca cccaagcggc cggagaacct gcgtgcaatc catcttgttc aatcat
 //
-</pre>
