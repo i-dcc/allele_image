@@ -1,4 +1,4 @@
-<pre>LOCUS       vector_199337_ENSMUSE00000511388-ENSMUSE00000510722_L1L2_NTARU-K_L3L4_pZero_DTA_kan        21135 bp    dna     circular UNK 
+LOCUS       vector_199337_ENSMUSE00000511388-ENSMUSE00000510722_L1L2_NTARU-K_L3L4_pZero_DTA_kan        21135 bp    dna     circular UNK 
 ACCESSION   unknown
 DBSOURCE    accession design_id=199337
 COMMENT     ApEinfo:methylated:1
@@ -60,6 +60,9 @@ FEATURES             Location/Qualifiers
      exon            5098..5131
                      /label=En2 exon
                      /note="En2 exon"
+     misc_feature    5132..5167
+                     /label=Frame K insert
+                     /note="Frame K insert"
      gene            5179..8225
                      /label=lacZ
                      /note="lacZ"
@@ -496,4 +499,3 @@ ORIGIN
     21061 tgcccagtca tagccgaata gcctctccac ccaagcggcc ggagaacctg cgtgcaatcc
     21121 atcttgttca atcat
 //
-</pre>
