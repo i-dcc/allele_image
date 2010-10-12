@@ -42,7 +42,6 @@ class TestFunctionalUnits < Test::Unit::TestCase
           :expected_features =>
             ["F3", "UiPCR", "En2 SA", "T2A", "lacZ", "T2A", "neo", "pA", "AttP", "Puro", "pA", "FRT"]
         },
-        # TODO: annotate the "ATG initiation codon" in the GB file
         "#{ @data_dir }/27474.gbk" => {
           :label => "L1L2_NTARU-K",
           :expected_features =>
