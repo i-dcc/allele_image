@@ -4,7 +4,7 @@ module AlleleImage
   # units in here as well
   FUNCTIONAL_UNITS = {
     ["En2 intron", "SA", "En2 exon"] => "En2 SA",
-    ["En2 intron", "SA", "En2 exon", "ATG initiation codon"] => "En2 SA (ATG)",
+    ["En2 intron", "SA", "En2 exon", "Frame K insert"] => "En2 SA (ATG)",
   }
 
   # IDEALLY THIS WOULD GET PARSED FROM A CONFIG FILE/SCHEMA
@@ -38,7 +38,13 @@ module AlleleImage
       "En2 SA" => {
         "width" => 80
       },
+      "En2 SA (ATG)" => {
+        "label" => "En2 SA",
+        "width" => 80
+        # "annotation" => { "text" => "ATG", "location" => "above/top/north" }
+      },
 
+      "Frame K insert" => {},   # will get swallowed by "En2 SA (ATG)"
       "Flag" => {},
       "FseI" => {},
       "pUC ori" => {
