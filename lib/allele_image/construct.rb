@@ -120,7 +120,7 @@ module AlleleImage
       def update_functional_units_in_feature_list( features, functional_units )
         feature_labels = features.map { |feature| feature.feature_name }
 
-        functional_units.each_pair do |unit, label|
+        functional_units.sort{ |a,b| b[0].size <=> a[0].size }.each do |unit, label|
           if slice_args = find_functional_unit_in_feature_list( unit, feature_labels )
             # we want to create a feature from the start of the first
             # feature to end of the last feature in our functional unit
