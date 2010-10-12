@@ -39,9 +39,10 @@ module AlleleImage
         "width" => 80
       },
       "En2 SA (ATG)" => {
-        "label" => "En2 SA",
-        "width" => 80
-        # "annotation" => { "text" => "ATG", "location" => "above/top/north" }
+        # "label" => "En2 SA",
+        # "width" => 80
+        # "annotation" => [{"text" => "En2 SA", "location" => "centre"
+        # }, { "text" => "ATG", "location" => "above/top/north" }]
       },
 
       "Frame K insert" => {},   # will get swallowed by "En2 SA (ATG)"
