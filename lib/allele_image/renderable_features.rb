@@ -51,7 +51,6 @@ module AlleleImage
       "pUC ori" => {
         "label" => "ori"
       },
-      "Transcription Terminator" => {},
       "PreScission" => {},
       "gap" => {},
       "ECMV IRES" => {
@@ -118,7 +117,6 @@ module AlleleImage
         "label" => "hBactP",
         "font" => "white"
       },
-      "spectinomycin promoter" => {}
     },
     "gene" => {
       "Puro" => {
