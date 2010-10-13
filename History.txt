@@ -1,9 +1,10 @@
-=== 0.2.5 INSERT DATE
-* ? major enhancement(s):
+=== 0.2.5 2010-10-13
+* 5 major enhancement(s):
   * Classify and render functional units [closes #82]
-  * Incorporate NorCOMM recommendations
+  * Incorporate some NorCOMM recommendations
   * Don't render prokaryotic promoters
   * Insert spaces around SSR sites and between exons [closes #114]
+  * Draw features in approximate proportion [closes #109]
 
 === 0.2.4 2010-09-23
 * 2 major enhancement(s):
