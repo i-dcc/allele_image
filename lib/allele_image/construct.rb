@@ -20,8 +20,6 @@ module AlleleImage
   class Construct
     attr_reader :backbone_features, :circular, :features, :rcmb_primers
 
-    # TODO:
-    # update the @features to account for the functional units
     def initialize( features, circular, cassette_label, backbone_label )
       @rcmb_primers   = initialize_rcmb_primers( features )
       @features       = update_functional_units_in_feature_list( features, AlleleImage::FUNCTIONAL_UNITS )
