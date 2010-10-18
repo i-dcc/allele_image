@@ -428,10 +428,11 @@ module AlleleImage
       # draw an arrow at the point
       def draw_arrow( image, point, params={} )
         arrow = Magick::Draw.new
+        stroke_width = params[:stroke_width] || 2.5
 
         # set colour and thickness of arrow
         arrow.stroke( "black" )
-        arrow.stroke_width(2.5)
+        arrow.stroke_width(stroke_width)
 
         # make the value of "point" the center (origin)
         arrow.translate( point.first, point.last )
