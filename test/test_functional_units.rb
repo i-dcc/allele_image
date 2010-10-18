@@ -47,6 +47,11 @@ class TestFunctionalUnits < Test::Unit::TestCase
           :expected_features =>
             ["F3", "UiPCR", "En2 SA (ATG)", "lacZ", "T2A", "neo", "pA", "AttP", "Puro", "pA", "FRT"]
         },
+        "#{ @data_dir }/910.gbk" => {
+          :label => "L1L2_st0",
+          :expected_features =>
+            ["FRT", "En2 SA", "rat Cd4 TM", "lacZ", "T2A", "neo", "pA", "FRT", "loxP"]
+        },
       }
     end
 
@@ -55,10 +60,10 @@ class TestFunctionalUnits < Test::Unit::TestCase
         allele_image = AlleleImage::Image.new(file)
 
         # TODO: these need updates to the GB files
-        # if ["L1L2_GOHANU", "L1L2_NTARU-K"].include?( @cassettes[file][:label] )
-        #   allele_image.render.write( file.gsub( /\.gbk$/, ".png" ) )
-        #   pp allele_image.construct.cassette_features.map { |feature| feature.feature_name }
-        # end
+        if ["L1L2_st0"].include?( @cassettes[file][:label] )
+          allele_image.render.write( file.gsub( /\.gbk$/, ".png" ) )
+          pp allele_image.construct.cassette_features.map { |feature| feature.feature_name }
+        end
 
         assert_not_nil allele_image, "#{ file } has an allele_image"
         assert_equal(
