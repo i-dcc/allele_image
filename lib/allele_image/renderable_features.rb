@@ -42,7 +42,9 @@ module AlleleImage
       "En2 SA (ATG)" => {
         "width" => 80
       },
-      "rat Cd4 TM" => {},
+      "rat Cd4 TM" => {
+        "width" => 80
+      },
 
       "rat Cd4" => {},
       "Frame K insert" => {},   # will get swallowed by "En2 SA (ATG)"
