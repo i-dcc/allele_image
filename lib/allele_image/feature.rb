@@ -17,7 +17,8 @@ module AlleleImage
       @@text_width = new_width
     end
 
-    attr_reader :feature_type, :feature_name, :orientation, :start, :stop, :render_options
+    attr_reader   :feature_type, :feature_name, :start, :stop, :render_options
+    attr_accessor :orientation
 
     def initialize( feature_type, feature_name, start, stop )
       unless renderable_feature?( feature_type, feature_name )
