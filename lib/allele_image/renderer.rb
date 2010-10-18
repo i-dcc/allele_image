@@ -509,6 +509,8 @@ module AlleleImage
       def draw_feature( image, feature, x, y )
         if feature.feature_type() == "exon" and not feature.feature_name.match(/En2/)
           draw_exon( image, x, y )
+        elsif feature.feature_type == "promoter"
+          draw_promoter( image, feature, [x, y] )
         else
           case feature.feature_name()
           when "FRT"
@@ -741,6 +743,38 @@ module AlleleImage
           self.font_style  = Magick::ItalicStyle
           self.pointsize   = pointsize
         end
+
+        return image
+      end
+
+      # Draw a promoter
+      #
+      # @since  0.2.6
+      # @param  [Magick::Image] the image to draw on
+      # @param  [AlleleImage::Feature] the feature to draw
+      # @param  [Array<Num, Num>] the point to place drawing
+      # @return [Magick::Image]
+      def draw_promoter( image, feature, point )
+        draw_cassette_feature( image, feature, point[0], point[1] )
+
+        # draw the arrow above the cassette feature
+        first_point  = [ point[0] + feature.width / 2, @top_margin     ]
+        second_point = [ point[0] + feature.width / 2, @top_margin / 2 ]
+        third_point  = [ point[0] + feature.width    , @top_margin / 2 ]
+        drawing      = Magick::Draw.new
+
+        drawing.stroke("black")
+        drawing.stroke_width(2.5)
+        drawing.line( first_point[0], first_point[1], second_point[0], second_point[1] )
+        draw_arrow(
+          image, third_point,
+          :direction   => feature.orientation == "forward" ? "east" : "west",
+          :tail_height => third_point[0] - second_point[0],
+          :arm_height  => ( third_point[0] - second_point[0] ) / 2,
+          :arm_width   => ( third_point[0] - second_point[0] ) / 4
+        )
+
+        drawing.draw( image )
 
         return image
       end
