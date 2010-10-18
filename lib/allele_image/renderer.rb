@@ -763,16 +763,20 @@ module AlleleImage
         second_point = [ point[0] + feature.width / 2, @top_margin / 2 ]
         third_point  = [ point[0] + feature.width    , @top_margin / 2 ]
         drawing      = Magick::Draw.new
+        stroke_width = 1
+        tail_height  = third_point[0] - second_point[0]
 
         drawing.stroke("black")
-        drawing.stroke_width(2.5)
+        drawing.stroke_width(stroke_width)
         drawing.line( first_point[0], first_point[1], second_point[0], second_point[1] )
         draw_arrow(
           image, third_point,
-          :direction   => feature.orientation == "forward" ? "east" : "west",
-          :tail_height => third_point[0] - second_point[0],
-          :arm_height  => ( third_point[0] - second_point[0] ) / 2,
-          :arm_width   => ( third_point[0] - second_point[0] ) / 4
+          # NOTE: the orientation is not enough information to make this decision
+          :direction    => feature.orientation == "forward" ? "east" : "west",
+          :tail_height  => tail_height,
+          :arm_height   => tail_height / 2,
+          :arm_width    => tail_height / 4,
+          :stroke_width => stroke_width
         )
 
         drawing.draw( image )
