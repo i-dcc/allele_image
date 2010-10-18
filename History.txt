@@ -2,6 +2,7 @@
 * ? major enhancement(s)
   * Draw promoters as pointy arrows [closes #1323]
   * Draw the *K frame insert* with the *ATG* annotation above it
+  * Annotate and render the *rat Cd4* feature
 
 === 0.2.5 2010-10-13
 * 5 major enhancement(s):
