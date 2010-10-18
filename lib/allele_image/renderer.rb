@@ -761,7 +761,11 @@ module AlleleImage
         # draw the arrow above the cassette feature
         first_point  = [ point[0] + feature.width / 2, @top_margin     ]
         second_point = [ point[0] + feature.width / 2, @top_margin / 2 ]
-        third_point  = [ point[0] + feature.width    , @top_margin / 2 ]
+        third_point  = [
+          feature.orientation == "forward" ? point[0] + feature.width : point[0],
+          @top_margin / 2
+        ]
+
         drawing      = Magick::Draw.new
         stroke_width = 1
         tail_height  = third_point[0] - second_point[0]
@@ -771,11 +775,10 @@ module AlleleImage
         drawing.line( first_point[0], first_point[1], second_point[0], second_point[1] )
         draw_arrow(
           image, third_point,
-          # NOTE: the orientation is not enough information to make this decision
           :direction    => feature.orientation == "forward" ? "east" : "west",
-          :tail_height  => tail_height,
-          :arm_height   => tail_height / 4,
-          :arm_width    => tail_height / 8,
+          :tail_height  => tail_height.abs,
+          :arm_height   => tail_height.abs / 4,
+          :arm_width    => tail_height.abs / 8,
           :stroke_width => stroke_width
         )
 
