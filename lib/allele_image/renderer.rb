@@ -428,10 +428,11 @@ module AlleleImage
       # draw an arrow at the point
       def draw_arrow( image, point, params={} )
         arrow = Magick::Draw.new
+        stroke_width = params[:stroke_width] || 2.5
 
         # set colour and thickness of arrow
         arrow.stroke( "black" )
-        arrow.stroke_width(2.5)
+        arrow.stroke_width(stroke_width)
 
         # make the value of "point" the center (origin)
         arrow.translate( point.first, point.last )
@@ -509,6 +510,8 @@ module AlleleImage
       def draw_feature( image, feature, x, y )
         if feature.feature_type() == "exon" and not feature.feature_name.match(/En2/)
           draw_exon( image, x, y )
+        elsif feature.feature_type == "promoter"
+          draw_promoter( image, feature, [x, y] )
         else
           case feature.feature_name()
           when "FRT"
@@ -525,6 +528,8 @@ module AlleleImage
             draw_asisi( image, feature, [x, y] )
           when "ori"
             draw_ori( image, x, y )
+          when "En2 SA (ATG)"
+            draw_en2_k_frame( image, feature, [x, y] )
           # Any non-speciall feature is probably a cassette feature
           # and can be rendered with the feature.render_options()
           else
@@ -534,21 +539,23 @@ module AlleleImage
       end
 
       # draw a box with a label to the correct width
-      def draw_cassette_feature( image, feature, x, y, colour = "white", font = "black", d = Magick::Draw.new )
-          width  = feature.width()
-          height = @feature_height
-          colour = feature.render_options()[ "colour" ] || colour
-          font   = feature.render_options()[ "font" ]   || font
+      def draw_cassette_feature( image, feature, x, y, params = {} )
+          width   = feature.width()
+          height  = @feature_height
+          colour  = feature.render_options()[ "colour" ] || params[:colour] || "white"
+          font    = feature.render_options()[ "font" ]   || params[:font]   || "black"
+          label   = params[:label] || feature.feature_name()
+          drawing = Magick::Draw.new
 
           # create a block
-          d.stroke( "black" )
-          d.fill( colour )
-          d.rectangle( x, @top_margin, x + width, @image_height - @bottom_margin )
-          d.draw( image )
+          drawing.stroke( "black" )
+          drawing.fill( colour )
+          drawing.rectangle( x, @top_margin, x + width, @image_height - @bottom_margin )
+          drawing.draw( image )
 
           # annotate the block
           pointsize = @font_size
-          d.annotate( image, width, height, x, @top_margin, feature.feature_name() ) do
+          drawing.annotate( image, width, height, x, @top_margin, label ) do
             self.fill        = font
             self.font_weight = Magick::BoldWeight
             self.gravity     = Magick::CenterGravity
@@ -713,6 +720,69 @@ module AlleleImage
         d.fill( "yellow" )
         d.rectangle( x, @top_margin, x + feature_width, @image_height - @bottom_margin )
         d.draw( image )
+
+        return image
+      end
+
+      # Draw the K-frame En2 SA feature
+      #
+      # @since  0.2.6
+      # @param  [Magick::Image] the image to draw on
+      # @param  [AlleleImage::Feature] the feature to draw
+      # @param  [Array<Num, Num>] the point to place drawing
+      # @return [Magick::Image]
+      def draw_en2_k_frame( image, feature, point )
+        draw_cassette_feature( image, feature, point[0], point[1], :label => "En2 SA" )
+
+        # write the annotation above
+        pointsize = @font_size * 0.75
+        atg_label = Magick::Draw.new()
+        atg_label.annotate( image, feature.width(), @top_margin, point[0], 0, "ATG" ) do
+          self.fill        = "black"
+          self.gravity     = Magick::CenterGravity
+          self.font_weight = Magick::BoldWeight
+          self.font_style  = Magick::ItalicStyle
+          self.pointsize   = pointsize
+        end
+
+        return image
+      end
+
+      # Draw a promoter
+      #
+      # @since  0.2.6
+      # @param  [Magick::Image] the image to draw on
+      # @param  [AlleleImage::Feature] the feature to draw
+      # @param  [Array<Num, Num>] the point to place drawing
+      # @return [Magick::Image]
+      def draw_promoter( image, feature, point )
+        draw_cassette_feature( image, feature, point[0], point[1] )
+
+        # draw the arrow above the cassette feature
+        first_point  = [ point[0] + feature.width / 2, @top_margin     ]
+        second_point = [ point[0] + feature.width / 2, @top_margin / 2 ]
+        third_point  = [
+          feature.orientation == "forward" ? point[0] + feature.width : point[0],
+          @top_margin / 2
+        ]
+
+        drawing      = Magick::Draw.new
+        stroke_width = 1
+        tail_height  = third_point[0] - second_point[0]
+
+        drawing.stroke("black")
+        drawing.stroke_width(stroke_width)
+        drawing.line( first_point[0], first_point[1], second_point[0], second_point[1] )
+        draw_arrow(
+          image, third_point,
+          :direction    => feature.orientation == "forward" ? "east" : "west",
+          :tail_height  => tail_height.abs,
+          :arm_height   => tail_height.abs / 4,
+          :arm_width    => tail_height.abs / 8,
+          :stroke_width => stroke_width
+        )
+
+        drawing.draw( image )
 
         return image
       end

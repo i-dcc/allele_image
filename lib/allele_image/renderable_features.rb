@@ -40,10 +40,7 @@ module AlleleImage
         "width" => 80
       },
       "En2 SA (ATG)" => {
-        # "label" => "En2 SA",
-        # "width" => 80
-        # "annotation" => [{"text" => "En2 SA", "location" => "centre"
-        # }, { "text" => "ATG", "location" => "above/top/north" }]
+        "width" => 80
       },
       "rat Cd4 TM" => {},
 
