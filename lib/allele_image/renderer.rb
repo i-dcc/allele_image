@@ -774,8 +774,8 @@ module AlleleImage
           # NOTE: the orientation is not enough information to make this decision
           :direction    => feature.orientation == "forward" ? "east" : "west",
           :tail_height  => tail_height,
-          :arm_height   => tail_height / 2,
-          :arm_width    => tail_height / 4,
+          :arm_height   => tail_height / 4,
+          :arm_width    => tail_height / 8,
           :stroke_width => stroke_width
         )
 
