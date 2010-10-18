@@ -53,6 +53,7 @@ class TestFunctionalUnits < Test::Unit::TestCase
     should "correctly handle its functional units" do
       @cassettes.each_key do |file|
         allele_image = AlleleImage::Image.new(file)
+        # allele_image.render.write( file.gsub( /\.gbk$/, ".png" ) )
         assert_not_nil allele_image, "#{ file } has an allele_image"
         assert_equal(
           @cassettes[file][:expected_features],
