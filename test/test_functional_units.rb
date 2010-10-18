@@ -52,6 +52,14 @@ class TestFunctionalUnits < Test::Unit::TestCase
           :expected_features =>
             ["FRT", "En2 SA", "rat Cd4 TM", "lacZ", "T2A", "neo", "pA", "FRT", "loxP"]
         },
+        # TODO: this demonstrates that the promoters _are not_ quite
+        # done yet as the arrow in the backbone should be pointing
+        # towards the *DTA* feature not the *SpecR* feature
+        "#{ @data_dir }/152.gbk" => {
+          :label => "L1L2_Pgk_P",
+          :expected_features =>
+            ["FRT", "En2 SA", "IRES", "lacZ", "pA", "loxP", "PGK", "neo", "pA", "FRT", "loxP"]
+        },
       }
     end
 
