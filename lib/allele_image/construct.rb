@@ -18,8 +18,7 @@ module AlleleImage
   # * three_flank_features
   # 
   class Construct
-    attr_reader :circular, :features, :rcmb_primers
-
+    attr_reader :backbone_features, :circular, :features, :rcmb_primers
 
     # TODO:
     # update the @features to account for the functional units
@@ -31,6 +30,8 @@ module AlleleImage
       @backbone_label = backbone_label
 
       raise "NoRcmbPrimers" unless @rcmb_primers.size > 0
+
+      init_backbone_features if @circular
     end
 
     def cassette_label
@@ -82,15 +83,6 @@ module AlleleImage
 
     # These would return nil depending on if the
     # Construct is an Allele or a Vector
-    def backbone_features
-      return unless @circular
-
-      # retrieve and sort any features not within the bounds of the homology arms
-      upstream_features   = @features.select { |feature| feature.start() > @rcmb_primers.last.stop()   }
-      downstream_features = @features.select { |feature| feature.stop()  < @rcmb_primers.first.start() }
-
-      return downstream_features.reverse() + upstream_features.reverse()
-    end
 
     # Not 100% sure if these should be empty if the Construct is circular
     def five_flank_features
@@ -109,6 +101,23 @@ module AlleleImage
           feature.feature_type == 'primer_bind' and \
            ['D3', 'D5', 'G3', 'G5', 'U3', 'U5'].include?( feature.feature_name )
         end
+      end
+
+      def init_backbone_features
+        # retrieve and sort any features not within the bounds of the homology arms
+        upstream_features   = @features.select { |feature| feature.start() > @rcmb_primers.last.stop()   }
+        downstream_features = @features.select { |feature| feature.stop()  < @rcmb_primers.first.start() }
+
+        # reverse the orientation on the backbone
+        [ downstream_features.reverse() + upstream_features.reverse() ].flatten.map do |feature|
+          feature.orientation = case feature.orientation
+            when "forward" then "reverse"
+            when "reverse" then "forward"
+            else raise "InvalidOrientation"
+          end
+        end
+
+        @backbone_features = downstream_features.reverse() + upstream_features.reverse()
       end
 
       def find_functional_unit_in_feature_list( unit, list )
