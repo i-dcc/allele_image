@@ -60,6 +60,11 @@ class TestFunctionalUnits < Test::Unit::TestCase
           :expected_features =>
             ["FRT", "En2 SA", "IRES", "lacZ", "pA", "loxP", "PGK", "neo", "pA", "FRT", "loxP"]
         },
+        "#{ @data_dir }/1056.gbk" => {
+          :label => "L1L2_Pgk_PM",
+          :expected_features =>
+            ["FRT", "En2 SA", "IRES", "lacZ", "pA", "loxP", "PGK", "neo*", "pA", "FRT", "loxP"]
+        },
       }
     end
 

@@ -153,6 +153,12 @@ module AlleleImage
         "font" => "white",
         "width" => 80
       },
+      "NeoR*" => {
+        "colour" => "aquamarine",
+        "label" => "neo*",
+        "font" => "white",
+        "width" => 80
+      },
       "ZeoR" => {},
       "SpecR" => {},
       "DTA" => {
