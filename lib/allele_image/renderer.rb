@@ -758,17 +758,21 @@ module AlleleImage
       def draw_promoter( image, feature, point )
         draw_cassette_feature( image, feature, point[0], point[1] )
 
+        # make the dimensions constant
+        tail_height = 15
+        arm_height  = 5
+        arm_width   = 2
+
         # draw the arrow above the cassette feature
         first_point  = [ point[0] + feature.width / 2, @top_margin     ]
         second_point = [ point[0] + feature.width / 2, @top_margin / 2 ]
         third_point  = [
-          feature.orientation == "forward" ? point[0] + feature.width : point[0],
+          feature.orientation == "forward" ? second_point[0] + tail_height : second_point[0] - tail_height,
           @top_margin / 2
         ]
 
         drawing      = Magick::Draw.new
         stroke_width = 1
-        tail_height  = third_point[0] - second_point[0]
 
         drawing.stroke("black")
         drawing.stroke_width(stroke_width)
@@ -776,9 +780,9 @@ module AlleleImage
         draw_arrow(
           image, third_point,
           :direction    => feature.orientation == "forward" ? "east" : "west",
-          :tail_height  => tail_height.abs,
-          :arm_height   => tail_height.abs / 4,
-          :arm_width    => tail_height.abs / 8,
+          :tail_height  => tail_height,
+          :arm_height   => arm_height,
+          :arm_width    => arm_width,
           :stroke_width => stroke_width
         )
 
