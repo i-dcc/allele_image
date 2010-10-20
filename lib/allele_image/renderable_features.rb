@@ -46,6 +46,7 @@ module AlleleImage
         "width" => 80
       },
 
+      "delTK1" => {},
       "rat Cd4" => {},
       "Frame K insert" => {},   # will get swallowed by "En2 SA (ATG)"
       "Flag" => {},
