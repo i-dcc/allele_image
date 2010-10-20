@@ -17,17 +17,16 @@ module AlleleImage
       @@text_width = new_width
     end
 
-    attr_reader   :feature_type, :feature_name, :start, :stop, :render_options
-    attr_accessor :orientation
+    attr_reader :feature_type, :feature_name, :orientation, :start, :stop, :render_options
 
-    def initialize( feature_type, feature_name, start, stop )
+    def initialize( feature_type, feature_name, start, stop, orientation = "forward" )
       unless renderable_feature?( feature_type, feature_name )
         raise "NotRenderable"
       end
 
       @feature_type = feature_type
       @start, @stop = start, stop
-      @orientation  = @start < @stop ? "forward" : "reverse"
+      @orientation  = orientation
 
       if feature_type == "exon" and not feature_name.match(/En2/)
         @feature_name = feature_name

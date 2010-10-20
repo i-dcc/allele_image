@@ -45,7 +45,8 @@ module AlleleImage
               feature.feature,
               name,
               feature.locations.first.from,
-              feature.locations.first.to
+              feature.locations.first.to,
+              feature.position.match(/^complement/) ? "reverse" : "forward"
             )
           rescue #NotRenderable
             # puts [ feature.feature, name ].join(",")
