@@ -1,8 +1,11 @@
-=== 0.2.6 2010-10-??
-* ? major enhancement(s)
+=== 0.2.6 2010-10-20
+* 6 major enhancement(s)
   * Draw promoters as pointy arrows [closes #1323]
   * Draw the *K frame insert* with the *ATG* annotation above it
   * Annotate and render the *rat Cd4* feature
+  * Reverse the orientation of backbone features
+  * Draw the 'NeoR*' feature
+  * Retrieve the orientation correctly from the Bio::Feature
 
 === 0.2.5 2010-10-13
 * 5 major enhancement(s):
