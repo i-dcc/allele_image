@@ -1,3 +1,7 @@
+=== 0.2.6 2010-10-??
+* ? major enhancement(s)
+  * Make the "NeoR" annotation text black
+
 === 0.2.6 2010-10-20
 * 6 major enhancement(s)
   * Draw promoters as pointy arrows [closes #1323]
