@@ -151,13 +151,13 @@ module AlleleImage
       "NeoR" => {
         "colour" => "aquamarine",
         "label" => "neo",
-        "font" => "white",
+        "font" => "black",
         "width" => 80
       },
       "NeoR*" => {
         "colour" => "aquamarine",
         "label" => "neo*",
-        "font" => "white",
+        "font" => "black",
         "width" => 80
       },
       "ZeoR" => {},
