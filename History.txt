@@ -1,6 +1,7 @@
-=== 0.2.6 2010-10-??
-* ? major enhancement(s)
+=== 0.2.6 2010-10-22
+* 2 major enhancement(s)
   * Make the "NeoR" annotation text black
+  * Draw the backbones the way Barry want's them (with spaces separating the *PGK-DTA-pA* complex)
 
 === 0.2.6 2010-10-20
 * 6 major enhancement(s)
