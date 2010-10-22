@@ -22,7 +22,7 @@ module AlleleImage
 
     def initialize( features, circular, cassette_label, backbone_label )
       @rcmb_primers   = initialize_rcmb_primers( features )
-      @features       = update_functional_units_in_feature_list( features, AlleleImage::FUNCTIONAL_UNITS )
+      @features       = replace_functional_units( features, AlleleImage::FUNCTIONAL_UNITS )
       @circular       = circular
       @cassette_label = cassette_label
       @backbone_label = backbone_label
@@ -118,30 +118,34 @@ module AlleleImage
         @backbone_features = downstream_features.reverse() + upstream_features.reverse()
       end
 
-      def find_functional_unit_in_feature_list( unit, list )
-        start_index = list.index( unit.first )
-        return unless start_index
-        return [ start_index, unit.size ] if list.slice( start_index, unit.size ) == unit
-      end
-
-      def update_functional_units_in_feature_list( features, functional_units )
-        feature_labels = features.map { |feature| feature.feature_name }
-
-        functional_units.sort{ |a,b| b[0].size <=> a[0].size }.each do |unit, label|
-          if slice_args = find_functional_unit_in_feature_list( unit, feature_labels )
-            # we want to create a feature from the start of the first
-            # feature to end of the last feature in our functional unit
-            start = features[ slice_args.first ].start
-            stop  = features[ slice_args.first + slice_args.last - 1 ].stop
-            features.slice!( slice_args.first, slice_args.last )
-            features.insert( slice_args.first, AlleleImage::Feature.new( 'misc_feature', label, start, stop ) )
-
-            # now update the labels list so we don't loose our index
-            feature_labels.slice!( slice_args.first, slice_args.last )
-            feature_labels.insert( slice_args.first, label )
+      # Replace the functional units within the list of features
+      #
+      # @since  0.2.7
+      # @param  [Array<AlleleImage::Feature>] the features to draw
+      # @param  [Hash<Array String>]          the functional units
+      # @return [Array<AlleleImage::Feature>] the features to draw
+      def replace_functional_units( features, units )
+        units.sort{ |a,b| b[0].size <=> a[0].size }.each do |query, label|
+          features.each_index do |feature_index|
+            if features[ feature_index ].feature_name == query.first
+              found_query = true
+              query.each_index do |query_index|
+                next_feature = features[ feature_index + query_index ]
+                unless next_feature && query[ query_index ] == next_feature.feature_name
+                  found_query = false
+                end
+              end
+              if found_query
+                # perhaps this should be its own function?
+                start   = features[ feature_index ].start
+                stop    = features[ feature_index + query.size - 1 ].stop
+                feature = AlleleImage::Feature.new( 'misc_feature', label, start, stop )
+                features.slice!( feature_index, query.size )
+                features.insert( feature_index, feature )
+              end
+            end
           end
         end
-
         return features
       end
   end

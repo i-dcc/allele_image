@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/test_helper.rb'
+require File.dirname(__FILE__) + "/test_helper.rb"
 
 class TestFunctionalUnits < Test::Unit::TestCase
   context "An updated GenBank file" do
@@ -66,17 +66,34 @@ class TestFunctionalUnits < Test::Unit::TestCase
             ["FRT", "En2 SA", "IRES", "lacZ", "pA", "loxP", "PGK", "neo*", "pA", "FRT", "loxP"]
         },
       }
+      @backbones = {
+        "#{ @data_dir }/144.gbk" => {
+          :label => "L3L4_pD223_DTA_spec",
+          :expected_features => ["AsiSI", "ori", "SpecR", "pA_DTA_PGK"]
+        },
+      }
     end
 
     should "correctly handle its functional units" do
       @cassettes.each_key do |file|
         allele_image = AlleleImage::Image.new(file)
-        # allele_image.render.write( file.gsub( /\.gbk$/, ".png" ) )
+        allele_image.render.write( file.gsub( /\.gbk$/, ".png" ) )
         assert_not_nil allele_image, "#{ file } has an allele_image"
         assert_equal(
           @cassettes[file][:expected_features],
           allele_image.construct.cassette_features.map { |feature| feature.feature_name },
           "#{ @cassettes[file][:label] } has the correct features"
+        )
+      end
+
+      @backbones.each_key do |file|
+        allele_image = AlleleImage::Image.new(file)
+        allele_image.render.write( file.gsub( /\.gbk$/, ".png" ) )
+        assert_not_nil allele_image, "#{ file } has an allele_image"
+        assert_equal(
+          @backbones[file][:expected_features],
+          allele_image.construct.backbone_features.map { |feature| feature.feature_name },
+          "#{ @backbones[file][:label] } has the correct features"
         )
       end
     end

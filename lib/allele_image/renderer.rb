@@ -530,6 +530,10 @@ module AlleleImage
             draw_ori( image, x, y )
           when "En2 SA (ATG)"
             draw_en2_k_frame( image, feature, [x, y] )
+          when "PGK_DTA_pA"
+            draw_pgk_dta_pa( image, feature, [x, y] )
+          when "pA_DTA_PGK"
+            draw_pa_dta_pgk( image, feature, [x, y] )
           # Any non-speciall feature is probably a cassette feature
           # and can be rendered with the feature.render_options()
           else
@@ -787,6 +791,44 @@ module AlleleImage
         )
 
         drawing.draw( image )
+
+        return image
+      end
+
+      def draw_pgk_dta_pa( image, feature, point )
+        gap = AlleleImage::Feature.new( "misc_feature", "gap",          1, 1 )
+        pgk = AlleleImage::Feature.new( "promoter",     "PGK promoter", 1, 2, "forward" )
+        dta = AlleleImage::Feature.new( "CDS",          "DTA",          3, 4 )
+        pa  = AlleleImage::Feature.new( "polyA_site",   "PGK pA",       5, 6 )
+        [ ( 1 .. ( feature.width - 100 ) / @gap_width ).collect { |x| gap }, pgk, dta, pa ].flatten.each do |sub_feature|
+          feature_width = 0
+          if sub_feature.feature_name() == "gap"
+            feature_width = @gap_width
+          else
+            draw_feature( image, sub_feature, point[0], point[1] )
+            feature_width = sub_feature.width()
+          end
+          point[0] += feature_width # update the x coordinate
+        end
+
+        return image
+      end
+
+      def draw_pa_dta_pgk( image, feature, point )
+        gap = AlleleImage::Feature.new( "misc_feature", "gap",          1, 1 )
+        pgk = AlleleImage::Feature.new( "promoter",     "PGK promoter", 1, 2, "reverse" )
+        dta = AlleleImage::Feature.new( "CDS",          "DTA",          3, 4 )
+        pa  = AlleleImage::Feature.new( "polyA_site",   "PGK pA",       5, 6 )
+        [ ( 1 .. ( feature.width - 100 ) / @gap_width ).collect { |x| gap }, pa, dta, pgk ].flatten.each do |sub_feature|
+          feature_width = 0
+          if sub_feature.feature_name() == "gap"
+            feature_width = @gap_width
+          else
+            draw_feature( image, sub_feature, point[0], point[1] )
+            feature_width = sub_feature.width()
+          end
+          point[0] += feature_width # update the x coordinate
+        end
 
         return image
       end
