@@ -293,7 +293,7 @@ module AlleleImage
 
         # For the (unlikely) case where we have nothing in the 3' arm,
         # construct an empty image with width = "3' homology arm".length()
-        if image.columns == 1
+        if image.columns < "3' homology arm".length() * @text_width
           image = render_genomic_region( @construct.three_arm_features, :width => "3' homology arm".length() * @text_width )
         end
 
