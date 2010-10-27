@@ -149,6 +149,18 @@ module AlleleImage
           feature.feature_type() == "misc_feature" and \
             ["5 arm", "target region", "3 arm"].include?( feature.feature_name )
         end
+
+        if genomic.nil?
+          rcmb_primers = @construct.five_arm_features.select do |feature|
+            feature.feature_type == "primer_bind" and \
+            ['D3', 'D5', 'G3', 'G5', 'HD', 'HU', 'U3', 'U5'].include?( feature.feature_name )
+          end
+          genomic = AlleleImage::Feature.new(
+            "misc_feature", "5 arm",
+            rcmb_primers.first.start, rcmb_primers.last.stop
+          )
+        end
+
         annotation_image = draw_homology_arm( annotation_image, genomic.feature_name(), genomic.stop() - genomic.start() )
 
         # Stack the images
@@ -238,7 +250,7 @@ module AlleleImage
 
         rcmb_primers = @construct.three_arm_features.select do |feature|
           feature.feature_type() == "primer_bind" and \
-            ['D3', 'D5', 'G3', 'G5', 'U3', 'U5'].include?( feature.feature_name )
+            ['D3', 'D5', 'G3', 'G5', 'HD', 'HU', 'U3', 'U5'].include?( feature.feature_name )
         end
 
         if rcmb_primers.count == 2
@@ -292,6 +304,18 @@ module AlleleImage
           feature.feature_type() == "misc_feature" and \
             ["5 arm", "target region", "3 arm"].include?( feature.feature_name )
         end
+
+        if genomic.size == 0
+          rcmb_primers = @construct.three_arm_features.select do |feature|
+            feature.feature_type == "primer_bind" and \
+            ['D3', 'D5', 'G3', 'G5', 'HD', 'HU', 'U3', 'U5'].include?( feature.feature_name )
+          end
+          genomic.push( AlleleImage::Feature.new(
+            "misc_feature", "3 arm",
+            rcmb_primers.first.start, rcmb_primers.last.stop
+          ) )
+        end
+
         annotation_image = draw_homology_arm( annotation_image, genomic.last.feature_name(), genomic.last.stop() - genomic.first.start() )
 
         # Stack the images
