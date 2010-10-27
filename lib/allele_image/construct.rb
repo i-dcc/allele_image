@@ -97,7 +97,7 @@ module AlleleImage
       def initialize_rcmb_primers( features )
         features.select do |feature|
           feature.feature_type == 'primer_bind' and \
-           ['D3', 'D5', 'G3', 'G5', 'U3', 'U5'].include?( feature.feature_name )
+           ['D3', 'D5', 'G3', 'G5', 'HD', 'HU', 'U3', 'U5'].include?( feature.feature_name )
         end
       end
 
