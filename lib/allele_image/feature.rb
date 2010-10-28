@@ -11,7 +11,7 @@ module AlleleImage
 
     def initialize( bio_feature )
       @feature_type = bio_feature.feature
-      @feature_name = bio_feature.qualifiers.first.value
+      @feature_name = bio_feature.to_hash["note"][0]
       @position     = bio_feature.position
 
       init_orientation
@@ -21,10 +21,10 @@ module AlleleImage
         raise "NotRenderable"
       end
 
-      # if @feature_type == "exon" and @feature_name.match(/En2/)
-      #   @render_options = AlleleImage::RENDERABLE_FEATURES[ @feature_type ][ @feature_name ]
-      #   @feature_name   = @render_options[ "label" ] || @feature_name
-      # end
+      return self if @feature_type == "exon" and @feature_name != "En2 exon"
+
+      @render_options = AlleleImage::RENDERABLE_FEATURES[ @feature_type ][ @feature_name ]
+      @feature_name   = @render_options[ "label" ] || @feature_name
     end
 
     def width

@@ -41,13 +41,7 @@ module AlleleImage
           # Since creating a Feature might throw a NotRenderable exception
           # we need to wrap this in a begin/rescue block
           begin
-            AlleleImage::Feature.new(
-              feature.feature,
-              name,
-              feature.locations.first.from,
-              feature.locations.first.to,
-              feature.position.match(/^complement/) ? "reverse" : "forward"
-            )
+            AlleleImage::Feature.new( feature )
           rescue #NotRenderable
             # puts [ feature.feature, name ].join(",")
           end

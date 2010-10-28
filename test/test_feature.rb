@@ -14,6 +14,7 @@ class TestAlleleImageFeature < Test::Unit::TestCase
 
       should "instantiate correctly from a Bio::Feature" do
         @features.each do |feature|
+          # this could be a block
           bio_feature = Bio::Feature.new( feature[:type], feature[:pos] )
           bio_feature.append( Bio::Feature::Qualifier.new( "note", feature[:name] ) )
 
@@ -37,7 +38,38 @@ class TestAlleleImageFeature < Test::Unit::TestCase
 
     context "that is an exon" do
       setup do
-        @features = []
+        @features = [
+          { :type => "exon", :pos => "2028..2106", :name => "ENSMUSE00000100054",
+            :start => 2028, :stop => 2106, :ori => "forward", :render_options => nil },
+          { :type => "exon", :pos => "6936..6937", :name => "En2 exon",
+            :start => 6936, :stop => 6937, :ori => "forward", :render_options => {} },
+        ]
+      end
+
+      should "instantiate correctly from a Bio::Feature" do
+        @features.each do |feature|
+          # this could be a block
+          bio_feature = Bio::Feature.new( feature[:type], feature[:pos] )
+          bio_feature.append( Bio::Feature::Qualifier.new( "note", feature[:name] ) )
+
+          # check a few basics truths ...
+          assert_not_nil bio_feature, "we have a bio feature"
+          assert_equal feature[:pos],  bio_feature.position, "get the position"
+          assert_equal feature[:name], bio_feature.qualifiers.first.value, "get the note"
+
+          ai_feature = AlleleImage::Feature.new( bio_feature )
+
+          # and now some basics *we hope are true* ...
+          assert_not_nil ai_feature, "we can instantiate an AlleleImage::Feature"
+          assert_equal feature[:type],  ai_feature.feature_type, "correct type"
+          assert_equal feature[:name],  ai_feature.feature_name, "correct name"
+          assert_equal feature[:start], ai_feature.start,        "correct start"
+          assert_equal feature[:stop],  ai_feature.stop,         "correct stop"
+          assert_equal feature[:ori],   ai_feature.orientation,  "correct orientation"
+
+          # now some exon specific stuff ...
+          assert_equal feature[:render_options], ai_feature.render_options, "correct render_options"
+        end
       end
     end
 
