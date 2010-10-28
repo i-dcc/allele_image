@@ -354,7 +354,7 @@ module AlleleImage
         # to write the cassette label. In the cases where the label is
         # longer than the features we'd need to centralize the image.
         # Since we don't have that logic, I'm leaving that off for now.
-        unless image_width and image_width > 0
+        unless image_width and image_width > @text_width * params[:label].length()
           image_width = @text_width * params[:label].length()
         end
 
