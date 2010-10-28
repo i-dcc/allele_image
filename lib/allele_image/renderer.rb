@@ -156,8 +156,10 @@ module AlleleImage
             ['D3', 'D5', 'G3', 'G5', 'HD', 'HU', 'U3', 'U5'].include?( feature.feature_name )
           end
           genomic = AlleleImage::Feature.new(
-            "misc_feature", "5 arm",
-            rcmb_primers.first.start, rcmb_primers.last.stop
+            Bio::Feature.new(
+              "misc_feature",
+              "#{rcmb_primers.first.start}, #{rcmb_primers.last.stop}"
+            ).append( Bio::Feature::Qualifier.new( "note", "5 arm" ) )
           )
         end
 
@@ -310,10 +312,12 @@ module AlleleImage
             feature.feature_type == "primer_bind" and \
             ['D3', 'D5', 'G3', 'G5', 'HD', 'HU', 'U3', 'U5'].include?( feature.feature_name )
           end
-          genomic.push( AlleleImage::Feature.new(
-            "misc_feature", "3 arm",
-            rcmb_primers.first.start, rcmb_primers.last.stop
-          ) )
+          genomic.push(
+            AlleleImage::Feature.new(
+              Bio::Feature.new(
+                "misc_feature",
+                "#{rcmb_primers.first.start}, #{rcmb_primers.last.stop}"
+              ).append( Bio::Feature::Qualifier.new( "note", "3 arm" ) ) ) )
         end
 
         annotation_image = draw_homology_arm( annotation_image, genomic.last.feature_name(), genomic.last.stop() - genomic.first.start() )
@@ -350,7 +354,7 @@ module AlleleImage
         # to write the cassette label. In the cases where the label is
         # longer than the features we'd need to centralize the image.
         # Since we don't have that logic, I'm leaving that off for now.
-        unless image_width and image_width > 0
+        unless image_width and image_width > @text_width * params[:label].length()
           image_width = @text_width * params[:label].length()
         end
 
@@ -411,7 +415,8 @@ module AlleleImage
 
         features             = []
         intervening_sequence = AlleleImage::Feature.new(
-         "intervening sequence", "intervening sequence", 1, 1 )
+          Bio::Feature.new( "intervening sequence", "1..2" ).append(
+              Bio::Feature::Qualifier.new( "note", "intervening sequence" ) ) )
 
         if exons.count >= 5
           features = insert_gaps_between( [ exons.first, intervening_sequence, exons.last ] )
@@ -819,11 +824,12 @@ module AlleleImage
         return image
       end
 
+      # Bio::Feature.new( "polyA_site", "5..6" ).append( Bio::Feature::Qualifier.new( "note", "PGK pA" ) )
       def draw_pgk_dta_pa( image, feature, point )
-        gap = AlleleImage::Feature.new( "misc_feature", "gap",          1, 1 )
-        pgk = AlleleImage::Feature.new( "promoter",     "PGK promoter", 1, 2, "forward" )
-        dta = AlleleImage::Feature.new( "CDS",          "DTA",          3, 4 )
-        pa  = AlleleImage::Feature.new( "polyA_site",   "PGK pA",       5, 6 )
+        gap = AlleleImage::Feature.new( Bio::Feature.new( "misc_feature", "1..1" ).append( Bio::Feature::Qualifier.new( "note", "gap" ) ) )
+        pgk = AlleleImage::Feature.new( Bio::Feature.new( "promoter", "1..2" ).append( Bio::Feature::Qualifier.new( "note", "PGK promoter" ) ) )
+        dta = AlleleImage::Feature.new( Bio::Feature.new( "CDS", "3..4" ).append( Bio::Feature::Qualifier.new( "note", "DTA" ) ) )
+        pa  = AlleleImage::Feature.new( Bio::Feature.new( "polyA_site", "5..6" ).append( Bio::Feature::Qualifier.new( "note", "PGK pA" ) ) )
         [ ( 1 .. ( feature.width - 100 ) / @gap_width ).collect { |x| gap }, pgk, dta, pa ].flatten.each do |sub_feature|
           feature_width = 0
           if sub_feature.feature_name() == "gap"
@@ -839,10 +845,10 @@ module AlleleImage
       end
 
       def draw_pa_dta_pgk( image, feature, point )
-        gap = AlleleImage::Feature.new( "misc_feature", "gap",          1, 1 )
-        pgk = AlleleImage::Feature.new( "promoter",     "PGK promoter", 1, 2, "reverse" )
-        dta = AlleleImage::Feature.new( "CDS",          "DTA",          3, 4 )
-        pa  = AlleleImage::Feature.new( "polyA_site",   "PGK pA",       5, 6 )
+        gap = AlleleImage::Feature.new( Bio::Feature.new( "misc_feature", "1..1" ).append( Bio::Feature::Qualifier.new( "note", "gap" ) ) )
+        pgk = AlleleImage::Feature.new( Bio::Feature.new( "promoter", "complement(1..2)" ).append( Bio::Feature::Qualifier.new( "note", "PGK promoter" ) ) )
+        dta = AlleleImage::Feature.new( Bio::Feature.new( "CDS", "3..4" ).append( Bio::Feature::Qualifier.new( "note", "DTA" ) ) )
+        pa  = AlleleImage::Feature.new( Bio::Feature.new( "polyA_site", "5..6" ).append( Bio::Feature::Qualifier.new( "note", "PGK pA" ) ) )
         [ ( 1 .. ( feature.width - 100 ) / @gap_width ).collect { |x| gap }, pa, dta, pgk ].flatten.each do |sub_feature|
           feature_width = 0
           if sub_feature.feature_name() == "gap"
@@ -936,7 +942,7 @@ module AlleleImage
       # @return [Array<AlleleImage::Feature>] list of features
       def insert_gaps_between( features )
         features_with_gaps = []
-        gap_feature        = AlleleImage::Feature.new( "misc_feature", "gap", 1, 1 )
+        gap_feature        = AlleleImage::Feature.new( Bio::Feature.new( "misc_feature", "1..1" ).append( Bio::Feature::Qualifier.new( "note", "gap" ) ) )
 
         return features_with_gaps if features.nil?
 

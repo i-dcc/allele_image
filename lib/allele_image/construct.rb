@@ -139,7 +139,10 @@ module AlleleImage
                 # perhaps this should be its own function?
                 start   = features[ feature_index ].start
                 stop    = features[ feature_index + query.size - 1 ].stop
-                feature = AlleleImage::Feature.new( 'misc_feature', label, start, stop )
+                bio_feature = Bio::Feature.new( "misc_feature", "#{start}..#{stop}" )
+                bio_feature.append( Bio::Feature::Qualifier.new( "note", label ) )
+
+                feature = AlleleImage::Feature.new( bio_feature )
                 features.slice!( feature_index, query.size )
                 features.insert( feature_index, feature )
               end
