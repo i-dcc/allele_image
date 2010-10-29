@@ -140,6 +140,11 @@ module AlleleImage
         "label" => "hubiP",
         "font" => "white"
       },
+      "hUBC promoter" => {
+        "colour" => "DarkSlateBlue",
+        "label" => "hubiP",
+        "font" => "white"
+      },
     },
     "gene" => {
       "Puro" => {
@@ -201,6 +206,12 @@ module AlleleImage
         "font" => "black",
         "width" => 80
       },
+      "TM-lacZ " => {
+        "colour" => "blue",
+        "label" => "TM-lacZ",
+        "font" => "white",
+        "width" => 140
+      },
     },
     "intervening sequence" => {
       "intervening sequence" => {}
@@ -231,12 +242,20 @@ module AlleleImage
       }
     },
     "frag" => {
-      "poly A  [Split]" => {
-        "label" => "pA"
-      },
+      # "poly A  [Split]" => {
+      #   "label" => "pA"
+      # },
       "Poly A Signal" => {
         "label" => "pA"
       },
     },
+    "polyA_signal" => {
+      "SV40 polyA" => {
+        "label" => "pA"
+      },
+      "mPgk polyA" => {
+        "label" => "pA"
+      },
+    }
   }
 end
