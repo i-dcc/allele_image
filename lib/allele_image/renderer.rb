@@ -163,7 +163,8 @@ module AlleleImage
           )
         end
 
-        annotation_image = draw_homology_arm( annotation_image, genomic.feature_name(), genomic.stop() - genomic.start() )
+        homology_arm_label = @construct.bac_label ? "5' #{ @construct.bac_label }" : "5 arm"
+        annotation_image = draw_homology_arm( annotation_image, homology_arm_label, genomic.stop() - genomic.start() )
 
         # Stack the images
         image_list.push( annotation_image )
@@ -320,7 +321,8 @@ module AlleleImage
               ).append( Bio::Feature::Qualifier.new( "note", "3 arm" ) ) ) )
         end
 
-        annotation_image = draw_homology_arm( annotation_image, genomic.last.feature_name(), genomic.last.stop() - genomic.first.start() )
+        homology_arm_label = @construct.bac_label ? "3' #{ @construct.bac_label }" : "3 arm"
+        annotation_image = draw_homology_arm( annotation_image, homology_arm_label, genomic.last.stop() - genomic.first.start() )
 
         # Stack the images
         image_list.push( annotation_image )
@@ -627,7 +629,7 @@ module AlleleImage
         # annotate the block
         pointsize = @font_size
         d.annotate( image, w, y, 0, 0,
-          "#{ label_for[ name ] }\n(#{ length } bp)" ) do
+          "#{ label_for[ name ] || name }\n(#{ length } bp)" ) do
           self.fill      = "blue"
           self.gravity   = Magick::CenterGravity
           self.pointsize = pointsize
