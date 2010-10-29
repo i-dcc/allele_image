@@ -36,6 +36,9 @@ module AlleleImage
       },
       "BGH pA" => {
         "label" => "pA"
+      },
+      "poly A [Split]" => {
+        "label" => "pA"
       }
     },
     "misc_feature" => {
@@ -130,6 +133,18 @@ module AlleleImage
         "label" => "hBactP",
         "font" => "white"
       },
+
+      # KOMP-Regeneron specific stuff
+      "hUBp (human Ubiquitin promoter)" => {
+        "colour" => "DarkSlateBlue",
+        "label" => "hubiP",
+        "font" => "white"
+      },
+      "hUBC promoter" => {
+        "colour" => "DarkSlateBlue",
+        "label" => "hubiP",
+        "font" => "white"
+      },
     },
     "gene" => {
       "Puro" => {
@@ -176,10 +191,71 @@ module AlleleImage
         "colour" => "violet",
         "label" => "DTA",
         "font" => "white"
-      }
+      },
+
+      # KOMP-Regeneron specific stuff
+      # "LacZ" => {
+      #   "colour" => "blue",
+      #   "label" => "lacZ",
+      #   "font" => "white",
+      #   "width" => 140
+      # },
+      "neo" => {
+        "colour" => "aquamarine",
+        "label" => "neo",
+        "font" => "black",
+        "width" => 80
+      },
+      "TM-lacZ " => {
+        "colour" => "blue",
+        "label" => "TM-lacZ",
+        "font" => "white",
+        "width" => 140
+      },
     },
     "intervening sequence" => {
       "intervening sequence" => {}
+    },
+
+    # NOTE: 2010-10-28
+    # KOMP-Regeneron specific stuff
+    # For now we'll just add them as is from the GB files
+    # but in the long run we would prefer this follow the
+    # same convention as the rest
+    "DNA" => {
+      "LACZ(for recom.) " => {
+        "colour" => "blue",
+        "label" => "lacZ",
+        "font" => "white",
+        "width" => 140
+      },
+    },
+    "misc_recomb" => {
+      "loxP (3')" => {
+        "label" => "loxP"
+      },
+      "LoxP (5')" => {
+        "label" => "loxP"
+      },
+      "loxP" => {
+        "label" => "loxP"
+      }
+    },
+    "frag" => {
+      # "poly A  [Split]" => {
+      #   "label" => "pA"
+      # },
+      "Poly A Signal" => {
+        "label" => "pA"
+      },
+    },
+    "polyA_signal" => {
+      "SV40 polyA" => {
+        "label" => "pA"
+      },
+      "mPgk polyA" => {
+        "label" => "pA"
+      },
     }
   }
 end
