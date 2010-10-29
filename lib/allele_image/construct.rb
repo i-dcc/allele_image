@@ -18,14 +18,15 @@ module AlleleImage
   # * three_flank_features
   # 
   class Construct
-    attr_reader :backbone_features, :circular, :features, :rcmb_primers
+    attr_reader :backbone_features, :bac_label, :circular, :features, :rcmb_primers
 
-    def initialize( features, circular, cassette_label, backbone_label )
+    def initialize( features, circular, cassette_label, backbone_label, bac_label = nil )
       @rcmb_primers   = initialize_rcmb_primers( features )
       @features       = replace_functional_units( features, AlleleImage::FUNCTIONAL_UNITS )
       @circular       = circular
       @cassette_label = cassette_label
       @backbone_label = backbone_label
+      @bac_label      = bac_label
 
       raise "NoRcmbPrimers" unless @rcmb_primers.size > 0
 

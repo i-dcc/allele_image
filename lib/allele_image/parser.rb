@@ -59,7 +59,8 @@ module AlleleImage
         features,
         circular,
         extract_label( genbank_object, "cassette" ),
-        extract_label( genbank_object, "backbone" )
+        extract_label( genbank_object, "backbone" ),
+        extract_label( genbank_object, "target_bac" )
       )
     end
 
