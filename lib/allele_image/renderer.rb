@@ -680,6 +680,7 @@ module AlleleImage
 
       def draw_loxp( image, feature, x, y, d = Magick::Draw.new, feature_width = feature.width() )
         # Draw the triangle
+        d.stroke( "black" )
         d.fill( "red" )
 
         if feature.orientation == "forward"
@@ -707,6 +708,7 @@ module AlleleImage
         b = feature.orientation == "forward" ? x : x + feature_width
 
         # Draw the triangle
+        d.stroke( "black" )
         d.fill( "orange" )
         d.polygon( x, @top_margin, b, @image_height - @bottom_margin, x + feature_width, @top_margin )
         d.draw( image )
@@ -729,6 +731,7 @@ module AlleleImage
         b = feature.orientation == "forward" ? x : x + feature_width
 
         # Draw the triangle
+        d.stroke( "black" )
         d.fill( "green" )
         d.polygon( x, @top_margin, b, @image_height - @bottom_margin, x + feature_width, @top_margin )
         d.draw( image )
