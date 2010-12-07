@@ -43,7 +43,7 @@ module AlleleImage
         :text_width            => 16,
         :text_height           => 22,
         :feature_height        => 40,
-        :annotation_height     => 70,
+        :annotation_height     => 100,
         :sequence_stroke_width => 2.5
       }
       params = defaults.update( params )
@@ -614,7 +614,7 @@ module AlleleImage
         d = Magick::Draw.new
         y = image.rows / 2
         w = image.columns - 1
-        h = image.rows / 5 # overhang
+        h = image.rows / 7 # overhang
 
         # Draw the lines
         d.stroke( "black" )
