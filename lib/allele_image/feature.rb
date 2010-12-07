@@ -21,7 +21,10 @@ module AlleleImage
         raise "NotRenderable"
       end
 
-      return self if @feature_type == "exon" and @feature_name != "En2 exon"
+      if @feature_type == "exon" and @feature_name != "En2 exon"
+        @feature_name = @feature_name.match(/(\w+)$/).captures.last # Trim the exon names.
+        return self
+      end
 
       @render_options = AlleleImage::RENDERABLE_FEATURES[ @feature_type ][ @feature_name ]
       @feature_name   = @render_options[ "label" ] || @feature_name

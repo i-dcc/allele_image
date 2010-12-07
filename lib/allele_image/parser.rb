@@ -30,13 +30,6 @@ module AlleleImage
       # Retrieve the features
       features = genbank_object.features.map do |feature|
         unless feature.qualifiers.length == 0
-          name = ( feature.assoc["label"] ? feature.assoc["label"] : feature.assoc["note"] )
-
-          # Trim the exon names.
-          if feature.feature == "exon" and not name.match(/En2/)
-            name = name.match(/(\w+)$/).captures.last
-          end
-
           # Here is our feature ...
           # Since creating a Feature might throw a NotRenderable exception
           # we need to wrap this in a begin/rescue block
