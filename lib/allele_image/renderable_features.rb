@@ -90,7 +90,7 @@ module AlleleImage
       "osteopontin repeat 1" => {},
       "F3" => {},
       "loxP" => {
-        "width" => 35,
+        "width" => 40,
         "label" => "loxP"
       },
       "biotin" => {},
