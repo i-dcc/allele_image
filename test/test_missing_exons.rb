@@ -6,10 +6,10 @@ class TestMissingExons < Test::Unit::TestCase
       @data_dir = File.dirname( __FILE__ ) + '/../misc/known-issues/missing-exons'
       @allele   = {
         "#{ @data_dir }/12299.gbk" => {
-          :feature_count => 5, :height => 260
+          :feature_count => 5, :height => 300
         },
         "#{ @data_dir }/10406.gbk" => {
-          :feature_count => 4, :height => 240
+          :feature_count => 4, :height => 278
         }
       }
     end
