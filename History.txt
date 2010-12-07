@@ -1,3 +1,7 @@
+=== 0.2.9 2010-12-07
+* 1 major enhancement(s)
+  * Aesthetic fixes to the fonts, colours and boundaries of features
+
 === 0.2.8 2010-10-29
 * 1 major enhancement(s)
   * Draw KOMP-Regeneron cassettes [closes #112]
