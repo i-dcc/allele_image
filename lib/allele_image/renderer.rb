@@ -38,10 +38,10 @@ module AlleleImage
         :bottom_margin         => 25,
         :feature_height        => 40,
         :top_margin            => 25,
-        :font_size             => 14,
+        :font_size             => 18,
         :gap_width             => 10,
-        :text_width            => 12,
-        :text_height           => 20,
+        :text_width            => 16,
+        :text_height           => 22,
         :feature_height        => 40,
         :annotation_height     => 70,
         :sequence_stroke_width => 2.5
