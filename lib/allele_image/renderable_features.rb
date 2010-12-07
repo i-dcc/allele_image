@@ -70,7 +70,7 @@ module AlleleImage
       "PreScission" => {},
       "gap" => {},
       "ECMV IRES" => {
-        "colour" => "orange",
+        "colour" => "#f7931e",
         "label" => "IRES",
         "font" => "white"
       },
@@ -174,13 +174,13 @@ module AlleleImage
       "ccdB" => {},
       "BsdR" => {},
       "NeoR" => {
-        "colour" => "aquamarine",
+        "colour" => "#00a99d",
         "label" => "neo",
-        "font" => "black",
+        "font" => "white",
         "width" => 80
       },
       "NeoR*" => {
-        "colour" => "aquamarine",
+        "colour" => "#00a99d",
         "label" => "neo*",
         "font" => "black",
         "width" => 80
@@ -188,7 +188,7 @@ module AlleleImage
       "ZeoR" => {},
       "SpecR" => {},
       "DTA" => {
-        "colour" => "violet",
+        "colour" => "#ff00ff",
         "label" => "DTA",
         "font" => "white"
       },
@@ -201,7 +201,7 @@ module AlleleImage
       #   "width" => 140
       # },
       "neo" => {
-        "colour" => "aquamarine",
+        "colour" => "#00a99d",
         "label" => "neo",
         "font" => "black",
         "width" => 80

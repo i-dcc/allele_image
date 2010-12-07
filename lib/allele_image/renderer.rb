@@ -681,7 +681,7 @@ module AlleleImage
       def draw_loxp( image, feature, x, y, d = Magick::Draw.new, feature_width = feature.width() )
         # Draw the triangle
         d.stroke( "black" )
-        d.fill( "red" )
+        d.fill( "#800000" )
 
         if feature.orientation == "forward"
           d.polygon( x, @top_margin, x + feature_width, y, x, @image_height - @bottom_margin )
@@ -694,7 +694,7 @@ module AlleleImage
         # write the annotation above
         pointsize = @font_size
         d.annotate( image, feature_width, @top_margin, x, 0, feature.feature_name() ) do
-          self.fill        = "red"
+          self.fill        = "#800000"
           self.gravity     = Magick::CenterGravity
           self.font_weight = Magick::BoldWeight
           self.font_style  = Magick::ItalicStyle
@@ -732,14 +732,14 @@ module AlleleImage
 
         # Draw the triangle
         d.stroke( "black" )
-        d.fill( "green" )
+        d.fill( "#008040" )
         d.polygon( x, @top_margin, b, @image_height - @bottom_margin, x + feature_width, @top_margin )
         d.draw( image )
 
         # write the annotation above
         pointsize = @font_size
         d.annotate( image, feature_width, @top_margin, x, 0, feature.feature_name() ) do
-          self.fill        = "green"
+          self.fill        = "#008040"
           self.gravity     = Magick::CenterGravity
           self.font_weight = Magick::BoldWeight
           self.font_style  = Magick::ItalicStyle
@@ -751,7 +751,7 @@ module AlleleImage
 
       def draw_exon( image, x, y, d = Magick::Draw.new, feature_width = @text_width )
         d.stroke( "black" )
-        d.fill( "yellow" )
+        d.fill( "#fbcf3b" )
         d.rectangle( x, @top_margin, x + feature_width, @image_height - @bottom_margin )
         d.draw( image )
 
