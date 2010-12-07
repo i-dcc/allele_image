@@ -612,9 +612,9 @@ module AlleleImage
       # draw the homology arms
       def draw_homology_arm( image, name, length )
         d = Magick::Draw.new
-        y = image.rows / 2
         w = image.columns - 1
         h = image.rows / 7 # overhang
+        y = 5 * h
 
         # Draw the lines
         d.stroke( "black" )
@@ -628,8 +628,7 @@ module AlleleImage
 
         # annotate the block
         pointsize = @font_size
-        d.annotate( image, w, y, 0, 0,
-          "#{ label_for[ name ] || name }\n(#{ length } bp)" ) do
+        d.annotate( image, w, y, 0, 0, "#{ label_for[ name ] || name }\n(#{ length } bp)" ) do
           self.fill      = "blue"
           self.gravity   = Magick::CenterGravity
           self.pointsize = pointsize
