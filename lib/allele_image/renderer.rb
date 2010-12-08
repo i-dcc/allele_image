@@ -505,9 +505,10 @@ module AlleleImage
         pointsize = @font_size
         asisi.annotate( image, annotation_width, annotation_height, annotation_x, annotation_y, feature.feature_name() ) do
           self.gravity     = Magick::CenterGravity
+          self.font_weight = Magick::BoldWeight
           self.fill        = "black"
           self.pointsize   = pointsize
-          self.font_family = "arial"
+          self.font_family = "Helvetica"
         end
 
         # Draw the arrow pointing down in the moddle of the annotation
@@ -525,9 +526,10 @@ module AlleleImage
 
         origin.annotate( image, @text_width * "ori".length, @text_height, x_coord, y_coord - @text_height, "ori" ) do
           self.gravity     = Magick::CenterGravity
+          self.font_weight = Magick::BoldWeight
           self.fill        = "black"
           self.pointsize   = pointsize
-          self.font_family = "arial"
+          self.font_family = "Helvetica"
         end
 
         return image
@@ -591,7 +593,7 @@ module AlleleImage
             self.font_weight = Magick::BoldWeight
             self.gravity     = Magick::CenterGravity
             self.pointsize   = pointsize
-            self.font_family = "arial"
+            self.font_family = "Helvetica"
           end
 
           return image
@@ -629,9 +631,11 @@ module AlleleImage
         # annotate the block
         pointsize = @font_size
         d.annotate( image, w, y, 0, 0, "#{ label_for[ name ] || name }\n(#{ length } bp)" ) do
-          self.fill      = "blue"
-          self.gravity   = Magick::CenterGravity
-          self.pointsize = pointsize
+          self.fill        = "blue"
+          self.gravity     = Magick::CenterGravity
+          self.font_weight = Magick::BoldWeight
+          self.font_family = "Helvetica"
+          self.pointsize   = pointsize
         end
 
         return image
@@ -645,9 +649,11 @@ module AlleleImage
         d.draw( image )
         pointsize = @font_size
         d.annotate( image, image.columns(), height, x, y, label ) do
-          self.fill      = "blue"
-          self.gravity   = Magick::CenterGravity
-          self.pointsize = pointsize
+          self.fill        = "blue"
+          self.gravity     = Magick::CenterGravity
+          self.font_weight = Magick::BoldWeight
+          self.font_family = "Helvetica"
+          self.pointsize   = pointsize
         end
 
         return image
