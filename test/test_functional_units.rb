@@ -50,7 +50,7 @@ class TestFunctionalUnits < Test::Unit::TestCase
         "#{ @data_dir }/910.gbk" => {
           :label => "L1L2_st0",
           :expected_features =>
-            ["FRT", "En2 SA", "rat Cd4 TM", "lacZ", "T2A", "neo", "pA", "FRT", "loxP"]
+            ["FRT", "En2 SA", "Cd4 TM", "lacZ", "T2A", "neo", "pA", "FRT", "loxP"]
         },
         # TODO: this demonstrates that the promoters _are not_ quite
         # done yet as the arrow in the backbone should be pointing
