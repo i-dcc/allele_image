@@ -1,3 +1,7 @@
+=== 0.2.10 2010-12-08
+* 1 major enhancement(s)
+  * Rename "rat Cd4 TM" to "Cd4 TM"
+
 === 0.2.9 2010-12-07
 * 1 major enhancement(s)
   * Aesthetic fixes to the fonts, colours and boundaries of features
