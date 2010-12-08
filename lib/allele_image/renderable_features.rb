@@ -5,7 +5,7 @@ module AlleleImage
   FUNCTIONAL_UNITS = {
     ["En2 intron", "SA", "En2 exon"] => "En2 SA",
     ["En2 intron", "SA", "En2 exon", "Frame K insert"] => "En2 SA (ATG)",
-    ["rat Cd4", "TM domain"] => "rat Cd4 TM",
+    ["rat Cd4", "TM domain"] => "Cd4 TM",
     ["PGK", "DTA", "pA"] => "PGK_DTA_pA",
     ["pA", "DTA", "PGK"] => "pA_DTA_PGK",
   }
@@ -49,7 +49,7 @@ module AlleleImage
       "En2 SA (ATG)" => {
         "width" => 80
       },
-      "rat Cd4 TM" => {
+      "Cd4 TM" => {
         "width" => 80
       },
       "PGK_DTA_pA" => {
