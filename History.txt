@@ -1,3 +1,7 @@
+=== 0.2.11 2010-12-09
+* 1 major enhancement(s)
+  * Some updates on the fonts and appearance
+
 === 0.2.10 2010-12-08
 * 1 major enhancement(s)
   * Rename "rat Cd4 TM" to "Cd4 TM"
