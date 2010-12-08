@@ -50,7 +50,9 @@ module AlleleImage
         "width" => 80
       },
       "Cd4 TM" => {
-        "width" => 80
+        "width"  => 80,
+        "colour" => "black",
+        "font"   => "white"
       },
       "PGK_DTA_pA" => {
         "width" => 300
