@@ -61,6 +61,9 @@ module AlleleImage
         "width" => 300
       },
 
+      "SV40 pA" => {
+        "label" => "pA"
+      },
       "delTK1" => {},
       "rat Cd4" => {},
       "Frame K insert" => {},   # will get swallowed by "En2 SA (ATG)"
