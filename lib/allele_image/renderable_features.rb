@@ -28,15 +28,6 @@ module AlleleImage
       "U3" => {}
     },
     "polyA_site" => {
-      "SV40 pA" => {
-        "label" => "pA"
-      },
-      "PGK pA" => {
-        "label" => "pA"
-      },
-      "BGH pA" => {
-        "label" => "pA"
-      },
       "poly A [Split]" => {
         "label" => "pA"
       }
@@ -62,6 +53,12 @@ module AlleleImage
       },
 
       "SV40 pA" => {
+        "label" => "pA"
+      },
+      "PGK pA" => {
+        "label" => "pA"
+      },
+      "BGH pA" => {
         "label" => "pA"
       },
       "delTK1" => {},
