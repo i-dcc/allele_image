@@ -45,7 +45,11 @@ module AlleleImage
       features = features.select { |f| not f.nil? }
 
       # Sort the features
-      features = features.sort { |a,b| a.start <=> b.start }
+      features = features.sort do |a,b|
+        res = a.start <=> b.start
+        res = a.stop  <=> b.stop if res == 0
+        res
+      end
 
       # Return a AlleleImage::Construct object
       AlleleImage::Construct.new(
