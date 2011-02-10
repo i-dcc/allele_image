@@ -65,6 +65,11 @@ class TestFunctionalUnits < Test::Unit::TestCase
           :expected_features =>
             ["FRT", "En2 SA", "IRES", "lacZ", "pA", "loxP", "PGK", "neo*", "pA", "FRT", "loxP"]
         },
+        "#{ @data_dir }/2935.gbk" => {
+          :label => "L1L2_gtk",
+          :expected_features =>
+            ["FRT", "En2 SA (ATG)", "T2A", "lacZ", "T2A", "neo", "pA", "FRT", "loxP"]
+        },
       }
       @backbones = {
         "#{ @data_dir }/144.gbk" => {
