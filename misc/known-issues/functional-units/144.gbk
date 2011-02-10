@@ -1,4 +1,4 @@
-<pre>LOCUS       vector_49836_OTTMUSE00000031727_L1L2_Bact_P_L3L4_pD223_DTA_spec        21567 bp    dna     circular UNK 
+LOCUS       vector_49836_OTTMUSE00000031727_L1L2_Bact_P_L3L4_pD223_DTA_spec        21567 bp    dna     circular UNK 
 ACCESSION   unknown
 DBSOURCE    accession design_id=49836
 COMMENT     cassette : L1L2_Bact_P
@@ -530,4 +530,4 @@ ORIGIN
     21481 tcagaccccg tagaaaagat caaaggatct tcttgagatc ctttttttct gcgcgtaatc
     21541 tgctgcttgc aaacaaaaaa accaccg
 //
-</pre>
+

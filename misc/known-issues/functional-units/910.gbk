@@ -1,4 +1,4 @@
-<pre>LOCUS       vector_47343_OTTMUSE00000056979_L1L2_st0_L3L4_pZero_DTA_kan        19870 bp    dna     circular UNK 
+LOCUS       vector_47343_OTTMUSE00000056979_L1L2_st0_L3L4_pZero_DTA_kan        19870 bp    dna     circular UNK 
 ACCESSION   unknown
 DBSOURCE    accession design_id=47343
 COMMENT     cassette : L1L2_st0
@@ -492,4 +492,4 @@ ORIGIN
     19801 agtcatagcc gaatagcctc tccacccaag cggccggaga acctgcgtgc aatccatctt
     19861 gttcaatcat
 //
-</pre>
+

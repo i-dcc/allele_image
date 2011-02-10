@@ -1,4 +1,4 @@
-<pre>LOCUS       vector_119142_ENSMUSE00000152970-ENSMUSE00000152974_L1L2_Pgk_P_L3L4_pD223_DTA_spec        21786 bp    dna     circular UNK 
+LOCUS       vector_119142_ENSMUSE00000152970-ENSMUSE00000152974_L1L2_Pgk_P_L3L4_pD223_DTA_spec        21786 bp    dna     circular UNK 
 ACCESSION   unknown
 DBSOURCE    accession design_id=119142
 COMMENT     cassette : L1L2_Pgk_P
@@ -552,4 +552,3 @@ ORIGIN
     21721 aaaggatctt cttgagatcc tttttttctg cgcgtaatct gctgcttgca aacaaaaaaa
     21781 ccaccg
 //
-</pre>

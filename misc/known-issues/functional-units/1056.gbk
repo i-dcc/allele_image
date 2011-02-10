@@ -1,4 +1,4 @@
-<pre>LOCUS       vector_42382_OTTMUSE00000299329_L1L2_Pgk_PM_L3L4_pD223_DTA_spec        21496 bp    dna     circular UNK 
+LOCUS       vector_42382_OTTMUSE00000299329_L1L2_Pgk_PM_L3L4_pD223_DTA_spec        21496 bp    dna     circular UNK 
 ACCESSION   unknown
 DBSOURCE    accession design_id=42382
 COMMENT     cassette : L1L2_Pgk_PM
@@ -545,4 +545,4 @@ ORIGIN
     21421 agaaaagatc aaaggatctt cttgagatcc tttttttctg cgcgtaatct gctgcttgca
     21481 aacaaaaaaa ccaccg
 //
-</pre>
+

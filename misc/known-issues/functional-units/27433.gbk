@@ -1,4 +1,4 @@
-<pre>LOCUS       vector_46540_OTTMUSE00000010089-OTTMUSE00000010091_L1L2_NTARU-2_L3L4_pZero_DTA_kan        21172 bp    dna     circular UNK 
+LOCUS       vector_46540_OTTMUSE00000010089-OTTMUSE00000010091_L1L2_NTARU-2_L3L4_pZero_DTA_kan        21172 bp    dna     circular UNK 
 ACCESSION   unknown
 DBSOURCE    accession design_id=46540
 COMMENT     ApEinfo:methylated:1
@@ -498,4 +498,4 @@ ORIGIN
     21061 ggaacacggc ggcatcagag cagccgattg tctgttgtgc ccagtcatag ccgaatagcc
     21121 tctccaccca agcggccgga gaacctgcgt gcaatccatc ttgttcaatc at
 //
-</pre>
+
