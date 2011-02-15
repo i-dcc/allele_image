@@ -49,8 +49,8 @@ FEATURES             Location/Qualifiers
                      /label=F3
                      /note="F3"
      misc_feature    3570..3880
-                     /label=UiPCR cassette
-                     /note="UiPCR cassette"
+                     /label=UiPCR
+                     /note="UiPCR"
      misc_feature    3907..4024
                      /label=SA
                      /note="SA"
@@ -60,7 +60,7 @@ FEATURES             Location/Qualifiers
      misc_feature    4621..7719
                      /label=BETA-GEO
                      /note="BETA-GEO"
-     polyA_site      7723..7947
+     misc_feature    7723..7947
                      /label=BGH pA
                      /note="BGH pA"
      misc_feature    7969..8002
@@ -78,7 +78,7 @@ FEATURES             Location/Qualifiers
      CDS             9590..10381
                      /label=NeoR
                      /note="NeoR"
-     polyA_site      10403..10859
+     misc_feature    10403..10859
                      /label=PGK pA
                      /note="PGK pA"
      misc_feature    10869..10902
@@ -90,7 +90,7 @@ FEATURES             Location/Qualifiers
      gene            10976..11575
                      /label=Puro
                      /note="Puro"
-     polyA_site      11667..11858
+     misc_feature    11667..11858
                      /label=SV40 pA
                      /note="SV40 pA"
      misc_feature    complement(11890..11923)
@@ -111,7 +111,7 @@ FEATURES             Location/Qualifiers
      CDS             19687..20343
                      /label=DTA
                      /note="DTA"
-     polyA_site      20468..20726
+     misc_feature    20468..20726
                      /label=BGH pA
                      /note="BGH pA"
      CDS             complement(21222..22016)
@@ -518,3 +518,4 @@ ORIGIN
     21901 agccggaaca cggcggcatc agagcagccg attgtctgtt gtgcccagtc atagccgaat
     21961 agcctctcca cccaagcggc cggagaacct gcgtgcaatc catcttgttc aatcat
 //
+

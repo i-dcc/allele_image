@@ -5,21 +5,13 @@ class TestFunctionalUnits < Test::Unit::TestCase
     setup do
       @data_dir  = "#{ File.dirname( __FILE__ ) }/../misc/known-issues/functional-units"
       @cassettes = {
-        # list should include an example from every cassette
+        # list should include an example from every cassette. missing include:
+        # - L1L2_Bact_EM7
+        # - L1L2_hubi_P
         "#{ @data_dir }/157.gbk"   => {
           :label => "L1L2_gt0",
           :expected_features =>
             ["FRT", "En2 SA", "T2A", "lacZ", "T2A", "neo", "pA", "FRT", "loxP"]
-        },
-        "#{ @data_dir }/6133.gbk"  => {
-          :label => "L1L2_Bact_EM7",
-          :expected_features =>
-            ["FRT", "En2 SA", "IRES", "lacZ", "pA", "loxP", "hBactP", "neo", "pA", "FRT", "loxP"]
-        },
-        "#{ @data_dir }/25075.gbk" => {
-          :label => "L1L2_hubi_P",
-          :expected_features =>
-            ["FRT", "En2 SA", "IRES", "lacZ", "pA", "loxP", "hubiP", "neo", "pA", "FRT", "loxP"]
         },
         "#{ @data_dir }/27498.gbk" => {
           :label => "L1L2_GOHANU",

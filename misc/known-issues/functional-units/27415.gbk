@@ -1,4 +1,4 @@
-<pre>LOCUS       vector_46617_OTTMUSE00000054858-OTTMUSE00000054882_L1L2_NTARU-0_L3L4_pZero_DTA_kan        20362 bp    dna     circular UNK 
+LOCUS       vector_46617_OTTMUSE00000054858-OTTMUSE00000054882_L1L2_NTARU-0_L3L4_pZero_DTA_kan        20362 bp    dna     circular UNK 
 ACCESSION   unknown
 DBSOURCE    accession design_id=46617
 COMMENT     ApEinfo:methylated:1
@@ -68,10 +68,10 @@ FEATURES             Location/Qualifiers
      misc_feature    7947..8000
                      /label=T2A
                      /note="T2A"
-     CDS             8001..8983
+     CDS             8001..8792
                      /label=NeoR
                      /note="NeoR"
-     polyA_site      8984..9233
+     misc_feature    8984..9233
                      /label=SV40 pA
                      /note="SV40 pA"
      misc_feature    complement(9267..9315)
@@ -80,7 +80,7 @@ FEATURES             Location/Qualifiers
      gene            join(9330..9380,9382..9442,9444..9929)
                      /label=Puro
                      /note="Puro"
-     polyA_site      10007..10462
+     misc_feature    10007..10462
                      /label=PGK pA
                      /note="PGK pA"
      misc_feature    10499..10532
@@ -101,7 +101,7 @@ FEATURES             Location/Qualifiers
      CDS             18033..18689
                      /label=DTA
                      /note="DTA"
-     polyA_site      18814..19072
+     misc_feature    18814..19072
                      /label=BGH pA
                      /note="BGH pA"
      CDS             complement(19568..20362)
@@ -485,4 +485,4 @@ ORIGIN
     20281 tctgttgtgc ccagtcatag ccgaatagcc tctccaccca agcggccgga gaacctgcgt
     20341 gcaatccatc ttgttcaatc at
 //
-</pre>
+

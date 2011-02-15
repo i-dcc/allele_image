@@ -78,7 +78,7 @@ FEATURES             Location/Qualifiers
      gene            8568..11614
                      /label=lacZ
                      /note="lacZ"
-     polyA_site      11649..11904
+     misc_feature    11649..11904
                      /label=SV40 pA
                      /note="SV40 pA"
      misc_feature    11908..11941
@@ -87,15 +87,10 @@ FEATURES             Location/Qualifiers
      promoter        11973..12480
                      /label=PGK promoter
                      /note="PGK promoter"
-     CDS             12555..13358
-                     /translation="MGSAIEQDGLHAGSPAAWVERLFGYDWAQQTIGCSDAAVFRLSA
-                     QGRPVLFVKTDLSGALNELQDEAARLSWLATTGVPCAAVLDVVTEAGRDWLLLGEVPG
-                     QDLLSSHLAPAEKVSIMADAMRRLHTLDPATCPFDHQAKHRIERARTRMEAGLVDQDD
-                     LDEEHQGLAPAELFARLKARMPDGDDLVVTHGDACLPNIMVENGRFSGFIDCGRLGVA
-                     DRYQDIALATRDIAEELGGEWADRFLVLYGIAAPDSQRIAFYRLLDEFF"
+     CDS             12567..13358
                      /label=NeoR
                      /note="NeoR"
-     polyA_site      13556..13799
+     misc_feature    13556..13799
                      /label=SV40 pA
                      /note="SV40 pA"
      misc_feature    13816..13863
@@ -116,7 +111,7 @@ FEATURES             Location/Qualifiers
      misc_feature    18832..18841
                      /label=B4 site
                      /note="B4 site"
-     polyA_site      complement(18917..19170)
+     misc_feature    complement(18917..19170)
                      /label=BGH pA
                      /note="BGH pA"
      CDS             complement(19295..19951)

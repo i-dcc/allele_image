@@ -71,10 +71,10 @@ FEATURES             Location/Qualifiers
      misc_feature    10204..10257
                      /label=T2A
                      /note="T2A"
-     CDS             10258..11240
+     CDS             10258..11049
                      /label=NeoR
                      /note="NeoR"
-     polyA_site      11249..11490
+     misc_feature    11249..11490
                      /label=SV40 pA
                      /note="SV40 pA"
      misc_feature    11507..11554
@@ -101,7 +101,7 @@ FEATURES             Location/Qualifiers
      CDS             17541..18197
                      /label=DTA
                      /note="DTA"
-     polyA_site      18322..18580
+     misc_feature    18322..18580
                      /label=BGH pA
                      /note="BGH pA"
      CDS             complement(19076..19870)
@@ -492,3 +492,4 @@ ORIGIN
     19801 agtcatagcc gaatagcctc tccacccaag cggccggaga acctgcgtgc aatccatctt
     19861 gttcaatcat
 //
+

@@ -69,10 +69,10 @@ FEATURES             Location/Qualifiers
      misc_feature    8239..8292
                      /label=T2A
                      /note="T2A"
-     CDS             8293..9275
+     CDS             8293..9084
                      /label=NeoR
                      /note="NeoR"
-     polyA_site      9276..9525
+     misc_feature    9276..9525
                      /label=SV40 pA
                      /note="SV40 pA"
      misc_feature    complement(9559..9607)
@@ -81,7 +81,7 @@ FEATURES             Location/Qualifiers
      gene            join(9622..9672,9674..9734,9736..10221)
                      /label=Puro
                      /note="Puro"
-     polyA_site      10299..10754
+     misc_feature    10299..10754
                      /label=PGK pA
                      /note="PGK pA"
      misc_feature    10791..10824
@@ -102,7 +102,7 @@ FEATURES             Location/Qualifiers
      CDS             18806..19462
                      /label=DTA
                      /note="DTA"
-     polyA_site      19587..19845
+     misc_feature    19587..19845
                      /label=BGH pA
                      /note="BGH pA"
      CDS             complement(20341..21135)
@@ -499,3 +499,4 @@ ORIGIN
     21061 tgcccagtca tagccgaata gcctctccac ccaagcggcc ggagaacctg cgtgcaatcc
     21121 atcttgttca atcat
 //
+

@@ -835,7 +835,7 @@ module AlleleImage
         gap = AlleleImage::Feature.new( Bio::Feature.new( "misc_feature", "1..1" ).append( Bio::Feature::Qualifier.new( "note", "gap" ) ) )
         pgk = AlleleImage::Feature.new( Bio::Feature.new( "promoter", "1..2" ).append( Bio::Feature::Qualifier.new( "note", "PGK promoter" ) ) )
         dta = AlleleImage::Feature.new( Bio::Feature.new( "CDS", "3..4" ).append( Bio::Feature::Qualifier.new( "note", "DTA" ) ) )
-        pa  = AlleleImage::Feature.new( Bio::Feature.new( "polyA_site", "5..6" ).append( Bio::Feature::Qualifier.new( "note", "PGK pA" ) ) )
+        pa  = AlleleImage::Feature.new( Bio::Feature.new( "misc_feature", "5..6" ).append( Bio::Feature::Qualifier.new( "note", "PGK pA" ) ) )
         [ ( 1 .. ( feature.width - 100 ) / @gap_width ).collect { |x| gap }, pgk, dta, pa ].flatten.each do |sub_feature|
           feature_width = 0
           if sub_feature.feature_name() == "gap"
@@ -854,7 +854,7 @@ module AlleleImage
         gap = AlleleImage::Feature.new( Bio::Feature.new( "misc_feature", "1..1" ).append( Bio::Feature::Qualifier.new( "note", "gap" ) ) )
         pgk = AlleleImage::Feature.new( Bio::Feature.new( "promoter", "complement(1..2)" ).append( Bio::Feature::Qualifier.new( "note", "PGK promoter" ) ) )
         dta = AlleleImage::Feature.new( Bio::Feature.new( "CDS", "3..4" ).append( Bio::Feature::Qualifier.new( "note", "DTA" ) ) )
-        pa  = AlleleImage::Feature.new( Bio::Feature.new( "polyA_site", "5..6" ).append( Bio::Feature::Qualifier.new( "note", "PGK pA" ) ) )
+        pa  = AlleleImage::Feature.new( Bio::Feature.new( "misc_feature", "5..6" ).append( Bio::Feature::Qualifier.new( "note", "PGK pA" ) ) )
         [ ( 1 .. ( feature.width - 100 ) / @gap_width ).collect { |x| gap }, pa, dta, pgk ].flatten.each do |sub_feature|
           feature_width = 0
           if sub_feature.feature_name() == "gap"

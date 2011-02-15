@@ -70,7 +70,7 @@ FEATURES             Location/Qualifiers
      gene            6838..9884
                      /label=lacZ
                      /note="lacZ"
-     polyA_site      9919..10174
+     misc_feature    9919..10174
                      /label=SV40 pA
                      /note="SV40 pA"
      misc_feature    10178..10211
@@ -79,10 +79,10 @@ FEATURES             Location/Qualifiers
      promoter        10237..10757
                      /label=human beta actin promoter
                      /note="human beta actin promoter"
-     CDS             10786..11427
+     CDS             10783..11577
                      /label=NeoR
                      /note="NeoR"
-     polyA_site      11775..12018
+     misc_feature    11775..12018
                      /label=SV40 pA
                      /note="SV40 pA"
      misc_feature    12035..12082
@@ -103,7 +103,7 @@ FEATURES             Location/Qualifiers
      misc_feature    18613..18622
                      /label=B4 site
                      /note="B4 site"
-     polyA_site      complement(18698..18951)
+     misc_feature    complement(18698..18951)
                      /label=BGH pA
                      /note="BGH pA"
      CDS             complement(19076..19732)
@@ -530,3 +530,4 @@ ORIGIN
     21481 tcagaccccg tagaaaagat caaaggatct tcttgagatc ctttttttct gcgcgtaatc
     21541 tgctgcttgc aaacaaaaaa accaccg
 //
+

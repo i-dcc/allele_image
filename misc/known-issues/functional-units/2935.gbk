@@ -1,4 +1,4 @@
-<pre>LOCUS       vector_47364_ENSMUSE00000645460_L1L2_gtk_L3L4_pZero_DTA_kan        19460 bp    dna     circular UNK 
+LOCUS       vector_47364_ENSMUSE00000645460_L1L2_gtk_L3L4_pZero_DTA_kan        19460 bp    dna     circular UNK 
 ACCESSION   unknown
 DBSOURCE    accession design_id=47364
 COMMENT     cassette : L1L2_gtk
@@ -476,4 +476,4 @@ ORIGIN
     19381 tgttgtgccc agtcatagcc gaatagcctc tccacccaag cggccggaga acctgcgtgc
     19441 aatccatctt gttcaatcat
 //
-</pre>
+
