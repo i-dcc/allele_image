@@ -437,9 +437,12 @@ module AlleleImage
         # Construct the label image
         label_image, x, y = Magick::Image.new( image_width, calculate_labels_image_height() ), 0, 0
 
+        # Only label target exons
         exons.each do |exon|
-          draw_label( label_image, exon.feature_name(), x, y )
-          y += @text_height
+          if exon.feature_name.match(/^target\s+exon\s+/)
+            draw_label( label_image, exon.feature_name.match(/(\w+)$/).captures.last, x, y )
+            y += @text_height
+          end
         end
 
         # Stack the images vertically
