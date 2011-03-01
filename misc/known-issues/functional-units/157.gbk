@@ -62,6 +62,7 @@ FEATURES             Location/Qualifiers
                      /label=T2A
                      /note="T2A"
      gene            6466..9512
+                     /gene="lacZ"
                      /label=lacZ
                      /note="lacZ"
      misc_feature    9526..9579
@@ -118,10 +119,10 @@ FEATURES             Location/Qualifiers
                      /type="D5"
                      /note="D5"
      exon            11397..11635
-                     /db_xref="ens:ENSMUSE00000710241"
+                     /db_xref="ens:ENSMUSE00000885530"
                      /type="targeted"
-                     /label=target exon 1 ENSMUSE00000710241
-                     /note="target exon 1 ENSMUSE00000710241"
+                     /label=target exon 1 ENSMUSE00000885530
+                     /note="target exon 1 ENSMUSE00000885530"
      LRPCR_primer    11474..11503
                      /type="EX52"
                      /label=EX52
@@ -500,4 +501,3 @@ ORIGIN
     19801 cggaacacgg cggcatcaga gcagccgatt gtctgttgtg cccagtcata gccgaatagc
     19861 ctctccaccc aagcggccgg agaacctgcg tgcaatccat cttgttcaat cat
 //
-
