@@ -296,8 +296,12 @@ module AlleleImage
 
         # For the (unlikely) case where we have nothing in the 3' arm,
         # construct an empty image with width = "3' homology arm".length()
-        if image.columns < "3' homology arm".length() * @text_width
-          image = render_genomic_region( @construct.three_arm_features, :width => "3' homology arm".length() * @text_width )
+        homology_arm_width = "3' homology arm".length() * @text_width
+        if image.columns < homology_arm_width
+          padded_image  = Magick::ImageList.new
+          padding_width = ( homology_arm_width - image.columns ) / 2
+          padding_image = render_genomic_region( [], :width => padding_width )
+          image         = padded_image.push( padding_image ).push( image ).push( padding_image.clone ).append(false)
         end
 
         # Construct the annotation image
