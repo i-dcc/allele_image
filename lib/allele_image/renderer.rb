@@ -891,11 +891,13 @@ module AlleleImage
 
       # UTILITY METHODS
       def calculate_genomic_region_width( exons )
-        characters = 0 # "5' homology arm".length
-        if exons and exons.count > 0
-         characters = exons.map { |exon| exon.feature_name().length() } .max
+        return 0 if exons.nil? or exons.empty?
+        target_exons = exons.select { |e| e.feature_name.match(/^target\s+exon\s+/) }
+        if target_exons.nil? or target_exons.empty?
+          return calculate_exon_image_width( exons.size ) + @gap_width * 2 # for padding either side
+        else
+          return target_exons.map { |e| e.feature_name.match(/(\w+)$/).captures.last.length }.max * @text_width
         end
-        characters * @text_width
       end
 
       # Return the width occupied by the exons based on the exon count
