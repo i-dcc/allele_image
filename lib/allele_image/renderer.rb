@@ -140,7 +140,7 @@ module AlleleImage
       end
 
       def render_five_arm
-        image = render_genomic_region( @construct.five_arm_features(), :width => "5' homology arm".length() * @text_width )
+        image = render_genomic_region( @construct.five_arm_features(), :width => "5' arm".length() * @text_width )
 
         # Construct the annotation image
         image_list       = Magick::ImageList.new()
@@ -295,8 +295,8 @@ module AlleleImage
         image = image_list.append( false )
 
         # For the (unlikely) case where we have nothing in the 3' arm,
-        # construct an empty image with width = "3' homology arm".length()
-        homology_arm_width = "3' homology arm".length() * @text_width
+        # construct an empty image with width = "3' arm".length()
+        homology_arm_width = "3' arm".length() * @text_width
         if image.columns < homology_arm_width
           padded_image  = Magick::ImageList.new
           padding_width = ( homology_arm_width - image.columns ) / 2
@@ -633,7 +633,7 @@ module AlleleImage
         d.line( w, y, w, y + h ).draw( image )
 
         # We want better labels here
-        label_for = { "5 arm" => "5' homology arm", "3 arm" => "3' homology arm" }
+        label_for = { "5 arm" => "5' arm", "3 arm" => "3' arm" }
 
         # annotate the block
         pointsize = @font_size
