@@ -1,16 +1,24 @@
+PATH
+  remote: .
+  specs:
+    allele_image (0.3.0)
+      bio
+      rmagick
+
 GEM
   remote: http://rubygems.org/
   specs:
     bio (1.4.0)
+    hoe (2.8.0)
+      rake (>= 0.8.7)
+    rake (0.8.7)
     rmagick (2.12.2)
     shoulda (2.11.3)
-    test-unit (2.2.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  bio
-  rmagick
+  allele_image!
+  hoe (>= 2.8.0)
   shoulda
-  test-unit
