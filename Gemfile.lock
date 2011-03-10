@@ -8,11 +8,11 @@ PATH
 GEM
   remote: http://rubygems.org/
   specs:
-    bio (1.4.0)
+    bio (1.4.1)
     hoe (2.8.0)
       rake (>= 0.8.7)
     rake (0.8.7)
-    rmagick (2.12.2)
+    rmagick (2.13.1)
     shoulda (2.11.3)
 
 PLATFORMS
