@@ -1,5 +1,4 @@
-require File.dirname(__FILE__) + '/test_helper.rb'
-require "pp"
+require 'test_helper'
 
 class TestConstruct < Test::Unit::TestCase
   context "a Conditional Allele" do

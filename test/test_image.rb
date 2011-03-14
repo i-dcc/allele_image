@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/test_helper.rb'
+require 'test_helper'
 
 class TestImage < Test::Unit::TestCase
   context "an Image" do
