@@ -1,7 +1,6 @@
 begin
-  require "rubygems"
-  require "shoulda"
   require "rake/testtask"
+  require "shoulda"
   require "test/unit"
 
   desc "Run the test suite under /test"

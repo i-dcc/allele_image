@@ -1,5 +1,4 @@
 # Add the lib directory to the search path
-# $:.unshift( "#{File.dirname(__FILE__)}/test" )
 
 require 'bundler'
 require 'bundler/setup'

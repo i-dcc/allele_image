@@ -4,5 +4,3 @@ require 'rubygems'
 require 'shoulda'
 require 'pp'
 require 'allele_image'
-
-# puts $:.sort
