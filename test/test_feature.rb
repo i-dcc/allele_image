@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/test_helper.rb'
+require 'test_helper'
 
 class TestAlleleImageFeature < Test::Unit::TestCase
   context "an AlleleImage::Feature" do

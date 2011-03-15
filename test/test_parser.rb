@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/test_helper.rb'
+require 'test_helper'
 
 # Expand on these tests
 class TestParseGenBank < Test::Unit::TestCase

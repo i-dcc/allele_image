@@ -24,7 +24,7 @@ module AlleleImage
 
     def parse( input )
       genbank_object = get_genbank_object( input )
-      data           = File.file?( input ) ? File.read( input ) : input
+      data           = File.file?( input ) ? File.read( input, :encoding => "iso8859-1" ) : input
       circular       = data.split("\n").first.match(/circular/) ? true : false
 
       # Retrieve the features
@@ -64,7 +64,7 @@ module AlleleImage
     private
       def get_genbank_object( input )
         if File.file?( input )
-          Bio::GenBank.new( File.read( input ) )
+          Bio::GenBank.new( File.read( input, :encoding => "iso8859-1" ) )
         else
           Bio::GenBank.new( input )
         end
@@ -73,7 +73,7 @@ module AlleleImage
       def extract_label( genbank_object, label )
         begin
           bioseq = genbank_object.to_biosequence
-          result = bioseq.comments.find { |x| x.match(label) }
+          result = bioseq.comments.split("\n").find { |x| x.match(label) }
           result = result.split(":").last.strip
         rescue
           # puts "Could not extract #{label} from GenBank file"
