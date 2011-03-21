@@ -17,6 +17,7 @@ Gem::Specification.new do |s|
   s.add_dependency "bio"
   s.add_dependency "rmagick"
 
+  s.add_development_dependency "awesome_print"
   s.add_development_dependency "shoulda"
   s.add_development_dependency "hoe"
   s.add_development_dependency "newgem"
