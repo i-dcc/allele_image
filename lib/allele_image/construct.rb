@@ -66,7 +66,7 @@ module AlleleImage
       end
 
       # handle the mirKO GB files ...
-      if cassette_features.empty?
+      if cassette_features.empty? and @rcmb_primers.size > 4
         cassette_features = @features.select do |feature|
         feature.start() > @rcmb_primers[2].stop()  and \
         feature.stop()  < @rcmb_primers[3].start() and \
