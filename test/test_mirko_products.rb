@@ -1,5 +1,4 @@
 require 'test_helper'
-require 'ap'
 
 class TestMirKOProducts < Test::Unit::TestCase
   context 'A mirKO product' do
