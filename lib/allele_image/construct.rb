@@ -58,10 +58,14 @@ module AlleleImage
     end
 
     # These methods always return something
-    def cassette_features
+    def cassette_features(params = { :upstream => 'U5', :downstream => 'U3' })
+      # fetch the corresponding {up|down}stream primers
+      upstream   = @rcmb_primers.find { |primer| primer.feature_name == params[:upstream]   }
+      downstream = @rcmb_primers.find { |primer| primer.feature_name == params[:downstream] }
+
       @features.select do |feature|
-        feature.start() > @rcmb_primers[1].stop()  and \
-        feature.stop()  < @rcmb_primers[2].start() and \
+        feature.start() > upstream.stop()  and \
+        feature.stop()  < downstream.start() and \
         feature.feature_type != "primer_bind"
       end
     end
