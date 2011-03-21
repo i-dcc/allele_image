@@ -71,11 +71,10 @@ class TestConstruct < Test::Unit::TestCase
     should "have cassette features" do
       @filename     = "#{File.dirname(__FILE__)}/../misc/mirko/20797.gbk"
       @image_file   = @filename.gsub(/gbk$/, 'gif')
-      @params       = { :upstream => 'U3', :downstream => 'D5' }
 
       assert_nothing_raised { @allele_image = AlleleImage::Image.new(@filename) }
       assert_not_nil @allele_image.construct, "AlleleImage::Construct is nil"
-      assert_not_empty @allele_image.construct.cassette_features(@params), "No cassette features"
+      assert_not_empty @allele_image.construct.cassette_features, "No cassette features"
       assert_nothing_raised { @allele_image.render.write(@image_file) }
       assert_equal true, File.exists?(@image_file), "Can't write GIF file"
     end
