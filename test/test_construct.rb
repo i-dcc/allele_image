@@ -58,7 +58,6 @@ class TestConstruct < Test::Unit::TestCase
 
     should "have backbone features" do
       assert_not_nil @construct.backbone_features()
-      # pp [ :BACK_BONE_FEATURES => @construct.backbone_features() ]
     end
 
     should "have no flank features" do
