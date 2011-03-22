@@ -57,6 +57,12 @@ module AlleleImage
       return "#{ backbone_type }\n(#{ @backbone_label })"
     end
 
+    # TODO:
+    #
+    # - refactor the way these features are separated into buckets
+    # - the cassette should not overlap the 3' arm
+    # - may be best to use a %age system
+
     # These methods always return something
     def cassette_features
       cassette_features = @features.select do |feature|
