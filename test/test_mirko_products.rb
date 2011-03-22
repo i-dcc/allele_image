@@ -3,7 +3,7 @@ require 'test_helper'
 class TestMirKOProducts < Test::Unit::TestCase
   context 'A mirKO product' do
     setup do
-      @cassette_features = ['LoxP', 'F3', 'PGK', 'pu-Delta-tk', 'pA', 'loxP', 'FRT']
+      @cassette_features = ['loxP', 'F3', 'PGK', 'pu-Delta-tk', 'pA', 'loxP', 'FRT']
     end
 
     should 'render a valid image' do
