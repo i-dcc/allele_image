@@ -58,12 +58,24 @@ class TestConstruct < Test::Unit::TestCase
 
     should "have backbone features" do
       assert_not_nil @construct.backbone_features()
-      # pp [ :BACK_BONE_FEATURES => @construct.backbone_features() ]
     end
 
     should "have no flank features" do
       assert_nil @construct.five_flank_features()
       assert_nil @construct.three_flank_features()
+    end
+  end
+
+  context "A mirKO vector" do
+    should "have cassette features" do
+      @filename     = "#{File.dirname(__FILE__)}/../misc/mirko/20797.gbk"
+      @image_file   = @filename.gsub(/gbk$/, 'gif')
+
+      assert_nothing_raised { @allele_image = AlleleImage::Image.new(@filename) }
+      assert_not_nil @allele_image.construct, "AlleleImage::Construct is nil"
+      assert_not_empty @allele_image.construct.cassette_features, "No cassette features"
+      assert_nothing_raised { @allele_image.render.write(@image_file) }
+      assert_equal true, File.exists?(@image_file), "Can't write GIF file"
     end
   end
 end

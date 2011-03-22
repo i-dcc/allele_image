@@ -10,6 +10,7 @@ GEM
   specs:
     RedCloth (4.2.7)
     activesupport (2.3.11)
+    awesome_print (0.3.2)
     bio (1.4.1)
     hoe (2.8.0)
       rake (>= 0.8.7)
@@ -33,6 +34,7 @@ PLATFORMS
 
 DEPENDENCIES
   allele_image!
+  awesome_print
   hoe
   newgem
   shoulda

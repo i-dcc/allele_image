@@ -57,13 +57,30 @@ module AlleleImage
       return "#{ backbone_type }\n(#{ @backbone_label })"
     end
 
+    # TODO:
+    #
+    # - refactor the way these features are separated into buckets
+    # - the cassette should not overlap the 3' arm
+    # - may be best to use a %age system
+
     # These methods always return something
     def cassette_features
-      @features.select do |feature|
+      cassette_features = @features.select do |feature|
         feature.start() > @rcmb_primers[1].stop()  and \
         feature.stop()  < @rcmb_primers[2].start() and \
         feature.feature_type != "primer_bind"
       end
+
+      # handle the mirKO GB files ...
+      if cassette_features.empty? and @rcmb_primers.size > 4
+        cassette_features = @features.select do |feature|
+        feature.start() > @rcmb_primers[2].stop()  and \
+        feature.stop()  < @rcmb_primers[3].start() and \
+        feature.feature_type != "primer_bind"
+        end
+      end
+
+      return cassette_features
     end
 
     def five_arm_features
