@@ -141,7 +141,6 @@ module AlleleImage
 
       def render_five_arm
         image = render_genomic_region( @construct.five_arm_features(), :width => "5' arm".length() * @text_width )
-
         # Construct the annotation image
         image_list       = Magick::ImageList.new()
         annotation_image = Magick::Image.new( image.columns(), @annotation_height )
@@ -151,11 +150,8 @@ module AlleleImage
         end
 
         if genomic.nil?
-          rcmb_primers = @construct.five_arm_features.select do |feature|
-            feature.feature_type == "primer_bind" and \
-            ['D3', 'D5', 'G3', 'G5', 'HD', 'HU', 'U3', 'U5'].include?( feature.feature_name )
-          end
-          genomic = AlleleImage::Feature.new(
+          rcmb_primers = @construct.rcmb_primers_in(:five_arm_features)
+          genomic      = AlleleImage::Feature.new(
             Bio::Feature.new(
               "misc_feature",
               "#{rcmb_primers.first.start}, #{rcmb_primers.last.stop}"
@@ -249,17 +245,14 @@ module AlleleImage
       end
 
       def render_three_arm
-        image_list = Magick::ImageList.new()
-
-        rcmb_primers = @construct.three_arm_features.select do |feature|
-          feature.feature_type() == "primer_bind" and \
-            ['D3', 'D5', 'G3', 'G5', 'HD', 'HU', 'U3', 'U5'].include?( feature.feature_name )
-        end
+        image_list             = Magick::ImageList.new()
+        rcmb_primers           = @construct.rcmb_primers_in(:three_arm_features)
+        three_arm_features     = []
+        target_region_features = []
+        loxp_region_features   = []
 
         if rcmb_primers.count == 2
-           three_arm_features     = @construct.three_arm_features()
-           target_region_features = nil
-           loxp_region_features   = nil
+           three_arm_features = @construct.three_arm_features()
         else
           target_region_features = @construct.three_arm_features().select do |feature|
             feature.start() >= rcmb_primers[0].start() and \
@@ -277,22 +270,11 @@ module AlleleImage
           end
         end
 
-        # Add the target region
-        if target_region_features and target_region_features.count() > 0
-          image_list.push( render_genomic_region( target_region_features ) )
+        [ target_region_features, loxp_region_features, three_arm_features ].each do |region|
+          image_list.push(render_genomic_region(region)) unless region.empty?
         end
 
-        # Add the loxP region
-        if loxp_region_features and loxp_region_features.count() > 0
-          image_list.push( render_mutant_region( loxp_region_features ) )
-        end
-
-        # Add the rest of the three arm region
-        if three_arm_features and three_arm_features.count() > 0
-          image_list.push( render_genomic_region( three_arm_features ) )
-        end
-
-        image = image_list.append( false )
+        image = image_list.empty? ? render_genomic_region([]) : image_list.append( false )
 
         # For the (unlikely) case where we have nothing in the 3' arm,
         # construct an empty image with width = "3' arm".length()
@@ -313,10 +295,7 @@ module AlleleImage
         end
 
         if genomic.size == 0
-          rcmb_primers = @construct.three_arm_features.select do |feature|
-            feature.feature_type == "primer_bind" and \
-            ['D3', 'D5', 'G3', 'G5', 'HD', 'HU', 'U3', 'U5'].include?( feature.feature_name )
-          end
+          rcmb_primers = @construct.rcmb_primers_in(:three_arm_features)
           genomic.push(
             AlleleImage::Feature.new(
               Bio::Feature.new(
@@ -379,7 +358,7 @@ module AlleleImage
             draw_feature( main_image, feature, x, y )
             feature_width = feature.width()
           end
-          x += feature_width # update the x coordinate
+          x += feature_width ? feature_width : 0
         end
 
         # Construct the label image
@@ -939,7 +918,7 @@ module AlleleImage
           if feature.feature_name() == "gap"
             gaps += @gap_width
           else
-            width += feature.width()
+            width += feature.width ? feature.width : 0
           end
         end
         # # This will "fix" the NorCoMM allelles but it does throw off the boundries
