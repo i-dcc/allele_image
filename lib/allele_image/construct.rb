@@ -18,7 +18,7 @@ module AlleleImage
   # * three_flank_features
   # 
   class Construct
-    attr_reader :backbone_features, :bac_label, :circular, :features, :rcmb_primers
+    attr_reader :backbone_features, :bac_label, :boundries, :circular, :features, :rcmb_primers
 
     def initialize( features, circular, cassette_label, backbone_label, bac_label = nil )
       @rcmb_primers   = initialize_rcmb_primers( features )
@@ -30,7 +30,12 @@ module AlleleImage
 
       raise "NoRcmbPrimers" unless @rcmb_primers.size > 0
 
+      initialize_boundries
       init_backbone_features if @circular
+    end
+
+    def rcmb_primers_in(section)
+      rcmb_primers.values_at(boundries[section][0], boundries[section][1])
     end
 
     def cassette_label
@@ -57,44 +62,17 @@ module AlleleImage
       return "#{ backbone_type }\n(#{ @backbone_label })"
     end
 
-    # TODO:
-    #
-    # - refactor the way these features are separated into buckets
-    # - the cassette should not overlap the 3' arm
-    # - may be best to use a %age system
-
     # These methods always return something
     def cassette_features
-      cassette_features = @features.select do |feature|
-        feature.start() > @rcmb_primers[1].stop()  and \
-        feature.stop()  < @rcmb_primers[2].start() and \
-        feature.feature_type != "primer_bind"
-      end
-
-      # handle the mirKO GB files ...
-      if cassette_features.empty? and @rcmb_primers.size > 4
-        cassette_features = @features.select do |feature|
-        feature.start() > @rcmb_primers[2].stop()  and \
-        feature.stop()  < @rcmb_primers[3].start() and \
-        feature.feature_type != "primer_bind"
-        end
-      end
-
-      return cassette_features
+      @cassette_features ||= initialize_section(:cassette_features)
     end
 
     def five_arm_features
-      @features.select do |feature|
-        feature.start() >= @rcmb_primers[0].start() and \
-        feature.stop()  <= @rcmb_primers[1].stop()
-      end
+      @five_arm_features ||= initialize_section(:five_arm_features)
     end
 
     def three_arm_features
-      @features.select do |feature|
-        feature.start() >= @rcmb_primers[2].start() and \
-        feature.stop()  <= @rcmb_primers.last.stop()
-      end
+      @three_arm_features ||= initialize_section(:three_arm_features)
     end
 
     # These would return nil depending on if the
@@ -116,6 +94,27 @@ module AlleleImage
         features.select do |feature|
           feature.feature_type == 'primer_bind' and \
            ['D3', 'D5', 'G3', 'G5', 'HD', 'HU', 'U3', 'U5'].include?( feature.feature_name )
+        end
+      end
+
+      def initialize_boundries
+        if @rcmb_primers.count == 4
+          @boundries = { :five_arm_features => [0,1], :cassette_features => [1,2], :three_arm_features => [2,3] }
+        else
+          @boundries = { :five_arm_features => [0,1], :cassette_features => [1,2], :three_arm_features => [2,5] }
+          if cassette_features.empty?
+            @cassette_features  = nil
+            @boundries = { :five_arm_features => [0,2], :cassette_features => [2,3], :three_arm_features => [3,5] }
+          end
+        end
+      end
+
+      def initialize_section(section)
+        # ap :section => section, :start => @rcmb_primers[@boundries[section][0]].start, :boundries => @boundries
+        @features.select do |f|
+          f.start >= @rcmb_primers[@boundries[section][0]].start and \
+          f.stop  <= @rcmb_primers[@boundries[section][1]].stop  and \
+          not @rcmb_primers.map(&:feature_name).include?(f.feature_name)
         end
       end
 
