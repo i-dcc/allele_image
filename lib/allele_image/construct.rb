@@ -18,7 +18,7 @@ module AlleleImage
   # * three_flank_features
   # 
   class Construct
-    attr_reader :backbone_features, :bac_label, :circular, :features, :rcmb_primers
+    attr_reader :backbone_features, :bac_label, :boundries, :circular, :features, :rcmb_primers
 
     def initialize( features, circular, cassette_label, backbone_label, bac_label = nil )
       @rcmb_primers   = initialize_rcmb_primers( features )
