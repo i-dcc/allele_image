@@ -140,8 +140,7 @@ module AlleleImage
       end
 
       def render_five_arm
-        image = render_genomic_region( @construct.five_arm_features(), :width => "5' homology arm".length() * @text_width )
-
+        image = render_genomic_region( @construct.five_arm_features(), :width => "5' arm".length() * @text_width )
         # Construct the annotation image
         image_list       = Magick::ImageList.new()
         annotation_image = Magick::Image.new( image.columns(), @annotation_height )
@@ -151,11 +150,8 @@ module AlleleImage
         end
 
         if genomic.nil?
-          rcmb_primers = @construct.five_arm_features.select do |feature|
-            feature.feature_type == "primer_bind" and \
-            ['D3', 'D5', 'G3', 'G5', 'HD', 'HU', 'U3', 'U5'].include?( feature.feature_name )
-          end
-          genomic = AlleleImage::Feature.new(
+          rcmb_primers = @construct.rcmb_primers_in(:five_arm_features)
+          genomic      = AlleleImage::Feature.new(
             Bio::Feature.new(
               "misc_feature",
               "#{rcmb_primers.first.start}, #{rcmb_primers.last.stop}"
@@ -249,17 +245,14 @@ module AlleleImage
       end
 
       def render_three_arm
-        image_list = Magick::ImageList.new()
-
-        rcmb_primers = @construct.three_arm_features.select do |feature|
-          feature.feature_type() == "primer_bind" and \
-            ['D3', 'D5', 'G3', 'G5', 'HD', 'HU', 'U3', 'U5'].include?( feature.feature_name )
-        end
+        image_list             = Magick::ImageList.new()
+        rcmb_primers           = @construct.rcmb_primers_in(:three_arm_features)
+        three_arm_features     = []
+        target_region_features = []
+        loxp_region_features   = []
 
         if rcmb_primers.count == 2
-           three_arm_features     = @construct.three_arm_features()
-           target_region_features = nil
-           loxp_region_features   = nil
+           three_arm_features = @construct.three_arm_features()
         else
           target_region_features = @construct.three_arm_features().select do |feature|
             feature.start() >= rcmb_primers[0].start() and \
@@ -277,27 +270,20 @@ module AlleleImage
           end
         end
 
-        # Add the target region
-        if target_region_features and target_region_features.count() > 0
-          image_list.push( render_genomic_region( target_region_features ) )
+        [ target_region_features, loxp_region_features, three_arm_features ].each do |region|
+          image_list.push(render_genomic_region(region)) unless region.empty?
         end
 
-        # Add the loxP region
-        if loxp_region_features and loxp_region_features.count() > 0
-          image_list.push( render_mutant_region( loxp_region_features ) )
-        end
-
-        # Add the rest of the three arm region
-        if three_arm_features and three_arm_features.count() > 0
-          image_list.push( render_genomic_region( three_arm_features ) )
-        end
-
-        image = image_list.append( false )
+        image = image_list.empty? ? render_genomic_region([]) : image_list.append( false )
 
         # For the (unlikely) case where we have nothing in the 3' arm,
-        # construct an empty image with width = "3' homology arm".length()
-        if image.columns < "3' homology arm".length() * @text_width
-          image = render_genomic_region( @construct.three_arm_features, :width => "3' homology arm".length() * @text_width )
+        # construct an empty image with width = "3' arm".length()
+        homology_arm_width = "3' arm".length() * @text_width
+        if image.columns < homology_arm_width
+          padded_image  = Magick::ImageList.new
+          padding_width = ( homology_arm_width - image.columns ) / 2
+          padding_image = render_genomic_region( [], :width => padding_width )
+          image         = padded_image.push( padding_image ).push( image ).push( padding_image.clone ).append(false)
         end
 
         # Construct the annotation image
@@ -309,10 +295,7 @@ module AlleleImage
         end
 
         if genomic.size == 0
-          rcmb_primers = @construct.three_arm_features.select do |feature|
-            feature.feature_type == "primer_bind" and \
-            ['D3', 'D5', 'G3', 'G5', 'HD', 'HU', 'U3', 'U5'].include?( feature.feature_name )
-          end
+          rcmb_primers = @construct.rcmb_primers_in(:three_arm_features)
           genomic.push(
             AlleleImage::Feature.new(
               Bio::Feature.new(
@@ -375,7 +358,7 @@ module AlleleImage
             draw_feature( main_image, feature, x, y )
             feature_width = feature.width()
           end
-          x += feature_width # update the x coordinate
+          x += feature_width ? feature_width : 0
         end
 
         # Construct the label image
@@ -437,9 +420,12 @@ module AlleleImage
         # Construct the label image
         label_image, x, y = Magick::Image.new( image_width, calculate_labels_image_height() ), 0, 0
 
+        # Only label target exons
         exons.each do |exon|
-          draw_label( label_image, exon.feature_name(), x, y )
-          y += @text_height
+          if exon.feature_name.match(/^target\s+exon\s+/)
+            draw_label( label_image, exon.feature_name.match(/(\w+)$/).captures.last, x, y )
+            y += @text_height
+          end
         end
 
         # Stack the images vertically
@@ -626,7 +612,7 @@ module AlleleImage
         d.line( w, y, w, y + h ).draw( image )
 
         # We want better labels here
-        label_for = { "5 arm" => "5' homology arm", "3 arm" => "3' homology arm" }
+        label_for = { "5 arm" => "5' arm", "3 arm" => "3' arm" }
 
         # annotate the block
         pointsize = @font_size
@@ -884,11 +870,13 @@ module AlleleImage
 
       # UTILITY METHODS
       def calculate_genomic_region_width( exons )
-        characters = 0 # "5' homology arm".length
-        if exons and exons.count > 0
-         characters = exons.map { |exon| exon.feature_name().length() } .max
+        return 0 if exons.nil? or exons.empty?
+        target_exons = exons.select { |e| e.feature_name.match(/^target\s+exon\s+/) }
+        if target_exons.nil? or target_exons.empty?
+          return calculate_exon_image_width( exons.size ) + @gap_width * 2 # for padding either side
+        else
+          return target_exons.map { |e| e.feature_name.match(/(\w+)$/).captures.last.length }.max * @text_width
         end
-        characters * @text_width
       end
 
       # Return the width occupied by the exons based on the exon count
@@ -930,7 +918,7 @@ module AlleleImage
           if feature.feature_name() == "gap"
             gaps += @gap_width
           else
-            width += feature.width()
+            width += feature.width ? feature.width : 0
           end
         end
         # # This will "fix" the NorCoMM allelles but it does throw off the boundries

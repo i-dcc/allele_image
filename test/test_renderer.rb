@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/test_helper.rb'
+require 'test_helper'
 
 # Expand on these tests
 class TestRendererRMagick < Test::Unit::TestCase
@@ -61,8 +61,6 @@ class TestRendererRMagick < Test::Unit::TestCase
   context "a NorCoMM example" do
     setup do
       file       = File.dirname( __FILE__ ) + "/../misc/norcomm/106140.gbk"
-      # @height    = 170
-      # @width     = 460
       @construct = AlleleImage::Parser.new( file ).construct()
       @renderer  = AlleleImage::Renderer.new( @construct )
     end

@@ -195,6 +195,8 @@ module AlleleImage
         "font" => "white"
       },
 
+      # mirKO
+      "pu-Delta-tk" => {},
       # KOMP-Regeneron specific stuff
       # "LacZ" => {
       #   "colour" => "blue",

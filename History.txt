@@ -1,3 +1,17 @@
+=== 0.3.3 2011-03-23
+* ? major enhancement(s)
+  * Render mirKO GenBank data
+
+=== 0.3.2 2011-03-15
+* 2 major enhancement(s)
+  * Now Ruby19 compliant
+  * Manage dependencies with Bundler
+
+=== 0.2.13 2011-03-02
+* 2 major enhancement(s)
+  * Only render label for the target exons
+  * Say [35]' arm in place of [35]' homology arm
+
 === 0.2.11 2010-12-09
 * 1 major enhancement(s)
   * Some updates on the fonts and appearance

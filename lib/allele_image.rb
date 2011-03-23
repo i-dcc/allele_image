@@ -3,8 +3,6 @@ $:.unshift(File.dirname(__FILE__)) unless
 
 # This entire module could do with a better name
 module AlleleImage
-  VERSION = '0.2.12'
-
 end
 
 directory = File.expand_path( File.dirname(__FILE__) )
