@@ -886,29 +886,11 @@ module AlleleImage
       end
 
       def calculate_labels_image_height
-        cassette_label_rows   = 2 # in case of "cassette type\(cassette label)"
-        five_flank_features   = 0
-        five_arm_features     = @construct.five_arm_features.select  { |f| f.feature_type == "exon" }.size
-        three_arm_features    = @construct.three_arm_features.select { |f| f.feature_type == "exon" }.size
-        three_flank_features  = 0
-
-        # these might be nil
-        unless @construct.five_flank_features.nil?
-          five_flank_features = @construct.five_flank_features.select { |f| f.feature_type == "exon" }.size
-        end
-
-        unless @construct.three_flank_features.nil?
-          three_flank_features = @construct.three_flank_features.select { |f| f.feature_type == "exon" }.size
-        end
+        cassette_label_rows = 2 # in case of "cassette type\(cassette label)"
+        three_arm_features  = @construct.three_arm_features.select { |f| f.feature_type.match(/^target\s+exon\s+/) }.size
 
         # we want the maximum here
-        [
-         cassette_label_rows,
-         five_flank_features,
-         five_arm_features,
-         three_arm_features,
-         three_flank_features
-        ].max * @text_height
+        [ cassette_label_rows, three_arm_features ].max * @text_height
       end
 
       # find sum of feature labels
