@@ -123,15 +123,15 @@ module AlleleImage
 
       # teeze out the PGK-DTA-pA structure making sure the only thing b/w the PGK and the pA is the DTA
       wanted, rest = backbone_features.partition { |f| %w[pA DTA PGK].include?(f.feature_name) }
-      rest_image   = render_mutant_region( rest,   :width => calculate_width(rest) )
 
       if wanted.empty?
-        backbone.push(rest_image)
+        backbone.push( render_mutant_region( backbone_features, :width => params[:width] ) )
       else
         unexpected_features = backbone_features.select { |e| e.feature_name != "DTA" and wanted.first.start < e.start and e.stop < wanted.last.stop }
 
         raise "Unexpected features in PGK-DTA-pA structure: [#{unexpected_features.map(&:feature_name).join(', ')}]" unless unexpected_features.empty?
 
+        rest_image   = render_mutant_region( rest,   :width => calculate_width(rest) )
         wanted_image = render_mutant_region( wanted, :width => calculate_width(wanted) )
 
         # create some padding between
