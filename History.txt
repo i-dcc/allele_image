@@ -1,6 +1,8 @@
 === 0.3.3 2011-03-23
 * ? major enhancement(s)
   * Render mirKO GenBank data
+  * Remove excess padding in the images with unlabelled exons in the
+  homology arms
 
 === 0.3.2 2011-03-15
 * 2 major enhancement(s)
