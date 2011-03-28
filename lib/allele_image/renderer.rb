@@ -138,7 +138,20 @@ module AlleleImage
         backbone.push(pad_image_5_prime).push(wanted_image).push(pad_image_middle).push(rest_image).push(pad_image_3_prime)
       end
 
-      backbone_image.push( five_flank_bb ).push( backbone.append(false) ).push( three_flank_bb )
+      backbone = backbone.append(false)
+      main_bb  = Magick::ImageList.new
+
+      # push the main backbone image onto the image list
+      main_bb.push(backbone)
+
+      # now add the label
+      if @construct.backbone_label
+        label_image = Magick::Image.new( backbone.columns, @text_height * 2 )
+        label_image = draw_label( label_image, @construct.backbone_label, 0, 0, @text_height * 2 )
+        main_bb.push( label_image )
+      end
+
+      backbone_image.push( five_flank_bb ).push( main_bb.append(true) ).push( three_flank_bb )
       backbone_image = backbone_image.append( false )
   
       return backbone_image
