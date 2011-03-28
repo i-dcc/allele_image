@@ -3,6 +3,7 @@
   * Render mirKO GenBank data
   * Remove excess padding in the images with unlabelled exons in the
   homology arms
+  * Draw the backbones with spacing between the *PGK-DTA-pA* structure
 
 === 0.3.2 2011-03-15
 * 2 major enhancement(s)
