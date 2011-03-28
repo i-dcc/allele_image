@@ -6,8 +6,8 @@ module AlleleImage
     ["En2 intron", "SA", "En2 exon"] => "En2 SA",
     ["En2 intron", "SA", "En2 exon", "Frame K insert"] => "En2 SA (ATG)",
     ["rat Cd4", "TM domain"] => "Cd4 TM",
-    ["PGK", "DTA", "pA"] => "PGK_DTA_pA",
-    ["pA", "DTA", "PGK"] => "pA_DTA_PGK",
+    # ["PGK", "DTA", "pA"] => "PGK_DTA_pA",
+    # ["pA", "DTA", "PGK"] => "pA_DTA_PGK",
   }
 
   # IDEALLY THIS WOULD GET PARSED FROM A CONFIG FILE/SCHEMA
@@ -77,7 +77,7 @@ module AlleleImage
         "font" => "white"
       },
       "TM domain" => {},
-      "osteopontin repeat 2" => {},
+      # "osteopontin repeat 2" => {},
       "BETA-GEO" => {
         "colour" => "blue",
         "label" => "lacZ",
@@ -87,9 +87,9 @@ module AlleleImage
       "AscI-EagI adpater" => {},
       "3 arm" => {},
       "AttP" => {},
-      "osteopontin repeat 6" => {},
+      # "osteopontin repeat 6" => {},
       "target region" => {},
-      "osteopontin repeat 1" => {},
+      # "osteopontin repeat 1" => {},
       "F3" => {},
       "loxP" => {
         "width" => 40,
@@ -115,7 +115,7 @@ module AlleleImage
         "width" => 35,
         "label" => "FRT"
       },
-      "osteopontin repeat 4" => {},
+      # "osteopontin repeat 4" => {},
       "pZERO" => {},
       "CD4 TM domain" => {}
     },
