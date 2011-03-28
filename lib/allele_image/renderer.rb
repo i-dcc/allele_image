@@ -119,22 +119,27 @@ module AlleleImage
       # we want to render the "AsiSI" somewhere else
       backbone_features = @construct.backbone_features.select { |feature| feature.feature_name != "AsiSI" }
       params[:width]    = [ calculate_width( backbone_features ), params[:width] ].max
-      # backbone          = render_mutant_region( backbone_features, :width => params[:width] )
-      backbone = Magick::ImageList.new
+      backbone          = Magick::ImageList.new
 
-      ap backbone_features.map(&:feature_name)
-      ap :five_flank_bb => five_flank_bb.columns, :three_flank_bb => three_flank_bb.columns
-
-      # teeze out the PGK-DTA-pA structure
+      # teeze out the PGK-DTA-pA structure making sure the only thing b/w the PGK and the pA is the DTA
       wanted, rest = backbone_features.partition { |f| %w[pA DTA PGK].include?(f.feature_name) }
-      # make sure the only thing b/w the PGK and the pA is the DTA
-      unexpected_features = backbone_features.select { |e| e.feature_name != "DTA" and wanted.first.start < e.start and e.stop < wanted.last.stop }
+      rest_image   = render_mutant_region( rest,   :width => calculate_width(rest) )
 
-      if unexpected_features.empty?
+      if wanted.empty?
+        backbone.push(rest_image)
+      else
+        unexpected_features = backbone_features.select { |e| e.feature_name != "DTA" and wanted.first.start < e.start and e.stop < wanted.last.stop }
+
+        raise "Unexpected features in PGK-DTA-pA structure: [#{unexpected_features.map(&:feature_name).join(', ')}]" unless unexpected_features.empty?
+
         wanted_image = render_mutant_region( wanted, :width => calculate_width(wanted) )
-        rest_image   = render_mutant_region( rest, :width => calculate_width(rest) )
-        pad_image    = render_mutant_region( [], :width => params[:width] - ( wanted_image.columns + rest_image.columns ) )
-        backbone.push(wanted_image).push(pad_image).push(rest_image)
+
+        # create some padding between
+        pad_width         = params[:width] - ( wanted_image.columns + rest_image.columns )
+        pad_image_5_prime = render_mutant_region( [], :width => pad_width * 0.2 )
+        pad_image_3_prime = render_mutant_region( [], :width => pad_width * 0.2 )
+        pad_image_middle  = render_mutant_region( [], :width => pad_width * 0.6 )
+        backbone.push(pad_image_5_prime).push(wanted_image).push(pad_image_middle).push(rest_image).push(pad_image_3_prime)
       end
 
       backbone_image.push( five_flank_bb ).push( backbone.append(false) ).push( three_flank_bb )
