@@ -114,11 +114,11 @@ module AlleleImage
       # we want to render the "AsiSI" somewhere else
       backbone_features = @construct.backbone_features.select { |feature| feature.feature_name != "AsiSI" }
       params[:width]    = [ calculate_width( backbone_features ), params[:width] ].max
-      backbone          = render_mutant_region( backbone_features, :width => params[:width], :label => @construct.backbone_label() )
+      backbone          = render_mutant_region( backbone_features, :width => params[:width] )
 
       backbone_image.push( five_flank_bb ).push( backbone ).push( three_flank_bb )
       backbone_image = backbone_image.append( false )
-
+  
       return backbone_image
     end
 
