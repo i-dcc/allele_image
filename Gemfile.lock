@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    allele_image (0.3.2)
+    allele_image (0.3.3)
       bio
       rmagick
 
