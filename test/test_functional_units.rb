@@ -66,7 +66,7 @@ class TestFunctionalUnits < Test::Unit::TestCase
       @backbones = {
         "#{ @data_dir }/144.gbk" => {
           :label => "L3L4_pD223_DTA_spec",
-          :expected_features => ["AsiSI", "ori", "SpecR", "pA_DTA_PGK"]
+          :expected_features => ["AsiSI", "ori", "SpecR", "PGK", "DTA", "pA"]
         },
       }
     end

@@ -1,5 +1,4 @@
-require File.dirname(__FILE__) + "/test_helper.rb"
-require "ap"
+require 'test_helper'
 
 class TestBackboneFeatures < Test::Unit::TestCase
   context "An AlleleImage with a backbone" do
