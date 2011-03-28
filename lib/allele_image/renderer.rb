@@ -360,13 +360,14 @@ module AlleleImage
           x += feature_width ? feature_width : 0
         end
 
-        # Construct the label image
-        label_image = Magick::Image.new( image_width, @text_height * 2 )
-        label_image = draw_label( label_image, params[:label], 0, 0, @text_height * 2 ) if params[:label]
-
-        # Stack the images vertically
         image_list.push( main_image )
-        image_list.push( label_image )
+
+        # Construct the label image
+        if params[:label]
+          label_image = Magick::Image.new( image_width, @text_height * 2 )
+          label_image = draw_label( label_image, params[:label], 0, 0, @text_height * 2 )
+          image_list.push( label_image )
+        end
 
         return image_list.append( true )
       end
