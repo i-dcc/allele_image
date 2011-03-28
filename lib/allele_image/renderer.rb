@@ -1,6 +1,5 @@
 module AlleleImage
   require "RMagick"
-  require "pp"
 
   # == SYNOPSIS
   #   image = AlleleImage::Renderer.new( CONSTRUCT, FORMAT )
