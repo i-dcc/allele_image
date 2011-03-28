@@ -1,5 +1,6 @@
 module AlleleImage
   require "RMagick"
+  require 'ap'
 
   # == SYNOPSIS
   #   image = AlleleImage::Renderer.new( CONSTRUCT, FORMAT )
@@ -67,6 +68,8 @@ module AlleleImage
       # XXX -- not quite sure why we do this here [2010-06-11] io1
       @image = self.render
 
+      ap :image_width => @image.columns
+
       return self
     end
 
@@ -100,6 +103,8 @@ module AlleleImage
       # Construct the backbone components and put the two images together
       vector_image   = Magick::ImageList.new()
       backbone_image = render_backbone( :width => bb_width )
+
+      ap :bb_width => bb_width
 
       vector_image.push( main_image ).push( backbone_image )
 
