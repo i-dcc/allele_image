@@ -28,6 +28,7 @@ GEM
       i18n
     shoulda (2.11.3)
     syntax (1.0.0)
+    yard (0.6.4)
 
 PLATFORMS
   ruby
@@ -38,3 +39,4 @@ DEPENDENCIES
   hoe
   newgem
   shoulda
+  yard
