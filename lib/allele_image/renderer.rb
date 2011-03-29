@@ -938,12 +938,8 @@ module AlleleImage
             width += feature.width ? feature.width : 0
           end
         end
-        # # This will "fix" the NorCoMM allelles but it does throw off the boundries
-        # # of the cassette region, so we will ignore this for now
-        # unless @cassette_label.nil?
-        # return [ width + gaps, @cassette_label.length * @text_width ].max
-        # end
-        return width + gaps
+        width = width + gaps
+        return (width * 1.01).to_i # add an extra 10%
       end
 
       # Insert gaps around the SSR sites and between the exons
