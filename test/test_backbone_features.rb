@@ -40,6 +40,11 @@ class TestBackboneFeatures < Test::Unit::TestCase
                  :label => "R3R4_pBR_amp",
               :features => [ "AsiSI", "AmpR" ]
         },
+        {     # -----------//---|AmpR|---------------------------
+                  :file => "#{@data_dir}/20797.gbk",
+                 :label => "PL611",
+              :features => [ "AmpR" ]
+        },
         {     # ---AsiSI---//---|KanR|---------------------------
                   :file => "#{@data_dir}/612.gbk",
                  :label => "L3L4_pZero_kan",
