@@ -12,8 +12,6 @@ Gem::Specification.new do |s|
   s.summary     = %q{Generate cartoon depictions of your gene knockouts}
   s.description = %q{AlleleImage dynamically generates a cartoon of a gene described in a valid GenBank file}
 
-  s.rubyforge_project = "allele_image"
-
   s.add_dependency "bio"
   s.add_dependency "rmagick"
 
