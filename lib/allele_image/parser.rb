@@ -85,16 +85,11 @@ module AlleleImage
       #
       # @since  0.3.4
       # @param  [String] label the label you wish to extract
-      # @return [String]
+      # @return [String, nil]
       def extract_label(label)
-        begin
-          bioseq = genbank_data.to_biosequence
-          return nil if bioseq.comments.nil?
-          result = bioseq.comments.split("\n").find { |x| x.match(label) }
-          return result.nil? ? nil : result.split(":").last.strip 
-        rescue => e
-          puts "Could not extract #{label} from GenBank file: #{e.inspect}"
-        end
+        comments = genbank_data.to_biosequence.comments
+        result   = comments.split("\n").find { |x| x.match(label) } unless comments.nil?
+        return result.split(":").last.strip unless result.nil?
       end
 
       # Parse the GenBank data into an AlleleImage::Construct object
