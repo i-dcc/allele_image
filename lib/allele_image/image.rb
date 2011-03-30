@@ -1,12 +1,4 @@
 module AlleleImage
-  # == SYNOPSIS
-  #   ai = AlleleImage::Image.new( INPUT ) [ { optional arguments } ]
-  #   ai.render() # -> by default this will be a Magick::Image object
-  #   ai.image()  # -> same as ai.render()
-  #
-  # == DESCRIPTION
-  # 
-  #
   class Image
     attr_reader :construct, :input, :parser, :renderer
 
@@ -20,7 +12,5 @@ module AlleleImage
     def render
       @renderer.image()
     end
-
-    # def image; end
   end
 end
