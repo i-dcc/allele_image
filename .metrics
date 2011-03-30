@@ -1,0 +1,8 @@
+MetricFu::Configuration.run do |config|
+  config.metrics.delete(:flog)
+  config.metrics.delete(:rcov)
+  
+  config.flay     = { :dirs_to_flay  => ["lib"] }
+  config.reek     = { :dirs_to_reek  => ["lib"] }
+  config.roodi    = { :dirs_to_roodi => ["lib"] }
+end
