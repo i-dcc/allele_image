@@ -1,6 +1,6 @@
 module AlleleImage
   class Construct
-    attr_reader :backbone_features, :bac_label, :boundries, :circular, :features, :rcmb_primers
+    attr_reader :bac_label, :boundries, :circular, :features, :rcmb_primers
 
     def initialize( features, circular, cassette_label, backbone_label, bac_label = nil )
       @rcmb_primers   = initialize_rcmb_primers( features )
@@ -13,7 +13,6 @@ module AlleleImage
       raise "NoRcmbPrimers" unless @rcmb_primers.size > 0
 
       initialize_boundries
-      init_backbone_features if @circular
     end
 
     def rcmb_primers_in(section)
@@ -29,6 +28,29 @@ module AlleleImage
       end
 
       return "#{ cassette_type }\n(#{ @cassette_label })"
+    end
+
+    # @return [Array<AlleleImage::Feature>, nil]
+    def backbone_features
+      return unless circular
+
+      # retrieve and sort any features not within the bounds of the homology arms.
+      upstream_features   = features.select { |feature| feature.start > rcmb_primers.last.stop   }
+      downstream_features = features.select { |feature| feature.stop  < rcmb_primers.first.start }
+
+      # reverse the order of the features in each list ... independently!
+      [ upstream_features, downstream_features ].each { |feature_list| feature_list.reverse! }
+
+      # reverse the orientation on the backbone
+      [ downstream_features + upstream_features ].flatten.map do |feature|
+        feature.orientation = case feature.orientation
+          when "forward" then "reverse"
+          when "reverse" then "forward"
+          else raise "InvalidOrientation"
+        end
+      end
+
+      @backbone_features ||= downstream_features + upstream_features
     end
 
     def backbone_label
@@ -97,23 +119,6 @@ module AlleleImage
           f.stop  <= @rcmb_primers[@boundries[section][1]].stop  and \
           not @rcmb_primers.map(&:feature_name).include?(f.feature_name)
         end
-      end
-
-      def init_backbone_features
-        # retrieve and sort any features not within the bounds of the homology arms
-        upstream_features   = @features.select { |feature| feature.start() > @rcmb_primers.last.stop()   }
-        downstream_features = @features.select { |feature| feature.stop()  < @rcmb_primers.first.start() }
-
-        # reverse the orientation on the backbone
-        [ downstream_features.reverse() + upstream_features.reverse() ].flatten.map do |feature|
-          feature.orientation = case feature.orientation
-            when "forward" then "reverse"
-            when "reverse" then "forward"
-            else raise "InvalidOrientation"
-          end
-        end
-
-        @backbone_features = downstream_features.reverse() + upstream_features.reverse()
       end
 
       # Replace the functional units within the list of features
