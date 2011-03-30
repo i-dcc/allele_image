@@ -43,10 +43,8 @@ module AlleleImage
       # reverse the order of the features in each list ... independently!
       [ upstream_features, downstream_features ].each { |feature_list| feature_list.reverse! }
 
-      @backbone_features = [ downstream_features + upstream_features ].flatten
-
-      # reverse the orientation on the backbone
-      @backbone_features.map! do |feature|
+      # reverse the orientation on the backbone features
+      @backbone_features = [ downstream_features + upstream_features ].flatten.map do |feature|
         feature.orientation = case feature.orientation
           when "forward" then "reverse"
           when "reverse" then "forward"
