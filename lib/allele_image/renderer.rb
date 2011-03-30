@@ -277,6 +277,10 @@ module AlleleImage
         return image_list.append( true )
       end
 
+      # Render the 3' homology arm
+      #
+      # @since   v0.3.4
+      # @returns [Magick::Image]
       def render_three_arm
         image_list             = Magick::ImageList.new()
         rcmb_primers           = @construct.rcmb_primers_in(:three_arm_features)
