@@ -3,16 +3,16 @@ module AlleleImage
     attr_reader :construct
 
     def initialize( input )
+      @input = File.file?(input) ? File.read( input, :encoding => "iso8859-1" ) : input
       @construct = self.parse( input )
     end
 
     def parse( input )
-      genbank_object = get_genbank_object( input )
       data           = File.file?( input ) ? File.read( input, :encoding => "iso8859-1" ) : input
       circular       = data.split("\n").first.match(/circular/) ? true : false
 
       # Retrieve the features
-      features = genbank_object.features.map do |feature|
+      features = genbank_data.features.map do |feature|
         unless feature.qualifiers.length == 0
           # Here is our feature ...
           # Since creating a Feature might throw a NotRenderable exception
@@ -39,24 +39,24 @@ module AlleleImage
       AlleleImage::Construct.new(
         features,
         circular,
-        extract_label( genbank_object, "cassette" ),
-        extract_label( genbank_object, "backbone" ),
-        extract_label( genbank_object, "target_bac" )
+        extract_label( genbank_data, "cassette" ),
+        extract_label( genbank_data, "backbone" ),
+        extract_label( genbank_data, "target_bac" )
       )
     end
 
     private
-      def get_genbank_object( input )
-        if File.file?( input )
-          Bio::GenBank.new( File.read( input, :encoding => "iso8859-1" ) )
-        else
-          Bio::GenBank.new( input )
-        end
+      # Get the GenBank data
+      #
+      # @since   v0.3.4
+      # @returns [Bio::GenBank]
+      def genbank_data
+        @genbank_data ||= Bio::GenBank.new(@input)
       end
 
-      def extract_label( genbank_object, label )
+      def extract_label( genbank_data, label )
         begin
-          bioseq = genbank_object.to_biosequence
+          bioseq = genbank_data.to_biosequence
           result = bioseq.comments.split("\n").find { |x| x.match(label) }
           result = result.split(":").last.strip
         rescue
