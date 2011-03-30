@@ -25,8 +25,8 @@ class TestRendererRMagick < Test::Unit::TestCase
       # assert_equal @height, @renderer.image().rows()
     end
 
-    should "write to PNG file" do
-      assert_not_nil @renderer.image.write( File.dirname( __FILE__ ) + "/../misc/project_47462_conditional_allele.png" )
+    should "write to GIF file" do
+      assert_not_nil @renderer.image.write( File.dirname( __FILE__ ) + "/../misc/project_47462_conditional_allele.gif" )
     end
   end
 
@@ -53,8 +53,8 @@ class TestRendererRMagick < Test::Unit::TestCase
       # assert_equal @height, @renderer.image().rows()
     end
 
-    should "write to PNG file" do
-      assert_not_nil @renderer.image.write( File.dirname( __FILE__ ) + "/../misc/NorCoMM_project_46776.png" )
+    should "write to GIF file" do
+      assert_not_nil @renderer.image.write( File.dirname( __FILE__ ) + "/../misc/NorCoMM_project_46776.gif" )
     end
   end
 
@@ -79,8 +79,8 @@ class TestRendererRMagick < Test::Unit::TestCase
       # assert_equal @height, @renderer.image().rows()
     end
 
-    should "write to PNG file" do
-      assert_not_nil @renderer.image.write( File.dirname( __FILE__ ) + "/../misc/norcomm/106140.png" )
+    should "write to GIF file" do
+      assert_not_nil @renderer.image.write( File.dirname( __FILE__ ) + "/../misc/norcomm/106140.gif" )
     end
   end
 
@@ -105,8 +105,8 @@ class TestRendererRMagick < Test::Unit::TestCase
       assert_nil @construct.three_flank_features()
     end
 
-    should "write to PNG file" do
-      assert_not_nil @renderer.image.write( File.dirname( __FILE__ ) + "/../misc/project_47462_conditional_vector.png" )
+    should "write to GIF file" do
+      assert_not_nil @renderer.image.write( File.dirname( __FILE__ ) + "/../misc/project_47462_conditional_vector.gif" )
     end
   end
 end
