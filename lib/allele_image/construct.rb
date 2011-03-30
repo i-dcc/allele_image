@@ -92,7 +92,6 @@ module AlleleImage
       end
 
       def initialize_section(section)
-        # ap :section => section, :start => @rcmb_primers[@boundries[section][0]].start, :boundries => @boundries
         @features.select do |f|
           f.start >= @rcmb_primers[@boundries[section][0]].start and \
           f.stop  <= @rcmb_primers[@boundries[section][1]].stop  and \
