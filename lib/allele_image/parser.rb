@@ -1,57 +1,91 @@
 module AlleleImage
+  # A class for parsing our input data and generating a molecular construct
+  #
+  # @example
+  #
+  #   AlleleImage::Parser.new(input).construct
+  #
+  # @author Nelo Onyiah
   class Parser
-    attr_reader :input
-
+    # Initialize a new AlleleImage::Parser object
+    #
+    # @since  0.3.4
+    # @param  [String, File] input a string or file with GenBank data
+    # @return [AlleleImage::Parser]
     def initialize(input)
       @input = input
     end
 
     # Generates an AlleleImage::Construct object from the GenBank data
     #
-    # @since   v0.3.4
-    # @returns [AlleleImage::Construct]
+    # @since  0.3.4
+    # @return [AlleleImage::Construct]
     def construct
       @construct ||= parse
     end
 
     private
+      # The input passed into the constructor
+      #
+      # @since  0.3.4
+      # @return (see AlleleImage::Parser#initialize)
+      def input
+        @input
+      end
+
       # The GenBank data provided as a string
       #
-      # @since   v0.3.4
-      # @returns [String]
+      # @since  0.3.4
+      # @return [String]
       def input_data
         @input_data ||= File.file?(input) ? File.read(input, :encoding => "iso8859-1") : input
       end
 
       # Get the GenBank data
       #
-      # @since   v0.3.4
-      # @returns [Bio::GenBank]
+      # @since  0.3.4
+      # @return [Bio::GenBank]
       def genbank_data
         @genbank_data ||= Bio::GenBank.new(input_data)
       end
 
       # Retrieve the circularity of the GenBank data
       #
-      # @since   v0.3.4
-      # @returns [Boolean]
+      # @since  0.3.4
+      # @return [Boolean]
       def circular?
         input_data.split("\n").first.match(/circular/) ? true : false
       end
 
       # Retrieve the cassette
       #
-      # @since   v0.3.4
-      # @returns [String]
-      def cassette;   extract_label("cassette"); end
-      def backbone;   extract_label("backbone"); end
-      def target_bac; extract_label("target_bac"); end
+      # @since  0.3.4
+      # @return [String]
+      def cassette
+        extract_label("cassette")
+      end
+
+      # Retrieve the backbone
+      #
+      # @since  0.3.4
+      # @return [String]
+      def backbone
+        extract_label("backbone")
+      end
+
+      # Retrieve the target_bac
+      #
+      # @since  0.3.4
+      # @return [String]
+      def target_bac
+        extract_label("target_bac")
+      end
 
       # Extracts the requsted label from the GenBank data
       #
-      # @since   v0.3.4
-      # @params  [String] label the label you wish to extract
-      # @returns [String]
+      # @since  0.3.4
+      # @param  [String] label the label you wish to extract
+      # @return [String]
       def extract_label(label)
         begin
           bioseq = genbank_data.to_biosequence
@@ -65,8 +99,8 @@ module AlleleImage
 
       # Parse the GenBank data into an AlleleImage::Construct object
       #
-      # @since   v0.3.4
-      # @returns [AlleleImage::Construct]
+      # @since  0.3.4
+      # @return [AlleleImage::Construct]
       def parse
         # Retrieve the features
         features = genbank_data.features.map do |feature|
