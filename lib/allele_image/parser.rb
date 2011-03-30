@@ -51,10 +51,11 @@ module AlleleImage
       def extract_label(label)
         begin
           bioseq = genbank_data.to_biosequence
+          return nil if bioseq.comments.nil?
           result = bioseq.comments.split("\n").find { |x| x.match(label) }
-          result = result.split(":").last.strip
-        rescue
-          puts "Could not extract #{label} from GenBank file"
+          return result.nil? ? nil : result.split(":").last.strip 
+        rescue => e
+          puts "Could not extract #{label} from GenBank file: #{e.inspect}"
         end
       end
 
