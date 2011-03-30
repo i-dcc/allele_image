@@ -14,35 +14,6 @@ module AlleleImage
       @construct ||= parse
     end
 
-    def parse
-      # Retrieve the features
-      features = genbank_data.features.map do |feature|
-        unless feature.qualifiers.length == 0
-          # Here is our feature ...
-          # Since creating a Feature might throw a NotRenderable exception
-          # we need to wrap this in a begin/rescue block
-          begin
-            AlleleImage::Feature.new( feature )
-          rescue #NotRenderable
-            # puts [ feature.feature, name ].join(",")
-          end
-        end
-      end
-
-      # Ignore nil features
-      features = features.select { |f| not f.nil? }
-
-      # Sort the features
-      features = features.sort do |a,b|
-        res = a.start <=> b.start
-        res = a.stop  <=> b.stop if res == 0
-        res
-      end
-
-      # Return a AlleleImage::Construct object
-      AlleleImage::Construct.new(features, circular?, cassette, backbone, target_bac)
-    end
-
     private
 
       # The GenBank data provided as a string
@@ -82,5 +53,35 @@ module AlleleImage
           puts "Could not extract #{label} from GenBank file"
         end
       end
+
+    # Parse the GenBank data into an AlleleImage::Construct object
+    #
+    # @since   v0.3.4
+    # @returns [AlleleImage::Construct]
+    def parse
+      # Retrieve the features
+      features = genbank_data.features.map do |feature|
+        unless feature.qualifiers.length == 0
+          # Here is our feature ...
+          # Since creating a Feature might throw a NotRenderable exception
+          # we need to wrap this in a begin/rescue block
+          begin
+            AlleleImage::Feature.new( feature )
+          rescue #NotRenderable
+            # puts [ feature.feature, name ].join(",")
+          end
+        end
+      end
+
+      # Sort the non-nil features
+      features = features.compact.sort do |a,b|
+        res = a.start <=> b.start
+        res = a.stop  <=> b.stop if res == 0
+        res
+      end
+
+      # Return a AlleleImage::Construct object
+      AlleleImage::Construct.new(features, circular?, cassette, backbone, target_bac)
+    end
   end
 end
