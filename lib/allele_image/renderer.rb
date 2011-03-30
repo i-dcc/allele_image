@@ -63,11 +63,15 @@ module AlleleImage
       # set the AlleleImage::Feature class attribute text_width
       AlleleImage::Feature.text_width(@text_width)
 
-      # render the image
-      # XXX -- not quite sure why we do this here [2010-06-11] io1
-      @image = self.render
-
       return self
+    end
+
+    # Retrieves the image being generated
+    #
+    # @since   v0.3.4
+    # @returns [Magick::Image]
+    def image
+      @image ||= render
     end
 
     # The output of this method will get assigned to the @image attribute
