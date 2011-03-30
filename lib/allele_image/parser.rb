@@ -1,15 +1,21 @@
 module AlleleImage
   class Parser
-    attr_reader :construct
+    attr_reader :input
 
-    def initialize( input )
-      @input = File.file?(input) ? File.read( input, :encoding => "iso8859-1" ) : input
-      @construct = self.parse( input )
+    def initialize(input)
+      @input = input
     end
 
-    def parse( input )
-      data           = File.file?( input ) ? File.read( input, :encoding => "iso8859-1" ) : input
-      circular       = data.split("\n").first.match(/circular/) ? true : false
+    # Generates an AlleleImage::Construct object from the GenBank data
+    #
+    # @since   v0.3.4
+    # @returns [AlleleImage::Construct]
+    def construct
+      @construct ||= parse
+    end
+
+    def parse
+      circular = data.split("\n").first.match(/circular/) ? true : false
 
       # Retrieve the features
       features = genbank_data.features.map do |feature|
@@ -46,12 +52,21 @@ module AlleleImage
     end
 
     private
+
+      # The GenBank data provided as a string
+      #
+      # @since   v0.3.4
+      # @returns [String]
+      def data
+        @data ||= File.file?(input) ? File.read(input, :encoding => "iso8859-1") : input
+      end
+
       # Get the GenBank data
       #
       # @since   v0.3.4
       # @returns [Bio::GenBank]
       def genbank_data
-        @genbank_data ||= Bio::GenBank.new(@input)
+        @genbank_data ||= Bio::GenBank.new(data)
       end
 
       def extract_label( genbank_data, label )
