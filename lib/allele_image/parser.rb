@@ -39,6 +39,10 @@ module AlleleImage
         input_data.split("\n").first.match(/circular/) ? true : false
       end
 
+      # Retrieve the cassette
+      #
+      # @since   v0.3.4
+      # @returns [String]
       def cassette;   extract_label("cassette"); end
       def backbone;   extract_label("backbone"); end
       def target_bac; extract_label("target_bac"); end
