@@ -15,7 +15,6 @@ module AlleleImage
     end
 
     private
-
       # The GenBank data provided as a string
       #
       # @since   v0.3.4
@@ -44,6 +43,11 @@ module AlleleImage
       def backbone;   extract_label("backbone"); end
       def target_bac; extract_label("target_bac"); end
 
+      # Extracts the requsted label from the GenBank data
+      #
+      # @since   v0.3.4
+      # @params  [String] label the label you wish to extract
+      # @returns [String]
       def extract_label(label)
         begin
           bioseq = genbank_data.to_biosequence
