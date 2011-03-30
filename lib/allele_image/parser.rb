@@ -1,7 +1,4 @@
 module AlleleImage
-  require "bio"
-  # require "pp"
-
   # == SYNOPSIS
   #   construct = AlleleImage::Parser.new( INPUT, FORMAT ).construct()
   #
