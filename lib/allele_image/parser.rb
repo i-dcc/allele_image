@@ -15,8 +15,6 @@ module AlleleImage
     end
 
     def parse
-      circular = data.split("\n").first.match(/circular/) ? true : false
-
       # Retrieve the features
       features = genbank_data.features.map do |feature|
         unless feature.qualifiers.length == 0
@@ -42,13 +40,7 @@ module AlleleImage
       end
 
       # Return a AlleleImage::Construct object
-      AlleleImage::Construct.new(
-        features,
-        circular,
-        extract_label( genbank_data, "cassette" ),
-        extract_label( genbank_data, "backbone" ),
-        extract_label( genbank_data, "target_bac" )
-      )
+      AlleleImage::Construct.new(features, circular?, cassette, backbone, target_bac)
     end
 
     private
@@ -57,8 +49,8 @@ module AlleleImage
       #
       # @since   v0.3.4
       # @returns [String]
-      def data
-        @data ||= File.file?(input) ? File.read(input, :encoding => "iso8859-1") : input
+      def input_data
+        @input_data ||= File.file?(input) ? File.read(input, :encoding => "iso8859-1") : input
       end
 
       # Get the GenBank data
@@ -66,16 +58,28 @@ module AlleleImage
       # @since   v0.3.4
       # @returns [Bio::GenBank]
       def genbank_data
-        @genbank_data ||= Bio::GenBank.new(data)
+        @genbank_data ||= Bio::GenBank.new(input_data)
       end
 
-      def extract_label( genbank_data, label )
+      # Retrieve the circularity of the GenBank data
+      #
+      # @since   v0.3.4
+      # @returns [Boolean]
+      def circular?
+        input_data.split("\n").first.match(/circular/) ? true : false
+      end
+
+      def cassette;   extract_label("cassette"); end
+      def backbone;   extract_label("backbone"); end
+      def target_bac; extract_label("target_bac"); end
+
+      def extract_label(label)
         begin
           bioseq = genbank_data.to_biosequence
           result = bioseq.comments.split("\n").find { |x| x.match(label) }
           result = result.split(":").last.strip
         rescue
-          # puts "Could not extract #{label} from GenBank file"
+          puts "Could not extract #{label} from GenBank file"
         end
       end
   end
