@@ -9,7 +9,10 @@ GEM
   remote: http://rubygems.org/
   specs:
     RedCloth (4.2.7)
+    ZenTest (4.5.0)
     activesupport (2.3.11)
+    autotest (4.4.6)
+      ZenTest (>= 4.4.1)
     awesome_print (0.3.2)
     bio (1.4.1)
     hoe (2.8.0)
@@ -35,6 +38,7 @@ PLATFORMS
 
 DEPENDENCIES
   allele_image!
+  autotest
   awesome_print
   hoe
   newgem
