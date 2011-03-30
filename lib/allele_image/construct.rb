@@ -30,9 +30,11 @@ module AlleleImage
       return "#{ cassette_type }\n(#{ @cassette_label })"
     end
 
+    # @since  0.3.4
     # @return [Array<AlleleImage::Feature>, nil]
     def backbone_features
       return unless circular
+      return @backbone_features unless @backbone_features.nil?
 
       # retrieve and sort any features not within the bounds of the homology arms.
       upstream_features   = features.select { |feature| feature.start > rcmb_primers.last.stop   }
@@ -41,16 +43,16 @@ module AlleleImage
       # reverse the order of the features in each list ... independently!
       [ upstream_features, downstream_features ].each { |feature_list| feature_list.reverse! }
 
+      @backbone_features = [ downstream_features + upstream_features ].flatten
+
       # reverse the orientation on the backbone
-      [ downstream_features + upstream_features ].flatten.map do |feature|
+      @backbone_features.map! do |feature|
         feature.orientation = case feature.orientation
           when "forward" then "reverse"
           when "reverse" then "forward"
           else raise "InvalidOrientation"
         end
       end
-
-      @backbone_features ||= downstream_features + upstream_features
     end
 
     def backbone_label
