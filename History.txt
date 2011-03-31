@@ -1,8 +1,11 @@
+=== 0.3.4 2011-03-31
+* 1 major enhancement(s)
+  * Fix a bug introduced in recent refactors
+
 === 0.3.3 2011-03-29
 * 3 major enhancement(s)
   * Render mirKO GenBank data
-  * Remove excess padding in the images with unlabelled exons in the
-  homology arms
+  * Remove excess padding in the images with unlabelled exons in the homology arms
   * Draw the backbones with spacing between the *PGK-DTA-pA* structure
 
 === 0.3.2 2011-03-15
