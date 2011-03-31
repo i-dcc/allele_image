@@ -39,8 +39,11 @@ module AlleleImage
       # reverse the order of the features in each list ... independently!
       [ upstream_features, downstream_features ].each { |feature_list| feature_list.reverse! }
 
+      # merge the upstream and downstream features
+      @backbone_features = [ downstream_features + upstream_features ].flatten
+
       # reverse the orientation on the backbone features
-      @backbone_features = [ downstream_features + upstream_features ].flatten.map do |feature|
+      @backbone_features.each do |feature|
         feature.orientation = case feature.orientation
           when "forward" then "reverse"
           when "reverse" then "forward"
@@ -110,10 +113,10 @@ module AlleleImage
       end
 
       def initialize_section(section)
-        @features.select do |f|
-          f.start >= @rcmb_primers[@boundries[section][0]].start and \
-          f.stop  <= @rcmb_primers[@boundries[section][1]].stop  and \
-          not @rcmb_primers.map(&:feature_name).include?(f.feature_name)
+        @features.select do |feature|
+          feature.start >= @rcmb_primers[@boundries[section][0]].start and \
+          feature.stop  <= @rcmb_primers[@boundries[section][1]].stop  and \
+          not @rcmb_primers.map(&:feature_name).include?(feature.feature_name)
         end
       end
 
