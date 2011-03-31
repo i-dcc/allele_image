@@ -843,45 +843,6 @@ module AlleleImage
         return image
       end
 
-      # Bio::Feature.new( "polyA_site", "5..6" ).append( Bio::Feature::Qualifier.new( "note", "PGK pA" ) )
-      def draw_pgk_dta_pa( image, feature, point )
-        gap = AlleleImage::Feature.new( Bio::Feature.new( "misc_feature", "1..1" ).append( Bio::Feature::Qualifier.new( "note", "gap" ) ) )
-        pgk = AlleleImage::Feature.new( Bio::Feature.new( "promoter", "1..2" ).append( Bio::Feature::Qualifier.new( "note", "PGK promoter" ) ) )
-        dta = AlleleImage::Feature.new( Bio::Feature.new( "CDS", "3..4" ).append( Bio::Feature::Qualifier.new( "note", "DTA" ) ) )
-        pa  = AlleleImage::Feature.new( Bio::Feature.new( "misc_feature", "5..6" ).append( Bio::Feature::Qualifier.new( "note", "PGK pA" ) ) )
-        [ ( 1 .. ( feature.width - 100 ) / @gap_width ).collect { |x| gap }, pgk, dta, pa ].flatten.each do |sub_feature|
-          feature_width = 0
-          if sub_feature.feature_name() == "gap"
-            feature_width = @gap_width
-          else
-            draw_feature( image, sub_feature, point[0], point[1] )
-            feature_width = sub_feature.width()
-          end
-          point[0] += feature_width # update the x coordinate
-        end
-
-        return image
-      end
-
-      def draw_pa_dta_pgk( image, feature, point )
-        gap = AlleleImage::Feature.new( Bio::Feature.new( "misc_feature", "1..1" ).append( Bio::Feature::Qualifier.new( "note", "gap" ) ) )
-        pgk = AlleleImage::Feature.new( Bio::Feature.new( "promoter", "complement(1..2)" ).append( Bio::Feature::Qualifier.new( "note", "PGK promoter" ) ) )
-        dta = AlleleImage::Feature.new( Bio::Feature.new( "CDS", "3..4" ).append( Bio::Feature::Qualifier.new( "note", "DTA" ) ) )
-        pa  = AlleleImage::Feature.new( Bio::Feature.new( "misc_feature", "5..6" ).append( Bio::Feature::Qualifier.new( "note", "PGK pA" ) ) )
-        [ ( 1 .. ( feature.width - 100 ) / @gap_width ).collect { |x| gap }, pa, dta, pgk ].flatten.each do |sub_feature|
-          feature_width = 0
-          if sub_feature.feature_name() == "gap"
-            feature_width = @gap_width
-          else
-            draw_feature( image, sub_feature, point[0], point[1] )
-            feature_width = sub_feature.width()
-          end
-          point[0] += feature_width # update the x coordinate
-        end
-
-        return image
-      end
-
       def draw_intervening_sequence( image, x_coord, y_coord )
         sequence_drawing = Magick::Draw.new
         sequence_drawing
