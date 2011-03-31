@@ -20,8 +20,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency "shoulda"
   s.add_development_dependency "simplecov"
   s.add_development_dependency "yard"
-  # s.add_development_dependency "hoe"
-  # s.add_development_dependency "newgem"
   
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
