@@ -1,3 +1,5 @@
+require 'simplecov'
+SimpleCov.start
 require 'stringio'
 require 'test/unit'
 require 'rubygems'

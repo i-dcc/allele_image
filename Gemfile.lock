@@ -8,29 +8,16 @@ PATH
 GEM
   remote: http://rubygems.org/
   specs:
-    RedCloth (4.2.7)
     ZenTest (4.5.0)
-    activesupport (2.3.11)
     autotest (4.4.6)
       ZenTest (>= 4.4.1)
     awesome_print (0.3.2)
     bio (1.4.1)
-    hoe (2.8.0)
-      rake (>= 0.8.7)
-    i18n (0.5.0)
-    newgem (1.5.3)
-      RedCloth (>= 4.1.1)
-      activesupport (~> 2.3.4)
-      hoe (>= 2.4.0)
-      rubigen (>= 1.5.3)
-      syntax (>= 1.0.0)
-    rake (0.8.7)
     rmagick (2.13.1)
-    rubigen (1.5.6)
-      activesupport (>= 2.3.5)
-      i18n
     shoulda (2.11.3)
-    syntax (1.0.0)
+    simplecov (0.4.0)
+      simplecov-html (~> 0.4.0)
+    simplecov-html (0.4.3)
     yard (0.6.4)
 
 PLATFORMS
@@ -40,7 +27,6 @@ DEPENDENCIES
   allele_image!
   autotest
   awesome_print
-  hoe
-  newgem
   shoulda
+  simplecov
   yard
