@@ -20,14 +20,10 @@ module AlleleImage
     end
 
     def cassette_label
-      cassette_type = "Promoterless Cassette"
-      promoters     = cassette_features.select { |f| f.feature_type() == "promoter" }
-
-      if promoters.size > 0
-        cassette_type = "Promoter-Driven Cassette"
-      end
-
-      return "#{ cassette_type }\n(#{ @cassette_label })"
+      cassette_type   = "Promoterless Cassette"
+      promoters       = cassette_features.select { |feature| feature.feature_type() == "promoter" }
+      cassette_type   = "Promoter-Driven Cassette" if promoters.size > 0
+      @cassette_label = "#{ cassette_type }\n(#{ @cassette_label })"
     end
 
     # @since  0.3.4
@@ -54,10 +50,10 @@ module AlleleImage
     end
 
     def backbone_label
-      return @backbone_label unless @circular
+      return @backbone_label unless circular
 
       backbone_type = "Non-DTA Containing Plasmid Backbone"
-      dta_features  = backbone_features.select { |x| x.feature_name.match(/DTA/) }
+      dta_features  = backbone_features.select { |feature| feature.feature_name.match(/DTA/) }
 
       if dta_features.size > 0
         backbone_type = "DTA Containing Plasmid Backbone"
