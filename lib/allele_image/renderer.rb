@@ -299,9 +299,9 @@ module AlleleImage
           end
         end
 
-        [ target_region_features, loxp_region_features, three_arm_features ].each do |region|
-          image_list.push(render_genomic_region(region)) unless region.empty?
-        end
+        image_list.push(render_genomic_region(target_region_features)) unless target_region_features.empty?
+        image_list.push(render_mutant_region(loxp_region_features))    unless loxp_region_features.empty?
+        image_list.push(render_genomic_region(three_arm_features))     unless three_arm_features.empty?
 
         image = image_list.empty? ? render_genomic_region([]) : image_list.append( false )
 

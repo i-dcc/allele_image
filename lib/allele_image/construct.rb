@@ -16,7 +16,7 @@ module AlleleImage
     end
 
     def rcmb_primers_in(section)
-      rcmb_primers.values_at(boundries[section][0], boundries[section][1])
+      rcmb_primers.values_at(boundries[section][0] .. boundries[section][1])
     end
 
     def cassette_label
