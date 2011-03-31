@@ -1,5 +1,8 @@
 module AlleleImage
   class Renderer
+
+    attr_reader :construct
+
     # Initialize a new AlleleImage::Renderer object
     #
     # @since   v0.3.4
@@ -84,7 +87,7 @@ module AlleleImage
       main_image   = main_image.append( false )
 
       # Return the allele (i.e no backbone) unless this is a vector
-      return main_image unless @construct.circular()
+      return main_image unless construct.circular()
 
       # Construct the backbone components and put the two images together
       vector_image   = Magick::ImageList.new()
@@ -101,7 +104,7 @@ module AlleleImage
       three_flank_bb = draw_empty_flank("3' arm backbone")
 
       # we want to render the "AsiSI" somewhere else
-      backbone_features = @construct.backbone_features.select { |feature| feature.feature_name != "AsiSI" }
+      backbone_features = construct.backbone_features.select { |feature| feature.feature_name != "AsiSI" }
       params[:width]    = [ calculate_width( backbone_features ), params[:width] ].max
       backbone          = Magick::ImageList.new
 
@@ -133,9 +136,9 @@ module AlleleImage
       main_bb.push(backbone)
 
       # now add the label
-      if @construct.backbone_label
+      if construct.backbone_label
         label_image = Magick::Image.new( backbone.columns, @text_height * 2 )
-        label_image = draw_label( label_image, @construct.backbone_label, 0, 0, @text_height * 2 )
+        label_image = draw_label( label_image, construct.backbone_label, 0, 0, @text_height * 2 )
         main_bb.push( label_image )
       end
 
@@ -148,7 +151,7 @@ module AlleleImage
     private
       # These methods return a Magick::Image object
       def render_cassette
-        image = render_mutant_region( @construct.cassette_features(), :label => @construct.cassette_label() )
+        image = render_mutant_region( construct.cassette_features(), :label => construct.cassette_label() )
 
         # Construct the annotation image
         image_list       = Magick::ImageList.new()
@@ -162,17 +165,17 @@ module AlleleImage
       end
 
       def render_five_arm
-        image = render_genomic_region( @construct.five_arm_features(), :width => "5' arm".length() * @text_width )
+        image = render_genomic_region( construct.five_arm_features(), :width => "5' arm".length() * @text_width )
         # Construct the annotation image
         image_list       = Magick::ImageList.new()
         annotation_image = Magick::Image.new( image.columns(), @annotation_height )
-        genomic          = @construct.five_arm_features.find do |feature|
+        genomic          = construct.five_arm_features.find do |feature|
           feature.feature_type() == "misc_feature" and \
             ["5 arm", "target region", "3 arm"].include?( feature.feature_name )
         end
 
         if genomic.nil?
-          rcmb_primers = @construct.rcmb_primers_in(:five_arm_features)
+          rcmb_primers = construct.rcmb_primers_in(:five_arm_features)
           genomic      = AlleleImage::Feature.new(
             Bio::Feature.new(
               "misc_feature",
@@ -181,7 +184,7 @@ module AlleleImage
           )
         end
 
-        homology_arm_label = @construct.bac_label ? "5' #{ @construct.bac_label }" : "5 arm"
+        homology_arm_label = construct.bac_label ? "5' #{ construct.bac_label }" : "5 arm"
         annotation_image = draw_homology_arm( annotation_image, homology_arm_label, genomic.stop() - genomic.start() )
 
         # Stack the images
@@ -223,7 +226,7 @@ module AlleleImage
         if region.match(/5' arm/)
           asisi   = Magick::Image.new( @text_width * "AsiSI".length, height )
           asisi   = draw_sequence( asisi, 0, height/2, asisi.columns, height/2 )
-          feature = @construct.backbone_features.find { |feature| feature.feature_name == "AsiSI" }
+          feature = construct.backbone_features.find { |feature| feature.feature_name == "AsiSI" }
 
           if region.match(/main/) and feature
             asisi = draw_asisi( asisi, feature, [0, height/2] )
@@ -253,7 +256,7 @@ module AlleleImage
       end
 
       def render_five_flank
-        image = @construct.circular() ? draw_empty_flank("5' arm main") : render_genomic_region( @construct.five_flank_features() )
+        image = construct.circular() ? draw_empty_flank("5' arm main") : render_genomic_region( construct.five_flank_features() )
 
         # Construct the annotation image
         image_list       = Magick::ImageList.new()
@@ -272,25 +275,25 @@ module AlleleImage
       # @returns [Magick::Image]
       def render_three_arm
         image_list             = Magick::ImageList.new()
-        rcmb_primers           = @construct.rcmb_primers_in(:three_arm_features)
+        rcmb_primers           = construct.rcmb_primers_in(:three_arm_features)
         three_arm_features     = []
         target_region_features = []
         loxp_region_features   = []
 
         if rcmb_primers.count == 2
-           three_arm_features = @construct.three_arm_features()
+           three_arm_features = construct.three_arm_features()
         else
-          target_region_features = @construct.three_arm_features().select do |feature|
+          target_region_features = construct.three_arm_features().select do |feature|
             feature.start() >= rcmb_primers[0].start() and \
             feature.start() <= rcmb_primers[1].start()
           end
-          loxp_region_features = @construct.three_arm_features().select do |feature|
+          loxp_region_features = construct.three_arm_features().select do |feature|
             feature.start() >= rcmb_primers[1].start() and \
             feature.start() <= rcmb_primers[2].start() and \
             feature.feature_type() == "misc_feature" and \
             feature.feature_name == "loxP"
           end
-          three_arm_features = @construct.three_arm_features().select do |feature|
+          three_arm_features = construct.three_arm_features().select do |feature|
             feature.start() >= rcmb_primers[2].start() and \
             feature.start() <= rcmb_primers[3].start()
           end
@@ -315,13 +318,13 @@ module AlleleImage
         # Construct the annotation image
         image_list       = Magick::ImageList.new()
         annotation_image = Magick::Image.new( image.columns(), @annotation_height )
-        genomic          = @construct.three_arm_features.select do |feature|
+        genomic          = construct.three_arm_features.select do |feature|
           feature.feature_type() == "misc_feature" and \
             ["5 arm", "target region", "3 arm"].include?( feature.feature_name )
         end
 
         if genomic.size == 0
-          rcmb_primers = @construct.rcmb_primers_in(:three_arm_features)
+          rcmb_primers = construct.rcmb_primers_in(:three_arm_features)
           genomic.push(
             AlleleImage::Feature.new(
               Bio::Feature.new(
@@ -330,7 +333,7 @@ module AlleleImage
               ).append( Bio::Feature::Qualifier.new( "note", "3 arm" ) ) ) )
         end
 
-        homology_arm_label = @construct.bac_label ? "3' #{ @construct.bac_label }" : "3 arm"
+        homology_arm_label = construct.bac_label ? "3' #{ construct.bac_label }" : "3 arm"
         annotation_image = draw_homology_arm( annotation_image, homology_arm_label, genomic.last.stop() - genomic.first.start() )
 
         # Stack the images
@@ -341,7 +344,7 @@ module AlleleImage
       end
 
       def render_three_flank
-        image = @construct.circular() ? draw_empty_flank("3' arm main") : render_genomic_region( @construct.three_flank_features() )
+        image = construct.circular() ? draw_empty_flank("3' arm main") : render_genomic_region( construct.three_flank_features() )
 
         # Construct the annotation image
         image_list       = Magick::ImageList.new()
@@ -875,7 +878,7 @@ module AlleleImage
 
       def calculate_labels_image_height
         cassette_label_rows = 2 # in case of "cassette type\(cassette label)"
-        three_arm_features  = @construct.three_arm_features.select { |feature| feature.feature_type.match(/^target\s+exon\s+/) }.size
+        three_arm_features  = construct.three_arm_features.select { |feature| feature.feature_type.match(/^target\s+exon\s+/) }.size
 
         # we want the maximum here
         [ cassette_label_rows, three_arm_features ].max * @text_height
