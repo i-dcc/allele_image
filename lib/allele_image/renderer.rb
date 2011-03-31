@@ -575,10 +575,6 @@ module AlleleImage
             draw_ori( image, x_coord, y_coord )
           when "En2 SA (ATG)"
             draw_en2_k_frame( image, feature, [x_coord, y_coord] )
-          when "PGK_DTA_pA"
-            draw_pgk_dta_pa( image, feature, [x_coord, y_coord] )
-          when "pA_DTA_PGK"
-            draw_pa_dta_pgk( image, feature, [x_coord, y_coord] )
           # Any non-speciall feature is probably a cassette feature
           # and can be rendered with the feature.render_options()
           else
