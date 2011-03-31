@@ -100,12 +100,9 @@ module AlleleImage
         # Retrieve the features
         features = genbank_data.features.map do |feature|
           unless feature.qualifiers.length == 0
-            # Here is our feature ...
-            # Since creating a Feature might throw a NotRenderable exception
-            # we need to wrap this in a begin/rescue block
             begin
-              AlleleImage::Feature.new( feature )
-            rescue #NotRenderable
+              AlleleImage::Feature.new(feature)
+            rescue => error
               # puts [ feature.feature, name ].join(",")
             end
           end
