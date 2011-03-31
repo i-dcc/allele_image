@@ -88,7 +88,7 @@ module AlleleImage
       # @return [String, nil]
       def extract_label(label)
         comments = genbank_data.to_biosequence.comments
-        result   = comments.split("\n").find { |x| x.match(label) } unless comments.nil?
+        result   = comments.split("\n").find { |comment| comment.match(label) } unless comments.nil?
         return result.split(":").last.strip unless result.nil?
       end
 
@@ -112,9 +112,9 @@ module AlleleImage
         end
 
         # Sort the non-nil features
-        features = features.compact.sort do |a,b|
-          res = a.start <=> b.start
-          res = a.stop  <=> b.stop if res == 0
+        features = features.compact.sort do |feature_a, feature_b|
+          res = feature_a.start <=> feature_b.start
+          res = feature_a.stop  <=> feature_b.stop if res == 0
           res
         end
 
