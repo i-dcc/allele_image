@@ -127,7 +127,8 @@ module AlleleImage
       # @param  [Hash<Array String>]          the functional units
       # @return [Array<AlleleImage::Feature>] the features to draw
       def replace_functional_units( features, units )
-        units.sort{ |a,b| b[0].size <=> a[0].size }.each do |query, label|
+        # we want to work down the functional units from the largest to the smallest
+        units.sort{ |feature_a, feature_b| feature_b[0].size <=> feature_a[0].size }.each do |query, label|
           features.each_index do |feature_index|
             if features[ feature_index ].feature_name == query.first
               found_query = true
