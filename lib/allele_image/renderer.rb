@@ -172,6 +172,9 @@ module AlleleImage
         return image_list.append( true )
       end
 
+      # Render the 5' homology arm features
+      #
+      # @see AlleleImage::Renderer#image
       def render_five_arm
         image = render_genomic_region( construct.five_arm_features(), :width => "5' arm".length() * @text_width )
         # Construct the annotation image
@@ -202,6 +205,9 @@ module AlleleImage
         return image_list.append( true )
       end
 
+      # Draw an empty flank region
+      #
+      # @see AlleleImage::Renderer#image
       def draw_empty_flank( region, height = @image_height, width = 100 )
         # let's create the 4 points we'll need
         point_a, point_b, point_c, point_e = [], [], [], []
@@ -263,6 +269,9 @@ module AlleleImage
         return flank_image.append( true )
       end
 
+      # Render the features in the flanking region to the 5' homology arm
+      #
+      # @see AlleleImage::Renderer#image
       def render_five_flank
         image = construct.circular() ? draw_empty_flank("5' arm main") : render_genomic_region( construct.five_flank_features() )
 
@@ -277,10 +286,9 @@ module AlleleImage
         return image_list.append( true )
       end
 
-      # Render the 3' homology arm
+      # Render the 3' homology arm features
       #
-      # @since  v0.3.4
-      # @return [Magick::Image]
+      # @see AlleleImage::Renderer#image
       def render_three_arm
         image_list             = Magick::ImageList.new()
         rcmb_primers           = construct.rcmb_primers_in(:three_arm_features)
@@ -351,6 +359,9 @@ module AlleleImage
         return image_list.append( true )
       end
 
+      # Render the features in the flanking region to the 3' homology arm
+      #
+      # @see AlleleImage::Renderer#image
       def render_three_flank
         image = construct.circular() ? draw_empty_flank("3' arm main") : render_genomic_region( construct.three_flank_features() )
 
@@ -365,7 +376,13 @@ module AlleleImage
         return image_list.append( true )
       end
 
-      # This needs to centralize the features it renders
+      # Render the features in a mutagenic region. This needs to centralize the features it renders.
+      #
+      # @see    AlleleImage::Renderer#image
+      # @param  [Array<AlleleImage::Feature>] features the mutagenic features to draw
+      # @param  [Hash] params optional arguments
+      # @option [Symbol] :label a label to stick below the image
+      # @option [Symbol] :width the minimumn width required
       def render_mutant_region( features, params={} )
         params[:label]    = false unless params.include?(:label)
         cassette_features = insert_gaps_between( features )
@@ -410,6 +427,12 @@ module AlleleImage
         return image_list.append( true )
       end
 
+      # Render the features in a genomic region.
+      #
+      # @see    AlleleImage::Renderer#image
+      # @param  [Array<AlleleImage::Feature>] features the genomic features to draw
+      # @param  [Hash] params optional parameters
+      # @option [Symbol] :width (50) the minimum width of the image
       def render_genomic_region( features, params={} )
         exons       = []
         image_width = params[:width] || 50
