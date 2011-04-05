@@ -205,70 +205,6 @@ module AlleleImage
         return image_list.append( true )
       end
 
-      # Draw an empty flank region
-      #
-      # @see AlleleImage::Renderer#image
-      def draw_empty_flank( region, height = @image_height, width = 100 )
-        # let's create the 4 points we'll need
-        point_a, point_b, point_c, point_e = [], [], [], []
-
-        # set the points based on the flank "region"
-        case region
-          when "5' arm main"
-            point_a, point_b, point_c, point_e = [width*0.5,height], [width*0.5,height*0.5], [width*0.75,height*0.5], [width,height*0.5]
-          when "3' arm main"
-            point_a, point_b, point_c, point_e = [width*0.5,height], [width*0.5,height*0.5], [width*0.25,height*0.5],  [0,height*0.5]
-          when "5' arm backbone"
-            point_a, point_b, point_c, point_e = [width*0.5,0],      [width*0.5,height*0.5], [width*0.75,height*0.5], [width,height*0.5]
-          when "3' arm backbone"
-            point_a, point_b, point_c, point_e = [width*0.5,0],      [width*0.5,height*0.5], [width*0.25,height*0.5],  [0,height*0.5]
-          else
-            raise "Not a valid region to render: #{region}"
-        end
-
-        # draw the image
-        empty_flank_image = Magick::Image.new(width, height)
-        sequence_drawing = Magick::Draw.new
-        sequence_drawing.stroke_width(@sequence_stroke_width)
-        sequence_drawing.fill("white")
-        sequence_drawing.stroke("black")
-        sequence_drawing.bezier(point_a.first, point_a.last, point_b.first, point_b.last, point_c.first, point_c.last)
-        sequence_drawing.line(point_c.first, point_c.last, point_e.first, point_e.last)
-        sequence_drawing.draw(empty_flank_image)
-
-        # insert the AsiSI in here somewhere
-        if region.match(/5' arm/)
-          asisi   = Magick::Image.new( @text_width * "AsiSI".length, height )
-          asisi   = draw_sequence( asisi, 0, height/2, asisi.columns, height/2 )
-          feature = construct.backbone_features.find { |feature| feature.feature_name == "AsiSI" }
-
-          if region.match(/main/) and feature
-            asisi = draw_asisi( asisi, feature, [0, height/2] )
-          end
-
-          test  = Magick::ImageList.new
-          test.push(empty_flank_image).push(asisi)
-          empty_flank_image = test.append(false)
-        end
-
-        return empty_flank_image if region.match(/backbone/)
-
-        # the linker to the other curved section
-        linker_image = Magick::Image.new( width, calculate_labels_image_height )
-        linker = Magick::Draw.new
-        linker.stroke_width(@sequence_stroke_width)
-        linker.fill("white")
-        linker.stroke("black")
-        linker.line( width * 0.5, 0, width * 0.5, linker_image.rows )
-        linker.draw(linker_image)
-
-        # create an ImageList to stack both images
-        flank_image = Magick::ImageList.new
-        flank_image.push(empty_flank_image).push(linker_image)
-
-        return flank_image.append( true )
-      end
-
       # Render the features in the flanking region to the 5' homology arm
       #
       # @see AlleleImage::Renderer#image
@@ -497,6 +433,70 @@ module AlleleImage
       end
 
       # DRAW METHODS
+
+      # Draw an empty flank region
+      #
+      # @see AlleleImage::Renderer#image
+      def draw_empty_flank( region, height = @image_height, width = 100 )
+        # let's create the 4 points we'll need
+        point_a, point_b, point_c, point_e = [], [], [], []
+
+        # set the points based on the flank "region"
+        case region
+          when "5' arm main"
+            point_a, point_b, point_c, point_e = [width*0.5,height], [width*0.5,height*0.5], [width*0.75,height*0.5], [width,height*0.5]
+          when "3' arm main"
+            point_a, point_b, point_c, point_e = [width*0.5,height], [width*0.5,height*0.5], [width*0.25,height*0.5],  [0,height*0.5]
+          when "5' arm backbone"
+            point_a, point_b, point_c, point_e = [width*0.5,0],      [width*0.5,height*0.5], [width*0.75,height*0.5], [width,height*0.5]
+          when "3' arm backbone"
+            point_a, point_b, point_c, point_e = [width*0.5,0],      [width*0.5,height*0.5], [width*0.25,height*0.5],  [0,height*0.5]
+          else
+            raise "Not a valid region to render: #{region}"
+        end
+
+        # draw the image
+        empty_flank_image = Magick::Image.new(width, height)
+        sequence_drawing = Magick::Draw.new
+        sequence_drawing.stroke_width(@sequence_stroke_width)
+        sequence_drawing.fill("white")
+        sequence_drawing.stroke("black")
+        sequence_drawing.bezier(point_a.first, point_a.last, point_b.first, point_b.last, point_c.first, point_c.last)
+        sequence_drawing.line(point_c.first, point_c.last, point_e.first, point_e.last)
+        sequence_drawing.draw(empty_flank_image)
+
+        # insert the AsiSI in here somewhere
+        if region.match(/5' arm/)
+          asisi   = Magick::Image.new( @text_width * "AsiSI".length, height )
+          asisi   = draw_sequence( asisi, 0, height/2, asisi.columns, height/2 )
+          feature = construct.backbone_features.find { |feature| feature.feature_name == "AsiSI" }
+
+          if region.match(/main/) and feature
+            asisi = draw_asisi( asisi, feature, [0, height/2] )
+          end
+
+          test  = Magick::ImageList.new
+          test.push(empty_flank_image).push(asisi)
+          empty_flank_image = test.append(false)
+        end
+
+        return empty_flank_image if region.match(/backbone/)
+
+        # the linker to the other curved section
+        linker_image = Magick::Image.new( width, calculate_labels_image_height )
+        linker = Magick::Draw.new
+        linker.stroke_width(@sequence_stroke_width)
+        linker.fill("white")
+        linker.stroke("black")
+        linker.line( width * 0.5, 0, width * 0.5, linker_image.rows )
+        linker.draw(linker_image)
+
+        # create an ImageList to stack both images
+        flank_image = Magick::ImageList.new
+        flank_image.push(empty_flank_image).push(linker_image)
+
+        return flank_image.append( true )
+      end
 
       #
       # draw an arrow at the point
