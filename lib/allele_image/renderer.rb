@@ -98,57 +98,61 @@ module AlleleImage
       return vector_image.append( true )
     end
 
-    def render_backbone( params = {} )
-      backbone_image = Magick::ImageList.new()
-      five_flank_bb  = draw_empty_flank("5' arm backbone")
-      three_flank_bb = draw_empty_flank("3' arm backbone")
-
-      # we want to render the "AsiSI" somewhere else
-      backbone_features = construct.backbone_features.select { |feature| feature.feature_name != "AsiSI" }
-      params[:width]    = [ calculate_width( backbone_features ), params[:width] ].max
-      backbone          = Magick::ImageList.new
-
-      # teeze out the PGK-DTA-pA structure making sure the only thing b/w the PGK and the pA is the DTA
-      wanted, rest = backbone_features.partition { |feature| %w[pA DTA PGK].include?(feature.feature_name) }
-
-      if wanted.empty?
-        backbone.push( render_mutant_region( backbone_features, :width => params[:width] ) )
-      else
-        unexpected_features = backbone_features.select { |feature| feature.feature_name != "DTA" and wanted.first.start < feature.start and feature.stop < wanted.last.stop }
-
-        raise "Unexpected features in PGK-DTA-pA structure: [#{unexpected_features.map(&:feature_name).join(', ')}]" unless unexpected_features.empty?
-
-        rest_image   = render_mutant_region( rest,   :width => calculate_width(rest) )
-        wanted_image = render_mutant_region( wanted, :width => calculate_width(wanted) )
-
-        # create some padding between
-        pad_width         = params[:width] - ( wanted_image.columns + rest_image.columns )
-        pad_image_5_prime = render_mutant_region( [], :width => pad_width * 0.2 )
-        pad_image_3_prime = render_mutant_region( [], :width => pad_width * 0.2 )
-        pad_image_middle  = render_mutant_region( [], :width => pad_width * 0.6 )
-        backbone.push(pad_image_5_prime).push(wanted_image).push(pad_image_middle).push(rest_image).push(pad_image_3_prime)
-      end
-
-      backbone = backbone.append(false)
-      main_bb  = Magick::ImageList.new
-
-      # push the main backbone image onto the image list
-      main_bb.push(backbone)
-
-      # now add the label
-      if construct.backbone_label
-        label_image = Magick::Image.new( backbone.columns, @text_height * 2 )
-        label_image = draw_label( label_image, construct.backbone_label, 0, 0, @text_height * 2 )
-        main_bb.push( label_image )
-      end
-
-      backbone_image.push( five_flank_bb ).push( main_bb.append(true) ).push( three_flank_bb )
-      backbone_image = backbone_image.append( false )
-  
-      return backbone_image
-    end
-
     private
+      # Render the backbone of the image
+      #
+      # @since  v0.3.4
+      # @return [Magick::Image]
+      def render_backbone( params = {} )
+        backbone_image = Magick::ImageList.new()
+        five_flank_bb  = draw_empty_flank("5' arm backbone")
+        three_flank_bb = draw_empty_flank("3' arm backbone")
+
+        # we want to render the "AsiSI" somewhere else
+        backbone_features = construct.backbone_features.select { |feature| feature.feature_name != "AsiSI" }
+        params[:width]    = [ calculate_width( backbone_features ), params[:width] ].max
+        backbone          = Magick::ImageList.new
+
+        # teeze out the PGK-DTA-pA structure making sure the only thing b/w the PGK and the pA is the DTA
+        wanted, rest = backbone_features.partition { |feature| %w[pA DTA PGK].include?(feature.feature_name) }
+
+        if wanted.empty?
+          backbone.push( render_mutant_region( backbone_features, :width => params[:width] ) )
+        else
+          unexpected_features = backbone_features.select { |feature| feature.feature_name != "DTA" and wanted.first.start < feature.start and feature.stop < wanted.last.stop }
+
+          raise "Unexpected features in PGK-DTA-pA structure: [#{unexpected_features.map(&:feature_name).join(', ')}]" unless unexpected_features.empty?
+
+          rest_image   = render_mutant_region( rest,   :width => calculate_width(rest) )
+          wanted_image = render_mutant_region( wanted, :width => calculate_width(wanted) )
+
+          # create some padding between
+          pad_width         = params[:width] - ( wanted_image.columns + rest_image.columns )
+          pad_image_5_prime = render_mutant_region( [], :width => pad_width * 0.2 )
+          pad_image_3_prime = render_mutant_region( [], :width => pad_width * 0.2 )
+          pad_image_middle  = render_mutant_region( [], :width => pad_width * 0.6 )
+          backbone.push(pad_image_5_prime).push(wanted_image).push(pad_image_middle).push(rest_image).push(pad_image_3_prime)
+        end
+
+        backbone = backbone.append(false)
+        main_bb  = Magick::ImageList.new
+
+        # push the main backbone image onto the image list
+        main_bb.push(backbone)
+
+        # now add the label
+        if construct.backbone_label
+          label_image = Magick::Image.new( backbone.columns, @text_height * 2 )
+          label_image = draw_label( label_image, construct.backbone_label, 0, 0, @text_height * 2 )
+          main_bb.push( label_image )
+        end
+
+        backbone_image.push( five_flank_bb ).push( main_bb.append(true) ).push( three_flank_bb )
+        backbone_image = backbone_image.append( false )
+  
+        return backbone_image
+      end
+
       # These methods return a Magick::Image object
       def render_cassette
         image = render_mutant_region( construct.cassette_features(), :label => construct.cassette_label() )
