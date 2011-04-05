@@ -19,13 +19,6 @@ module AlleleImage
       rcmb_primers.values_at(boundries[section][0] .. boundries[section][1])
     end
 
-    def cassette_label
-      cassette_type   = "Promoterless Cassette"
-      promoters       = cassette_features.select { |feature| feature.feature_type() == "promoter" }
-      cassette_type   = "Promoter-Driven Cassette" if promoters.size > 0
-      @cassette_label = "#{ cassette_type }\n(#{ @cassette_label })"
-    end
-
     # @since  0.3.4
     # @return [Array<AlleleImage::Feature>, nil]
     def backbone_features
@@ -52,6 +45,7 @@ module AlleleImage
       end
     end
 
+    # @see AlleleImage::Parser#extract_label
     def backbone_label
       return @backbone_label unless circular
 
@@ -63,6 +57,14 @@ module AlleleImage
       end
 
       return "#{ backbone_type }\n(#{ @backbone_label })"
+    end
+
+    # @see AlleleImage::Parser#extract_label
+    def cassette_label
+      cassette_type   = "Promoterless Cassette"
+      promoters       = cassette_features.select { |feature| feature.feature_type() == "promoter" }
+      cassette_type   = "Promoter-Driven Cassette" if promoters.size > 0
+      @cassette_label = "#{ cassette_type }\n(#{ @cassette_label })"
     end
 
     # These methods always return something
