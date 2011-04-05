@@ -8,16 +8,16 @@ module AlleleImage
     # @since  v0.3.4
     # @param  [AlleleImage::Construct] construct the construct we are going to draw
     # @param  [Hash] params optional parameters
-    # @option params [Symbol] :bottom_margin (25)
-    # @option params [Symbol] :feature_height (40)
-    # @option params [Symbol] :top_margin (25)
-    # @option params [Symbol] :font_size (18)
-    # @option params [Symbol] :gap_width (10)
-    # @option params [Symbol] :text_width (16)
-    # @option params [Symbol] :text_height (22)
-    # @option params [Symbol] :feature_height (40)
-    # @option params [Symbol] :annotation_height (100)
-    # @option params [Symbol] :sequence_stroke_width (2.5)
+    # @option params [Num] :bottom_margin (25)
+    # @option params [Num] :feature_height (40)
+    # @option params [Num] :top_margin (25)
+    # @option params [Num] :font_size (18)
+    # @option params [Num] :gap_width (10)
+    # @option params [Num] :text_width (16)
+    # @option params [Num] :text_height (22)
+    # @option params [Num] :feature_height (40)
+    # @option params [Num] :annotation_height (100)
+    # @option params [Num] :sequence_stroke_width (2.5)
     # @return [AlleleImage::Renderer]
     def initialize( construct, params = {} )
       raise "NotAlleleImageConstruct" unless construct.instance_of?( AlleleImage::Construct )
@@ -329,8 +329,8 @@ module AlleleImage
       # @see    AlleleImage::Renderer#image
       # @param  [Array<AlleleImage::Feature>] features the mutagenic features to draw
       # @param  [Hash] params optional arguments
-      # @option [Symbol] :label a label to stick below the image
-      # @option [Symbol] :width the minimumn width required
+      # @option [String] :label a label to stick below the image
+      # @option [Num] :width the minimumn width required
       def render_mutant_region( features, params={} )
         params[:label]    = false unless params.include?(:label)
         cassette_features = insert_gaps_between( features )
@@ -380,7 +380,7 @@ module AlleleImage
       # @see    AlleleImage::Renderer#image
       # @param  [Array<AlleleImage::Feature>] features the genomic features to draw
       # @param  [Hash] params optional parameters
-      # @option [Symbol] :width (50) the minimum width of the image
+      # @option [Num] :width (50) the minimum width of the image
       def render_genomic_region( features, params={} )
         exons       = []
         image_width = params[:width] || 50
@@ -510,8 +510,17 @@ module AlleleImage
         return flank_image.append( true )
       end
 
+      # Draw an arrow at the point specified
       #
-      # draw an arrow at the point
+      # @param  [Magick::Image] image the image we are drawing on
+      # @param  [Array<Num>] point the locus to draw our arrow
+      # @param  [Hash] params an optional set of parameters
+      # @option [String] :direction ('south') the direction the arrow points
+      # @option [Num] :stroke_width (2.5) the width of the lines
+      # @option [Num] :tail_height (0.1 * @image_height) the length of the arrows tail
+      # @option [Num] :arm_height (0.05 * @image_height) the length of the arow head arms
+      # @option [Num] :arm_width (0.025 * @image_width) the span of the arrows head arms
+      # @return [Magick::Image]
       def draw_arrow( image, point, params={} )
         arrow = Magick::Draw.new
         stroke_width = params[:stroke_width] || 2.5
@@ -549,8 +558,12 @@ module AlleleImage
         return image
       end
 
+      # Draw an AsiSI at the point specified
       #
-      # prototyping rendering AsiSI
+      # @param  [Magick::Image] image the image we are drawing on
+      # @param  [AlleleImage::Feature] feature the AsiSI feature
+      # @param  [Array<Num>] position the coordinates to draw the AsiSI feature
+      # @return [Magick::Image]
       def draw_asisi( image, feature, position )
         asisi = Magick::Draw.new
 
