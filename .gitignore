@@ -6,3 +6,4 @@ misc/rules.csv
 pkg/
 *.png
 *.gif
+.yardoc
