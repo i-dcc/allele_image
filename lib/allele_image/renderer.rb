@@ -62,9 +62,10 @@ module AlleleImage
       @image ||= render
     end
 
-    # The output of this method will get assigned to the @image attribute
-    # of the AlleleImage::Renderer class. This is what you get when you
-    # call AlleleImage::Image#render_image().
+    # Renders the cartoon image
+    #
+    # @since  v0.3.4
+    # @return [Magick::Image]
     def render
       # Construct the main image components
       main_image = Magick::ImageList.new()
