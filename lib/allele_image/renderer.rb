@@ -6,6 +6,18 @@ module AlleleImage
     # Initialize a new AlleleImage::Renderer object
     #
     # @since  v0.3.4
+    # @param  [AlleleImage::Construct] construct the construct we are going to draw
+    # @param  [Hash] params optional parameters
+    # @option params [Symbol] :bottom_margin (25)
+    # @option params [Symbol] :feature_height (40)
+    # @option params [Symbol] :top_margin (25)
+    # @option params [Symbol] :font_size (18)
+    # @option params [Symbol] :gap_width (10)
+    # @option params [Symbol] :text_width (16)
+    # @option params [Symbol] :text_height (22)
+    # @option params [Symbol] :feature_height (40)
+    # @option params [Symbol] :annotation_height (100)
+    # @option params [Symbol] :sequence_stroke_width (2.5)
     # @return [AlleleImage::Renderer]
     def initialize( construct, params = {} )
       raise "NotAlleleImageConstruct" unless construct.instance_of?( AlleleImage::Construct )
