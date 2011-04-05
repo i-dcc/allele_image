@@ -5,8 +5,8 @@ module AlleleImage
 
     # Initialize a new AlleleImage::Renderer object
     #
-    # @since   v0.3.4
-    # @returns [AlleleImage::Renderer]
+    # @since  v0.3.4
+    # @return [AlleleImage::Renderer]
     def initialize( construct, params = {} )
       raise "NotAlleleImageConstruct" unless construct.instance_of?( AlleleImage::Construct )
 
@@ -56,8 +56,8 @@ module AlleleImage
 
     # Retrieves the image being generated
     #
-    # @since   v0.3.4
-    # @returns [Magick::Image]
+    # @since  v0.3.4
+    # @return [Magick::Image]
     def image
       @image ||= render
     end
@@ -271,8 +271,8 @@ module AlleleImage
 
       # Render the 3' homology arm
       #
-      # @since   v0.3.4
-      # @returns [Magick::Image]
+      # @since  v0.3.4
+      # @return [Magick::Image]
       def render_three_arm
         image_list             = Magick::ImageList.new()
         rcmb_primers           = construct.rcmb_primers_in(:three_arm_features)
