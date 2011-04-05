@@ -62,10 +62,12 @@ module AlleleImage
       @image ||= render
     end
 
-    # Renders the cartoon image
+    # Renders the cartoon image. This returns a Magick::Image image and as such
+    # you can call the relevant methods on that object.
     #
-    # @since  v0.3.4
-    # @return [Magick::Image]
+    #   allele_image.render.write("allele_image.gif")
+    #
+    # @see AlleleImage::Renderer#image
     def render
       # Construct the main image components
       main_image = Magick::ImageList.new()
@@ -100,10 +102,9 @@ module AlleleImage
     end
 
     private
-      # Render the backbone of the image
+      # Render the backbone of the image.
       #
-      # @since  v0.3.4
-      # @return [Magick::Image]
+      # @see AlleleImage::Renderer#image
       def render_backbone( params = {} )
         backbone_image = Magick::ImageList.new()
         five_flank_bb  = draw_empty_flank("5' arm backbone")
@@ -154,7 +155,9 @@ module AlleleImage
         return backbone_image
       end
 
-      # These methods return a Magick::Image object
+      # Render the cassette of the image
+      #
+      # @see AlleleImage::Renderer#image
       def render_cassette
         image = render_mutant_region( construct.cassette_features(), :label => construct.cassette_label() )
 
