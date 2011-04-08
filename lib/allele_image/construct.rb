@@ -134,12 +134,14 @@ module AlleleImage
           features.each_index do |feature_index|
             if features[ feature_index ].feature_name == query.first
               found_query = true
+              
               query.each_index do |query_index|
                 next_feature = features[ feature_index + query_index ]
                 unless next_feature && query[ query_index ] == next_feature.feature_name
                   found_query = false
                 end
               end
+              
               if found_query
                 # perhaps this should be its own function?
                 start   = features[ feature_index ].start

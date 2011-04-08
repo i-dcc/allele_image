@@ -62,7 +62,7 @@ module AlleleImage
       # @since  0.3.4
       # @return [String]
       def cassette
-        extract_label("cassette")
+        extract_label_from_comment("cassette")
       end
 
       # Retrieve the backbone
@@ -70,7 +70,7 @@ module AlleleImage
       # @since  0.3.4
       # @return [String]
       def backbone
-        extract_label("backbone")
+        extract_label_from_comment("backbone")
       end
 
       # Retrieve the target_bac
@@ -78,15 +78,15 @@ module AlleleImage
       # @since  0.3.4
       # @return [String]
       def target_bac
-        extract_label("target_bac")
+        extract_label_from_comment("target_bac")
       end
 
-      # Extracts the requsted label from the GenBank data
+      # Extracts the requsted label from the GenBank comments
       #
       # @since  0.3.4
       # @param  [String] label the label you wish to extract
       # @return [String, nil]
-      def extract_label(label)
+      def extract_label_from_comment(label)
         comments = genbank_data.to_biosequence.comments
         result   = comments.split("\n").find { |comment| comment.match(label) } unless comments.nil?
         return result.split(":").last.strip unless result.nil?
@@ -102,13 +102,14 @@ module AlleleImage
           unless feature.qualifiers.length == 0
             begin
               AlleleImage::Feature.new(feature)
+              # FIXME => blanket exception catching is unwanted!!!
             rescue => error
               # puts [ feature.feature, name ].join(",")
             end
           end
         end
 
-        # Sort the non-nil features
+        # Sort the non-nil features -- FIXME => there is an easier way to sort
         features = features.compact.sort do |feature_a, feature_b|
           res = feature_a.start <=> feature_b.start
           res = feature_a.stop  <=> feature_b.stop if res == 0

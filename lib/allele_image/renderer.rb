@@ -61,7 +61,7 @@ module AlleleImage
       @image_height          = @bottom_margin + @feature_height + @top_margin
 
       # set the AlleleImage::Feature class attribute text_width
-      AlleleImage::Feature.text_width(@text_width)
+      AlleleImage::Feature.text_width = @text_width
 
       return self
     end

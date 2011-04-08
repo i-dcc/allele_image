@@ -2,7 +2,7 @@ module AlleleImage
   class Feature
     @@text_width = 12
 
-    def Feature.text_width(new_width)
+    def self.text_width=(new_width)
       @@text_width = new_width
     end
 
@@ -21,6 +21,7 @@ module AlleleImage
         raise "NotRenderable"
       end
 
+      # precedence bug in this line
       return self if @feature_type == "exon" and @feature_name != "En2 exon"
 
       @render_options = AlleleImage::RENDERABLE_FEATURES[ @feature_type ][ @feature_name ]
