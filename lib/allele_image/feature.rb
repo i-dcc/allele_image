@@ -1,5 +1,7 @@
 module AlleleImage
   class Feature
+    class NotRenderableError < RuntimeError; end
+
     @@text_width = 12
 
     def Feature.text_width(new_width)
@@ -9,19 +11,22 @@ module AlleleImage
     attr_reader   :feature_type, :feature_name, :start, :stop, :render_options
     attr_accessor :orientation
 
-    def initialize( bio_feature )
+    def initialize(bio_feature)
       @feature_type = bio_feature.feature
-      @feature_name = bio_feature.to_hash["note"][0]
-      @position     = bio_feature.position
+
+      note = bio_feature.to_hash['note']
+      @feature_name = note[0] if note
+
+      @position = bio_feature.position
 
       init_orientation
       init_start_and_stop
 
       unless renderable_feature?
-        raise "NotRenderable"
+        raise NotRenderableError, [@feature_type, @feature_name, @position].inspect + ' not renderable'
       end
 
-      return self if @feature_type == "exon" and @feature_name != "En2 exon"
+      return if @feature_type == "exon" and @feature_name != "En2 exon"
 
       @render_options = AlleleImage::RENDERABLE_FEATURES[ @feature_type ][ @feature_name ]
       @feature_name   = @render_options[ "label" ] || @feature_name

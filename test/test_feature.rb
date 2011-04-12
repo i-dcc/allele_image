@@ -73,17 +73,28 @@ class TestAlleleImageFeature < Test::Unit::TestCase
       end
     end
 
-    context "that is not renderable" do
-      setup do
-        @features = []
+    should 'always render exons, since configuration in RENDERABLE_FEATURES is not required' do
+      bio_feature = Bio::Feature.new('exon')
+      AlleleImage::Feature.new(bio_feature)
+    end
+
+    context 'when not renderable' do
+      should 'raise if no renderable feature exists for it' do
+        bio_feature = Bio::Feature.new('nonexist')
+        assert_raise(AlleleImage::Feature::NotRenderableError) do
+          AlleleImage::Feature.new(bio_feature)
+        end
+      end
+
+      should 'raise if renderable feature is not configured for it' do
+        bio_feature = Bio::Feature.new('misc_feature')
+        bio_feature.append(Bio::Feature::Qualifier.new 'note', 'nonexist')
+        assert_raise(AlleleImage::Feature::NotRenderableError) do
+          AlleleImage::Feature.new(bio_feature)
+        end
       end
     end
 
-    context "that has render options" do
-      setup do
-        @features = []
-      end
-    end
   end
 
 =begin
