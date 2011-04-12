@@ -73,7 +73,7 @@ class TestAlleleImageFeature < Test::Unit::TestCase
       end
     end
 
-    should 'always render exons, since configuration in RENDERABLE_FEATURES is not required' do
+    should 'always render exons, since configuration in RENDERABLE_FEATURES is not required for them' do
       bio_feature = Bio::Feature.new('exon')
       AlleleImage::Feature.new(bio_feature)
     end

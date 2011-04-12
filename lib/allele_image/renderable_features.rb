@@ -162,12 +162,8 @@ module AlleleImage
         "font" => "white",
         "width" => 140
       },
-      "rat CD4 B-gal fusion" => {}
-    },
-    "exon" => {
-      "En2 exon" => {}
-    },
-    "CDS" => {
+      "rat CD4 B-gal fusion" => {},
+
       "AmpR" => {},
       "KanR" => {},
       "ccdB/ChlR" => {},
@@ -197,13 +193,7 @@ module AlleleImage
 
       # mirKO
       "pu-Delta-tk" => {},
-      # KOMP-Regeneron specific stuff
-      # "LacZ" => {
-      #   "colour" => "blue",
-      #   "label" => "lacZ",
-      #   "font" => "white",
-      #   "width" => 140
-      # },
+
       "neo" => {
         "colour" => "#00a99d",
         "label" => "neo",
@@ -215,8 +205,13 @@ module AlleleImage
         "label" => "TM-lacZ",
         "font" => "white",
         "width" => 140
-      },
+      }
     },
+
+    "exon" => {
+      "En2 exon" => {}
+    },
+
     "intervening sequence" => {
       "intervening sequence" => {}
     },
@@ -262,4 +257,6 @@ module AlleleImage
       },
     }
   }
+
+  RENDERABLE_FEATURES['CDS'] = RENDERABLE_FEATURES['gene']
 end
