@@ -171,7 +171,14 @@ module AlleleImage
       "ChlR" => {},
       "ccdB" => {},
       "BsdR" => {},
+
       "NeoR" => {
+        "colour" => "#00a99d",
+        "label" => "neo",
+        "font" => "white",
+        "width" => 80
+      },
+      "neo" => {
         "colour" => "#00a99d",
         "label" => "neo",
         "font" => "white",
@@ -179,10 +186,11 @@ module AlleleImage
       },
       "NeoR*" => {
         "colour" => "#00a99d",
-        "label" => "neo*",
-        "font" => "black",
+        "label" => "neo",
+        "font" => "white",
         "width" => 80
       },
+
       "ZeoR" => {},
       "SpecR" => {},
       "DTA" => {
@@ -194,12 +202,6 @@ module AlleleImage
       # mirKO
       "pu-Delta-tk" => {},
 
-      "neo" => {
-        "colour" => "#00a99d",
-        "label" => "neo",
-        "font" => "black",
-        "width" => 80
-      },
       "TM-lacZ " => {
         "colour" => "blue",
         "label" => "TM-lacZ",

@@ -1,11 +1,11 @@
 require 'test_helper'
 
 # Expand on these tests
-class TestParseGenBank < Test::Unit::TestCase
+class TestParseGenBank < AlleleImage::TestCase
   context "a GenBank parser" do
-    setup do
+    should "instantiate" do
       @input  = <<GENBANK_DATA
-LOCUS       allele_44372_OTTMUSE00000345825_L1L2_Bact_P        38059 bp    dna     linear   UNK 
+LOCUS       allele_44372_OTTMUSE00000345825_L1L2_Bact_P        38059 bp    dna     linear   UNK
 ACCESSION   unknown
 DBSOURCE    accession design_id=44372
 COMMENT     cassette : L1L2_Bact_P
@@ -250,7 +250,7 @@ FEATURES             Location/Qualifiers
                      /label=3 arm
                      /note="3 arm"
 BASE COUNT     9636 a   8610 c   9068 g  10745 t
-ORIGIN      
+ORIGIN
         1 atcaagctta tgcaacaact taagttcttc ctcattgtaa gtaataccag attaccgctg
        61 gtagaaaata cctatgttac catgctgaca ccatattgtg ttctttggct ttacgcattt
       121 gccctgattt atggcttgta ctaacaggtg gcatgggaat gtgagttgac atgggtcggt
@@ -890,11 +890,16 @@ ORIGIN
 GENBANK_DATA
       @format = "GenBank"
       @parser = AlleleImage::Parser.new( @input )
-    end
 
-    should "instantiate" do
       assert_not_nil @parser
       assert_not_nil @parser.construct
+    end
+
+    should 'load the NeoR gene as a feature properly' do
+      parser = AlleleImage::Parser.new(gbk_fixture('allele_138_escell'))
+      feature = parser.features[20]
+      assert_equal 'neo', feature.feature_name
+      assert feature.renderable_feature?
     end
   end
 end

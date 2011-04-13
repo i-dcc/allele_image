@@ -36,13 +36,13 @@ module AlleleImage
       @render_options and @render_options.has_key?("width") ? @render_options[ "width" ] :  @feature_name.length * @@text_width
     end
 
-    private
-      def renderable_feature?
-        @feature_type == "exon" or \
-        ( AlleleImage::RENDERABLE_FEATURES[ @feature_type ] and \
+    def renderable_feature?
+      @feature_type == "exon" or
+        ( AlleleImage::RENDERABLE_FEATURES[ @feature_type ] and
           AlleleImage::RENDERABLE_FEATURES[ @feature_type ][ @feature_name ] )
-      end
+    end
 
+    private
       def init_orientation
         @orientation = @position.match(/^complement/) ? "reverse" : "forward"
       end

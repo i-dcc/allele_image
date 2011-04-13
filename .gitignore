@@ -1,6 +1,6 @@
 coverage*
 doc*
-tmp/metric_fu*
+tmp/*
 misc/cassette_features.csv
 misc/rules.csv
 pkg/
