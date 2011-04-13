@@ -186,7 +186,7 @@ module AlleleImage
       },
       "NeoR*" => {
         "colour" => "#00a99d",
-        "label" => "neo",
+        "label" => "neo*",
         "font" => "white",
         "width" => 80
       },
