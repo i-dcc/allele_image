@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -e
+
+root=`dirname $0`/..
+
+bundle exec testrb -I "${root}:${root}/test" "$@"
