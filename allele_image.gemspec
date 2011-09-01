@@ -19,6 +19,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "awesome_print"
   s.add_development_dependency "shoulda"
   s.add_development_dependency "hoe"
+  s.add_development_dependency "ruby-debug19"
   s.add_development_dependency "newgem"
   
   s.files         = `git ls-files`.split("\n")

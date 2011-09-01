@@ -1,22 +1,22 @@
 module AlleleImage
   # == SYNOPSIS
   #   construct = AlleleImage::Construct.new( features, circular, cassette_label )
-  # 
+  #
   # == ATTRIBUTES
   # * features
   # * circular
   # * cassette_label
-  # 
+  #
   # == METHODS
   # * cassette_features
   # * five_arm_features
   # * three_arm_features
-  # 
+  #
   # The following methods may return nil
   # * backbone_features
   # * five_flank_features
   # * three_flank_features
-  # 
+  #
   class Construct
     attr_reader :backbone_features, :bac_label, :boundries, :circular, :features, :rcmb_primers
 

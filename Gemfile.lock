@@ -10,11 +10,15 @@ GEM
   specs:
     RedCloth (4.2.7)
     activesupport (2.3.11)
+    archive-tar-minitar (0.5.2)
     awesome_print (0.3.2)
     bio (1.4.2)
+    columnize (0.3.4)
     hoe (2.8.0)
       rake (>= 0.8.7)
     i18n (0.5.0)
+    linecache19 (0.5.12)
+      ruby_core_source (>= 0.1.4)
     newgem (1.5.3)
       RedCloth (>= 4.1.1)
       activesupport (~> 2.3.4)
@@ -26,6 +30,16 @@ GEM
     rubigen (1.5.6)
       activesupport (>= 2.3.5)
       i18n
+    ruby-debug-base19 (0.11.25)
+      columnize (>= 0.3.1)
+      linecache19 (>= 0.5.11)
+      ruby_core_source (>= 0.1.4)
+    ruby-debug19 (0.11.6)
+      columnize (>= 0.3.1)
+      linecache19 (>= 0.5.11)
+      ruby-debug-base19 (>= 0.11.19)
+    ruby_core_source (0.1.5)
+      archive-tar-minitar (>= 0.5.2)
     shoulda (2.11.3)
     syntax (1.0.0)
     test-unit (2.3.2)
@@ -38,5 +52,6 @@ DEPENDENCIES
   awesome_print
   hoe
   newgem
+  ruby-debug19
   shoulda
   test-unit
