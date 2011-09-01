@@ -1,9 +1,9 @@
 require 'test_helper'
 
-class TestFunctionalUnits < Test::Unit::TestCase
+class TestFunctionalUnits < AlleleImage::TestCase
   context "An updated GenBank file" do
     setup do
-      @data_dir  = "#{ File.dirname( __FILE__ ) }/../misc/known-issues/functional-units"
+      @data_dir  = "#{TEST_ROOT}/../misc/known-issues/functional-units"
       @cassettes = {
         # list should include an example from every cassette. missing include:
         # - L1L2_Bact_EM7
@@ -55,7 +55,7 @@ class TestFunctionalUnits < Test::Unit::TestCase
         "#{ @data_dir }/1056.gbk" => {
           :label => "L1L2_Pgk_PM",
           :expected_features =>
-            ["FRT", "En2 SA", "IRES", "lacZ", "pA", "loxP", "PGK", "neo", "pA", "FRT", "loxP"]
+            ["FRT", "En2 SA", "IRES", "lacZ", "pA", "loxP", "PGK", "neo*", "pA", "FRT", "loxP"]
         },
         "#{ @data_dir }/2935.gbk" => {
           :label => "L1L2_gtk",
@@ -76,11 +76,11 @@ class TestFunctionalUnits < Test::Unit::TestCase
         allele_image = AlleleImage::Image.new(file)
         allele_image.render.write( file.gsub( /\.gbk$/, ".png" ) )
         assert_not_nil allele_image, "#{ file } has an allele_image"
-        assert_equal(
-          @cassettes[file][:expected_features],
-          allele_image.construct.cassette_features.map { |feature| feature.feature_name },
-          "#{ @cassettes[file][:label] } has the correct features"
-        )
+
+        all_features = allele_image.construct.cassette_features.map { |feature| feature.feature_name }
+        cassette_features = @cassettes[file][:expected_features]
+        assert((cassette_features - all_features).empty?,
+          "#{ @cassettes[file][:label] } has the correct features: #{(cassette_features - all_features)}")
       end
 
       @backbones.each_key do |file|
