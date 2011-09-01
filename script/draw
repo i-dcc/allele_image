@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+
+$: << File.expand_path(File.dirname(__FILE__) + '/../lib')
+
+require 'allele_image'
+
+if ARGV.size != 1
+  STDERR.puts '.gbk file only please'
+  exit 1
+end
+
+file = ARGV.first
+allele_image = AlleleImage::Image.new(file)
+image = file.gsub(/\.gbk$/, '.png')
+allele_image.render.write(image)
