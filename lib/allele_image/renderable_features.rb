@@ -3,9 +3,15 @@ module AlleleImage
   # rename this file to constants.rb so we can include the functional
   # units in here as well
   FUNCTIONAL_UNITS = {
+
+    # TODO remove these 3 eventually
     ["En2 intron", "SA", "En2 exon"] => "En2 SA",
     ["En2 intron", "SA", "En2 exon", "Frame K insert"] => "En2 SA (ATG)",
     ["rat Cd4", "TM domain"] => "Cd4 TM",
+
+    ["mouse En2 intron", "Splice Acceptor", "mouse En2 exon"] => "En2 SA",
+    ["mouse En2 intron", "Splice Acceptor", "mouse En2 exon", "Frame K insert"] => "En2 SA (ATG)",
+    ["rat CD4 transmembrane region", "TM domain"] => "Cd4 TM",
     # ["PGK", "DTA", "pA"] => "PGK_DTA_pA",
     # ["pA", "DTA", "PGK"] => "pA_DTA_PGK",
   }
@@ -15,7 +21,8 @@ module AlleleImage
   # EXONS WILL BE ACCOUNTED FOR
   RENDERABLE_FEATURES = {
     "intron" => {
-      "En2 intron" => {}
+      "En2 intron" => {}, # TODO remove eventually
+      "mouse En2 intron" => {}
     },
     "primer_bind" => {
       "D5" => {},
@@ -25,7 +32,14 @@ module AlleleImage
       "HD" => {},
       "HU" => {},
       "U5" => {},
-      "U3" => {}
+      "U3" => {},
+
+      "D5 - recombineering primer" => {},
+      "D3 - recombineering primer" => {},
+      "G5 - recombineering primer" => {},
+      "G3 - recombineering primer" => {},
+      "U5 - recombineering primer" => {},
+      "U3 - recombineering primer" => {}
     },
     "polyA_site" => {
       "poly A [Split]" => {
@@ -52,7 +66,10 @@ module AlleleImage
         "width" => 300
       },
 
-      "SV40 pA" => {
+      "SV40 pA" => { # TODO remove eventually
+        "label" => "pA"
+      },
+      "SV40 polyadenylation site" => {
         "label" => "pA"
       },
       "PGK pA" => {
@@ -76,7 +93,8 @@ module AlleleImage
         "label" => "IRES",
         "font" => "white"
       },
-      "TM domain" => {},
+      "TM domain" => {}, # TODO remove eventually
+      "rat CD4 transmembrane region" => {},
       # "osteopontin repeat 2" => {},
       "BETA-GEO" => {
         "colour" => "blue",
@@ -88,7 +106,8 @@ module AlleleImage
       "3 arm" => {},
       "AttP" => {},
       # "osteopontin repeat 6" => {},
-      "target region" => {},
+      "target region" => {}, # TODO remove eventually
+      "critical region" => {},
       # "osteopontin repeat 1" => {},
       "F3" => {},
       "loxP" => {
@@ -105,10 +124,14 @@ module AlleleImage
       "ipcrTAR1 (GH1111)" => {},
       "EGFP" => {},
       "AsiSI" => {},
-      "SA" => {},
+      "SA" => {}, # TODO Remove eventually
+      "Splice Acceptor" => {},
       "SgrA1" => {},
       "rat CD4 fragment" => {},
-      "T2A" => {},
+      "T2A" => {}, # TODO Remove eventually
+      "'self-cleaving' 2A peptide" => {
+        'label' => 'T2A'
+      },
       "UiPCR" => {},
       "5 arm" => {},
       "Frt" => {
@@ -120,11 +143,18 @@ module AlleleImage
       "CD4 TM domain" => {}
     },
     "promoter" => {
-      "PGK promoter" => {
+
+      "PGK promoter" => { # TODO Remove eventually
         "colour" => "black",
         "label" => "PGK",
         "font" => "white"
       },
+      "mouse phosphoglycerate kinase 1 promoter" => {
+        "colour" => "black",
+        "label" => "PGK",
+        "font" => "white"
+      },
+
       "human ubiquitin promoter" => {
         "colour" => "DarkSlateBlue",
         "label" => "hubiP",
@@ -211,7 +241,8 @@ module AlleleImage
     },
 
     "exon" => {
-      "En2 exon" => {}
+      "En2 exon" => {}, # TODO remove eventually
+      "mouse En2 exon" => {}
     },
 
     "intervening sequence" => {

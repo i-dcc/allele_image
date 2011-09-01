@@ -2,6 +2,7 @@ require 'test_helper'
 
 class TestFunctionalUnits < AlleleImage::TestCase
   context "An updated GenBank file" do
+
     setup do
       @data_dir  = "#{TEST_ROOT}/../misc/known-issues/functional-units"
       @cassettes = {
@@ -94,5 +95,12 @@ class TestFunctionalUnits < AlleleImage::TestCase
         )
       end
     end
+
+    should 'handle renamed primers' do
+      file = @data_dir + '/139-renaming.gbk'
+      allele_image = AlleleImage::Image.new(file)
+      allele_image.render.write(file.gsub(/\.gbk$/, '.png'))
+    end
+
   end
 end
