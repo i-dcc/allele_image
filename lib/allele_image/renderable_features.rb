@@ -11,7 +11,7 @@ module AlleleImage
 
     ["mouse En2 intron", "Splice Acceptor", "mouse En2 exon"] => "En2 SA",
     ["mouse En2 intron", "Splice Acceptor", "mouse En2 exon", "Frame K insert"] => "En2 SA (ATG)",
-    ["rat CD4 transmembrane region", "TM domain"] => "Cd4 TM",
+    ["rat Cd4", "rat CD4 transmembrane region"] => "Cd4 TM",
     # ["PGK", "DTA", "pA"] => "PGK_DTA_pA",
     # ["pA", "DTA", "PGK"] => "pA_DTA_PGK",
   }
