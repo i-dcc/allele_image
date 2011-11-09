@@ -63,8 +63,12 @@ module AlleleImage
     end
 
     # These methods always return something
+    # keep these the same, the initialize section method should change
+    # still need these features stored in a array
     def cassette_features
-      @cassette_features ||= initialize_section(:cassette_features)
+      cassette_features ||= initialize_section(:cassette_features)
+
+      @cassette_features = cassette_features.reject { |f| f.feature_name == "synthetic_cassette" }
     end
 
     def five_arm_features
@@ -91,12 +95,69 @@ module AlleleImage
 
     private
       def initialize_rcmb_primers( features )
-        features.select do |feature|
+        rcmb_primers = features.select do |feature|
           feature.feature_type == 'primer_bind' and \
            RENDERABLE_FEATURES['primer_bind'].keys.include?(feature.feature_name)
         end
+        if rcmb_primers.size > 0
+          return rcmb_primers
+        else
+          return create_virtual_rcmb_primers( features )
+        end
       end
 
+      def create_virtual_rcmb_primers( features )
+        critical_region = get_feature( features, 'Critical Region' )
+        loxp_region     = get_feature( features, 'synthetic loxP region' )
+        cassette        = get_feature( features, 'synthetic_cassette' )
+        three_arm       = get_feature( features, '3 arm' )
+        five_arm        = get_feature( features, '5 arm' )
+        
+        #Knock Out Design
+        if critical_region
+          g5 = create_virtual_primer( 'G5', five_arm.start, five_arm.start + 50 )
+          u5 = create_virtual_primer( 'U5', cassette.start - 50, cassette.start )
+          u3 = create_virtual_primer( 'U3', cassette.stop, cassette.stop + 50 )
+          d5 = create_virtual_primer( 'D5', critical_region.stop, critical_region.stop + 50 )
+          d3 = create_virtual_primer( 'D3', three_arm.start - 50, three_arm.start )
+          g3 = create_virtual_primer( 'G3', three_arm.stop - 50, three_arm.stop )
+          return [ g5, u5, u3, d5, d3, g3 ]
+        # Deletion/ Insertion Design
+        else
+          g5 = create_virtual_primer( 'G5', five_arm.start, five_arm.start + 50 )
+          u5 = create_virtual_primer( 'U5', cassette.start - 50, cassette.start )
+          d3 = create_virtual_primer( 'D3', cassette.stop, cassette.stop + 50 )
+          g3 = create_virtual_primer( 'G3', three_arm.stop - 50, three_arm.stop )
+          return [ g5, u5, d3, g3 ]
+        end
+      end
+
+      def create_virtual_primer( name, start, stop )
+        primer = Bio::Feature.new(
+          "primer_bind",
+          "#{start}, #{stop}"
+        ).append( Bio::Feature::Qualifier.new( "note", name ) )
+
+        begin
+          primer_feature = AlleleImage::Feature.new(primer)
+        rescue AlleleImage::Feature::NotRenderableError
+          return primer_feature
+        end
+      end
+
+      def get_feature( features, name )
+        feature = features.select { |feature| feature.feature_name == name }
+        if feature.size > 1
+          raise "More than one feature with #{name}"
+        elsif feature.size == 0
+          return nil
+        end
+        return feature[0]
+      end
+
+      # create boundries hash for five arm / three arm and cassette
+      # value is array of 2 indexes for rcbm_primers array, which correspond to that boundries start
+      # and stop rcbm primers - e.g. 5-arm start oligo is G5, end oligo is U5, which is index 0 and 1 in rcmb array
       def initialize_boundries
         if @rcmb_primers.count == 4
           @boundries = { :five_arm_features => [0,1], :cassette_features => [1,2], :three_arm_features => [2,3] }

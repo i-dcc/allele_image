@@ -114,6 +114,10 @@ module AlleleImage
         "width" => 40,
         "label" => "loxP"
       },
+      "Downstream LoxP" => {
+        "width" => 40,
+        "label" => "loxP"
+      },
       "biotin" => {},
       "TEV" => {},
       "UiPCR cassette" => {
@@ -140,7 +144,10 @@ module AlleleImage
       },
       # "osteopontin repeat 4" => {},
       "pZERO" => {},
-      "CD4 TM domain" => {}
+      "CD4 TM domain" => {},
+      "Critical Region" => {},
+      "synthetic loxP region" => {},
+      "synthetic_cassette" => {}
     },
     "promoter" => {
 
