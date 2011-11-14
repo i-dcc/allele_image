@@ -179,7 +179,7 @@ module AlleleImage
         annotation_image = Magick::Image.new( image.columns, @annotation_height )
         genomic          = @construct.five_arm_features.find do |feature|
           feature.feature_type == "misc_feature" and \
-            ["5 arm", "target region", "3 arm"].include?( feature.feature_name )
+            feature.feature_name == "5 arm"
         end
 
         if genomic.nil?
@@ -324,17 +324,26 @@ module AlleleImage
         annotation_image = Magick::Image.new( image.columns, @annotation_height )
         genomic          = @construct.three_arm_features.select do |feature|
           feature.feature_type == "misc_feature" and \
-            ["5 arm", "target region", "3 arm"].include?( feature.feature_name )
+            feature.feature_name == "3 arm"
         end
 
         if genomic.size == 0
           rcmb_primers = @construct.rcmb_primers_in(:three_arm_features)
-          genomic.push(
-            AlleleImage::Feature.new(
-              Bio::Feature.new(
-                "misc_feature",
-                "#{rcmb_primers.first.start}, #{rcmb_primers.last.stop}"
-              ).append( Bio::Feature::Qualifier.new( "note", "3 arm" ) ) ) )
+          if rcmb_primers.count == 2
+            genomic.push(
+              AlleleImage::Feature.new(
+                Bio::Feature.new(
+                  "misc_feature",
+                  "#{rcmb_primers.first.start}, #{rcmb_primers.last.stop}"
+                ).append( Bio::Feature::Qualifier.new( "note", "3 arm" ) ) ) )
+          else
+            genomic.push(
+              AlleleImage::Feature.new(
+                Bio::Feature.new(
+                  "misc_feature",
+                  "#{rcmb_primers[-2].start}, #{rcmb_primers[-1].stop}"
+                ).append( Bio::Feature::Qualifier.new( "note", "3 arm" ) ) ) )
+          end
         end
 
         homology_arm_label = @construct.bac_label ? "3' #{ @construct.bac_label }" : "3 arm"
