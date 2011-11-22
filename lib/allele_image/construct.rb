@@ -149,7 +149,6 @@ module AlleleImage
         if feature.size > 1
           raise "More than one feature with #{name}"
         elsif feature.size == 0
-          raise "Can not find feature #{name}"
           return nil
         end
         return feature[0]
