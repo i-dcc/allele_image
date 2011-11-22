@@ -68,7 +68,7 @@ module AlleleImage
     def cassette_features
       cassette_features ||= initialize_section(:cassette_features)
 
-      @cassette_features = cassette_features.reject { |f| f.feature_name == "synthetic_cassette" }
+      @cassette_features = cassette_features.reject { |f| f.feature_name == "Synthetic Cassette" }
     end
 
     def five_arm_features
@@ -109,7 +109,7 @@ module AlleleImage
       def create_virtual_rcmb_primers( features )
         critical_region = get_feature( features, 'Critical Region' )
         loxp_region     = get_feature( features, 'synthetic loxP region' )
-        cassette        = get_feature( features, 'synthetic_cassette' )
+        cassette        = get_feature( features, 'Synthetic Cassette' )
         three_arm       = get_feature( features, '3 arm' )
         five_arm        = get_feature( features, '5 arm' )
         
@@ -150,6 +150,7 @@ module AlleleImage
         if feature.size > 1
           raise "More than one feature with #{name}"
         elsif feature.size == 0
+          puts "Can not find feature #{name}"
           return nil
         end
         return feature[0]

@@ -147,7 +147,7 @@ module AlleleImage
       "CD4 TM domain" => {},
       "Critical Region" => {},
       "synthetic loxP region" => {},
-      "synthetic_cassette" => {}
+      "Synthetic Cassette" => {}
     },
     "promoter" => {
 
