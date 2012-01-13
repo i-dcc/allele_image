@@ -22,7 +22,17 @@ module AlleleImage
   RENDERABLE_FEATURES = {
     "intron" => {
       "En2 intron" => {}, # TODO remove eventually
-      "mouse En2 intron" => {}
+      "mouse En2 intron" => {},
+      "5' Ifitm2 intron" => {
+        "colour" => "purple",
+        "label"  => "Ifitm2 Intron",
+        "font"   => "white",
+      },
+      "3' Ifitm2 intron" => {
+        "colour" => "purple",
+        "label"  => "Ifitm2 Intron",
+        "font"   => "white",
+      },
     },
     "primer_bind" => {
       "D5" => {},
