@@ -566,7 +566,7 @@ module AlleleImage
         end
 
         # Draw the arrow pointing down in the moddle of the annotation
-        draw_arrow( image, [ position.first + annotation_width / 2, position.last ],
+        draw_arrow( image, [ position.first + annotation_width / 2, position.last - 2 ],
           :tail_height => 10, :arm_height => 5, :arm_width => 5 )
 
         return image
@@ -993,7 +993,7 @@ module AlleleImage
             width += feature.width ? feature.width : 0
           end
         end
-        width = width + gaps
+        width = ( width + gaps ) + 1
         return width.to_i
       end
 
