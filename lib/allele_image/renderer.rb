@@ -430,7 +430,7 @@ module AlleleImage
         image_list  = Magick::ImageList.new
 
         if exons and exons.count > 0
-          image_width = [ calculate_genomic_region_width( exons ), image_width ].max
+          image_width = calculate_genomic_region_width( exons, image_width )
         end
 
         # Construct the main image
@@ -470,11 +470,14 @@ module AlleleImage
         # Construct the label image
         label_image, x, y = Magick::Image.new( image_width, calculate_labels_image_height ), 0, 0
 
-        # Only label target exons
+        # Only label target exons or 5' exon fragments on the 5' arm
+        # do not label central exon fragments ( in target region )
         exons.each do |exon|
-          if exon.feature_name.match(/^target\s+exon\s+/)
-            draw_label( label_image, exon.feature_name.match(/(ENSMUSE\d+)/).captures.last, x, y )
-            y += @text_height
+          if exon.feature_name.match(/^target\s+exon\s+/) or exon.feature_name.match(/5' fragment/)
+            unless exon.feature_name.match(/central fragment/)
+              draw_label( label_image, exon.feature_name.match(/(ENSMUSE\d+)/).captures.last, x, y )
+              y += @text_height
+            end
           end
         end
 
@@ -949,14 +952,22 @@ module AlleleImage
       end
 
       # UTILITY METHODS
-      def calculate_genomic_region_width( exons )
-        return 0 if exons.nil? or exons.empty?
-        target_exons = exons.select { |e| e.feature_name.match(/^target\s+exon\s+/) }
-        if target_exons.nil? or target_exons.empty?
-          return calculate_exon_image_width( exons.size ) + @gap_width * 2 # for padding either side
-        else
-          return target_exons.map { |e| e.feature_name.match(/(\ENSMUSE\d+)/).captures.last.length }.max * @text_width
+      def calculate_genomic_region_width( exons, min_image_width )
+        return min_image_width if exons.nil? or exons.empty?
+
+        # central exon fragments should be drawn sandwiched between the cassette end and loxp
+        if exons.count == 1 and exons[0].feature_name.match(/central fragment/)
+          return @text_width
         end
+
+        target_exons = exons.select { |e| e.feature_name.match(/^target\s+exon\s+/) or e.feature_name.match(/5' fragment/) }
+        if target_exons.nil? or target_exons.empty?
+          image_width = calculate_exon_image_width( exons.size ) + @gap_width * 2 # for padding either side
+        else
+         image_width = target_exons.map { |e| e.feature_name.match(/(\ENSMUSE\d+)/).captures.last.length }.max * @text_width
+        end
+
+        return [ image_width, min_image_width ].max
       end
 
       # Return the width occupied by the exons based on the exon count
