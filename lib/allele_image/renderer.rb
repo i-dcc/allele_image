@@ -461,7 +461,6 @@ module AlleleImage
             draw_feature( main_image, feature, x, y )
           else
             draw_feature( main_image, feature, x, y )
-            # XXX -- do we have an Exon feature? I don't think so [2010-06-11] io1
             feature_width = @text_width # or Feature#width if it exists
           end
           x += feature_width # update the x coordinate
@@ -978,7 +977,7 @@ module AlleleImage
 
       def calculate_labels_image_height
         cassette_label_rows = 2 # in case of "cassette type\(cassette label)"
-        three_arm_features  = @construct.three_arm_features.select { |f| f.feature_type.match(/^target\s+exon\s+/) }.size
+        three_arm_features  = @construct.three_arm_features.select { |f| f.feature_name.match(/^target\s+exon\s+/) }.size
 
         # we want the maximum here
         [ cassette_label_rows, three_arm_features ].max * @text_height
