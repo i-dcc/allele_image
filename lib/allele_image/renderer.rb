@@ -133,7 +133,8 @@ module AlleleImage
         pad_width         = params[:width] - ( wanted_image.columns + rest_image.columns )
         pad_image_5_prime = render_mutant_region( [], :width => pad_width * 0.2 )
         pad_image_3_prime = render_mutant_region( [], :width => pad_width * 0.2 )
-        pad_image_middle  = render_mutant_region( [], :width => pad_width * 0.6 )
+        middle_width = pad_width - ( pad_image_5_prime.columns + pad_image_3_prime.columns )
+        pad_image_middle  = render_mutant_region( [], :width => middle_width )
         backbone.push(pad_image_5_prime).push(wanted_image).push(pad_image_middle).push(rest_image).push(pad_image_3_prime)
       end
 
@@ -377,8 +378,11 @@ module AlleleImage
         image_list        = Magick::ImageList.new
         image_width       = params.include?(:width) ? params[:width] : calculate_width( cassette_features )
 
-        if params[:label] and image_width < @text_width * params[:label].length
-          image_width = @text_width * params[:label].length
+        if params[:label]
+          label_length = params[:label].split(/\n/).map { |e| e.length }.max
+          if image_width < @text_width * label_length
+            image_width = @text_width * label_length
+          end
         end
 
         # Construct the main image
@@ -434,7 +438,7 @@ module AlleleImage
         main_image   = Magick::Image.new( image_width, image_height )
         main_image   = draw_sequence( main_image, 0, image_height / 2, image_width, image_height / 2 )
 
-        x = ( image_width - calculate_exon_image_width( exons.count ) ) / 2
+        x = calculate_first_exon_start( image_width, exons )
         y = image_height / 2
 
         features             = []
@@ -452,6 +456,9 @@ module AlleleImage
           feature_width = 0
           if feature.feature_name == "gap"
             feature_width = @gap_width
+          elsif ( feature.feature_name.match(/5' fragment/) )
+            x =  ( image_width - calculate_exon_image_width( 1 ) ) - 1
+            draw_feature( main_image, feature, x, y )
           else
             draw_feature( main_image, feature, x, y )
             # XXX -- do we have an Exon feature? I don't think so [2010-06-11] io1
@@ -466,7 +473,7 @@ module AlleleImage
         # Only label target exons
         exons.each do |exon|
           if exon.feature_name.match(/^target\s+exon\s+/)
-            draw_label( label_image, exon.feature_name.match(/(\w+)$/).captures.last, x, y )
+            draw_label( label_image, exon.feature_name.match(/(ENSMUSE\d+)/).captures.last, x, y )
             y += @text_height
           end
         end
@@ -476,6 +483,23 @@ module AlleleImage
         image_list.push( label_image )
 
         return image_list.append( true )
+      end
+
+      def calculate_first_exon_start( image_width, exons )
+        default_start = ( image_width - calculate_exon_image_width( exons.count ) ) / 2
+        if exons.count == 0
+          return default_start
+        end
+
+        if ( exons.first.feature_name.match(/3' fragment/) )
+          x = 0
+        elsif ( exons.first.feature_name.match(/central fragment/) )
+          x = 0
+        else
+          x = default_start
+        end
+
+        return x
       end
 
       # DRAW METHODS
@@ -565,7 +589,11 @@ module AlleleImage
       # Need to get this method drawing exons as well
       def draw_feature( image, feature, x, y )
         if feature.feature_type == "exon" and not feature.feature_name.match(/En2/)
-          draw_exon( image, x, y )
+          if feature.feature_name.match(/fragment/)
+            draw_exon_fragment( image, x, y )
+          else
+            draw_exon( image, x, y )
+          end
         elsif feature.feature_type == "promoter"
           draw_promoter( image, feature, [x, y] )
         else
@@ -787,6 +815,20 @@ module AlleleImage
         return image
       end
 
+      def draw_exon_fragment( image, x, y, d = Magick::Draw.new, feature_width = @text_width )
+        d.stroke( "black" )
+        d.fill( "#fbcf3b" )
+        d.rectangle( x, @top_margin, x + feature_width, @image_height - @bottom_margin )
+        d.fill("red")
+        d.polygon( x ,                @top_margin,
+                   x + feature_width, @image_height - @bottom_margin,
+                   x,                 @image_height - @bottom_margin,
+                   x,                 @top_margin  )
+        d.draw( image )
+
+        return image
+      end
+
       # Draw the K-frame En2 SA feature
       #
       # @since  0.2.6
@@ -913,7 +955,7 @@ module AlleleImage
         if target_exons.nil? or target_exons.empty?
           return calculate_exon_image_width( exons.size ) + @gap_width * 2 # for padding either side
         else
-          return target_exons.map { |e| e.feature_name.match(/(\w+)$/).captures.last.length }.max * @text_width
+          return target_exons.map { |e| e.feature_name.match(/(\ENSMUSE\d+)/).captures.last.length }.max * @text_width
         end
       end
 
@@ -942,7 +984,7 @@ module AlleleImage
           end
         end
         width = width + gaps
-        return (width * 1.01).to_i # add an extra 10%
+        return width.to_i
       end
 
       # Insert gaps around the SSR sites and between the exons
