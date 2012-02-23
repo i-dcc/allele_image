@@ -604,6 +604,8 @@ module AlleleImage
             draw_frt( image, feature, x, y )
           when "loxP"
             draw_loxp( image, feature, x, y )
+          when "Rox"
+            draw_rox( image, feature, x, y )
           when "AttP"
             draw_attp( image, feature, x, y )
           when "intervening sequence"
@@ -754,6 +756,32 @@ module AlleleImage
         pointsize = @font_size
         d.annotate( image, feature_width, @top_margin, x, 0, feature.feature_name ) do
           self.fill        = "#800000"
+          self.gravity     = Magick::CenterGravity
+          self.font_weight = Magick::BoldWeight
+          self.font_style  = Magick::ItalicStyle
+          self.pointsize   = pointsize
+        end
+
+        return image
+      end
+
+      def draw_rox( image, feature, x, y, d = Magick::Draw.new, feature_width = feature.width )
+        # Draw the triangle
+        d.stroke( "black" )
+        d.fill( "pink" )
+
+        if feature.orientation == "forward"
+          d.polygon( x, @top_margin, x + feature_width, y, x, @image_height - @bottom_margin )
+        else
+          d.polygon( x, y, x + feature_width, @top_margin, x + feature_width, @image_height - @bottom_margin )
+        end
+
+        d.draw( image )
+
+        # write the annotation above
+        pointsize = @font_size
+        d.annotate( image, feature_width, @top_margin, x, 0, feature.feature_name ) do
+          self.fill        = "pink"
           self.gravity     = Magick::CenterGravity
           self.font_weight = Magick::BoldWeight
           self.font_style  = Magick::ItalicStyle
@@ -1016,6 +1044,7 @@ module AlleleImage
             consecutive_types = [ features[current_index].feature_type, features[next_index].feature_type ]
             if consecutive_names.include?("loxP") ||
                consecutive_names.include?("FRT")  ||
+               consecutive_names.include?("Rox")  ||
                consecutive_names.include?("F3")   ||
                consecutive_names.include?("AttP") ||
                consecutive_names.include?("intervening sequence") ||

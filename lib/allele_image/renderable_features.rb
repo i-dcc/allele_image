@@ -152,6 +152,20 @@ module AlleleImage
         "width" => 35,
         "label" => "FRT"
       },
+      "Rox" => {
+        "width" => 35,
+        "label" => "Rox",
+        "colour" => "pink"
+      },
+      "Cre" => {
+        "width" => 45,
+        "label" => "Cre",
+        "colour" => "blue"
+      },
+      "ERT2"=> {},
+      "F2A" => {},
+      "puromycin N-acetyl transferase" => { "label" => "puro trans" },
+
       # "osteopontin repeat 4" => {},
       "pZERO" => {},
       "CD4 TM domain" => {},
