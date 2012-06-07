@@ -4,12 +4,13 @@ $: << File.expand_path(File.dirname(__FILE__) + '/../lib')
 
 require 'allele_image'
 
-if ARGV.size != 1
-  STDERR.puts '.gbk file only please'
+if ARGV.size < 1
+  STDERR.puts '.gbk file and optional cassette flag only please'
   exit 1
 end
 
 file = ARGV.first
-allele_image = AlleleImage::Image.new(file)
+cassetteonly = ARGV[1]
+allele_image = AlleleImage::Image.new(file, cassetteonly == 'true')
 image = file.gsub(/\.gbk$/, '.png')
 allele_image.render.write(image)

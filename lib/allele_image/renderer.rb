@@ -43,7 +43,8 @@ module AlleleImage
         :text_height           => 22,
         :feature_height        => 40,
         :annotation_height     => 100,
-        :sequence_stroke_width => 2.5
+        :sequence_stroke_width => 2.5,
+        :cassetteonly          => false
       }
       params = defaults.update( params )
 
@@ -59,10 +60,9 @@ module AlleleImage
       @sequence_stroke_width = params[:sequence_stroke_width]
       @font_size             = params[:font_size]
       @image_height          = @bottom_margin + @feature_height + @top_margin
-
+      @cassetteonly          = params[:cassetteonly]
       # set the AlleleImage::Feature class attribute text_width
       AlleleImage::Feature.text_width(@text_width)
-
       # render the image
       # XXX -- not quite sure why we do this here [2010-06-11] io1
       @image = self.render
@@ -76,8 +76,15 @@ module AlleleImage
     def render
       # Construct the main image components
       main_image = Magick::ImageList.new
-      five_arm   = render_five_arm
       cassette   = render_cassette
+
+      # returns cassette image only. Driven off the cassette? flag.
+      if @cassetteonly
+        main_image.push(cassette)
+        return main_image
+      end
+
+      five_arm   = render_five_arm
       three_arm  = render_three_arm
 
       main_image.push( five_arm ).push( cassette ).push( three_arm )
