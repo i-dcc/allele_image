@@ -24,14 +24,18 @@ module AlleleImage
       "En2 intron" => {}, # TODO remove eventually
       "mouse En2 intron" => {},
       "5' Ifitm2 intron" => {
-        "colour" => "purple",
+        #purple
+        "colour" => "white",
         "label"  => "Ifitm2 Intron",
-        "font"   => "white",
+        #white
+        "font"   => "black",
       },
       "3' Ifitm2 intron" => {
-        "colour" => "purple",
+        #purple
+        "colour" => "white",
         "label"  => "Ifitm2 Intron",
-        "font"   => "white",
+        #white
+        "font"   => "black",
       },
     },
     "primer_bind" => {
